@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordDocument" parent="OLEEResourceRecordDocument-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-parentBean" abstract="true" parent="uifTransactionalDocumentEntry">
+        <property name="documentTypeName" value="OLE_ERS_DOC"/>
+        <property name="documentClass" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+        <property name="workflowAttributes">
+            <ref bean="EResourceAttributes-workflowAttributes"/>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEEResourceRecordDocument-oleERSIdentifier"/>
+                <!--<ref bean="OLEEResourceRecordDocument-entityId"/>-->
+                <ref bean="OLEEResourceRecordDocument-title"/>
+                <ref bean="OLEEResourceRecordDocument-description"/>
+                <ref bean="OLEEResourceRecordDocument-publisher"/>
+                <ref bean="OLEEResourceRecordDocument-gokbIdentifier"/>
+                <ref bean="OLEEResourceRecordDocument-isbn"/>
+                <ref bean="OLEEResourceRecordDocument-platformProvider"/>
+                <ref bean="OLEEResourceRecordDocument-statusId"/>
+                <ref bean="OLEEResourceRecordDocument-fundCode"/>
+                <ref bean="OLEEResourceRecordDocument-statusDate"/>
+                <!--<ref bean="OLEEResourceRecordDocument-vendorDetailAssignedIdentifier"/>-->
+                <!--<ref bean="OLEEResourceRecordDocument-vendorHeaderGeneratedIdentifier"/>-->
+                <ref bean="OLEEResourceRecordDocument-vendorName"/>
+                <ref bean="OLEEResourceRecordDocument-vendorId"/>
+                <ref bean="OLEEResourceRecordDocument-estimatedPrice"/>
+                <ref bean="OLEEResourceRecordDocument-orderTypeId"/>
+                <ref bean="OLEEResourceRecordDocument-paymentTypeId"/>
+                <ref bean="OLEEResourceRecordDocument-packageTypeId"/>
+                <ref bean="OLEEResourceRecordDocument-packageScopeId"/>
+                <ref bean="OLEEResourceRecordDocument-breakable"/>
+                <ref bean="OLEEResourceRecordDocument-fixedTitleList"/>
+                <ref bean="OLEEResourceRecordDocument-noteId"/>
+                <ref bean="OLEEResourceRecordDocument-publicDisplayNote"/>
+                <!--<ref bean="OLEEResourceRecordDocument-requestor"/>
+                <ref bean="OLEEResourceRecordDocument-selector"/>-->
+                <ref bean="OLEEResourceRecordDocument-reqSelComment"/>
+                <ref bean="OLEEResourceRecordDocument-reqPriority"/>
+                <ref bean="OLEEResourceRecordDocument-techRequirements"/>
+                <ref bean="OLEEResourceRecordDocument-accessTypeId"/>
+                <ref bean="OLEEResourceRecordDocument-numOfSimultaneousUsers"/>
+                <ref bean="OLEEResourceRecordDocument-authenticationTypeId"/>
+                <ref bean="OLEEResourceRecordDocument-accessLocationId"/>
+                <ref bean="OLEEResourceRecordDocument-trialNeeded"/>
+                <ref bean="OLEEResourceRecordDocument-trialStatus"/>
+                <ref bean="OLEEResourceRecordDocument-licenseNeeded"/>
+                <ref bean="OLEEResourceRecordDocument-licenseReqStatus"/>
+                <ref bean="OLEEResourceRecordDocument-orderPayStatus"/>
+                <ref bean="OLEEResourceRecordDocument-activationStatus"/>
+                <ref bean="OLEEResourceRecordDocument-statisticalSearchingCode"/>
+                <ref bean="OLEEResourceRecordDocument-statisticalSearchingCodeId"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OLEEResourceRecordDocument-oleERSIdentifier" parent="OLEEResourceRecordDocument-oleERSIdentifier-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-oleERSIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="OLE Identifier"/>
+        <property name="description" value="OLE Identifier"/>
+        <property name="name" value="oleERSIdentifier"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="OLE Identifier"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-gokbIdentifier" parent="OLEEResourceRecordDocument-gokbIdentifier-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-gokbIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="GOKb Identifier"/>
+        <property name="description" value="GOKb Identifier"/>
+        <property name="name" value="gokbIdentifier"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="GOKb Identifier"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-isbn" parent="OLEEResourceRecordDocument-isbn-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-isbn-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="ISBN/ISSNs"/>
+        <property name="description" value="ISBN"/>
+        <property name="name" value="isbn"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="ISBN/ISSNs"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-platformProvider" parent="OLEEResourceRecordDocument-platformProvider-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-platformProvider-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="platformProvider"/>
+        <property name="label" value="Platform Provider"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-title" parent="OLEEResourceRecordDocument-title-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-title-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="40" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="40" p:rows="3"/>
+        </property>
+        <property name="name" value="title"/>
+        <property name="label" value="Name"/>
+        <property name="description" value="Name"/>
+    </bean>
+
+
+    <bean id="OLEEResourceRecordDocument-publisher" parent="OLEEResourceRecordDocument-publisher-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-publisher-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="publisher"/>
+        <property name="label" value="Publisher"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-description" parent="OLEEResourceRecordDocument-description-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-description-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="name" value="description"/>
+        <property name="label" value="Description"/>
+        <property name="description" value="Description of the E-Res record"/>
+
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-statusId" parent="OLEEResourceRecordDocument-statusId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-statusId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statusId"/>
+        <property name="label" value="status"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-fundCode" parent="OLEEResourceRecordDocument-fundCode-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-fundCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fundCode"/>
+        <property name="label" value="Fund"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-statusDate" parent="OLEEResourceRecordDocument-statusDate-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-statusDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="statusDate"/>
+        <property name="shortLabel" value="Status Date"/>
+        <property name="label" value="Status Date"/>
+    </bean>
+
+    <!--<bean id="OLEEResourceRecordDocument-vendorDetailAssignedIdentifier" parent="OLEEResourceRecordDocument-vendorDetailAssignedIdentifier-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorDetailAssignedIdentifier"/>
+        <property name="label" value="Vendor detail"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="OLEEResourceRecordDocument-vendorHeaderGeneratedIdentifier" parent="OLEEResourceRecordDocument-vendorHeaderGeneratedIdentifier-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorHeaderGeneratedIdentifier"/>
+        <property name="label" value="Vendor Header Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>-->
+
+    <bean id="OLEEResourceRecordDocument-vendorName" parent="OLEEResourceRecordDocument-vendorName-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorName"/>
+        <property name="label" value="Vendor Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-vendorId" parent="OLEEResourceRecordDocument-vendorId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-vendorId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorId"/>
+        <property name="label" value="Vendor Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-estimatedPrice" parent="OLEEResourceRecordDocument-estimatedPrice-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-estimatedPrice-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="estimatedPrice"/>
+        <property name="label" value="Estimated Price"/>
+        <property name="maxLength" value="25"/>
+        <property name="controlField">
+            <bean parent="Uif-CurrencyTextControl" p:size="26" p:maxLength="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-orderTypeId" parent="OLEEResourceRecordDocument-orderTypeId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-orderTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="orderTypeId"/>
+        <property name="label" value="Order Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEEResourceRecordDocument-paymentTypeId" parent="OLEEResourceRecordDocument-paymentTypeId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-paymentTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="paymentTypeId"/>
+        <property name="label" value="Payment Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-packageTypeId" parent="OLEEResourceRecordDocument-packageTypeId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-packageTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="packageTypeId"/>
+        <property name="label" value="Package Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-packageScopeId" parent="OLEEResourceRecordDocument-packageScopeId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-packageScopeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="packageScopeId"/>
+        <property name="label" value="Package Scope"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-breakable" parent="OLEEResourceRecordDocument-breakable-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-breakable-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="breakable"/>
+        <property name="shortLabel" value="Breakable"/>
+        <property name="label" value="Breakable"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-fixedTitleList" parent="OLEEResourceRecordDocument-fixedTitleList-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-fixedTitleList-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="fixedTitleList"/>
+        <property name="shortLabel" value="Fixed Title List"/>
+        <property name="label" value="Fixed Title List"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-noteId" parent="OLEEResourceRecordDocument-noteId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-noteId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="noteId"/>
+        <property name="label" value="Note"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-publicDisplayNote" parent="OLEEResourceRecordDocument-publicDisplayNote-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-publicDisplayNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Public Display Note"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="name" value="publicDisplayNote"/>
+        <property name="label" value="Public Display Note"/>
+
+    </bean>
+
+    <!--<bean id="OLEEResourceRecordDocument-requestor" parent="OLEEResourceRecordDocument-requestor-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-requestor-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requestor"/>
+        <property name="label" value="Requestor"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-selector" parent="OLEEResourceRecordDocument-selector-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-selector-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="selector"/>
+        <property name="label" value="Selector"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>-->
+
+    <bean id="OLEEResourceRecordDocument-reqSelComment" parent="OLEEResourceRecordDocument-reqSelComment-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-reqSelComment-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Requestor/Selector Comment"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="name" value="reqSelComment"/>
+        <property name="label" value="Requestor/Selector Comment"/>
+
+    </bean>
+
+
+    <bean id="OLEEResourceRecordDocument-reqPriority" parent="OLEEResourceRecordDocument-reqPriority-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-reqPriority-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="reqPriority"/>
+        <property name="label" value="Request Priority"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-techRequirements" parent="OLEEResourceRecordDocument-techRequirements-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-techRequirements-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Technical Requirements"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="name" value="techRequirements"/>
+        <property name="label" value="Technical Requirements"/>
+
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-accessTypeId" parent="OLEEResourceRecordDocument-accessTypeId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-accessTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accessTypeId"/>
+        <property name="label" value="Type of Access"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-numOfSimultaneousUsers" parent="OLEEResourceRecordDocument-numOfSimultaneousUsers-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-numOfSimultaneousUsers-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="numOfSimultaneousUsers"/>
+        <property name="label" value="No.of Simultaneous Users"/>
+        <property name="maxLength" value="40"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-authenticationTypeId" parent="OLEEResourceRecordDocument-authenticationTypeId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-authenticationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="authenticationTypeId"/>
+        <property name="label" value="Authentication Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-accessLocationId" parent="OLEEResourceRecordDocument-accessLocationId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-accessLocationId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accessLocationId"/>
+        <property name="label" value="Access Location"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-trialNeeded" parent="OLEEResourceRecordDocument-trialNeeded-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-trialNeeded-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="trialNeeded"/>
+        <property name="shortLabel" value="Trail"/>
+        <property name="label" value="Trail"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-licenseNeeded" parent="OLEEResourceRecordDocument-licenseNeeded-parentBean"/>
+    <bean id="OLEEResourceRecordDocument-licenseNeeded-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="licenseNeeded"/>
+        <property name="shortLabel" value="License"/>
+        <property name="label" value="License"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-trialStatus" parent="OLEEResourceRecordDocument-trialStatus-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-trialStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="trialStatus"/>
+        <property name="label" value="Trial Status"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-licenseReqStatus" parent="OLEEResourceRecordDocument-licenseReqStatus-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-licenseReqStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="licenseReqStatus"/>
+        <property name="label" value="License Request Status"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-orderPayStatus" parent="OLEEResourceRecordDocument-orderPayStatus-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-orderPayStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="orderPayStatus"/>
+        <property name="label" value="Order Payment Status"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-activationStatus" parent="OLEEResourceRecordDocument-activationStatus-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-activationStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="activationStatus"/>
+        <property name="label" value="Activation Status"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-statisticalSearchingCode" parent="OLEEResourceRecordDocument-statisticalSearchingCode-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-statisticalSearchingCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statisticalSearchingCode"/>
+        <property name="label" value="Statistical Searching Code"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordDocument-statisticalSearchingCodeId" parent="OLEEResourceRecordDocument-statisticalSearchingCodeId-parentBean"/>
+
+    <bean id="OLEEResourceRecordDocument-statisticalSearchingCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statisticalSearchingCodeId"/>
+        <property name="label" value="statistical Searching Code Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="EResourceAttributes-workflowAttributes" parent="EResourceAttributes-workflowAttributes-parentBean"/>
+
+    <bean id="EResourceAttributes-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+        <property name="searchingTypeDefinitions">
+            <ref bean="EResourceAttributes-searchingTypeDefinitions"/>
+        </property>
+    </bean>
+
+    <bean id="EResourceAttributes-searchingTypeDefinitions" parent="EResourceAttributes-searchingTypeDefinitions-parentBean"/>
+
+    <bean id="EResourceAttributes-searchingTypeDefinitions-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="title"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>title</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="isbn"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>isbn</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="publisher"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>publisher</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="platformProvider"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>platformProvider</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="oleERSIdentifier"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>oleERSIdentifier</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="statusDate"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>statusDate</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="documentNumber"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>documentNumber</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="statusId"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>statusId</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="statusName"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>statusName</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="licenseReqStatus"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>licenseReqStatus</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourcePO"/>
+                            <property name="attributeName" value="poItemId"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>oleERSPOItems.olePOItemId</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceInvoices"/>
+                            <property name="attributeName" value="invoiceNumber"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>oleERSInvoices.invoiceNumber</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="ISBN"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>oleERSInstances.bibId</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+                            <property name="attributeName" value="oclc"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>oleERSInstances.bibId</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

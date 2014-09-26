@@ -1,0 +1,3 @@
+classpath:org/kuali/ole/sql/mysql/1.5.1.sql
+classpath:org/kuali/ole/sql/mysql/1.5.2.sql
+classpath:org/kuali/ole/sql/mysql/1.5.3.sql
