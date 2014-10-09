@@ -276,32 +276,44 @@
         <loadData tableName="krim_entity_afltn_t" file="ole-inst/persons/krim_entity_afltn_t.csv"/>
     </changeSet>
 	
-	<!-- Skip these for now, I'm satisfied with the default Principals, Entities, and Patrons -->
+	<!-- Created by bootstrap (i think) -->
 	<!--
     <changeSet context="demo" author="ole" id="krim_entity_email_t">
         <loadData tableName="krim_entity_email_t" file="ole-inst/persons/krim_entity_email_t.csv"/>
     </changeSet>
-
+	-->
+	<!-- Not created -->
+	<!--
     <changeSet context="demo" author="ole" id="krim_entity_emp_info_t">
         <loadData tableName="krim_entity_emp_info_t" file="ole-inst/persons/krim_entity_emp_info_t.csv"/>
     </changeSet>
-
+	-->
+	<!-- Created by bootstrap (i think) -->
+	<!--
     <changeSet context="demo" author="ole" id="krim_entity_ent_typ_t">
         <loadData tableName="krim_entity_ent_typ_t" file="ole-inst/persons/krim_entity_ent_typ_t.csv"/>
     </changeSet>
-
+	-->
+	<!-- not created -->
+	<!--
     <changeSet context="demo" author="ole" id="krim_entity_ext_id_t">
         <loadData tableName="krim_entity_ext_id_t" file="ole-inst/persons/krim_entity_ext_id_t.csv"/>
     </changeSet>
-
+	-->
+	<!-- Created by bootstrap (i think) -->
+	<!--
     <changeSet context="demo" author="ole" id="krim_entity_nm_t">
         <loadData tableName="krim_entity_nm_t" file="ole-inst/persons/krim_entity_nm_t.csv"/>
     </changeSet>
-
+	-->
+	<!-- not created -->
+	<!--
     <changeSet context="demo" author="ole" id="krim_entity_priv_pref_t">
         <loadData tableName="krim_entity_priv_pref_t" file="ole-inst/persons/krim_entity_priv_pref_t.csv"/>
     </changeSet>
-
+	-->
+	<!-- Created by bootstrap (i think) -->
+	<!--
     <changeSet context="demo" author="ole" id="krim_entity_t">
         <loadData tableName="krim_entity_t" file="ole-inst/persons/krim_entity_t.csv"/>
     </changeSet>
@@ -387,12 +399,11 @@
     </changeSet>
 	-->
 	
-	<!-- another that is already populated by the bootstrap -->
-	<!--
+	<!--  -->
     <changeSet context="demo" author="ole" id="ole_krms_typ_t">
-        <loadData tableName="krms_typ_t" file="ole-inst/ole_krms_typ_t.csv"/>
+        <loadData tableName="krms_typ_t" file="ole-inst/krms_typ_t.csv"/>
     </changeSet>
-	-->
+
 	
 	<!-- EResource stuff -->
 	
