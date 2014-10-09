@@ -1,0 +1,29 @@
+TYP_ID,NM,NMSPC_CD,SRVC_NM,ACTV,VER_NBR
+1000,"Notify PeopleFlow",KR-RULE,notificationPeopleFlowActionTypeService,Y,1
+10000,FunctionLoader,OLE,functionLoader,Y,1
+10001,"KRMS Action",OLE,krmsActionTypeService,Y,1
+10002,"Create Bibliographic Record",OLE,createBibActionTypeService,Y,1
+1001,"Route to PeopleFlow",KR-RULE,approvalPeopleFlowActionTypeService,Y,1
+1002,"Validation Rule",KR-RULE,validationRuleTypeService,Y,1
+1003,"Validation Action",KR-RULE,validationActionTypeService,Y,1
+2000,errorAction,OLE,errorActionTypeService,Y,1
+2001,loanPeriod,OLE,loanPeriodTypeService,Y,1
+2002,overdueFine,OLE,overdueFineTypeService,Y,1
+2003,overdueDay,OLE,overdueDayTypeService,Y,1
+2004,maxFine,OLE,maxFineTypeService,Y,1
+2005,recallOverdueDay,OLE,recallOverdueDayTypeService,Y,1
+2006,replacementBill,OLE,replacementBillTypeService,Y,1
+2007,requestExpirationDay,OLE,requestExpirationDayTypeService,Y,1
+2008,generateNotice,OLE,generateNoticeTypeService,Y,1
+2009,deleteTemporaryHistoryRecord,OLE,deleteTemporaryHistoryRecordTypeService,Y,1
+2010,circulationPolicyFound,OLE,circulationPolicyFoundTypeService,Y,1
+2011,updateItemStatus,OLE,updateItemStatusTypeService,Y,1
+2012,recallDueDate,OLE,recallDueDateTypeService,Y,1
+OLE2013,permissionAction,OLE,permissionActionTypeService,Y,1
+OLE2014,errorsAndPermission,OLE,errorsAndPermissionActionTypeService,Y,1
+OLE2015,MaxNumberByItemType,OLE,maxNumberItemTypeService,Y,1
+OLE2016,DeliverNotice,OLE,deliverNoticeTypeService,Y,1
+OLE2017,NoticeFormat,OLE,noticeFormatTypeService,Y,1
+T1001,CAMPUS,KR-RULE-TEST,myCampusService,Y,1
+T1002,KrmsActionResolverType,KR-RULE-TEST,testActionTypeService,Y,1
+T1004,AGENDA,KR-RULE-TEST,\N,Y,1
