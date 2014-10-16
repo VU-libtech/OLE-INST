@@ -22,7 +22,9 @@
     <changeSet context="demo" author="ole" id="CA_ACCOUNT_T">
         <loadData tableName="CA_ACCOUNT_T" file="ole-inst/chart-of-accounts/CA_ACCOUNT_T.csv"/>
     </changeSet>
-
+	-->
+	<!-- Skipping these for now -->
+	<!--
     <changeSet context="demo" author="ole" id="CA_SUB_ACCT_T">
         <loadData tableName="CA_SUB_ACCT_T" file="ole-inst/chart-of-accounts/CA_SUB_ACCT_T.csv"/>
     </changeSet>
@@ -50,7 +52,9 @@
     <changeSet context="demo" author="ole" id="CA_OBJ_CONSOLDTN_T">
         <loadData tableName="CA_OBJ_CONSOLDTN_T" file="ole-inst/chart-of-accounts/CA_OBJ_CONSOLDTN_T.csv"/>
     </changeSet>
-
+	-->
+	<!-- Do these -->
+	<!--
     <changeSet context="demo" author="ole" id="CA_OBJ_LEVEL_T">
         <loadData tableName="CA_OBJ_LEVEL_T" file="ole-inst/chart-of-accounts/CA_OBJ_LEVEL_T.csv"/>
     </changeSet>
@@ -58,7 +62,9 @@
     <changeSet context="demo" author="ole" id="CA_OBJECT_CODE_T">
         <loadData tableName="CA_OBJECT_CODE_T" file="ole-inst/chart-of-accounts/CA_OBJECT_CODE_T.csv"/>
     </changeSet>
-
+	-->
+	<!-- Holding off on these for now -->
+	<!--
     <changeSet context="demo" author="ole" id="CA_PROJECT_T">
         <loadData tableName="CA_PROJECT_T" file="ole-inst/chart-of-accounts/CA_PROJECT_T.csv"/>
     </changeSet>
