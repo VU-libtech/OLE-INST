@@ -10,6 +10,15 @@
     <changeSet context="demo" author="ole" id="ALTER_SESSIONS_FOR_ORACLE_ONLY" dbms="oracle">
         <sql>ALTER SESSION SET NLS_DATE_FORMAT = 'RRMMDDHH24MISS'</sql>
     </changeSet>
+	-->
+	
+    <changeSet context="demo" author="ole" id="CA_FUND_GRP_T">
+        <loadData tableName="CA_FUND_GRP_T" file="ole-inst/chart-of-accounts/CA_FUND_GRP_T.csv"/>
+    </changeSet>
+	
+    <changeSet context="demo" author="ole" id="CA_SUB_FUND_GRP_T">
+        <loadData tableName="CA_SUB_FUND_GRP_T" file="ole-inst/chart-of-accounts/CA_SUB_FUND_GRP_T.csv"/>
+    </changeSet>
 	
     <changeSet context="demo" author="ole" id="CA_CHART_T">
         <loadData tableName="CA_CHART_T" file="ole-inst/chart-of-accounts/CA_CHART_T.csv"/>
@@ -22,7 +31,7 @@
     <changeSet context="demo" author="ole" id="CA_ACCOUNT_T">
         <loadData tableName="CA_ACCOUNT_T" file="ole-inst/chart-of-accounts/CA_ACCOUNT_T.csv"/>
     </changeSet>
-	-->
+	
 	<!-- Skipping these for now -->
 	<!--
     <changeSet context="demo" author="ole" id="CA_SUB_ACCT_T">
@@ -36,25 +45,24 @@
     <changeSet context="demo" author="ole" id="CA_ACCT_DELEGATE_T">
         <loadData tableName="CA_ACCT_DELEGATE_T" file="ole-inst/chart-of-accounts/CA_ACCT_DELEGATE_T.csv"/>
     </changeSet>
-
+	-->
     <changeSet context="demo" author="ole" id="CA_ACCT_DESC_T">
         <loadData tableName="CA_ACCT_DESC_T" file="ole-inst/chart-of-accounts/CA_ACCT_DESC_T.csv"/>
     </changeSet>
-
+	
     <changeSet context="demo" author="ole" id="CA_ACCT_GDLNPRPS_T">
         <loadData tableName="CA_ACCT_GDLNPRPS_T" file="ole-inst/chart-of-accounts/CA_ACCT_GDLNPRPS_T.csv"/>
     </changeSet>
-
+	<!--
     <changeSet context="demo" author="ole" id="CA_CFDA_REF_T">
         <loadData tableName="CA_CFDA_REF_T" file="ole-inst/chart-of-accounts/CA_CFDA_REF_T.csv"/>
     </changeSet>
-
+	-->
     <changeSet context="demo" author="ole" id="CA_OBJ_CONSOLDTN_T">
         <loadData tableName="CA_OBJ_CONSOLDTN_T" file="ole-inst/chart-of-accounts/CA_OBJ_CONSOLDTN_T.csv"/>
     </changeSet>
-	-->
-	<!-- Do these -->
-	<!--
+	
+
     <changeSet context="demo" author="ole" id="CA_OBJ_LEVEL_T">
         <loadData tableName="CA_OBJ_LEVEL_T" file="ole-inst/chart-of-accounts/CA_OBJ_LEVEL_T.csv"/>
     </changeSet>
@@ -62,7 +70,7 @@
     <changeSet context="demo" author="ole" id="CA_OBJECT_CODE_T">
         <loadData tableName="CA_OBJECT_CODE_T" file="ole-inst/chart-of-accounts/CA_OBJECT_CODE_T.csv"/>
     </changeSet>
-	-->
+
 	<!-- Holding off on these for now -->
 	<!--
     <changeSet context="demo" author="ole" id="CA_PROJECT_T">
@@ -88,19 +96,20 @@
     </changeSet>
 	-->
     <!--Financial System-->
-	<!--
     <changeSet context="demo" author="ole" id="FS_OPTION_T">
         <loadData tableName="FS_OPTION_T" file="ole-inst/financial-system/FS_OPTION_T.csv"/>
     </changeSet>
-
+	<!--
     <changeSet context="demo" author="ole" id="FP_FSCL_YR_CTRL_T">
         <loadData tableName="FP_FSCL_YR_CTRL_T" file="ole-inst/financial-system/FP_FSCL_YR_CTRL_T.csv"/>
     </changeSet>
-
+	-->
+	
     <changeSet context="demo" author="ole" id="SH_ACCT_PERIOD_T">
         <loadData tableName="SH_ACCT_PERIOD_T" file="ole-inst/financial-system/SH_ACCT_PERIOD_T.csv"/>
     </changeSet>
-
+	
+	<!--
      <changeSet context="demo" author="ole" id="FS_TAX_COUNTY_T">
         <loadData tableName="FS_TAX_COUNTY_T" file="ole-inst/financial-system/FS_TAX_COUNTY_T.csv"/>
     </changeSet>
@@ -452,11 +461,11 @@
     <changeSet context="demo" author="ole" id="ole_cat_bib_record_stat_t">
         <loadData tableName="ole_cat_bib_record_stat_t" file="ole-inst/docstore/ole_cat_bib_record_stat_t.csv" />
     </changeSet>
-
+	-->
    <changeSet context="demo" author="ole" id="ole_cat_itm_typ_t">
         <loadData tableName="ole_cat_itm_typ_t" file="ole-inst/docstore/ole_cat_itm_typ_t.csv" />
     </changeSet>
-
+	<!--
     <changeSet context="demo" author="ole" id="ole_cat_rcpt_stat_t">
         <loadData tableName="ole_cat_rcpt_stat_t" file="ole-inst/docstore/ole_cat_rcpt_stat_t.csv" />
     </changeSet>
