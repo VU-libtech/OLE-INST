@@ -523,6 +523,7 @@
     <changeSet context="demo" author="ole" id="ole_dlvr_temp_circ_record">
         <loadData tableName="ole_dlvr_temp_circ_record" file="ole-inst/docstore/ole_dlvr_temp_circ_record.csv" />
     </changeSet>
+	-->
 	<!-- These tables don't exist. Do they mean ole_call_nmbr_t and ole_cat_type_ownership_t? -->
 	<!--
     <changeSet context="demo" author="ole" id="ole_ds_call_number_type_t">
