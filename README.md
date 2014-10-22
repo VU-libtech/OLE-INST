@@ -12,7 +12,9 @@ cd ${OLE_DEVELOPMENT_WORKSPACE_ROOT}/ole-app/ole-db/ole-liquibase/ole-liquibase-
 Load inst-data
 
 create mysql db: localhost/LIQUIBASEBLANK
+
 create mysql user LIQUIBASEBLANK with pw LIQUIBASEBLANK
+
 grant that user access to the LIQUIBASEBLANK db
 
 mvn clean install -Pinst-mysql,mysql -Dimpex.scm.phase=none
