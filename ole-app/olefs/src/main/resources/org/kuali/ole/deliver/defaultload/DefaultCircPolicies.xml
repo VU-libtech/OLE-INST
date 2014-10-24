@@ -902,13 +902,13 @@
                     </simpleProposition>
                 </oleProposition>
                 <trueActions>
-                    <rule> <!--Renewal Circulation Policy Set 1: if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK, MAGAZINE), then circulationPolicyFound=true AND circulationPolicyFound=true AND loanPeriod = 10-D AND overdueDay = 30 AND recallOverdueDay = 25 AND run Check Claims Returned for Renewal, Check all Overdue fine amount for Renewal, Check Replacement fee amt for Renewal, Check Overall Charges for Renewal, RenewalLimit, IndefiniteCheck, FixedDueDateCheck and display appropriate messages-->
+                    <rule> <!--Renewal Circulation Policy Set 1: if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK), then circulationPolicyFound=true AND circulationPolicyFound=true AND loanPeriod = 10-D AND overdueDay = 30 AND recallOverdueDay = 25 AND run Check Claims Returned for Renewal, Check all Overdue fine amount for Renewal, Check Replacement fee amt for Renewal, Check Overall Charges for Renewal, RenewalLimit, IndefiniteCheck, FixedDueDateCheck and display appropriate messages-->
                         <name>Renewal Circulation Policy Set 1</name>
-                        <oleProposition><!--if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK, MAGAZINE)-->
+                        <oleProposition><!--if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK)-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (Undergrad, Graduate)-->
+                                <simpleProposition> <!--if borrowerType in (Undergrad, Graduate, fac, staff)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>borrowerType</value>
@@ -921,15 +921,19 @@
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>I</name>
+                                            <name>GRAD</name>
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>GRAD</name>
+                                            <name>FAC</name>
+                                        </value>
+                                        <value>
+                                            <type>java.lang.String</type>
+                                            <name>STAFF</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--If itemType in (stks, MAGAZINE)-->
+                                <simpleProposition> <!--If itemType in (BOOK)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -939,14 +943,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -981,74 +977,7 @@
                                     <value>25</value>
                                 </parameter>
                             </action>
-                            <rule>
-                                <name>Max # of item type stks renewal</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>stks</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>5</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for stks should not exceed more than 5</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule>
-                                <name>Max # of item type MAGAZINE renewal</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>MAGAZINE</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>3</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for magazine should not exceed more than 3</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
+
                             <rule> <!--then run Check Claims Returned for Renewal: if numberOfClaimsReturned > 5, then display error-->
                                 <name>Check Claims Returned for Renewal</name>
                                 <oleProposition> <!--if numberOfClaimsReturned > 5-->
@@ -1294,77 +1223,7 @@
                     </rule>
                 </trueActions>
             </rule>
-            <rule> <!--Test Circulation Policy Set Validation for Renewal:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Test Circulation Policy Set Validation for Renewal</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Test Circulation Policy Set Validation for Renewal: if itemType in (PALCI,API) AND itemShelving in (PALCI,API), then circpolicyFound=True -->
-                        <name>Test Check out Circulation Policy Set for Renewal</name>
-                        <oleProposition> <!--if  itemType is PALCI or API, is the item's location covered by this policy-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if itemType in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
+
             <rule> <!--Renewal Circulation Policy Not Found: if circulationPolicyFoundFunction(isCirculationPolicyNotFound), then display error-->
                 <name>Renewal Circulation Policy Not Found</name>
                 <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
@@ -2093,11 +1952,11 @@
                 <trueActions>  <!--then run the real rules for the policy-->
                     <rule> <!--RequestPolicySet1: if borrowerType in (undergrad, grad) AND itemtype in (stks, magazine) AND if location in (ILXSTACKS, IL-ALEXAND/ILXSTACKS), then set minimum loan and recall loan periods, run rules to check # of recalls, number of holds, number of Page Requests-->
                         <name>Request Circulation Policy Set 1</name>
-                        <oleProposition> <!--if borrowerType in (undergrad, grad) AND itemtype in (stks, magazine) AND if location in (ILXSTACKS, IL-ALEXAND/ILXSTACKS)-->
+                        <oleProposition> <!--if borrowerType in (undergrad, grad) AND itemtype in (book)-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (undergrad, grad)-->
+                                <simpleProposition> <!--if borrowerType in (ugrad, grad, fac, staff)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>borrowerType</value>
@@ -2110,15 +1969,19 @@
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>I</name>
+                                            <name>GRAD</name>
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>GRAD</name>
+                                            <name>FAC</name>
+                                        </value>
+                                        <value>
+                                            <type>java.lang.String</type>
+                                            <name>STAFF</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--if itemtype in (stks, magazine)-->
+                                <simpleProposition> <!--if itemtype in (BOOK)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -2128,43 +1991,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemLibrary in UCX, B-HPER, B-BUSSPEA-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemLibrary</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-EDUC</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>JRL</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-HPER</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-BUSSPEA</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>ASR</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -2345,50 +2171,6 @@
                                     </action>
                                 </trueActions>
                             </rule>
-                            <rule> <!--MaxNumberOfPageRequest: if requestType in (page/hold, page/delivery) AND if maxNumberOfPageRequest > 2, then display message that max number of page requests exceeded-->
-                                <name>MaxNumberOfASRRequest</name>
-                                <oleProposition> <!--if requestType in (page/hold, page/delivery) AND if maxNumberOfPageRequest > 2-->
-                                    <type>compound</type>
-                                    <compoundProposition>
-                                        <operator>AND</operator>
-                                        <simpleProposition> <!--if requestType in (page/hold, page/delivery)-->
-                                            <term>
-                                                <type>java.lang.String</type>
-                                                <value>requestType</value>
-                                            </term>
-                                            <operator>IN</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.String</type>
-                                                    <name>ASR Request</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                        <simpleProposition> <!--if maxNumberOfPageRequest > 2-->
-                                            <term>
-                                                <type>java.lang.Integer</type>
-                                                <value>maxNumberOfASRRequest</value>
-                                            </term>
-                                            <operator>greaterThan</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.Integer</type>
-                                                    <name>2</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                    </compoundProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--display message that max number of page requests exceeded-->
-                                        <name>errorAction</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>ASR Requests exceed the maximum (2).</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
                             <rule> <!--if item has been claims returned-->
                                 <name>Claims returned item validation for request1</name>
                                 <oleProposition> <!--if circpolicyFound = isCircPolicyNotFound-->
@@ -2471,47 +2253,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AUDIOTAPE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemShelving in (Gen,BHP-JOURNALS,PLI,PLV1)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BED-STACKS</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>Gen</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BHP-JOURNALS</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PLI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PLV1</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -2720,77 +2461,6 @@
                                     </action>
                                 </trueActions>
                             </rule>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--Test Circulation Policy Set Validation for Request:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Test Circulation Policy Set Validation for Request</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Test Circulation Policy Set Validation for Request: if itemType in (PALCI,API) AND itemShelving in (PALCI,API), then circpolicyFound=True -->
-                        <name>Test Check out Circulation Policy Set for Request</name>
-                        <oleProposition> <!--if  itemType is PALCI or API, is the item's location covered by this policy-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if itemType in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
                         </trueActions>
                     </rule>
                 </trueActions>
