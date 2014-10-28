@@ -1,8 +1,0 @@
-<html>
-<title>Batch Job Report</title>
-<head><tr><td><b>$job.batchProcessType</b><td></tr></head>
-<body>
-        There were no records for performing export.
-</body>
-
-</html>
