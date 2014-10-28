@@ -316,10 +316,11 @@
     </changeSet>
     -->
     <!-- Staff attributes -->
+    <!-- removed temporarily
     <changeSet context="demo" author="ole" id="krim_entity_emp_info_t">
         <loadData tableName="krim_entity_emp_info_t" file="ole-inst/persons/krim_entity_emp_info_t.csv"/>
     </changeSet>
-
+    -->
     <!-- Created by bootstrap (i think) -->
     <!--
     <changeSet context="demo" author="ole" id="krim_entity_ent_typ_t">
