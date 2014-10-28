@@ -25,7 +25,7 @@
                         <name>errorAction</name>
                         <parameter>
                             <name>errorMessage</name>
-                            <value>This patronâ€™s record has been marked inactive. Do you want to continue?</value>
+                            <value>This patron’s record has been marked inactive. Do you want to continue?</value>
                         </parameter>
                     </action>
                 </trueActions>
@@ -94,7 +94,7 @@
                                                 <name>errorsAndPermission</name>
                                                 <parameter>
                                                     <name>errorMessage</name>
-                                                    <value>This patronâ€™s record has expired. Do you want to continue?</value>
+                                                    <value>This patron’s record has expired. Do you want to continue?</value>
                                                 </parameter>
                                                 <parameter>
                                                     <name>permissionName</name>
@@ -153,7 +153,7 @@
                                                 <name>errorsAndPermission</name>
                                                 <parameter>
                                                     <name>errorMessage</name>
-                                                    <value>This patronâ€™s record expired.  Do you want to continue?</value>
+                                                    <value>This patron’s record expired.  Do you want to continue?</value>
                                                 </parameter>
                                                 <parameter>
                                                     <name>permissionName</name>
@@ -197,7 +197,7 @@
                                                 <name>errorsAndPermission</name>
                                                 <parameter>
                                                     <name>errorMessage</name>
-                                                    <value>This patronâ€™s record expired.  Do you want to continue?</value>
+                                                    <value>This patron’s record expired.  Do you want to continue?</value>
                                                 </parameter>
                                                 <parameter>
                                                     <name>permissionName</name>
@@ -210,7 +210,7 @@
                                                 <name>errorAction</name>
                                                 <parameter>
                                                     <name>errorMessage</name>
-                                                    <value>This patronâ€™s record is not active.  Do you want to continue?</value>
+                                                    <value>This patron’s record is not active.  Do you want to continue?</value>
                                                 </parameter>
                                             </action>
                                         </falseActions>
@@ -221,247 +221,8 @@
                     </rule>
                 </falseActions>
             </rule>
-            <rule> <!--Patron Proxy Check: if isProxyPatron = true, then (if currentDateFunction(proxyExpirationDate) = true then display error message)-->
-                <name>ProxyVerification</name>
-                <oleProposition> <!--if isProxyPatron = true-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>isProxyPatron</value>
-                        </term>
-                        <operator>=</operator>
-                        <values>
-                            <value>
-                                <type>java.lang.String</type>
-                                <name>true</name>
-                            </value>
-                        </values>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule>         <!--if activeIndicator = false-->
-                        <name>ValidateProxyPatronDate</name>
-                        <oleProposition>
-                            <type>simple</type>
-                            <simpleProposition>
-                                <term>
-                                    <type>java.lang.String</type>
-                                    <value>activeProxyPatron</value>
-                                </term>
-                                <operator>=</operator>
-                                <values>
-                                    <value>
-                                        <type>java.lang.String</type>
-                                        <name>false</name>
-                                    </value>
-                                </values>
-                            </simpleProposition>
-                        </oleProposition>
-                        <trueActions> <!--then display error message-->
-                            <action>
-                                <name>errorAction</name>
-                                <parameter>
-                                    <name>errorMessage</name>
-                                    <value>This proxy patronâ€™s record has been marked inactive. Do you want to continue?</value>
-                                </parameter>
-                            </action>
-                        </trueActions>
-                        <falseActions>
-                            <rule>             <!--if proxyActivationDate = null -->
-                                <name>VerifyActivationDateForProxy</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>proxyActivationDateString</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>null</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <rule>       <!--if proxyExpirationDate = null -->
-                                        <name>VerifyExpirationDateForProxy</name>
-                                        <oleProposition>
-                                            <type>simple</type>
-                                            <simpleProposition>
-                                                <term>
-                                                    <type>java.lang.String</type>
-                                                    <value>proxyExpirationDateString</value>
-                                                </term>
-                                                <operator>=</operator>
-                                                <values>
-                                                    <value>
-                                                        <type>java.lang.String</type>
-                                                        <name>null</name>
-                                                    </value>
-                                                </values>
-                                            </simpleProposition>
-                                        </oleProposition>
-                                        <trueActions> <!--then display error message-->
-                                            <action>
-                                                <name>errorAction</name>
-                                                <parameter>
-                                                    <name>errorMessage</name>
-                                                    <value>This proxy patron has no Activation or Expiration Date. Do you want to continue?</value>
-                                                </parameter>
-                                            </action>
-                                        </trueActions>
-                                        <falseActions>
-                                            <rule>       <!--if proxyExpirationDate is pastDate -->
-                                                <name>PastExpirationDateForProxy</name>
-                                                <oleProposition>
-                                                    <type>simple</type>
-                                                    <simpleProposition>
-                                                        <function>currentDateFunction</function>
-                                                        <term>
-                                                            <type>java.util.Date</type>
-                                                            <value>proxyExpirationDate</value>
-                                                        </term>
-                                                    </simpleProposition>
-                                                </oleProposition>
-                                                <trueActions>     <!--then display error message-->
-                                                    <action>
-                                                        <name>errorsAndPermission</name>
-                                                        <parameter>
-                                                            <name>errorMessage</name>
-                                                            <value>This proxy patronâ€™s record has expired. Do you want to continue?</value>
-                                                        </parameter>
-                                                        <parameter>
-                                                            <name>permissionName</name>
-                                                            <value>Proxy patron record expired</value>
-                                                        </parameter>
-                                                    </action>
-                                                </trueActions>
-                                            </rule>
-                                        </falseActions>
-                                    </rule>
-                                </trueActions>
-                                <falseActions>
-                                    <rule>        <!--if proxyActivationDate is pastDate -->
-                                        <name>PastActivationDateForProxy</name>
-                                        <oleProposition>
-                                            <type>simple</type>
-                                            <simpleProposition>
-                                                <function>currentDateFunction</function>
-                                                <term>
-                                                    <type>java.util.Date</type>
-                                                    <value>proxyActivationDate</value>
-                                                </term>
-                                            </simpleProposition>
-                                        </oleProposition>
-                                        <trueActions>
-                                            <rule>       <!--if proxyExpirationDate is not null and pastDate -->
-                                                <name>ExpirationDateValueForProxy</name>
-                                                <oleProposition>
-                                                    <type>compound</type>
-                                                    <compoundProposition>
-                                                        <operator>AND</operator>
-                                                        <simpleProposition>
-                                                            <term>
-                                                                <type>java.lang.String</type>
-                                                                <value>proxyExpirationDateString</value>
-                                                            </term>
-                                                            <operator>!=</operator>
-                                                            <values>
-                                                                <value>
-                                                                    <type>java.lang.String</type>
-                                                                    <name>null</name>
-                                                                </value>
-                                                            </values>
-                                                        </simpleProposition>
-                                                        <simpleProposition>
-                                                            <function>currentDateFunction</function>
-                                                            <term>
-                                                                <type>java.util.Date</type>
-                                                                <value>proxyExpirationDate</value>
-                                                            </term>
-                                                        </simpleProposition>
-                                                    </compoundProposition>
-                                                </oleProposition>
-                                                <trueActions>        <!--then display error message-->
-                                                    <action>
-                                                        <name>errorsAndPermission</name>
-                                                        <parameter>
-                                                            <name>errorMessage</name>
-                                                            <value>This proxy patronâ€™s record expired.  Do you want to continue?</value>
-                                                        </parameter>
-                                                        <parameter>
-                                                            <name>permissionName</name>
-                                                            <value>Proxy patron record expired</value>
-                                                        </parameter>
-                                                    </action>
-                                                </trueActions>
-                                            </rule>
-                                        </trueActions>
-                                        <falseActions>
-                                            <rule>           <!--if proxyExpirationDate is not null and pastDate -->
-                                                <name>ValidExpirationDateForProxy</name>
-                                                <oleProposition>
-                                                    <type>compound</type>
-                                                    <compoundProposition>
-                                                        <operator>AND</operator>
-                                                        <simpleProposition>
-                                                            <term>
-                                                                <type>java.lang.String</type>
-                                                                <value>proxyExpirationDateString</value>
-                                                            </term>
-                                                            <operator>!=</operator>
-                                                            <values>
-                                                                <value>
-                                                                    <type>java.lang.String</type>
-                                                                    <name>null</name>
-                                                                </value>
-                                                            </values>
-                                                        </simpleProposition>
-                                                        <simpleProposition>
-                                                            <function>currentDateFunction</function>
-                                                            <term>
-                                                                <type>java.util.Date</type>
-                                                                <value>proxyExpirationDate</value>
-                                                            </term>
-                                                        </simpleProposition>
-                                                    </compoundProposition>
-                                                </oleProposition>
-                                                <trueActions>   <!--then display error message-->
-                                                    <action>
-                                                        <name>errorsAndPermission</name>
-                                                        <parameter>
-                                                            <name>errorMessage</name>
-                                                            <value>This proxy patronâ€™s record expired.  Do you want to continue?</value>
-                                                        </parameter>
-                                                        <parameter>
-                                                            <name>permissionName</name>
-                                                            <value>Proxy patron record expired</value>
-                                                        </parameter>
-                                                    </action>
-                                                </trueActions>
-                                                <falseActions>    <!--then display error message-->
-                                                    <action>
-                                                        <name>errorAction</name>
-                                                        <parameter>
-                                                            <name>errorMessage</name>
-                                                            <value>This proxy patronâ€™s record is not active.  Do you want to continue?</value>
-                                                        </parameter>
-                                                    </action>
-                                                </falseActions>
-                                            </rule>
-                                        </falseActions>
-                                    </rule>
-                                </falseActions>
-                            </rule>
-                        </falseActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--GeneralBlock: if generalBlock=true then display error message-->
+
+			<rule> <!--GeneralBlock: if generalBlock=true then display error message-->
                 <name>isGeneralBlock</name>
                 <oleProposition> <!--if generalBlock=true-->
                     <type>simple</type>
@@ -494,35 +255,7 @@
                 </trueActions>
             </rule>
 
-            <rule> <!--AddressVerification: if isAddressVerified = false, then display error message-->
-                <name>AddressVerification</name>
-                <oleProposition> <!--if isAddressVerified = false-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>isAddressVerified</value>
-                        </term>
-                        <operator>=</operator>
-                        <values>
-                            <value>
-                                <type>java.lang.String</type>
-                                <name>false</name>
-                            </value>
-                        </values>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions> <!--then display error message-->
-                    <action>
-                        <name>errorAction</name>
-                        <parameter>
-                            <name>errorMessage</name>
-                            <value>Patron's street address has not been verified.</value>
-                        </parameter>
-                    </action>
-                </trueActions>
-            </rule>
-            <rule> <!--Check Digit Routines For Patron: if digitRoutine = true AND patronBarCode = pattern, then display error message-->
+			<rule> <!--Check Digit Routines For Patron: if digitRoutine = true AND patronBarCode = pattern, then display error message-->
                 <name>Check Digit Routines For Patron</name>
                 <oleProposition> <!--if digitRoutine = true AND patronBarCode = pattern-->
                     <type>compound</type>
@@ -703,50 +436,7 @@
                     </rule>
                 </falseActions>
             </rule>
-            <rule> <!--Overdue Fine exist against the item,then display error-->
-                <name>Overdue Fine Status Validation</name>
-                <oleProposition>
-                    <type>compound</type>
-                    <compoundProposition>
-                        <operator>AND</operator>
-                        <simpleProposition>
-                            <term>
-                                <type>java.lang.boolean</type>
-                                <value>differentPatron</value>
-                            </term>
-                            <operator>=</operator>
-                            <values>
-                                <value>
-                                    <type>java.lang.boolean</type>
-                                    <name>true</name>
-                                </value>
-                            </values>
-                        </simpleProposition>
-                        <simpleProposition>
-                            <term>
-                                <type>java.lang.boolean</type>
-                                <value>overdueFineExist</value>
-                            </term>
-                            <operator>=</operator>
-                            <values>
-                                <value>
-                                    <type>java.lang.boolean</type>
-                                    <name>true</name>
-                                </value>
-                            </values>
-                        </simpleProposition>
-                    </compoundProposition>
-                </oleProposition>
-                <trueActions> <!--then display error-->
-                    <action>
-                        <name>errorAction</name>
-                        <parameter>
-                            <name>errorMessage</name>
-                            <value>This item is on loan to another patron and is overdue. You must Return the item before it can be loaned again.</value>
-                        </parameter>
-                    </action>
-                </trueActions>
-            </rule>
+            
             <rule> <!--if itemStatus=Lost and/or replacement fee exist it may paid or unpaid , then display error-->
                 <name>Lost Status With Replacement Fee Fine</name>
                 <oleProposition>
@@ -787,34 +477,6 @@
                         <parameter>
                             <name>errorMessage</name>
                             <value>Item is currently marked as lost and/or a replacement fee has been billed. Item cannot be loaned until this situation is resolved</value>
-                        </parameter>
-                    </action>
-                </trueActions>
-            </rule>
-            <rule> <!--if itemStatus=Lost and/or replacement fee exist it may paid or unpaid , then display error-->
-                <name>Item Status Damaged Checkout</name>
-                <oleProposition> <!--if circpolicyFound = isCircPolicyNotFound-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <term>
-                            <type>java.lang.boolean</type>
-                            <value>itemDamagedStatus</value>
-                        </term>
-                        <operator>=</operator>
-                        <values>
-                            <value>
-                                <type>java.lang.boolean</type>
-                                <name>true</name>
-                            </value>
-                        </values>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions> <!--then display error-->
-                    <action>
-                        <name>errorAction</name>
-                        <parameter>
-                            <name>errorMessage</name>
-                            <value>Inform the current borrower that this item is damaged before proceeding with checkout.</value>
                         </parameter>
                     </action>
                 </trueActions>
@@ -891,7 +553,8 @@
                     </action>
                 </trueActions>
             </rule>
-            <rule> <!--LocationValidation: if containsFunction(itemLocation) = circdesklocation, else Else display error-->
+            
+			<rule> <!--LocationValidation: if containsFunction(itemLocation) = circdesklocation, else Else display error-->
                 <name>LocationValidation</name>
                 <oleProposition> <!--if containsFunction(itemLocation) = circdesklocation-->
                     <type>simple</type>
@@ -916,11 +579,12 @@
                         </parameter>
                         <parameter>
                             <name>permissionName</name>
-                            <value>Item not at circ desk authorized to service the itemâ€™s shelving location</value>
+                            <value>Item not at circ desk authorized to service the item’s shelving location</value>
                         </parameter>
                     </action>
                 </falseActions>
             </rule>
+			
             <rule> <!--Circulation Policy Set 1 Validation: if circpolicyFound = isCircPolicyNotFound, then run the policy rules-->
                 <name>Circulation Policy Set 1 Validation</name>
                 <oleProposition> <!--if circpolicyFound = isCircPolicyNotFound-->
@@ -944,7 +608,7 @@
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
-                                <simpleProposition> <!--if borrower in (Undergrad, Grad)-->
+                                <simpleProposition> <!--if borrower in (Undergrad, Grad, Fac, Staff)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>borrowerType</value>
@@ -957,15 +621,19 @@
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>I</name>
+                                            <name>GRAD</name>
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>GRAD</name>
+                                            <name>FAC</name>
+                                        </value>
+                                        <value>
+                                            <type>java.lang.String</type>
+                                            <name>STAFF</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--If item in (stks, MAGAZINE)-->
+                                <simpleProposition> <!--If item in (BOOK)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -975,43 +643,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemLibrary in B-EDUC, B-HPER, B-BUSSPEA-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemLibrary</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-EDUC</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>JRL</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-HPER</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-BUSSPEA</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>ASR</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -1046,106 +677,7 @@
                                     <value>1</value>
                                 </parameter>
                             </action>
-                            <rule>
-                                <name>Max # of item type stks checked out</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>stks</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>5</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for stks should not exceed more than 5</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule>
-                                <name>Max # of item type MAGAZINE checked out</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>MAGAZINE</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>3</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for magazine should not exceed more than 3</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--then run Check Claims Returned: if numberOfClaimsReturned>5, then display error-->
-                                <name>Check Claims Returned</name>
-                                <oleProposition> <!--if numberOfClaimsReturned>2-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfClaimsReturned</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>2</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 2 claims returned</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of checked out items marked 'claimed returned'</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
+
                             <rule> <!--then run Check all Overdue fine amount: if overdue fine exceeds 5, then display error-->
                                 <name>Check all Overdue fine amount</name>
                                 <oleProposition> <!--if overdue fine exceeds 5-->
@@ -1178,70 +710,7 @@
                                     </action>
                                 </trueActions>
                             </rule>
-                            <rule> <!--then run Check Replacement fee amt:if replacement fee greater than 10, then display error-->
-                                <name>Check Replacement fee amt</name>
-                                <oleProposition> <!--if replacement fee greater than 10-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>replacementFeeAmt</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>10</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has replacement fees in excess of $10</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of replacement fees</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--then run Check Overall Charges: if allcharges >15, then display error-->
-                                <name>Check Overall Charges</name>
-                                <oleProposition> <!--if allcharges >15-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>allCharges</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>15</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron's overall charges exceed $15</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of all charges</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
+
                             <rule> <!--then run BorrowerLimitForCheckedOutItems: if numberOfItemsCheckedOut>10, then display error-->
                                 <name>BorrowerLimitForCheckedOutItems</name>
                                 <oleProposition> <!--if numberOfItemsCheckedOut>10-->
@@ -1274,6 +743,7 @@
                                     </action>
                                 </trueActions>
                             </rule>
+							
                             <rule> <!--then run BorrowerLimitForCheckedOutOverdueItems: if numberOfOverdueItemsCheckedOut>2, then display error-->
                                 <name>BorrowerLimitForCheckedOutOverdueItems</name>
                                 <oleProposition> <!--if numberOfOverdueItemsCheckedOut>2-->
@@ -1306,1098 +776,13 @@
                                     </action>
                                 </trueActions>
                             </rule>
-                            <rule> <!--then run BorrowerLimitForCheckedOutOverdueRecalledItems: if numberOfOverdueRecalledItemsCheckedOut>1, then display error-->
-                                <name>BorrowerLimitForCheckedOutOverdueRecalledItems</name>
-                                <oleProposition> <!--if numberOfOverdueRecalledItemsCheckedOut>1-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfOverDueRecalledItemsCheckedOut</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>1</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 1 overdue recalled items.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of recalled overdue items checked out</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
+
                         </trueActions>
                     </rule>
                 </trueActions>
             </rule>
-            <rule> <!--Circulation Policy Set 2 Validation:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Circulation Policy Set 2 Validation</name>
-                <oleProposition> <!--if circpolicyFound = isCircPolicyNotFound, then run the policy rules-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Check out Circulation Policy Set 2: if borrowerType in (faculty, staff) AND itemType in (BOOK, magazine) AND (itemLibrary in (B-HPER) OR itemShelving in (BEDJOURNALS, GEN)), then circpolicyFound=True AND set loanPeriod=fixedDueDate, OverDueDay=20, recallOverDueDay=15, AND runs checks on checkClaimsReturned, overdueFineAmt, replacementOverdueFineAmt, overallCharges, limitOnCheckedOutItems, limitOnBorrowerOverdueItems, limitOnOverdueRecalledItems AND for each display appropriate errors-->
-                        <name>Check out Circulation Policy Set 2</name>
-                        <oleProposition> <!--if borrowerType in (faculty, staff) AND itemType in (BOOK, MAGAZINE,AUDIOCD,AV,AUDIOTAPE,MICRO) AND (ItemLibrary in (PERKN) OR itemShelving in (PLI, PLV1))-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (faculty, staff)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>borrowerType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>FAC</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>STAFF</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemType in (stks, MAGAZINE, AUDIOCD,AV,AUDIOTAPE,MICRO)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AUDIOCD</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AV</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AUDIOTAPE</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MICRO</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <compoundProposition> <!--if ItemLibrary in (PERKN) OR itemShelving in (PLI, PLV1)-->
-                                    <operator>OR</operator>
-                                    <simpleProposition> <!--if itemLibrary in (PERKN)-->
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>itemLibrary</value>
-                                        </term>
-                                        <operator>IN</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>PERKN</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                    <simpleProposition> <!--if itemShelving in (PLI, PLV1)-->
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>itemShelving</value>
-                                        </term>
-                                        <operator>IN</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>PLI</name>
-                                            </value>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>PLV1</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </compoundProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then circpolicyfound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                            <action> <!--then loanPeriod=fixedDueDate (due date set from maintenance doc fixedDueDate value; if not found then app sets dueDate=patronExpirationDate and if that's not found, then this is an 'indefinite loan' and never requires renewal)-->
-                                <name>loanPeriod</name>
-                                <parameter>
-                                    <name>loanPeriod</name>
-                                    <value>fixedDueDate</value>
-                                </parameter>
-                            </action>
-                            <action> <!--then overdueDay=2-->
-                                <name>overdueDay</name>
-                                <parameter>
-                                    <name>overdueDay</name>
-                                    <value>2</value>
-                                </parameter>
-                            </action>
-                            <action> <!--then recallOverdueDay=1-->
-                                <name>recallOverdueDay</name>
-                                <parameter>
-                                    <name>recallOverdueDay</name>
-                                    <value>1</value>
-                                </parameter>
-                            </action>
-                            <rule>
-                                <name>Max # of item type stks checked out 2</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>stks</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>5</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for stks should not exceed more than 5</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule>
-                                <name>Max # of item type MAGAZINE checked out 2</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>MAGAZINE</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>3</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for magazine should not exceed more than 3</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule>
-                                <name>Max # of item type AUDIOCD checked out 2</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>AUDIOCD</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>5</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for audio cd should not exceed more than 5</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Claims Returned 2: if numberOfClaimsReturned > 2, then display error-->
-                                <name>Check Claims Returned 2</name>
-                                <oleProposition> <!--if numberOfClaimsReturned > 2-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfClaimsReturned</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>2</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 2 claims returned</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of checked out items marked 'claimed returned'</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check all Overdue fine amount 2: if overdueFineAmt > 2, then display error-->
-                                <name>Check all Overdue fine amount 2</name>
-                                <oleProposition> <!--if overdueFineAmt > 2-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>overdueFineAmt</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>2</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has overdue fines in excess of $2</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of overdue fines</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Replacement fee amt 2: if replacementFeeAmt > 7, then display error-->
-                                <name>Check Replacement fee amt 2</name>
-                                <oleProposition> <!--if replacementFeeAmt > 7-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>replacementFeeAmt</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>7</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than $7 in Replacement Fee Charges</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of replacement fees</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Overall Charges 2: if allCharges > 9, then display error-->
-                                <name>Check Overall Charges 2</name>
-                                <oleProposition> <!--if allCharges > 9-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>allCharges</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>9</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than $9 in overall charges</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of all charges</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--BorrowerLimitForCheckedOutItems 2: if numberOfItemsCheckedOut > 12, then display error-->
-                                <name>BorrowerLimitForCheckedOutItems 2</name>
-                                <oleProposition> <!--if numberOfItemsCheckedOut > 12-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfItemsCheckedOut</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>12</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 12 items checked out.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of items checked out</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--BorrowerLimitForCheckedOutOverdueItems 2: if numberOfOverDueItemsCheckedOut > 6, then display error-->
-                                <name>BorrowerLimitForCheckedOutOverdueItems 2</name>
-                                <oleProposition> <!--if numberOfOverDueItemsCheckedOut > 6-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfOverDueItemsCheckedOut</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>6</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 6 overdue items checked out.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of overdue items checked out</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--BorrowerLimitForCheckedOutOverdueRecalledItems 2: if numberOfOverDueRecalledItemsCheckedOut > 2, then display error-->
-                                <name>BorrowerLimitForCheckedOutOverdueRecalledItems 2</name>
-                                <oleProposition> <!--if numberOfOverDueRecalledItemsCheckedOut > 2-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfOverDueRecalledItemsCheckedOut</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>2</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 2 overdue recalled items checked out.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of recalled overdue items checked out</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--Circulation Policy Set 3 Validation:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Circulation Policy Set 3 Validation</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Check out Circulation Policy Set 3: if borrowerType in (researcher, guest, Faculty) AND itemType in (BOOK, magazine) AND itemShelving in (JRLRES, LawRes, FRD, SciDDC), then circpolicyFound=True AND set loanPeriod=11-D, OverDueDay=25, recallOverDueDay=25, AND runs checks on checkClaimsReturned, overdueFineAmt, replacementOverdueFineAmt, overallCharges, limitOnCheckedOutItems, limitOnBorrowerOverdueItems, limitOnOverdueRecalledItems AND for each display appropriate errors-->
-                        <name>Check out Circulation Policy Set 3</name>
-                        <oleProposition> <!--if borrowerType in (researcher, Guest, Faculty) AND, is the item a BOOK or a magazine, is the item's location covered by this policy-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (researcher, guest)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>borrowerType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>RES</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>GUEST</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>FAC</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemType in (stks, magazine)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in (JRLRES, LawRes, FRD, SciDDC)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>JRLRES</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>LawRes</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>FRD</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>SciDDC</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                            <action> <!--then loanPeriod = 2-H-->
-                                <name>loanPeriod</name>
-                                <parameter>
-                                    <name>loanPeriod</name>
-                                    <value>2-H</value>
-                                </parameter>
-                            </action>
-                            <action> <!--then overDueDay = 2-->
-                                <name>overdueDay</name>
-                                <parameter>
-                                    <name>overdueDay</name>
-                                    <value>2</value>
-                                </parameter>
-                            </action>
-                            <action> <!--then recalloverduedays = 3-->
-                                <name>recallOverdueDay</name>
-                                <parameter>
-                                    <name>recallOverdueDay</name>
-                                    <value>3</value>
-                                </parameter>
-                            </action>
-                            <rule>
-                                <name>Max # of item type stks checked out 3</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>stks</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>5</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for stks should not exceed more than 5</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule>
-                                <name>Max # of item type MAGAZINE checked out 3</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>MAGAZINE</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>3</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for magazine should not exceed more than 3</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Claims Returned 3: if numberOfClaimsReturned > 1, then display error-->
-                                <name>Check Claims Returned 3</name>
-                                <oleProposition> <!--if numberOfClaimsReturned > 1-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfClaimsReturned</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>1</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--then display error-->
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 1 claim returned</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of checked out items marked 'claimed returned'</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check all Overdue fine amount 3: if overdueFineAmt > 6, then display error-->
-                                <name>Check all Overdue fine amount 3</name>
-                                <oleProposition> <!--if overdueFineAmt > 6-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>overdueFineAmt</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>6</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has overdue fines in excess of $6</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of overdue fines</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Replacement fee amt 3: if replacementFeeAmt > 6, then display error-->
-                                <name>Check Replacement fee amt 3</name>
-                                <oleProposition> <!--if replacementFeeAmt > 6-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>replacementFeeAmt</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>6</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than $6 in Replacement Fee Charges</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of replacement fees</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Overall Charges 3: if allCharges > 12, then display error-->
-                                <name>Check Overall Charges 3</name>
-                                <oleProposition> <!--if allCharges > 12-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>allCharges</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>12</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than $12 in overall charges.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of all charges</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--BorrowerLimitForCheckedOutItems 3: if numberOfItemsCheckedOut > 25, then display error-->
-                                <name>BorrowerLimitForCheckedOutItems 3</name>
-                                <oleProposition> <!--if numberOfItemsCheckedOut > 11-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfItemsCheckedOut</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>11</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 11 items checked out.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of items checked out</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--BorrowerLimitForCheckedOutOverdueItems 3: if numberOfOverDueItemsCheckedOut > 28, then display error-->
-                                <name>BorrowerLimitForCheckedOutOverdueItems 3</name>
-                                <oleProposition> <!--if numberOfOverDueItemsCheckedOut > 2-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfOverDueItemsCheckedOut</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>2</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 2 overdue items checked out.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of overdue items checked out</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--BorrowerLimitForCheckedOutOverdueRecalledItems 3: if numberOfOverDueRecalledItemsCheckedOut > 1, then display error-->
-                                <name>BorrowerLimitForCheckedOutOverdueRecalledItems 3</name>
-                                <oleProposition> <!--if numberOfOverDueRecalledItemsCheckedOut > 1-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>numberOfOverDueRecalledItemsCheckedOut</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>1</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than 1 overdue recalled items checked out.</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max # of recalled overdue items checked out</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--Test Circulation Policy Set Validation:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Test Circulation Policy Set Validation</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Test Circulation Policy Set Validation: if itemType in (PALCI,API) AND itemShelving in (PALCI,API), then circpolicyFound=True -->
-                        <name>Test Check out Circulation Policy Set</name>
-                        <oleProposition> <!--if  itemType is PALCI or API, is the item's location covered by this policy-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if itemType in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                            <rule> <!--Check all Overdue fine amount 2: if overdueFineAmt > 2, then display error-->
-                                <name>Test Check all Overdue fine amount</name>
-                                <oleProposition> <!--if overdueFineAmt > 2-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>overdueFineAmt</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>2</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has overdue fines in excess of $2</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of overdue fines</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Replacement fee amt 2: if replacementFeeAmt > 7, then display error-->
-                                <name>Test Check Replacement fee amt</name>
-                                <oleProposition> <!--if replacementFeeAmt > 7-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>replacementFeeAmt</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>7</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than $7 in Replacement Fee Charges</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of replacement fees</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule> <!--Check Overall Charges 2: if allCharges > 9, then display error-->
-                                <name>Test Check Overall Charges</name>
-                                <oleProposition> <!--if allCharges > 9-->
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>allCharges</value>
-                                        </term>
-                                        <operator>greaterThan</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>9</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions> <!--then display error-->
-                                    <action>
-                                        <name>errorsAndPermission</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Patron has more than $9 in overall charges</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>permissionName</name>
-                                            <value>Patron has max amount of all charges</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--if none of the above policies fit combination of item and patron, display the policy not found message-->
+
+			<rule> <!--if none of the above policies fit combination of item and patron, display the policy not found message-->
                 <name>Check out Circulation Policy Not Found</name>
                 <oleProposition>
                     <type>simple</type>
@@ -2495,7 +880,7 @@
                         </parameter>
                         <parameter>
                             <name>permissionName</name>
-                            <value>Item not at circ desk authorized to service the itemâ€™s shelving location</value>
+                            <value>Item not at circ desk authorized to service the item’s shelving location</value>
                         </parameter>
                     </action>
                 </falseActions>
@@ -2517,13 +902,13 @@
                     </simpleProposition>
                 </oleProposition>
                 <trueActions>
-                    <rule> <!--Renewal Circulation Policy Set 1: if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK, MAGAZINE), then circulationPolicyFound=true AND circulationPolicyFound=true AND loanPeriod = 10-D AND overdueDay = 30 AND recallOverdueDay = 25 AND run Check Claims Returned for Renewal, Check all Overdue fine amount for Renewal, Check Replacement fee amt for Renewal, Check Overall Charges for Renewal, RenewalLimit, IndefiniteCheck, FixedDueDateCheck and display appropriate messages-->
+                    <rule> <!--Renewal Circulation Policy Set 1: if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK), then circulationPolicyFound=true AND circulationPolicyFound=true AND loanPeriod = 10-D AND overdueDay = 30 AND recallOverdueDay = 25 AND run Check Claims Returned for Renewal, Check all Overdue fine amount for Renewal, Check Replacement fee amt for Renewal, Check Overall Charges for Renewal, RenewalLimit, IndefiniteCheck, FixedDueDateCheck and display appropriate messages-->
                         <name>Renewal Circulation Policy Set 1</name>
-                        <oleProposition><!--if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK, MAGAZINE)-->
+                        <oleProposition><!--if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK)-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (Undergrad, Graduate)-->
+                                <simpleProposition> <!--if borrowerType in (Undergrad, Graduate, fac, staff)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>borrowerType</value>
@@ -2536,15 +921,19 @@
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>I</name>
+                                            <name>GRAD</name>
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>GRAD</name>
+                                            <name>FAC</name>
+                                        </value>
+                                        <value>
+                                            <type>java.lang.String</type>
+                                            <name>STAFF</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--If itemType in (stks, MAGAZINE)-->
+                                <simpleProposition> <!--If itemType in (BOOK)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -2554,14 +943,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -2596,74 +977,7 @@
                                     <value>25</value>
                                 </parameter>
                             </action>
-                            <rule>
-                                <name>Max # of item type stks renewal</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>stks</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>5</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for stks should not exceed more than 5</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
-                            <rule>
-                                <name>Max # of item type MAGAZINE renewal</name>
-                                <oleProposition>
-                                    <type>simple</type>
-                                    <simpleProposition>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                        <operator>=</operator>
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>dummyCheck</value>
-                                        </term>
-                                    </simpleProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--MaxNumberByItemType -->
-                                        <name>MaxNumberByItemType</name>
-                                        <parameter>
-                                            <name>itemType</name>
-                                            <value>MAGAZINE</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>maxNumber</name>
-                                            <value>3</value>
-                                        </parameter>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>Maximum number of items for magazine should not exceed more than 3</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
+
                             <rule> <!--then run Check Claims Returned for Renewal: if numberOfClaimsReturned > 5, then display error-->
                                 <name>Check Claims Returned for Renewal</name>
                                 <oleProposition> <!--if numberOfClaimsReturned > 5-->
@@ -2909,77 +1223,7 @@
                     </rule>
                 </trueActions>
             </rule>
-            <rule> <!--Test Circulation Policy Set Validation for Renewal:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Test Circulation Policy Set Validation for Renewal</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Test Circulation Policy Set Validation for Renewal: if itemType in (PALCI,API) AND itemShelving in (PALCI,API), then circpolicyFound=True -->
-                        <name>Test Check out Circulation Policy Set for Renewal</name>
-                        <oleProposition> <!--if  itemType is PALCI or API, is the item's location covered by this policy-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if itemType in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
+
             <rule> <!--Renewal Circulation Policy Not Found: if circulationPolicyFoundFunction(isCirculationPolicyNotFound), then display error-->
                 <name>Renewal Circulation Policy Not Found</name>
                 <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
@@ -3053,7 +1297,8 @@
                     </action>
                 </trueActions>
             </rule>
-            <rule> <!--InTransitCheck; if containsFunction(itemlocation, operatorsCirculationLocation), then (if itemstatus in (intransit), then itemstatus = AVAILABLE, else (if shelvingLagTime > 0, then updateItemStatus=Recently-Returned, Else updateItemStatus = Available)), else updateItemStatus = INTRANSIT-->
+            
+			<rule> <!--InTransitCheck; if containsFunction(itemlocation, operatorsCirculationLocation), then (if itemstatus in (intransit), then itemstatus = AVAILABLE, else (if shelvingLagTime > 0, then updateItemStatus=Recently-Returned, Else updateItemStatus = Available)), else updateItemStatus = INTRANSIT-->
                 <name>InTransitCheck</name>
                 <oleProposition> <!--if containsFunction(itemlocation, operatorsCirculationLocation)-->
                     <type>simple</type>
@@ -3118,7 +1363,8 @@
                     </action>
                 </falseActions>
             </rule>
-            <rule> <!--OnHoldInPickupLocation: if containsFunction(itemPickupLocation, operatorsCirculationLocation) AND itemStatus in (INTRANSIT-FOR-HOLD) then updateItemStatus to ONHOLD-->
+            
+			<rule> <!--OnHoldInPickupLocation: if containsFunction(itemPickupLocation, operatorsCirculationLocation) AND itemStatus in (INTRANSIT-FOR-HOLD) then updateItemStatus to ONHOLD-->
                 <name>OnHoldInPickupLocation</name>
                 <oleProposition> <!--if containsFunction(itemPickupLocation, operatorsCirculationLocation) AND itemStatus in (INTRANSIT-FOR-HOLD)-->
                     <type>compound</type>
@@ -3160,7 +1406,8 @@
                     </action>
                 </trueActions>
             </rule>
-            <rule> <!--(StaffRequest)NotCheckedOut: if containsFunction(destinationLocation), [a circulation desk selected by the staff person and does not need to be a 'pickup location' circdesk] operatorsCirculationLocation) AND itemStatus in (Intransit-Per-Staff-Request), then run rule 'Recently returned Check based on Staff'-->
+            
+			<rule> <!--(StaffRequest)NotCheckedOut: if containsFunction(destinationLocation), [a circulation desk selected by the staff person and does not need to be a 'pickup location' circdesk] operatorsCirculationLocation) AND itemStatus in (Intransit-Per-Staff-Request), then run rule 'Recently returned Check based on Staff'-->
                 <name>NotCheckedOut</name>
                 <oleProposition> <!--if containsFunction(destinationLocation, operatorsCirculationLocation) AND itemStatus in (Intransit-Per-Staff-Request)-->
                     <type>compound</type>
@@ -3232,7 +1479,8 @@
                     </rule>
                 </trueActions>
             </rule>
-            <rule> <!--DeliveryRequest: if requestType in (Recall/Delivery Request, Hold/Delivery Request),then checkout = content for mail-->
+            
+			<rule> <!--DeliveryRequest: if requestType in (Recall/Delivery Request, Hold/Delivery Request),then checkout = content for mail-->
                 <name>DeliveryRequest</name>
                 <oleProposition> <!--if requestType in (Recall/Delivery Request, Hold/Delivery Request)-->
                     <type>simple</type>
@@ -3264,7 +1512,8 @@
                     </action>
                 </trueActions>
             </rule>
-            <rule> <!--Request Exists Check: if requestType in (Recall/Delivery Request, Hold/Delivery Request,Recall/Hold Request,Hold/Hold Request,Page/Hold Request),then display error-->
+            
+			<rule> <!--Request Exists Check: if requestType in (Recall/Delivery Request, Hold/Delivery Request,Recall/Hold Request,Hold/Hold Request,Page/Hold Request),then display error-->
                 <name>Request Exists Check</name>
                 <oleProposition> <!--if requestType in (Recall/Delivery Request, Hold/Delivery Request,Recall/Hold Request,Hold/Hold Request,Page/Hold Request)-->
                     <type>simple</type>
@@ -3308,7 +1557,8 @@
                     </action>
                 </trueActions>
             </rule>
-            <rule> <!--HoldRequest: if requestType in (Recall/Hold Request, Hold/Hold Request, Page/Hold Request), then run rule LocationCheck-->
+            
+			<rule> <!--HoldRequest: if requestType in (Recall/Hold Request, Hold/Hold Request, Page/Hold Request), then run rule LocationCheck-->
                 <name>HoldRequest</name>
                 <oleProposition> <!--if requestType in (Recall/Hold Request, Hold/Hold Request, Page/Hold Request)-->
                     <type>simple</type>
@@ -3376,7 +1626,8 @@
                     </rule>
                 </trueActions>
             </rule>
-            <rule> <!--Circulation Policy Set 1 Validation for CheckIn: set checkinPolicyNotFound to yes, then run through the checkin policy sets; there appears to be only one checkin policy established-->
+            
+			<rule> <!--Circulation Policy Set 1 Validation for CheckIn: set checkinPolicyNotFound to yes, then run through the checkin policy sets; there appears to be only one checkin policy established-->
                 <name>Circulation Policy Set 1 Validation for CheckIn</name>
                 <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
                     <type>simple</type>
@@ -3412,11 +1663,15 @@
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>I</name>
+                                            <name>GRAD</name>
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>GRAD</name>
+                                            <name>FAC</name>
+                                        </value>
+                                        <value>
+                                            <type>java.lang.String</type>
+                                            <name>STAFF</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -3430,43 +1685,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemLibrary in UCX, B-HPER, B-BUSSPEA-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemLibrary</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>JRL</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-EDUC</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-HPER</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-BUSSPEA</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>ASR</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -3570,7 +1788,8 @@
                     </rule>
                 </trueActions>
             </rule>
-            <rule> <!--if itemStatus=Lost and/or replacement fee exist it may paid or unpaid , then display error-->
+            
+			<rule> <!--if itemStatus=Lost and/or replacement fee exist it may paid or unpaid , then display error-->
                 <name>Lost Status With Replacement Fee Fine in Checkin</name>
                 <oleProposition>
                     <type>compound</type>
@@ -3614,478 +1833,8 @@
                     </action>
                 </trueActions>
             </rule>
-            <rule> <!--Circulation Policy Set 2 Validation for CheckIn:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Circulation Policy Set 2 Validation for CheckIn</name>
-                <oleProposition> <!--if circpolicyFound = isCircPolicyNotFound, then run the policy rules-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Check in Circulation Policy Set 2: validates combination of item type, borrower type and item location, independent of the circdesk coverage and sets itemstatus, replacementbill if lost,and overdue and Max fines-->
-                        <name>Check In Circulation Policy Set 2</name>
-                        <oleProposition> <!--if borrowerType in (faculty, staff) AND itemType in (BOOK, magazine, AUDIOCD,AV,AUDIOTAPE,MICRO) AND (itemLibrary in (PERKN) OR itemShelving in (PLI, PLV1))-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (faculty, staff)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>borrowerType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>FAC</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>STAFF</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemType in (BOOK, magazine, AUDIOCD,AV,AUDIOTAPE,MICRO)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AUDIOCD</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AV</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AUDIOTAPE</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MICRO</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <compoundProposition> <!--if itemlibrary in (PERKN) OR itemShelving in (PLI, PLV1)-->
-                                    <operator>OR</operator>
-                                    <simpleProposition> <!--if itemLibrary in (B-HPER)-->
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>itemLibrary</value>
-                                        </term>
-                                        <operator>IN</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>PERKN</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                    <simpleProposition> <!--if itemShelving in (PLI, PLV1)-->
-                                        <term>
-                                            <type>java.lang.String</type>
-                                            <value>itemShelving</value>
-                                        </term>
-                                        <operator>IN</operator>
-                                        <values>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>PLI</name>
-                                            </value>
-                                            <value>
-                                                <type>java.lang.String</type>
-                                                <name>PLV1</name>
-                                            </value>
-                                        </values>
-                                    </simpleProposition>
-                                </compoundProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then circpolicyfound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                            <rule> <!--OverdueFineCalc; if today=duedate (i think), then itemstatus=Available AND (if requesttype=*recall*, then overduefine=20/H and MaxFine=100, else overduefine=10/H and MaxFine=100)-->
-                                <name>OverdueFineCalculation 2</name>
-                                <oleProposition> <!--if today >=itemDueDate-->
-                                    <type>compound</type>
-                                    <compoundProposition>
-                                        <operator>AND</operator>
-                                        <simpleProposition>
-                                            <function>currentDateFunction</function>
-                                            <term>
-                                                <type>java.util.Date</type>
-                                                <value>itemDueDate</value>
-                                            </term>
-                                        </simpleProposition>
-                                        <simpleProposition>
-                                            <term>
-                                                <type>java.lang.boolean</type>
-                                                <value>claimsReturnedFlag</value>
-                                            </term>
-                                            <operator>=</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.boolean</type>
-                                                    <name>false</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                    </compoundProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <rule> <!-- (Recall check) AND if requestType in *recall*, then overduefine=15/H and MaxFine=100, else overduefine=5/H and MaxFine=50-->
-                                        <name>RecalledItems 2</name>
-                                        <oleProposition> <!--if requestType in *recall*-->
-                                            <type>simple</type>
-                                            <simpleProposition>
-                                                <term>
-                                                    <type>java.lang.String</type>
-                                                    <value>requestType</value>
-                                                </term>
-                                                <operator>IN</operator>
-                                                <values>
-                                                    <value>
-                                                        <type>java.lang.String</type>
-                                                        <name>Recall/Delivery Request</name>
-                                                    </value>
-                                                    <value>
-                                                        <type>java.lang.String</type>
-                                                        <name>Recall/Hold Request</name>
-                                                    </value>
-                                                </values>
-                                            </simpleProposition>
-                                        </oleProposition>
-                                        <trueActions> <!--(multiple actions) overduefine=20/H and MaxFine=100-->
-                                            <action> <!--overduefine=15/H-->
-                                                <name>overdueFine</name>
-                                                <parameter>
-                                                    <name>overdueFine</name>
-                                                    <value>15/H</value>
-                                                </parameter>
-                                            </action>
-                                            <action> <!--MaxFine=100-->
-                                                <name>maxFine</name>
-                                                <parameter>
-                                                    <name>maxFine</name>
-                                                    <value>100</value>
-                                                </parameter>
-                                            </action>
-                                        </trueActions>
-                                        <falseActions> <!--(multiple actions) overduefine=5/H and MaxFine=50-->
-                                            <action> <!--overduefine=5/H-->
-                                                <name>overdueFine</name>
-                                                <parameter>
-                                                    <name>overdueFine</name>
-                                                    <value>5/H</value>
-                                                </parameter>
-                                            </action>
-                                            <action> <!--MaxFine=50-->
-                                                <name>maxFine</name>
-                                                <parameter>
-                                                    <name>maxFine</name>
-                                                    <value>50</value>
-                                                </parameter>
-                                            </action>
-                                        </falseActions>
-                                    </rule>
-                                </trueActions>
-                            </rule>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--Circulation Policy Set 3 Validation for CheckIn:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Circulation Policy Set 3 Validation for CheckIn</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Check in Circulation Policy Set 3: if borrowerType in (researcher, guest, Faculty) AND itemType in (BOOK, magazine) AND itemShelving in ((JRLRES, LawRes, FRD, SciDDC), then circpolicyFound=True AND -->
-                        <name>Check In Circulation Policy Set 3</name>
-                        <oleProposition> <!--if borrowerType in (researcher, Guest, Faculty) AND, itemtype in (BOOK, magazine) AND  itemShelving in (JRLRES, LawRes, FRD, SciDDC)-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (researcher, guest, Faculty)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>borrowerType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>RES</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>GUEST</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>FAC</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemType in (BOOK, magazine)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in ((JRLRES, LawRes, FRD, SciDDC)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>JRLRES</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>LawRes</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>FRD</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>SciDDC</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                            <rule> <!--OverdueFineCalc; if today=duedate (i think), then itemstatus=Available AND (if requesttype=*recall*, then overduefine=100/D and MaxFine=300, else overduefine=40/D and MaxFine=200)-->
-                                <name>OverdueFineCalculation 3</name>
-                                <oleProposition> <!--if today >=itemDueDate-->
-                                    <type>compound</type>
-                                    <compoundProposition>
-                                        <operator>AND</operator>
-                                        <simpleProposition>
-                                            <function>currentDateFunction</function>
-                                            <term>
-                                                <type>java.util.Date</type>
-                                                <value>itemDueDate</value>
-                                            </term>
-                                        </simpleProposition>
-                                        <simpleProposition>
-                                            <term>
-                                                <type>java.lang.boolean</type>
-                                                <value>claimsReturnedFlag</value>
-                                            </term>
-                                            <operator>=</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.boolean</type>
-                                                    <name>false</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                    </compoundProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <rule> <!-- (Recall check) AND if requestType in *recall*, then overduefine=100/D and MaxFine=300, else overduefine=40/D and MaxFine=200-->
-                                        <name>RecalledItems 3</name>
-                                        <oleProposition> <!--if requestType in *recall*-->
-                                            <type>simple</type>
-                                            <simpleProposition>
-                                                <term>
-                                                    <type>java.lang.String</type>
-                                                    <value>requestType</value>
-                                                </term>
-                                                <operator>IN</operator>
-                                                <values>
-                                                    <value>
-                                                        <type>java.lang.String</type>
-                                                        <name>Recall/Delivery Request</name>
-                                                    </value>
-                                                    <value>
-                                                        <type>java.lang.String</type>
-                                                        <name>Recall/Hold Request</name>
-                                                    </value>
-                                                </values>
-                                            </simpleProposition>
-                                        </oleProposition>
-                                        <trueActions> <!--(multiple actions) overduefine=100/D and MaxFine=300-->
-                                            <action> <!--overduefine=100/D-->
-                                                <name>overdueFine</name>
-                                                <parameter>
-                                                    <name>overdueFine</name>
-                                                    <value>100/D</value>
-                                                </parameter>
-                                            </action>
-                                            <action> <!--MaxFine=100-->
-                                                <name>maxFine</name>
-                                                <parameter>
-                                                    <name>maxFine</name>
-                                                    <value>300</value>
-                                                </parameter>
-                                            </action>
-                                        </trueActions>
-                                        <falseActions> <!--(multiple actions) overduefine=40/D and MaxFine=200-->
-                                            <action> <!--overduefine=40/D-->
-                                                <name>overdueFine</name>
-                                                <parameter>
-                                                    <name>overdueFine</name>
-                                                    <value>40/D</value>
-                                                </parameter>
-                                            </action>
-                                            <action> <!--MaxFine=200-->
-                                                <name>maxFine</name>
-                                                <parameter>
-                                                    <name>maxFine</name>
-                                                    <value>200</value>
-                                                </parameter>
-                                            </action>
-                                        </falseActions>
-                                    </rule>
-                                </trueActions>
-                            </rule>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--Test Circulation Policy Set Validation for CheckIn:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Test Circulation Policy Set Validation for CheckIn</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Test Circulation Policy Set Validation for CheckIn: if itemType in (PALCI,API) AND itemShelving in (PALCI,API), then circpolicyFound=True -->
-                        <name>Test Check out Circulation Policy Set for CheckIn</name>
-                        <oleProposition> <!--if  itemType is PALCI or API, is the item's location covered by this policy-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if itemType in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--Checkin Policy not found; if isCircPolicyNotFound, then send a message-->
+
+			<rule> <!--Checkin Policy not found; if isCircPolicyNotFound, then send a message-->
                 <name>Check in Circulation Policy Not Found</name>
                 <oleProposition>
                     <type>simple</type>
@@ -4203,11 +1952,11 @@
                 <trueActions>  <!--then run the real rules for the policy-->
                     <rule> <!--RequestPolicySet1: if borrowerType in (undergrad, grad) AND itemtype in (stks, magazine) AND if location in (ILXSTACKS, IL-ALEXAND/ILXSTACKS), then set minimum loan and recall loan periods, run rules to check # of recalls, number of holds, number of Page Requests-->
                         <name>Request Circulation Policy Set 1</name>
-                        <oleProposition> <!--if borrowerType in (undergrad, grad) AND itemtype in (stks, magazine) AND if location in (ILXSTACKS, IL-ALEXAND/ILXSTACKS)-->
+                        <oleProposition> <!--if borrowerType in (undergrad, grad) AND itemtype in (book)-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
-                                <simpleProposition> <!--if borrowerType in (undergrad, grad)-->
+                                <simpleProposition> <!--if borrowerType in (ugrad, grad, fac, staff)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>borrowerType</value>
@@ -4220,15 +1969,19 @@
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>I</name>
+                                            <name>GRAD</name>
                                         </value>
                                         <value>
                                             <type>java.lang.String</type>
-                                            <name>GRAD</name>
+                                            <name>FAC</name>
+                                        </value>
+                                        <value>
+                                            <type>java.lang.String</type>
+                                            <name>STAFF</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--if itemtype in (stks, magazine)-->
+                                <simpleProposition> <!--if itemtype in (BOOK)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -4238,43 +1991,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemLibrary in UCX, B-HPER, B-BUSSPEA-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemLibrary</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-EDUC</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>JRL</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-HPER</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>B-BUSSPEA</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>ASR</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -4455,50 +2171,6 @@
                                     </action>
                                 </trueActions>
                             </rule>
-                            <rule> <!--MaxNumberOfPageRequest: if requestType in (page/hold, page/delivery) AND if maxNumberOfPageRequest > 2, then display message that max number of page requests exceeded-->
-                                <name>MaxNumberOfASRRequest</name>
-                                <oleProposition> <!--if requestType in (page/hold, page/delivery) AND if maxNumberOfPageRequest > 2-->
-                                    <type>compound</type>
-                                    <compoundProposition>
-                                        <operator>AND</operator>
-                                        <simpleProposition> <!--if requestType in (page/hold, page/delivery)-->
-                                            <term>
-                                                <type>java.lang.String</type>
-                                                <value>requestType</value>
-                                            </term>
-                                            <operator>IN</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.String</type>
-                                                    <name>ASR Request</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                        <simpleProposition> <!--if maxNumberOfPageRequest > 2-->
-                                            <term>
-                                                <type>java.lang.Integer</type>
-                                                <value>maxNumberOfASRRequest</value>
-                                            </term>
-                                            <operator>greaterThan</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.Integer</type>
-                                                    <name>2</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                    </compoundProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <action> <!--display message that max number of page requests exceeded-->
-                                        <name>errorAction</name>
-                                        <parameter>
-                                            <name>errorMessage</name>
-                                            <value>ASR Requests exceed the maximum (2).</value>
-                                        </parameter>
-                                    </action>
-                                </trueActions>
-                            </rule>
                             <rule> <!--if item has been claims returned-->
                                 <name>Claims returned item validation for request1</name>
                                 <oleProposition> <!--if circpolicyFound = isCircPolicyNotFound-->
@@ -4581,47 +2253,6 @@
                                         <value>
                                             <type>java.lang.String</type>
                                             <name>BOOK</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>stks</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>MAGAZINE</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>AUDIOTAPE</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!--if itemShelving in (Gen,BHP-JOURNALS,PLI,PLV1)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BED-STACKS</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>Gen</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>BHP-JOURNALS</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PLI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PLV1</name>
                                         </value>
                                     </values>
                                 </simpleProposition>
@@ -4830,77 +2461,6 @@
                                     </action>
                                 </trueActions>
                             </rule>
-                        </trueActions>
-                    </rule>
-                </trueActions>
-            </rule>
-            <rule> <!--Test Circulation Policy Set Validation for Request:  This rule 1st checks whether an appropriate circulation policy has been found and if not, checks to see if this is the policy to use-->
-                <name>Test Circulation Policy Set Validation for Request</name>
-                <oleProposition> <!--if circulationPolicyFoundFunction(isCirculationPolicyNotFound)-->
-                    <type>simple</type>
-                    <simpleProposition>
-                        <function>circulationPolicyFoundFunction</function>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>patronId</value>
-                        </term>
-                        <term>
-                            <type>java.lang.String</type>
-                            <value>itemId</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <rule> <!--Test Circulation Policy Set Validation for Request: if itemType in (PALCI,API) AND itemShelving in (PALCI,API), then circpolicyFound=True -->
-                        <name>Test Check out Circulation Policy Set for Request</name>
-                        <oleProposition> <!--if  itemType is PALCI or API, is the item's location covered by this policy-->
-                            <type>compound</type>
-                            <compoundProposition>
-                                <operator>AND</operator>
-                                <simpleProposition> <!--if itemType in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemType</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                                <simpleProposition> <!-- if itemShelving in (PALCI,API)-->
-                                    <term>
-                                        <type>java.lang.String</type>
-                                        <value>itemShelving</value>
-                                    </term>
-                                    <operator>IN</operator>
-                                    <values>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>PALCI</name>
-                                        </value>
-                                        <value>
-                                            <type>java.lang.String</type>
-                                            <name>API</name>
-                                        </value>
-                                    </values>
-                                </simpleProposition>
-                            </compoundProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--then CircPolicyFound=true-->
-                                <name>circulationPolicyFound</name>
-                                <parameter>
-                                    <name>circulationPolicyFound</name>
-                                    <value>true</value>
-                                </parameter>
-                            </action>
                         </trueActions>
                     </rule>
                 </trueActions>

@@ -91,7 +91,7 @@
             <id>mysql</id>
             <properties>
                 <db.vendor>mysql</db.vendor>
-                <jdbc.url>jdbc:mysql://mysql.rice.kuali.org/${sql.database}</jdbc.url>
+                <jdbc.url>jdbc:mysql://localhost/${sql.database}</jdbc.url>
                 <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
                 <sql.init>
                     ${mysql.liquibase.drop}
@@ -703,7 +703,7 @@
             <id>inst-mysql</id>
             <properties>
                 <db.vendor>mysql</db.vendor>
-                <jdbc.url>jdbc:mysql://mysql.rice.kuali.org/${sql.database}</jdbc.url>
+                <jdbc.url>jdbc:mysql://localhost/${sql.database}</jdbc.url>
                 <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
                 <sql.init>
                     ${mysql.liquibase.drop}
