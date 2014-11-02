@@ -339,12 +339,13 @@
         <loadData tableName="krim_entity_nm_t" file="ole-inst/persons/krim_entity_nm_t.csv"/>
     </changeSet>
     -->
-    <!-- not created by bootstrap -->
+
     <!--
     <changeSet context="demo" author="ole" id="krim_entity_priv_pref_t">
         <loadData tableName="krim_entity_priv_pref_t" file="ole-inst/persons/krim_entity_priv_pref_t.csv"/>
     </changeSet>
     -->
+
     <!-- Created by bootstrap (i think) -->
     <!--
     <changeSet context="demo" author="ole" id="krim_entity_t">
@@ -424,12 +425,30 @@
     -->
     <!-- -->
     <!--  -->
+ 
     <changeSet context="demo" author="ole" id="krim_role_mbr_t">
         <loadData tableName="krim_role_mbr_t" file="ole-inst/roles/krim_role_mbr_t.csv"/>
     </changeSet>
+    <changeSet context="demo" author="ole" id="krim_role_mbr_id_s">
+        <loadData tableName="krim_role_mbr_id_s" file="ole-inst/roles/krim_role_mbr_id_s.csv"/>
+    </changeSet>
+
+    <!--
     <changeSet context="demo" author="ole" id="krim_pnd_role_mbr_mt">
         <loadData tableName="krim_pnd_role_mbr_mt" file="ole-inst/roles/krim_pnd_role_mbr_mt.csv"/>
     </changeSet>
+    <changeSet context="demo" author="ole" id="krim_pnd_role_mt">
+        <loadData tableName="krim_pnd_role_mt" file="ole-inst/roles/krim_pnd_role_mt.csv"/>
+    </changeSet>
+    -->
+    <!--
+    <changeSet context="demo" author="ole" id="krim_rsp_attr_data_t">
+        <loadData tableName="krim_rsp_attr_data_t" file="ole-inst/roles/krim_rsp_attr_data_t.csv"/>
+    </changeSet>
+    <changeSet context="demo" author="ole" id="krim_perm_attr_data_t">
+        <loadData tableName="krim_perm_attr_data_t" file="ole-inst/roles/krim_perm_attr_data_t.csv"/>
+    </changeSet>
+    -->
 
     <!--  -->
     <changeSet context="demo" author="ole" id="ole_krms_typ_t">
