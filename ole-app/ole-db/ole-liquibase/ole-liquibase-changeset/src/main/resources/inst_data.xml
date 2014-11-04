@@ -305,10 +305,15 @@
     </changeSet>
 
     <!-- this maps the affiliate 'affiliate' to the ole-quickstart account -->
+    <!-- When adding to this table, be sure to increment the _s table -->
+    
     <changeSet context="demo" author="ole" id="krim_entity_afltn_t">
         <loadData tableName="krim_entity_afltn_t" file="ole-inst/persons/krim_entity_afltn_t.csv"/>
     </changeSet>
-
+    <changeSet context="demo" author="ole" id="krim_entity_afltn_id_s">
+        <loadData tableName="krim_entity_afltn_id_s" file="ole-inst/persons/krim_entity_afltn_id_s.csv"/>
+    </changeSet>
+    
     <!-- Created by bootstrap (i think) -->
     <!--
     <changeSet context="demo" author="ole" id="krim_entity_email_t">
@@ -316,11 +321,15 @@
     </changeSet>
     -->
     <!-- Staff attributes -->
-    <!-- removed temporarily
+
+    <!-- When adding to this table, be sure to increment the _s table -->
     <changeSet context="demo" author="ole" id="krim_entity_emp_info_t">
         <loadData tableName="krim_entity_emp_info_t" file="ole-inst/persons/krim_entity_emp_info_t.csv"/>
     </changeSet>
-    -->
+    <changeSet context="demo" author="ole" id="krim_entity_emp_id_s">
+        <loadData tableName="krim_entity_emp_id_s" file="ole-inst/persons/krim_entity_emp_id_s.csv"/>
+    </changeSet>
+    
     <!-- Created by bootstrap (i think) -->
     <!--
     <changeSet context="demo" author="ole" id="krim_entity_ent_typ_t">
@@ -432,23 +441,6 @@
     <changeSet context="demo" author="ole" id="krim_role_mbr_id_s">
         <loadData tableName="krim_role_mbr_id_s" file="ole-inst/roles/krim_role_mbr_id_s.csv"/>
     </changeSet>
-
-    <!--
-    <changeSet context="demo" author="ole" id="krim_pnd_role_mbr_mt">
-        <loadData tableName="krim_pnd_role_mbr_mt" file="ole-inst/roles/krim_pnd_role_mbr_mt.csv"/>
-    </changeSet>
-    <changeSet context="demo" author="ole" id="krim_pnd_role_mt">
-        <loadData tableName="krim_pnd_role_mt" file="ole-inst/roles/krim_pnd_role_mt.csv"/>
-    </changeSet>
-    -->
-    <!--
-    <changeSet context="demo" author="ole" id="krim_rsp_attr_data_t">
-        <loadData tableName="krim_rsp_attr_data_t" file="ole-inst/roles/krim_rsp_attr_data_t.csv"/>
-    </changeSet>
-    <changeSet context="demo" author="ole" id="krim_perm_attr_data_t">
-        <loadData tableName="krim_perm_attr_data_t" file="ole-inst/roles/krim_perm_attr_data_t.csv"/>
-    </changeSet>
-    -->
 
     <!--  -->
     <changeSet context="demo" author="ole" id="ole_krms_typ_t">
