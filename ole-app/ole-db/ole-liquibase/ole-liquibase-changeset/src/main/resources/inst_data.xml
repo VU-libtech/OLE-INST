@@ -267,8 +267,12 @@
         <loadData tableName="OLE_LOCN_LEVEL_T" file="ole-inst/location/ole_locn_level_t.csv"/>
     </changeSet>
 
+    <!-- AUTO_INCREMENT=10000, we insert up to 10002 -->
     <changeSet context="demo" author="ole" id="OLE_LOCN_T">
         <loadData tableName="OLE_LOCN_T" file="ole-inst/location/ole_locn_t.csv"/>
+    </changeSet>
+    <changeSet context="demo" author="ole" id="OLE_LOCN_S">
+        <loadData tableName="OLE_LOCN_S" file="ole-inst/location/ole_locn_s.csv"/>
     </changeSet>
 
     <!--Delivery Addresses-->
@@ -388,11 +392,14 @@
         <loadData tableName="ole_authcat_typ_t" file="ole-inst/ole_authcat_typ_t.csv"/>
     </changeSet>
     -->
-
+    <!-- auto_increment=12 -->
     <changeSet context="demo" author="ole" id="ole_crcl_dsk_t">
         <loadData tableName="ole_crcl_dsk_t" file="ole-inst/ole_crcl_dsk_t.csv"/>
     </changeSet>
-
+    <changeSet context="demo" author="ole" id="ole_crcl_dsk_s">
+        <loadData tableName="ole_crcl_dsk_s" file="ole-inst/ole_crcl_dsk_s.csv"/>
+    </changeSet>
+    
     <changeSet context="demo" author="ole" id="ole_circ_dsk_dtl_t">
         <loadData tableName="ole_circ_dsk_dtl_t" file="ole-inst/ole_circ_dsk_dtl_t.csv"/>
     </changeSet>
@@ -442,11 +449,13 @@
         <loadData tableName="krim_role_mbr_id_s" file="ole-inst/roles/krim_role_mbr_id_s.csv"/>
     </changeSet>
 
-    <!--  -->
+    <!-- impex auto_increment = 10,000. _s table required. ** though i cannot find a UI to update these so this my be unnecessary -->
     <changeSet context="demo" author="ole" id="ole_krms_typ_t">
         <loadData tableName="krms_typ_t" file="ole-inst/krms_typ_t.csv"/>
     </changeSet>
-
+    <changeSet context="demo" author="ole" id="krms_typ_s">
+        <loadData tableName="krms_typ_s" file="ole-inst/krms_typ_s.csv"/>
+    </changeSet>
 
     <!-- EResource stuff -->
 
@@ -481,12 +490,16 @@
         <loadData tableName="ole_vndr_acc_info_t" file="ole-inst/ole_vndr_acc_info_t.csv"/>
     </changeSet>
     -->
+    <!-- auto_increment=24 -->
     <changeSet context="demo" author="ole" id="OLE_CRCL_DSK_LOCN_T">
         <loadData tableName="OLE_CRCL_DSK_LOCN_T" file="ole-inst/ole_crcl_dsk_locn_t.csv" />
     </changeSet>
-
+    <changeSet context="demo" author="ole" id="OLE_CRCL_DSK_LOCN_S">
+        <loadData tableName="OLE_CRCL_DSK_LOCN_S" file="ole-inst/ole_crcl_dsk_locn_s.csv" />
+    </changeSet>
 
     <!--Docstore Data-->
+    <!-- AUTO_INCREMENT=61 -->
     <changeSet context="demo" author="ole" id="ole_cat_itm_typ_t">
         <loadData tableName="ole_cat_itm_typ_t" file="ole-inst/docstore/ole_cat_itm_typ_t.csv" />
     </changeSet>
@@ -588,16 +601,19 @@
     -->
     <!-- Bibs, Holdings, Items -->
     <!-- -->
+    <!-- Note _s tables: auto_increment startes at 10000001 -->
     <changeSet context="demo" author="ole" id="ole_ds_bib_t">
         <loadData tableName="ole_ds_bib_t" file="ole-inst/bibs/ole_ds_bib_t.csv" />
     </changeSet>
     
-    <changeSet context="demo" author="ole" id="ole_ds_holdings_t">
-        <loadData tableName="ole_ds_holdings_t" file="ole-inst/bibs/ole_ds_holdings_t.csv" />
+    <!-- auto_increment not set, insert into _s table (max(holdings_id) = 1437993)-->
+    <changeSet context="demo" author="ole" id="ole_ds_holdings_s">
+        <loadData tableName="ole_ds_holdings_s" file="ole-inst/bibs/ole_ds_holdings_s.csv" />
     </changeSet>
     
-    <changeSet context="demo" author="ole" id="ole_ds_item_t">
-        <loadData tableName="ole_ds_item_t" file="ole-inst/bibs/ole_ds_item_t.csv" />
+    <!-- auto_increment not set, insert into _s table (max(holdings_id) = 1590709)-->
+    <changeSet context="demo" author="ole" id="ole_ds_item_s">
+        <loadData tableName="ole_ds_item_s" file="ole-inst/bibs/ole_ds_item_s.csv" />
     </changeSet>
 
 </databaseChangeLog>
