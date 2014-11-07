@@ -607,11 +607,17 @@
     </changeSet>
     
     <!-- auto_increment not set, insert into _s table (max(holdings_id) = 1437993)-->
+    <changeSet context="demo" author="ole" id="ole_ds_holdings_t">
+        <loadData tableName="ole_ds_holdings_t" file="ole-inst/bibs/ole_ds_holdings_t.csv" />
+    </changeSet>
     <changeSet context="demo" author="ole" id="ole_ds_holdings_s">
         <loadData tableName="ole_ds_holdings_s" file="ole-inst/bibs/ole_ds_holdings_s.csv" />
     </changeSet>
     
     <!-- auto_increment not set, insert into _s table (max(holdings_id) = 1590709)-->
+    <changeSet context="demo" author="ole" id="ole_ds_item_t">
+        <loadData tableName="ole_ds_item_t" file="ole-inst/bibs/ole_ds_item_t.csv" />
+    </changeSet>
     <changeSet context="demo" author="ole" id="ole_ds_item_s">
         <loadData tableName="ole_ds_item_s" file="ole-inst/bibs/ole_ds_item_s.csv" />
     </changeSet>
