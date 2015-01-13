@@ -48,27 +48,59 @@ public class OleRecallDueDateTypeService extends ActionTypeServiceBase {
             LoanProcessor loanProcessor = new LoanProcessor();
             DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
             Calendar calendar = Calendar.getInstance();
-            Date loanedDate  = (Date)dataCarrierService.getData(OLEConstants.LOANED_DATE);
-            Date loanDueDate=(Date)dataCarrierService.getData(OLEConstants.DUE_DATE);
-            if(loanedDate!=null && minimumLoanPeriod!=null && recallLoanPeriod!=null){
-                calendar.setTime(loanedDate);
-                Timestamp minimumLoanDueDate = calculateLoanDueDate(calendar,minimumLoanPeriod);
-                if(minimumLoanDueDate.compareTo(new Date())>0)   {
-                    recallDueDate = calculateLoanDueDate(calendar,recallLoanPeriod);
-                } else{
+            Date loanedDate = (Date) dataCarrierService.getData(OLEConstants.LOANED_DATE);
+            if (loanedDate != null && minimumLoanPeriod != null && recallLoanPeriod != null) {
+                Timestamp minimumLoanPeriodDate = calculateLoanDueDate(calendar, minimumLoanPeriod);
+                calendar = Calendar.getInstance();
+                Timestamp recallLoanPeriodDate = calculateLoanDueDate(calendar, recallLoanPeriod);
+                /**
+                 * If
+                 * minimumLoanPeriod > = recallLoanPeriod
+                 *
+                 * Then
+                 *
+                 * RecallDueDate = CurrentDate + recallLoanPeriod
+                 */
+                if (minimumLoanPeriodDate.compareTo(recallLoanPeriodDate) <= 0) {
                     calendar = Calendar.getInstance();
-                    recallDueDate = calculateLoanDueDate(calendar,recallLoanPeriod);
+                    recallDueDate = calculateLoanDueDate(calendar, recallLoanPeriod);
+                } else {
+                    /*
+                     * If
+                     * CurrentDate - LoanedDate >= minimumLoanPeriod - recallLoanPeriod ==>
+                     * CurrentDate + recallLoanPeriod >= minimumLoanPeriod + LoanedDate
+                     *
+                     * Then
+                     *
+                     * RecallDueDate = CurrentDate + recallLoanPeriod
+                     *
+                     * Else
+                     *
+                     * RecallDueDate = CurrentDate + [minimumLoanPeriod - (CurrentDate - LoanedDate)]
+                     *               = CurrentDate + minimumLoanPeriod - CurrentDate + LoanedDate
+                     *               = minimumLoanPeriod + LoanedDate
+                     */
+
+                    // CurrentDate + recallLoanPeriod
+                    calendar = Calendar.getInstance();
+                    Timestamp recallLoanPlusCurrentDate = calculateLoanDueDate(calendar, recallLoanPeriod);
+
+                    // minimumLoanPeriod + LoanedDate
+                    calendar.setTime(loanedDate);
+                    Timestamp minimumLoanPlusLoanedDate = calculateLoanDueDate(calendar, minimumLoanPeriod);
+
+                    if (recallLoanPlusCurrentDate.compareTo(minimumLoanPlusLoanedDate) >= 0) {
+                        recallDueDate = recallLoanPlusCurrentDate;
+                    } else {
+                        recallDueDate = minimumLoanPlusLoanedDate;
+                    }
+                    String defaultCloseTime = loanProcessor.getParameter(OLEParameterConstants.DEF_CLOSE_TIME);
+                    recallDueDate = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).
+                            format(recallDueDate).concat(" ").concat(defaultCloseTime));
                 }
-                String defaultCloseTime = loanProcessor.getParameter(OLEParameterConstants.DEF_CLOSE_TIME);
-                recallDueDate = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).
-                        format(recallDueDate).concat(" ").concat(defaultCloseTime));
-                if(recallDueDate!=null && loanDueDate!=null && recallDueDate.compareTo(loanDueDate)>=0){
-                    environment.getEngineResults().setAttribute(OLEConstants.RECALL_DUE_DATE,loanDueDate);
-                }else{
-                    environment.getEngineResults().setAttribute(OLEConstants.RECALL_DUE_DATE,recallDueDate);
-                }
-                LOG.info("minimumLoanPeriod---------->"+minimumLoanPeriod);
-                LOG.info("recallLoanPeriod---------->"+recallLoanPeriod);
+                environment.getEngineResults().setAttribute(OLEConstants.RECALL_DUE_DATE, recallDueDate);
+                LOG.info("minimumLoanPeriod---------->" + minimumLoanPeriod);
+                LOG.info("recallLoanPeriod---------->" + recallLoanPeriod);
             }
         }
 

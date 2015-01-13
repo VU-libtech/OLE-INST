@@ -15,6 +15,7 @@
  */
 package org.kuali.ole.select.service.impl;
 
+import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.batch.service.OleRequisitionCreateDocumentService;
 import org.kuali.ole.select.batch.service.impl.OleRequisitionCreateDocumentServiceImpl;
@@ -34,6 +35,14 @@ import java.util.Map;
 public class PopulateBibInfoServiceImpl implements PopulateBibInfoService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PopulateBibInfoServiceImpl.class);
     protected ConfigurationService kualiConfigurationService;
+    protected OlePurapService olePurapService;
+
+    public OlePurapService getOlePurapService() {
+        if (olePurapService == null) {
+            olePurapService = SpringContext.getBean(OlePurapService.class);
+        }
+        return olePurapService;
+    }
 
     @Override
     public String processBibInfoForCitation(String citationString, BibInfoBean bibInfoBean) throws Exception {
@@ -84,53 +93,52 @@ public class PopulateBibInfoServiceImpl implements PopulateBibInfoService {
      */
     private BibInfoBean setBibInfoDefaultValues(BibInfoBean bibInfoBean) throws Exception {
 
-        kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         // bibInfoBean.setIsbn(kualiConfigurationService.getPropertyValueAsString("isbn"));
-        bibInfoBean.setFinancialYear(kualiConfigurationService.getPropertyValueAsString("financialYear"));
-        bibInfoBean.setChartOfAccountsCode(kualiConfigurationService.getPropertyValueAsString("chartOfAccountsCode"));
-        bibInfoBean.setOrganizationCode(kualiConfigurationService.getPropertyValueAsString("organizationCode"));
-        bibInfoBean.setDocumentFundingSourceCode(kualiConfigurationService.getPropertyValueAsString("documentFundingSourceCode"));
-        bibInfoBean.setUseTaxIndicator(kualiConfigurationService.getPropertyValueAsString("useTaxIndicator") == "true" ? true : false);
-        bibInfoBean.setDeliveryCampusCode(kualiConfigurationService.getPropertyValueAsString("deliveryCampusCode"));
-        bibInfoBean.setDeliveryBuildingOtherIndicator(kualiConfigurationService.getPropertyValueAsString("deliveryBuildingOtherIndicator") == "true" ? true : false);
-        bibInfoBean.setDeliveryBuildingCode(kualiConfigurationService.getPropertyValueAsString("deliveryBuildingCode"));
-        bibInfoBean.setDeliveryBuildingLine1Address(kualiConfigurationService.getPropertyValueAsString("deliveryBuildingLine1Address"));
-        bibInfoBean.setDeliveryBuildingRoomNumber(kualiConfigurationService.getPropertyValueAsString("deliveryBuildingRoomNumber"));
-        bibInfoBean.setDeliveryCityName(kualiConfigurationService.getPropertyValueAsString("deliveryCityName"));
-        bibInfoBean.setDeliveryStateCode(kualiConfigurationService.getPropertyValueAsString("deliveryStateCode"));
-        bibInfoBean.setDeliveryPostalCode(kualiConfigurationService.getPropertyValueAsString("deliveryPostalCode"));
-        bibInfoBean.setDeliveryCountryCode(kualiConfigurationService.getPropertyValueAsString("deliveryCountryCode"));
-        bibInfoBean.setDeliveryToName(kualiConfigurationService.getPropertyValueAsString("deliveryToName"));
+        bibInfoBean.setFinancialYear(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.FIN_YEAR));
+        bibInfoBean.setChartOfAccountsCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.CHART_OF_ACC_CD));
+        bibInfoBean.setOrganizationCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.ORG_CODE));
+        bibInfoBean.setDocumentFundingSourceCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.FUND_SRC_CD));
+        bibInfoBean.setUseTaxIndicator(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.USE_TAX_IND) == "true" ? true : false);
+        bibInfoBean.setDeliveryCampusCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_CMPS_CD));
+        bibInfoBean.setDeliveryBuildingOtherIndicator(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_BLDNG_OTHR_IND) == "true" ? true : false);
+        bibInfoBean.setDeliveryBuildingCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_BLDNG_CD));
+        bibInfoBean.setDeliveryBuildingLine1Address(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_BLDNG_LN_ADDR));
+        bibInfoBean.setDeliveryBuildingRoomNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_BLDNG_ROOM_NBR));
+        bibInfoBean.setDeliveryCityName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_CITY_NM));
+        bibInfoBean.setDeliveryStateCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_STATE_CD));
+        bibInfoBean.setDeliveryPostalCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_POSTAL_CD));
+        bibInfoBean.setDeliveryCountryCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DLVR_CNTRY_CD));
+        bibInfoBean.setDeliveryToName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DELIVERY_TO_NAME));
 /*        bibInfoBean.setVendorCode(properties.getProperty("userName"));
         bibInfoBean.setVendorCustomerNumber(properties.getProperty("userName"));*/
-        bibInfoBean.setUom(kualiConfigurationService.getPropertyValueAsString("uom"));
-        bibInfoBean.setItemTypeCode(kualiConfigurationService.getPropertyValueAsString("itemTypeCode"));
-        bibInfoBean.setListprice(new Double(kualiConfigurationService.getPropertyValueAsString("listprice")));
-        bibInfoBean.setQuantity(new Long(kualiConfigurationService.getPropertyValueAsString("quantity")));
-        bibInfoBean.setPurchaseOrderTransmissionMethodCode(kualiConfigurationService.getPropertyValueAsString("purchaseOrderTransmissionMethodCode"));
-        bibInfoBean.setPurchaseOrderCostSourceCode(kualiConfigurationService.getPropertyValueAsString("purchaseOrderCostSourceCode"));
-        bibInfoBean.setRequestorPersonName(kualiConfigurationService.getPropertyValueAsString("requestorPersonName"));
-        bibInfoBean.setRequestorPersonPhoneNumber(kualiConfigurationService.getPropertyValueAsString("requestorPersonPhoneNumber"));
-        bibInfoBean.setRequestorPersonEmailAddress(kualiConfigurationService.getPropertyValueAsString("requestorPersonEmailAddress"));
-        bibInfoBean.setLocation(kualiConfigurationService.getPropertyValueAsString("location"));
-        bibInfoBean.setOrganizationAutomaticPurchaseOrderLimit(kualiConfigurationService.getPropertyValueAsString("organizationAutomaticPurchaseOrderLimit"));
-        bibInfoBean.setPurchaseOrderAutomaticIndicator(kualiConfigurationService.getPropertyValueAsString("purchaseOrderAutomaticIndicator") == "true" ? true : false);
-        bibInfoBean.setReceivingDocumentRequiredIndicator(kualiConfigurationService.getPropertyValueAsString("receivingDocumentRequiredIndicator") == "true" ? true : false);
-        bibInfoBean.setPaymentRequestPositiveApprovalIndicator(kualiConfigurationService.getPropertyValueAsString("paymentRequestPositiveApprovalIndicator") == "true" ? true : false);
+        bibInfoBean.setUom(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));
+        bibInfoBean.setItemTypeCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.ITEM_TYPE_CD));
+        bibInfoBean.setListprice(new Double(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.LIST_PRICE)));
+        bibInfoBean.setQuantity(new Long(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.QTY)));
+        bibInfoBean.setPurchaseOrderTransmissionMethodCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.PO_TRNS_MTH_CD));
+        bibInfoBean.setPurchaseOrderCostSourceCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.PO_CST_SRC_CD));
+        bibInfoBean.setRequestorPersonName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_NAME));
+        bibInfoBean.setRequestorPersonPhoneNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_PHONE_NUMBER));
+        bibInfoBean.setRequestorPersonEmailAddress(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_EMAIL_ADDRESS));
+        bibInfoBean.setLocation(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.LOCATION));
+        bibInfoBean.setOrganizationAutomaticPurchaseOrderLimit(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.ORG_PO_LMT));
+        bibInfoBean.setPurchaseOrderAutomaticIndicator(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.PURCHASE_ORDER_AUTOMATIC_INDICATIOR) == "true" ? true : false);
+        bibInfoBean.setReceivingDocumentRequiredIndicator(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.RCV_REQ_INT) == "true" ? true : false);
+        bibInfoBean.setPaymentRequestPositiveApprovalIndicator(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.PREQ_APPRL_INT) == "true" ? true : false);
         /*bibInfoBean.setChart(properties.getProperty("chart"));
         bibInfoBean.setAccountNumber(properties.getProperty("accountNumber"));
         bibInfoBean.setObjectCode(properties.getProperty("objectCode"));
         bibInfoBean.setPercent(new Long(properties.getProperty("percent")));*/
         if (LOG.isDebugEnabled()) {
-            LOG.debug("---------------Billing Name from property--------->" + kualiConfigurationService.getPropertyValueAsString("billingName"));
+            LOG.debug("---------------Billing Name from property--------->" + getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_NM));
         }
-        bibInfoBean.setBillingName(kualiConfigurationService.getPropertyValueAsString("billingName"));
-        bibInfoBean.setBillingCityName(kualiConfigurationService.getPropertyValueAsString("billingCityName"));
-        bibInfoBean.setBillingCountryCode(kualiConfigurationService.getPropertyValueAsString("billingCountryCode"));
-        bibInfoBean.setBillingLine1Address(kualiConfigurationService.getPropertyValueAsString("billingLine1Address"));
-        bibInfoBean.setBillingPhoneNumber(kualiConfigurationService.getPropertyValueAsString("billingPhoneNumber"));
-        bibInfoBean.setBillingPostalCode(kualiConfigurationService.getPropertyValueAsString("billingPostalCode"));
-        bibInfoBean.setBillingStateCode(kualiConfigurationService.getPropertyValueAsString("billingStateCode"));
+        bibInfoBean.setBillingName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_NM));
+        bibInfoBean.setBillingCityName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_CITY_NM));
+        bibInfoBean.setBillingCountryCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_CNTRY_CD));
+        bibInfoBean.setBillingLine1Address(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_LIN_ADDR));
+        bibInfoBean.setBillingPhoneNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_PHN_NBR));
+        bibInfoBean.setBillingPostalCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_POSTAL_CD));
+        bibInfoBean.setBillingStateCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_STATE_CD));
        /* bibInfoBean.setLicensingRequirementIndicator(kualiConfigurationService.getPropertyValueAsBoolean("licensingRequirementIndicator"));*/
         /*bibInfoBean.setLicensingRequirementCode(kualiConfigurationService.getPropertyValueAsString("licensingRequirementCode"));*/
         return bibInfoBean;

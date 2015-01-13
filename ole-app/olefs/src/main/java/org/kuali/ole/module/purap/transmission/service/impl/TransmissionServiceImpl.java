@@ -24,7 +24,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.module.purap.transmission.service.TransmissionService;
+import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 
@@ -36,6 +38,14 @@ import java.io.FileOutputStream;
  */
 public class TransmissionServiceImpl implements TransmissionService {
     private static Log LOG = LogFactory.getLog(TransmissionServiceImpl.class);
+    protected OlePurapService olePurapService;
+
+    public OlePurapService getOlePurapService() {
+        if (olePurapService == null) {
+            olePurapService = SpringContext.getBean(OlePurapService.class);
+        }
+        return olePurapService;
+    }
 
     @Override
     public void doSFTPUpload(String sftpHostname, String sftpUsername, String sftpPassword, String file, String fileName) {
@@ -118,7 +128,7 @@ public class TransmissionServiceImpl implements TransmissionService {
      * @return
      */
     public String getFileLocation() {
-        String fileLocation = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kualietl.vendordirectory");
+        String fileLocation = getOlePurapService().getParameter(OLEConstants.VENDOR_DIRECTORY);
         return fileLocation;
     }
 }

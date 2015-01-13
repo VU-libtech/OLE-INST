@@ -22,6 +22,7 @@ public class ExternalDataSourceConfig
     private String loginId;
     private String authKey;
     private String password;
+    private String databaseName;
 
     public Integer getId() {
         return id;
@@ -85,6 +86,14 @@ public class ExternalDataSourceConfig
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
     }
 
     /**

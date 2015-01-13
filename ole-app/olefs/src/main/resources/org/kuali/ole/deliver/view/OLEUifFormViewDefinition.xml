@@ -23,7 +23,7 @@
 
     <bean id="Uif-OLEFormView" abstract="true" parent="Uif-OLEFormView-parentBean"/>
     <bean id="Uif-OLEFormView-parentBean" abstract="true"
-          class="org.kuali.rice.krad.uif.view.FormView" parent="Uif-FormView">
+          class="org.kuali.ole.krad.OleFormView" parent="Uif-FormView">
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <bean parent="Uif-BreadcrumbItem">

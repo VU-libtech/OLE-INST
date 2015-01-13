@@ -1190,23 +1190,21 @@
         <section>
             <title>Patron</title>
             <para>Patron Sample Data - <link
-                xlink:href="../../../pdfs/basics-guide/sample-data/singlePatron.xml"
+                xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/singlePatron.xml"
                     >singlePatron.xml</link></para>
             <para>Patron Schema - <link
-                xlink:href="../../../../../docbook-filtered/basics-guide/sample-data/Patron v2.xsd.xml"
+                xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/Patron%20v2.xsd.xml"
                     >Patron v2.xsd.xml</link></para>
         </section>
         <section>
             <title>Circulation</title>
-            <para> Circulation loan policy - <link
-                xlink:href="../../../pdfs/sample-data/deliver.xml"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">Deliver.xml</link> (Not imported via
+            <para> Circulation loan policy - <link xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/deliver.xml">deliver.xml</link> (Not imported via
                 Batch Process but XML Import) </para>
         </section>
         <section>
             <title>Location</title>
             <para> Location Sample Data from IU - <link
-                xlink:href="/sample-data/iu librariesSampleLocations.xml"
+                xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/iu%20librariesSampleLocations.xml"
                     >iu librariesSampleLocations.xml</link>
             </para>
         </section>

@@ -361,6 +361,9 @@
                 <bean id="returnItemLocation" parent="Uif-DataField" p:label="Location" p:width="18%" p:propertyName="location">
 
                 </bean>
+                <bean id="returnItemLocationCode" parent="Uif-DataField" p:label="Location Code" p:width="18%" p:propertyName="oleLocationCode">
+
+                </bean>
                 <bean id="returnItemCallNumber" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="itemCallNumber">
 
                 </bean>

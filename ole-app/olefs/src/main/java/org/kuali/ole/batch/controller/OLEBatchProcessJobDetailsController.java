@@ -185,7 +185,12 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
             List<OLEBatchProcessDefinitionDocument> oleBatchProcessDefinitionDocumentList = (List<OLEBatchProcessDefinitionDocument>) getBusinessObjectService().findMatching(OLEBatchProcessDefinitionDocument.class, map);
             if (oleBatchProcessDefinitionDocumentList != null && oleBatchProcessDefinitionDocumentList.size() > 0) {
                 OLEBatchProcessDefinitionDocument oleBatchProcessDefinitionDocument = oleBatchProcessDefinitionDocumentList.get(0);
-                File file = new File(getBatchProcessFilePath(oleBatchProcessDefinitionDocument.getBatchProcessType() , jobDetailsBo.getJobId()) + jobDetailsBo.getJobId() + "_FailureRecord" + "_" + jobDetailsBo.getUploadFileName());
+                File file = null;
+                if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT)) {
+                    file = new File(getBatchProcessFilePath(oleBatchProcessDefinitionDocument.getBatchProcessType() , jobDetailsBo.getJobId()) + jobDetailsBo.getJobId() + OLEConstants.OLEBatchProcess.DELETED_BIB_IDS_FILE_NAME);
+                } else {
+                    file = new File(getBatchProcessFilePath(oleBatchProcessDefinitionDocument.getBatchProcessType() , jobDetailsBo.getJobId()) + jobDetailsBo.getJobId() + "_FailureRecord" + "_" + jobDetailsBo.getUploadFileName());
+                }
                 if (!file.exists() || !file.isFile()) {
                     throw new RuntimeException("Error: non-existent file or directory provided");
                 }

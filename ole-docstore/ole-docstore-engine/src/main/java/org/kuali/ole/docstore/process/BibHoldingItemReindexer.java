@@ -32,7 +32,7 @@ public class BibHoldingItemReindexer {
     BatchBibTreeDBUtil bibTreeUtil = new BatchBibTreeDBUtil();
 
 
-    public void index(int batchSize) throws Exception {
+    public void index(int batchSize, int startIndex, int endIndex) throws Exception {
 
         totalBatchStatistics.setStartTime(new Date());
 
@@ -40,7 +40,7 @@ public class BibHoldingItemReindexer {
 
         int count = 1;
 
-        bibTreeUtil.init();
+        bibTreeUtil.init(startIndex, endIndex);
 
         BibTrees bibTrees = bibTreeUtil.fetchNextBatch(batchSize, totalBatchStatistics);
 

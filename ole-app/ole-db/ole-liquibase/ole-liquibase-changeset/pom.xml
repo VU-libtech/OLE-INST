@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.ole</groupId>
-        <version>1.5.5-r20812</version>
+        <version>1.5.6.2</version>
         <artifactId>ole-liquibase</artifactId>
     </parent>
     <name>OLE Liquibase Changeset</name>
@@ -78,7 +78,7 @@
             <id>oracle</id>
             <properties>
                 <db.vendor>oracle</db.vendor>
-                <jdbc.url>jdbc:oracle:thin:@oracle.rice.kuali.org:1521:ORACLE</jdbc.url>
+                <jdbc.url>jdbc:oracle:thin:@oracle.ole.kuali.org:1521:OLE</jdbc.url>
                 <jdbc.driver>oracle.jdbc.driver.OracleDriver</jdbc.driver>
                 <sql.init>
                     ${oracle.liquibase.drop}

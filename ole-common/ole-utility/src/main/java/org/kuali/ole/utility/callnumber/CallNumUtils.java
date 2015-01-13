@@ -85,6 +85,7 @@ public final class CallNumUtils {
      * number. The number may be followed immediately (i.e. without space) by
      * letters, or followed first by a space and then letters.
      */
+    public static final String DEWEY_MIN_CUTTER_LETTER_REGEX = "[A-Z]";
     public static final String DEWEY_MIN_CUTTER_REGEX = "[A-Z]\\d{1,3}";
     public static final String DEWEY_CUTTER_TRAILING_LETTERS_REGEX = DEWEY_MIN_CUTTER_REGEX + "[A-Z]+";
     public static final String DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX = DEWEY_MIN_CUTTER_REGEX + " +[A-Z]+";
@@ -527,12 +528,14 @@ public final class CallNumUtils {
         String regex4 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_CUTTER_TRAILING_LETTERS_REGEX + ")(.*)";
         String regex5 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_MIN_CUTTER_REGEX + ")(.*)";
         String regex6 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX + ")(.*)";
+        String regex7 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_MIN_CUTTER_LETTER_REGEX + ")(.*)";
         Pattern pat1 = Pattern.compile(regex1);
         Pattern pat2 = Pattern.compile(regex2);
         Pattern pat3 = Pattern.compile(regex3);
         Pattern pat4 = Pattern.compile(regex4);
         Pattern pat5 = Pattern.compile(regex5);
         Pattern pat6 = Pattern.compile(regex6);
+        Pattern pat7 = Pattern.compile(regex7);
 
         Matcher matcher = pat1.matcher(rawCallnum);
         if (!matcher.find()) {
@@ -572,6 +575,11 @@ public final class CallNumUtils {
                     matcher = pat6.matcher(rawCallnum);
                     if (matcher.find())
                         result = matcher.group(2);
+                    else {
+                        matcher = pat7.matcher(rawCallnum);
+                        if (matcher.find())
+                            result = matcher.group(2);
+                    }
                 }
             }
         }
@@ -604,12 +612,14 @@ public final class CallNumUtils {
             String regex4 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_CUTTER_TRAILING_LETTERS_REGEX + ")(.*)";
             String regex5 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_MIN_CUTTER_REGEX + ")(.*)";
             String regex6 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_CUTTER_SPACE_TRAILING_LETTERS_REGEX + ")(.*)";
+            String regex7 = DEWEY_CLASS_REGEX + " *\\.?(" + DEWEY_MIN_CUTTER_LETTER_REGEX + ")(.*)";
             Pattern pat1 = Pattern.compile(regex1);
             Pattern pat2 = Pattern.compile(regex2);
             Pattern pat3 = Pattern.compile(regex3);
             Pattern pat4 = Pattern.compile(regex4);
             Pattern pat5 = Pattern.compile(regex5);
             Pattern pat6 = Pattern.compile(regex6);
+            Pattern pat7 = Pattern.compile(regex7);
 
             Matcher matcher = pat1.matcher(rawCallnum);
             if (!matcher.find()) {
@@ -622,6 +632,9 @@ public final class CallNumUtils {
                             matcher = pat5.matcher(rawCallnum);
                             if (!matcher.find()) {
                                 matcher = pat6.matcher(rawCallnum);
+                                if(!matcher.find()){
+                                    matcher = pat7.matcher(rawCallnum);
+                                }
                             }
                         }
                     }

@@ -3,6 +3,8 @@ package org.kuali.ole.deliver;
 import org.apache.log4j.Logger;
 import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.describe.form.EditorForm;
+import org.kuali.ole.krad.OleComponent;
+import org.kuali.ole.krad.OleComponentUtils;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -139,6 +141,22 @@ public class OleGroup extends Group {
         }
     }
 
-
+	/**
+	 * Filters {@link OleComponent} instances based on
+	 * {@link OleComponent#getFilterModelProperty()}, if the current model is
+	 * available.
+	 */
+	@Override
+	protected <T> void copyProperties(T component) {
+		List<? extends Component> srcitems = getItems();
+		
+		// prevent super() from copying items
+		setItems(null);
+		super.copyProperties(component);
+		setItems(srcitems);
+		
+		Group groupCopy = (Group) component;
+		groupCopy.setItems(OleComponentUtils.filterItems(srcitems));
+	}
 
 }

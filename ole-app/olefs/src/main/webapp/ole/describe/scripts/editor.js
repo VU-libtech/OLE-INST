@@ -385,21 +385,15 @@ jq(document).ready(function () {
                 else {
                     var selectedNode = jq.jstree._focused().get_selected();
                     if (checkHoldingsOrItemNode(selectedNode) == "HOLDINGS") {
-                        jq('#hdnDocCat_control').val("work");
-                        jq('#hdnDocType_control').val("holdings");
-                        jq('#hdnDocFormat_control').val("oleml");
+
                         var id = selectedNode.attr("class").split(' ')[0];
                         if (id.indexOf('w') == 0) {
-                            jq('#hiddenDocId_control').val(selectedNode.attr("class").split(' ')[0]);
-                            viewHoldingsEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenDocId_control').val(),jq('#hdnEditable_control').val());
+                           viewHoldingsEdit(id,jq('#hiddenBibId_control').val(),id,jq('#hdnEditable_control').val());
                             //submitForm('load', null, null, null, null);
                         }
                     }
                     if (checkHoldingsOrItemNode(selectedNode) == "ITEM") {
 
-                        jq('#hdnDocCat_control').val("work");
-                        jq('#hdnDocType_control').val("item");
-                        jq('#hdnDocFormat_control').val("oleml");
 
                         if (selectedNode.attr("class").split(' ').length > 2) {
                             jq('#hiddenDocId_control').val(selectedNode.attr("class").split(' ')[0]);
@@ -433,16 +427,16 @@ jq(document).ready(function () {
                         }
                     }
                     if (checkHoldingsOrItemNode(selectedNode) == "eHoldings") {
-                        jq('#hdnDocCat_control').val("work");
-                        jq('#hdnDocType_control').val("eHoldings");
-                        jq('#hdnDocFormat_control').val("oleml");
-                        jq('#hiddenDocId_control').val(selectedNode.attr("class").split(' ')[0]);
-                        viewEHoldingsEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenDocId_control').val(),jq('#hdnEditable_control').val());
+
+                        var id = selectedNode.attr("class").split(' ')[0];
+                        viewEHoldingsEdit(id,jq('#hiddenBibId_control').val(),id,jq('#hdnEditable_control').val());
                         //submitForm('load', null, null, null, function () {
                         //jq("#Editor_Footer").hide();
                         // });
                     }
-
+                    var current =jq('#hiddenDocId_control').val();
+                    jq('#holdingsItemTree_tree').jstree('deselect_all');
+                    jq('#holdingsItemTree_tree').jstree('select_node', '.'+current);
                 }
             });
     });
@@ -461,344 +455,6 @@ jq(document).ready(function () {
             }
         }
     }
-
-    /*    */
-    /*jq(".addInstance").click(function () {
-     //       alert("Inside add instance");
-     var bibId = jq(this).attr("id").split("_")[0];
-     var category = jq(this).attr("id").split("_")[1];
-     var type = jq(this).attr("id").split("_")[2];
-     var format = jq(this).attr("id").split("_")[3];
-     var exist = true;
-     jq('#hiddenDocId_control').val("");
-     jq('#hdnDocCat_control').val(category);
-     jq('#hdnDocType_control').val(type);
-     jq('#hdnDocFormat_control').val(format);
-     jq('#existing_control').val(exist);
-     jq('#hiddenBibId_control').val(bibId);
-     //        jq('#hiddenButton').focus().click();
-     submitForm('load', null, null, null, null);
-
-
-     });
-
-     jq(".deleteBib").click(function () {
-     //        alert("Inside delete bib");
-     var docId = jq(this).attr("id").split("_")[0];
-     var category = jq(this).attr("id").split("_")[1];
-     var type = jq(this).attr("id").split("_")[2];
-     var format = jq(this).attr("id").split("_")[3];
-     var bibId = jq(this).attr("id").split("_")[4];
-     var exist = true;
-     //        alert(category + "\t" + type + "\t" + format)
-     jq('#hdnDocCat_control').val(category);
-     jq('#hdnDocType_control').val(type);
-     jq('#hdnDocFormat_control').val(format);
-     jq('#existing_control').val(exist);
-     jq('#hiddenDocId_control').val(docId);
-     jq('#hiddenBibId_control').val(bibId);
-     //        jq('#hdnDleteBib').focus().click();
-     submitForm('deleteVerify', null, null, null, null);
-     });
-
-     jq(".addItem").click(function () {
-     //        alert("Inside delete bib");
-     var docId = jq(this).attr("id").split("_")[0];
-     var category = jq(this).attr("id").split("_")[1];
-     var type = jq(this).attr("id").split("_")[2];
-     var format = jq(this).attr("id").split("_")[3];
-     var bibId = jq(this).attr("id").split("_")[4];
-     var exist = true;
-     jq('#hdnDocCat_control').val(category);
-     jq('#hdnDocType_control').val(type);
-     jq('#hdnDocFormat_control').val(format);
-     jq('#existing_control').val(exist);
-     jq('#hiddenDocId_control').val("");
-     jq('#hiddenHoldingsId_control').val(docId);
-     jq('#hiddenBibId_control').val(bibId);
-     //        jq('#hiddenButton').focus().click();
-     submitForm('load', null, null, null, null);
-
-     });
-
-
-     jq(".itemIdentifierClass").click(function(){
-     //        alert("Inside Item click");
-     var uuid = jq(this).attr("id").split("_")[0];
-     var category = jq(this).attr("id").split("_")[1];
-     var type = jq(this).attr("id").split("_")[2];
-     var format = jq(this).attr("id").split("_")[3];
-     var instanceId = jq(this).attr("id").split("_")[4];
-     var bibId = jq(this).attr("id").split("_")[5];
-     var exist = true;
-     //        alert("cat = "+category +"\t type = "+type+"\tformat = "+format +"\tinsId = "+ instanceId+"\tbibId = "+bibId);
-     jq('#hiddenUUID_control').val(uuid);
-     jq('#hdnDocCat_control').val(category);
-     jq('#hdnDocType_control').val(type);
-     jq('#hdnDocFormat_control').val(format);
-     jq('#existing_control').val(exist);
-     jq('#hiddenHoldingsId_control').val(instanceId);
-     jq('#hiddenBibId_control').val(bibId);
-     jq('#hiddenDocId_control').val(uuid);
-     //        jq('#hiddenButton').focus().click();
-     submitForm('load', null, null, null, null);
-     });
-
-     jq(".holdingIdentifierClass").click(function(){
-     //        alert("Inside Holding click");
-     var uuid = jq(this).attr("id").split("_")[0];
-     var category = jq(this).attr("id").split("_")[1];
-     var type = jq(this).attr("id").split("_")[2];
-     var format = jq(this).attr("id").split("_")[3];
-     var bibId = jq(this).attr("id").split("_")[4];
-     var exist = true;
-     jq('#hiddenUUID_control').val(uuid);
-     jq('#hdnDocCat_control').val(category);
-     jq('#hdnDocType_control').val(type);
-     jq('#hdnDocFormat_control').val(format);
-     jq('#existing_control').val(exist);
-     jq('#hiddenDocId_control').val(uuid);
-     jq('#hiddenBibId_control').val(bibId);
-     //        jq('#hiddenButton').focus().click();
-     submitForm('load', null, null, null, null);
-     });
-
-     jq(".bibIdentifierClass").click(function () {
-     //        alert("Inside bibIdentifier click");
-     var bibId = jq(this).attr("id").split("_")[0];
-     var category = jq(this).attr("id").split("_")[1];
-     var type = jq(this).attr("id").split("_")[2];
-     var format = jq(this).attr("id").split("_")[3];
-     var exist = true;
-     jq('#hdnDocCat_control').val(category);
-     jq('#hdnDocType_control').val(type);
-     jq('#hdnDocFormat_control').val(format);
-     jq('#existing_control').val(exist);
-     jq('#hiddenDocId_control').val(bibId);
-     //        jq('#hiddenButton').focus().click();
-     submitForm('load', null, null, null, null);
-     });*/
-    /*
-
-     jq('#rightClick').bind('contextmenu',function(e){
-     var cmenu = jq(this).next();
-     jq('<div class="overlay"></div>').css({left : '0px', top : '0px',position: 'absolute', width: '100%', height: '100%', zIndex: '100' }).click(function() {
-     jq(this).remove();
-     jq(cmenu.hide());
-     }).bind('contextmenu' , function(){return false;}).appendTo(document.body);
-     jq(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).show();
-
-     oncontextmenu= " return false";
-     });
-
-     jq('.vmenu .add_li').live('click',function() {
-     if( jq(this).children().size() == 1 ) {
-     // alert(jq(this).children().text());
-     newInstances++;
-     var exists = (jq('#ExistingRecordTreeNavigation_div ul li :contains("New Item")').length);
-     if (newInstances > 1 && exists > 0) {
-     //alert('Cannot create additional new item. Unsaved item exists.');
-     } else {
-     //                var holdingId = jq(this).attr("id");
-     jq()
-     var i = jq('#hdnIndex1').val()+1;
-     */
-    /*jq("#ExistingRecordTreeNavigation_div ul li:first").
-     append("<ul><li><a id='new_item' class='newItem'>New Item</a></li></ul>");*/
-    /*
-     jq(".bibIdentifierClass").after("<ul><li><a id='new_instance' class='newInstance'>New Instance</a></li></ul>"); //Revert this back to original
-     jq(".current").removeClass('current');
-     jq(".newInstance").addClass('current');
-     jq('#hdnAddInstance').focus().click();
-     }
-
-     jq('.vmenu').hide();
-     jq('.overlay').hide();
-     }
-     });
-
-     //delete bib
-     jq('.vmenu .delete_li').live('click',function() {
-     //  alert("in delete bib id is  "+ id)
-     // alert(jq(this).attr("id"))  ;
-     if( jq(this).children().size() == 1 ) {
-     // alert(jq(this).children().text());
-     newInstances--;
-     var exists = (jq('#ExistingRecordTreeNavigation_div ul li :contains("Delete Instance")').length);
-     if (newInstances < 1 && exists < 0) {
-     //alert('Cannot delete instance. Unsaved item exists.');
-     } else {
-     //                var holdingId = jq(this).attr("id");
-     jq()
-     var i = jq('#hdnIndex1').val()-1;
-     */
-    /*jq("#ExistingRecordTreeNavigation_div ul li:first").
-     append("<ul><li><a id='new_item' class='newItem'>New Item</a></li></ul>");*/
-    /*
-     jq(".holdingClass").after("<ul><li><a id='delete_instance' class='deleteInstance'>Delete Instance</a></li></ul>"); //Revert this back to original
-     jq(".current").removeClass('current');
-     jq(".deleteInstance").addClass('current');
-     jq('#hdnDeleteBibButton').focus().click();
-     }
-
-     jq('.vmenu').hide();
-     jq('.overlay').hide();
-     }
-     });
-
-     //delete item
-     jq('#itmMenu .delete_itm').live('click',function() {
-     //alert(" in delete item and id is "+ id);
-     // alert("jq(this).children().size() --------> " + jq(this).children().size())
-     //if( jq(this).children().size() == 1 ) {
-     //alert(" in 1st if " + jq(this).children().text());
-     //alert(" in delete item function " + id);
-     jq('#deleteItemId_attribute').val(id);
-     // alert(" after assigning id ");
-     newInstances--;
-     var exists = (jq('#ExistingRecordTreeNavigation_div ul li :contains("Delete Item")').length);
-     if (newInstances < 1 && exists < 0) {
-     alert('Cannot delete item. Unsaved item exists.');
-     } else {
-     //alert(" in else condition ");
-     var holdingId = jq(this).attr("id");
-     jq()
-     var i = jq('#hdnIndex1').val()-1;
-     */
-    /*jq("#ExistingRecordTreeNavigation_div ul li:first").
-     append("<ul><li><a id='new_item' class='newItem'>New Item</a></li></ul>");*/
-    /*
-     jq(".holdingClass").after("<ul><li><a id='delete_item' class='deleteItem'>Delete Item</a></li></ul>"); //Revert this back to original
-     jq(".current").removeClass('current');
-     jq(".deleteItem").addClass('current');
-     var uuid = jq(this).attr("id").split("_")[0];
-     var category = jq(this).attr("id").split("_")[1];
-     var type = jq(this).attr("id").split("_")[2];
-     var format = jq(this).attr("id").split("_")[3];
-     var instanceId = jq(this).attr("id").split("_")[4];
-     var bibId = jq(this).attr("id").split("_")[5];
-     var exist = true;
-     jq('#hiddenUUID').val(uuid);
-     jq('#hdnDocCat').val(category);
-     jq('#hdnDocType').val(type);
-     jq('#hdnDocFormat').val(format);
-     jq('#existing').val(exist);
-     jq('#hiddenHoldingsId').val(instanceId);
-     jq('#hiddenBibId').val(bibId);
-     jq('#hiddenDocId').val(uuid);
-     jq('#hdnDeleteItemButton').focus().click();
-     }
-
-     jq('.vmenu').hide();
-     jq('.overlay').hide();
-     //}
-     });
-
-     jq('.vmenu .inner_li span').live('click',function() {
-     //alert(jq(this).text());
-     jq('.vmenu').hide();
-     jq('.overlay').hide();
-     });
-
-     jq(".add_li ,delete_li, .sec_li, .inner_li span").hover(function () {
-     jq(this).css({backgroundColor: '#E0EDFE', cursor: 'pointer'});
-     if (jq(this).children().size() > 0) {
-     jq(this).find('.inner_li').show();
-     }
-     jq(this).css({cursor: 'default'});
-     }, function () {
-     jq(this).css('background-color', '#fff');
-     jq(this).find('.inner_li').hide();
-     });
-
-
-     jq("#navigation").treeview({
-     persist: "location",
-     collapsed: false,
-     unique: true
-     });
-
-
-
-     //Navigating to New Item data if 'New Item' selected in Left-Pane
-     jq(".newItem").live("click", function(){
-     jq(".current").removeClass('current');
-     jq(".newItem").addClass('current');
-     jq('#getNewItemData').focus().click();
-     });
-
-
-     jq('#rightClick').bind('contextmenu',function(e){
-     var cmenu = jq(this).next();
-     //alert("hai" + cmenu);
-     jq('<div class="overlay"></div>').css({left : '0px', top : '0px',position: 'absolute', width: '100%', height: '100%', zIndex: '100' }).click(function() {
-     jq(this).remove();
-     //jq(cmenu.hide());
-     jq(cmenu).hide();
-     }).bind('contextmenu' , function(){return false;}).appendTo(document.body);
-     jq(this).next().css({ left: e.pageX, top: e.pageY, zIndex: '101' }).show();
-
-     return false;
-     });
-
-
-     jq('.vmenu .add_li').live('click',function() {
-     if( jq(this).children().size() == 1 ) {
-     jq('.vmenu').hide();
-     jq('.overlay').hide();
-     }
-     });
-
-     jq('.vmenu .delete_li').live('click',function() {
-     if( jq(this).children().size() == 1 ) {
-     jq('.vmenu').hide();
-     jq('.overlay').hide();
-     }
-     });
-
-     jq('.itmMenu .delete_itm').live('click',function() {
-     if( jq(this).children().size() == 1 ) {
-     jq('.vmenu').hide();
-     jq('.overlay').hide();
-     }
-     });
-
-     */
-    /*
-     jq(".itemIdentifierClass").click(function(){
-     //alert(jq(this).attr("id"));
-     //jq('#hdnButton').focus().click();
-     var uuid = jq(this).attr("id").split("_")[0];
-     var index = jq(this).attr("id").split("_")[1];
-     //alert(index);
-     jq('#hdnUUID').val(uuid);
-     jq('#hdnIndex1').val(index);
-     //alert("Idx val-->" + jq('#hdnIndex1').val());
-     jq('#hdnButton').focus().click();
-     });
-     */
-    /*
-
-     jq(".itemIdentifierClass").bind("contextmenu", function(e) {
-     //alert(jq(this).attr("id"));
-     id = jq(this).attr("id");
-     //alert(" id in right click event----------->  " + id);
-     jq('#itmMenu').css({
-     top: e.pageY+'px',
-     left: e.pageX+'px'
-     }).show();
-     //jq('#hdnDeleteItemButton').focus().click();
-     return false;
-     });
-     jq('#itmMenu').click(function() {
-     //alert("1");
-     jq('#itmMenu').hide();
-     });
-     jq(document).click(function() {
-     //alert("2");
-     jq('#itmMenu').hide();
-     });     */
-
 
 });
 
@@ -996,6 +652,12 @@ jq(window).load(function () {
         if(id.indexOf("wio")!=-1){
             jq(this).attr("title","item");
         }
+             var current =jq('#hiddenDocId_control').val();
+             jq('#holdingsItemTree_tree').jstree('deselect_all');
+             if(current !=""){
+                 jq('#holdingsItemTree_tree').jstree('select_node', '.'+current);
+             }
+
     });
 
     if(jq("#hiddenGlobalEditFlag_control").val() == "true") {

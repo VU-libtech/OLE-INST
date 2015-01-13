@@ -48,7 +48,9 @@ public class EditorFormDataHandler {
                 if (bibTree != null && bibTree.getBib() != null) {
                     editorForm.setBibId(bibTree.getBib().getId());
                     if (bibTree.getHoldingsTrees() != null) {
+                        Collections.sort(bibTree.getHoldingsTrees());
                         for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
+                            Collections.sort(holdingsTree.getItems());
                             if (holdingsTree.getHoldings().getId() != null) {
                                 Holdings holdings = holdingsTree.getHoldings();
                                 if (holdings instanceof EHoldings) {

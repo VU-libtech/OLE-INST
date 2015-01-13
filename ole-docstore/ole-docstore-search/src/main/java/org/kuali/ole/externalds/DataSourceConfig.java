@@ -1,7 +1,5 @@
 package org.kuali.ole.externalds;
 
-import org.marc4j.MarcXmlReader;
-
 /**
  * Created by IntelliJ IDEA.
  * User: ND6967
@@ -18,11 +16,16 @@ public class DataSourceConfig {
     private String loginId;
     private String authKey;
     private String password;
+    private String databaseName;
 
 
     public void setAuthKey(String authKey) {
 
         this.authKey = authKey;
+    }
+
+    public String getAuthKey() {
+        return authKey;
     }
 
     public String getDesc() {
@@ -79,5 +82,13 @@ public class DataSourceConfig {
 
     public void setPortNum(String portNum) {
         this.portNum = portNum;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
     }
 }

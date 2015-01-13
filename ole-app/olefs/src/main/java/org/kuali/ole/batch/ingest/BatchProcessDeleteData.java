@@ -2,8 +2,10 @@ package org.kuali.ole.batch.ingest;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint;
 import org.kuali.ole.batch.impl.AbstractBatchProcess;
 import org.kuali.ole.batch.service.BatchProcessDeleteService;
+import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.marc4j.*;
 import org.marc4j.marc.Record;
@@ -59,7 +61,7 @@ public class BatchProcessDeleteData extends AbstractBatchProcess {
     protected void prepareForWrite() throws Exception {
         if (docBibIdsList != null && docBibIdsList.size() > 0) {
             if (processDef.getChunkSize() == 1000) {
-                String profileField = getProfileFiled();
+                String profileField = getProfileField();
                 if (profileField != null) {
                     int sucRecordCount = getBatchProcessDeleteService().performBatchDelete(docBibIdsList, profileField);
                     deleteBatchFile();
@@ -113,13 +115,16 @@ public class BatchProcessDeleteData extends AbstractBatchProcess {
 
     /**
      * this method return the match point profile field value
+     *
      * @return
      */
-    private String getProfileFiled() {
-        if (processDef.getBatchProcessProfileBo() != null && processDef.getBatchProcessProfileBo().getOleBatchProcessProfileBibMatchPointList() != null
-                && processDef.getBatchProcessProfileBo().getOleBatchProcessProfileBibMatchPointList().size() > 0) {
-            String profileField = processDef.getBatchProcessProfileBo().getOleBatchProcessProfileBibMatchPointList().get(0).getOleBibMatchPoint();
-            return profileField;
+    private String getProfileField() {
+        if (processDef.getBatchProcessProfileBo() != null) {
+            List<OLEBatchProcessProfileMatchPoint> bibMatchPointList = BatchBibImportUtil.buildMatchPointListByDataType(processDef.getBatchProcessProfileBo().getOleBatchProcessProfileMatchPointList(), org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode());
+            if (bibMatchPointList != null && bibMatchPointList.size() > 0) {
+                String profileField = bibMatchPointList.get(0).getMatchPoint();
+                return profileField;
+            }
         }
         return null;
     }
@@ -132,7 +137,7 @@ public class BatchProcessDeleteData extends AbstractBatchProcess {
      */
     public List getBatchDeleteBibIdsList(String fileContent) throws Exception {
 
-        String profileField = getProfileFiled();
+        String profileField = getProfileField();
         List matchBibIdsList = new ArrayList(0);
         totalCount = 0;
         if (profileField != null) {
@@ -236,7 +241,7 @@ public class BatchProcessDeleteData extends AbstractBatchProcess {
      ** @throws Exception
      */
     public void performBatchDelete() throws Exception {
-        String profileField = getProfileFiled();
+        String profileField = getProfileField();
         if (profileField != null) {
             // String failureRecords = "";
             int sucRecordCount = getBatchProcessDeleteService().performBatchDelete(deleteChunkBibIdsList, profileField);

@@ -104,6 +104,11 @@ public class BatchBibImportHelper {
                             // Add Bib Tree
                             bibTree = buildBibTree(bibRecord, profile);
                             setOperationAddToBibTreeList(DocstoreDocument.OperationType.CREATE, DocstoreDocument.OperationType.CREATE, DocstoreDocument.OperationType.CREATE, bibTree);
+                        } else if (matchingProfile.isBibNotMatched_discardBib()) {
+                            // Discard bib if no match found. New bib is set to bib tree with no operation and proceed.
+                            Bib bib = new Bib();
+                            bib.setMessage(OLEConstants.OLEBatchProcess.NO_MATCH_DISCARD_BIB);
+                            bibTree.setBib(bib);
                         }
                     } else {
                         // Match found
@@ -355,7 +360,7 @@ public class BatchBibImportHelper {
                 if (docType.equals(DocType.HOLDINGS.getCode())) {
                     processItem(bibRecord, matchedHoldings.getId(), oleBatchBibImportDataObjects, profile, matchingProfile, matchedHoldings, holdingsTree);
                 }
-                // Discard Holdinga and process Items
+                // Discard Holdings and process Items
             } else if (matchingProfile.isHoldingsMatched_discardHoldings()) {
                 if (docType.equals(DocType.HOLDINGS.getCode())) {
                     holdingsTree.setHoldings(matchedHoldings);
@@ -441,7 +446,7 @@ public class BatchBibImportHelper {
         boolean itemConstant = false;
         boolean holdingsConstant = false;
         boolean eHoldingsConstant = false;
-
+        // Checks in constants and defaults and if there is no data mapping making flag as true.
         for (OLEBatchProcessProfileConstantsBo oLEBatchProcessProfileConstantsBo : constantsMapping) {
             String docTypeConstant = oLEBatchProcessProfileConstantsBo.getDataType();
             if (docTypeConstant.equalsIgnoreCase(DocType.ITEM.getCode())) {
@@ -463,7 +468,7 @@ public class BatchBibImportHelper {
             }
         }
 
-
+        // If incoming file has single holdings
         if (holdingsDataFields.size() == 1 || holdingsConstant || eHoldingsConstant) {
             HoldingsTrees holdingsTrees = null;
 
@@ -624,6 +629,7 @@ public class BatchBibImportHelper {
         } else {
             Item matchedItem = null;
             if (itemDataFields.size() == 0) {
+                // If no data mapping, check in constants
                 matchedItem = findMatchingItem(profile, holdingId, bibRecord, null);
                 performMatchedItem(profile, matchingProfile, matchedHoldings, matchedItem, null, holdingsTree);
             } else {

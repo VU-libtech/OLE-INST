@@ -192,9 +192,10 @@
             <glossterm>AJAX</glossterm>
             <glossdef>
                 <para>AJAX, short for Asynchronous JAvascript + XML, is a group of interrelated Web
-                development techniques used on the client-side to create asynchronous web applications.
-                With AJAX, web applications can send data to, and retrieve data from, a server asynchronously
-                (in the background) without interfering with the display and behavior of the existing page.</para>
+                    development techniques used on the client-side to create asynchronous web
+                    applications. With AJAX, web applications can send data to, and retrieve data
+                    from, a server asynchronously (in the background) without interfering with the
+                    display and behavior of the existing page.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="allocations">
@@ -292,8 +293,8 @@
             <glossterm>API</glossterm>
             <glossdef>
                 <para>An Application Programming Interface (API) specifies a software component in
-                    terms of its operation, their inputs and outputs and underlying types. Its
-                    main purpose is to define a set of functionalities that are independent of their
+                    terms of its operation, their inputs and outputs and underlying types. Its main
+                    purpose is to define a set of functionalities that are independent of their
                     respective implementation, allowing both definition and implementation to vary
                     without compromising each other.</para>
             </glossdef>
@@ -435,7 +436,7 @@
             <glossdef>
                 <para>Authority that is given to designated Reviewers who can approve a document to
                     a chosen route point. A Blanket Approval bypasses approvals that would otherwise
-                    be required in the Routing.  For an authorized Reviewer, the E-document will
+                    be required in the Routing. For an authorized Reviewer, the E-document will
                     displays the Blanket Approval button along with the other options. When a
                     Blanket Approval is used, the Reviewers who are skipped are sent Acknowledge
                     requests to notify them that they were bypassed.</para>
@@ -1070,6 +1071,14 @@
                     may be added for "My OLE" to support user-configured preferences. </para>
             </glossdef>
         </glossentry>
+        <glossentry>
+            <glossterm>Deleted TIPP</glossterm>
+            <glossdef>
+                <para>A TIPP is deleted when it is recognized as an error that should not have
+                    existed in the first place.</para>
+                <glossseealso otherterm="TIPP">TIPP</glossseealso>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="delegate">
             <glossterm>Deletgate</glossterm>
             <glossdef>
@@ -1402,8 +1411,10 @@
             <glossterm>E-Instance</glossterm>
             <glossdef>
                 <para>E-Instance documents identify and describe electronic titles locally owned or
-                    licensed by libraries. They are the electronic counterpart to the OLE Instance
-                    record. Each e-instance belongs to a bib record.</para>
+                    licensed by libraries and as such contain unique information that cannot be
+                    captured by the global data provided by GOKb. They are the electronic
+                    counterpart to the OLE Instance record. Each e-instance belongs to a bib
+                    record.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="electronicDataInterchange">
@@ -1478,7 +1489,7 @@
             <glossdef>
                 <para>Electronic Order Confirmation Record. A typical case would be: a library
                     places orders with a vendor, and the vendor returns a file of order
-                    confirmations.  The file could contain bibliographic records, data to populate
+                    confirmations. The file could contain bibliographic records, data to populate
                     holdings and item records, and data to populate order records.</para>
             </glossdef>
         </glossentry>
@@ -1487,7 +1498,7 @@
             <glossdef>
                 <para>The E-Resource record provides a central place to store information about an
                     e-resource acquisition throughout its lifecycle. The E-resource may be linked to
-                    one or many OLE Instances.</para>
+                    one or many OLE E-Instances or print Instances.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="eventManager">
@@ -3266,8 +3277,8 @@
         <glossentry xml:id="POJO">
             <glossterm>POJO</glossterm>
             <glossdef>
-                <para>POJO is an acronym for Plain Old Java Object. The name is used to emphasize that a
-                given object is an ordinary Java object and not a special object.</para>
+                <para>POJO is an acronym for Plain Old Java Object. The name is used to emphasize
+                    that a given object is an ordinary Java object and not a special object.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="polaris">
@@ -3442,10 +3453,10 @@
         <glossentry xml:id="RDBMS">
             <glossterm>RDBMS (Relational Database Management System)</glossterm>
             <glossdef>
-                <para>The Relational Database Management System (RDBMS) is a database model that stores
-                    information about both the data and how it is related. Relationships exist both among
-                    the columns within a table and among the tables. Each database is a collection of
-                    related tables.</para>
+                <para>The Relational Database Management System (RDBMS) is a database model that
+                    stores information about both the data and how it is related. Relationships
+                    exist both among the columns within a table and among the tables. Each database
+                    is a collection of related tables.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="RDF">
@@ -3615,6 +3626,15 @@
                 <para>an OLE entity, a resource is an item that may be collected and/or made
                     available by an organization. Common examples of resources include books,
                     journals, maps, and websites</para>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>Retired TIPP</glossterm>
+            <glossdef>
+                <para>A TIPP is retired when it no longer has any content remaining in a Package.
+                    The retired status allows users to see that the TIPP used to be part of a
+                    certain package, but is no longer available.</para>
+                <glossseealso otherterm="TIPP">TIPP</glossseealso>
             </glossdef>
         </glossentry>
         <glossentry xml:id="return">
@@ -4005,12 +4025,12 @@
         <glossentry xml:id="SOAP">
             <glossterm>SOAP</glossterm>
             <glossdef>
-                <para>SOAP, originally defined as Simple Object Access Protocol, is a protocol specification
-                    for exchanging structured information in the implementation of web services in computer
-                    networks. It relies on XML information set for its message format, and usually relies on
-                    other application layer protocols, most notably Hypertext Transfer Protocol or Simple
-                    Mail Transfer Protocol, for message negotiation and transmission.
-                </para>
+                <para>SOAP, originally defined as Simple Object Access Protocol, is a protocol
+                    specification for exchanging structured information in the implementation of web
+                    services in computer networks. It relies on XML information set for its message
+                    format, and usually relies on other application layer protocols, most notably
+                    Hypertext Transfer Protocol or Simple Mail Transfer Protocol, for message
+                    negotiation and transmission. </para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="SOLR">
@@ -4270,10 +4290,11 @@
         <glossentry xml:id="UIF">
             <glossterm>UIF</glossterm>
             <glossdef>
-                <para>Built upon a rich JQuery library of Standards as part of KRAD, UIF (User Interface Framework),
-                    includes, Light boxes, Messages and Notifications, Progressive Disclosure, Client Side Validation,
-                    Table Tools, Themes and AJAX Enabled Fields and are no longer limited to the vertical tab
-                    layout of KNS.</para>
+                <para>Built upon a rich JQuery library of Standards as part of KRAD, UIF (User
+                    Interface Framework), includes, Light boxes, Messages and Notifications,
+                    Progressive Disclosure, Client Side Validation, Table Tools, Themes and AJAX
+                    Enabled Fields and are no longer limited to the vertical tab layout of
+                    KNS.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="uniformTitle">
@@ -4450,11 +4471,11 @@
             <glossterm>WSDL</glossterm>
             <glossdef>
                 <para>WSDL is an acronym for Web Services Description Language. It is an XML-based
-                    interface definition language that is used for describing the functionality offered
-                    by a web service. The acronym is also used for any specific WSDL description of a
-                    web service which provides a machine-readable description of how the service can
-                    be called, what parameters it expects and what data structures it returns.
-                </para>
+                    interface definition language that is used for describing the functionality
+                    offered by a web service. The acronym is also used for any specific WSDL
+                    description of a web service which provides a machine-readable description of
+                    how the service can be called, what parameters it expects and what data
+                    structures it returns. </para>
             </glossdef>
         </glossentry>
     </glossdiv>

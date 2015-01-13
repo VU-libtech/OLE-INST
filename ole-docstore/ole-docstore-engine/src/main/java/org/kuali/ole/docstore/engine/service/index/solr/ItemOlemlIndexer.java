@@ -492,10 +492,16 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         boolean isDocumentExists = false;
         SolrInputDocument solrInputDocumentExists = null;
         for (SolrInputDocument solrInputDocument : solrInputDocumentList) {
+            List<String> ids = new ArrayList<>();
             SolrInputField docType = solrInputDocument.get("DocType");
             if (docType.getValue().equals("holdings")) {
-                SolrInputField holdingsIds = solrInputDocument.get("itemIdentifier");
-                ArrayList<String> ids = (ArrayList<String>) holdingsIds.getValue();
+                SolrInputField itemIds = solrInputDocument.get("itemIdentifier");
+                Object object = itemIds.getValue();
+                if (object instanceof List) {
+                    ids.addAll((List) object);
+                } else {
+                    ids.add((String) object);
+                }
                 for (Object itemId : ids) {
                     if (itemId.equals(id)) {
                         solrInputDocumentExists = solrInputDocument;

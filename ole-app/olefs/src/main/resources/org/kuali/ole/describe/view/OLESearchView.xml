@@ -386,17 +386,17 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId" p:render="@{searchResultDisplayFields.localId}" p:width="150px"/>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
                       p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}">
-                    <property name="toolTip">
+                    <!--<property name="toolTip">
                         <bean parent="Uif-Tooltip" p:onFocus="true" p:tooltipContent="@{#line.titleDisplay}"/>
-                    </property>
-                      </bean>
+                    </property>-->
+                </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}"
                       p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
+                <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId" p:render="@{searchResultDisplayFields.localId}" p:width="150px"/>
                 <bean parent="Uif-DataField" p:label="Journal Title" p:propertyName="journalTitle" p:width="400px" p:render="@{searchResultDisplayFields.journalTitle}"/>
                 <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="200px" p:render="@{searchResultDisplayFields.author}"/>
                 <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:width="200px" p:render="@{searchResultDisplayFields.publisher}"/>
@@ -610,10 +610,11 @@
                 <bean parent="Uif-DataField" p:label="Donor Public" p:propertyName="donorPublic" p:render="@{searchResultDisplayFields.donorPublic}"/>
                 <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:render="@{searchResultDisplayFields.publisher}"/>
                 <bean parent="Uif-DataField" p:label="Holdings Note" p:propertyName="holdingsNote" p:render="@{searchResultDisplayFields.holdingsNote}"/>
-                <bean parent="Uif-DataField" p:label="ill" p:propertyName="ill" p:render="@{searchResultDisplayFields.ill}"/>
+                <bean parent="Uif-DataField" p:label="ILL" p:propertyName="ill" p:render="@{searchResultDisplayFields.ill}"/>
                 <bean parent="Uif-DataField" p:label="Imprint" p:propertyName="imprint" p:render="@{searchResultDisplayFields.imprint}"/>
                 <bean parent="Uif-DataField" p:label="Item Part" p:propertyName="itemPart" p:render="@{searchResultDisplayFields.itemPart}"/>
                 <bean parent="Uif-DataField" p:label="Link Text" p:propertyName="linkText" p:render="@{searchResultDisplayFields.linkText}"/>
+                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:render="@{searchResultDisplayFields.location}"/>
                 <bean parent="Uif-DataField" p:label="Location Level" p:propertyName="locationLevel" p:render="@{searchResultDisplayFields.locationLevel}"/>
                 <bean parent="Uif-DataField" p:label="Location Level Name" p:propertyName="locationLevelName" p:render="@{searchResultDisplayFields.locationLevelName}"/>
                 <bean parent="Uif-DataField" p:label="Number Of Simultaneous Uses" p:propertyName="numberOfSimultaneousUses" p:render="@{searchResultDisplayFields.numberOfSimultaneousUses}"/>
@@ -624,11 +625,11 @@
                 <bean parent="Uif-DataField" p:label="Donor Info" p:propertyName="publicNote" p:render="@{searchResultDisplayFields.publicNote}"/>
                 <bean parent="Uif-DataField" p:label="ReceiptStatus" p:propertyName="receiptStatus" p:render="@{searchResultDisplayFields.receiptStatus}"/>
                 <bean parent="Uif-DataField" p:label="Shelving Order Code" p:propertyName="shelvingOrderCode" p:render="@{searchResultDisplayFields.shelvingOrderCode}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Scheme Code" p:propertyName="shelvingSchemeCode" p:render="@{searchResultDisplayFields.shelvingSchemeCode}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Scheme Value" p:propertyName="shelvingSchemeValue" p:render="@{searchResultDisplayFields.shelvingSchemeValue}"/>
+                <bean parent="Uif-DataField" p:label="Call Number Type Code" p:propertyName="shelvingSchemeCode" p:render="@{searchResultDisplayFields.shelvingSchemeCode}"/>
+                <bean parent="Uif-DataField" p:label="Call Number Type Value" p:propertyName="shelvingSchemeValue" p:render="@{searchResultDisplayFields.shelvingSchemeValue}"/>
                 <bean parent="Uif-DataField" p:label="Subscription" p:propertyName="subscription" p:render="@{searchResultDisplayFields.subscription}"/>
                 <bean parent="Uif-DataField" p:label="Url" p:propertyName="url" p:render="@{searchResultDisplayFields.url}"/>
-                <bean parent="Uif-DataField" p:label="Statisctical Code" p:propertyName="statisticalCode" p:render="@{searchResultDisplayFields.statisticalCode}"/>
+                <bean parent="Uif-DataField" p:label="Statistical Code" p:propertyName="statisticalCode" p:render="@{searchResultDisplayFields.statisticalCode}"/>
 
             </list>
         </property>

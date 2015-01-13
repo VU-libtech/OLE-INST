@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.kuali.ole</groupId>
         <artifactId>ole</artifactId>
-        <version>1.5.5-r20812</version>
+        <version>1.5.6.2</version>
     </parent>
     <artifactId>ole-common</artifactId>
     <name>OLE Common</name>

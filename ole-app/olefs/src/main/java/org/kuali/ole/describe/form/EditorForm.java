@@ -898,6 +898,10 @@ public class EditorForm extends UifFormBase {
     public void setShowLeftTree(boolean showLeftTree) {
         this.showLeftTree = showLeftTree;
     }
+    
+    public boolean isFilterControlFields() {
+    	return !"true".equals(editable);
+    }
 
     public String getDisplayField006() {
         return displayField006;
@@ -907,6 +911,10 @@ public class EditorForm extends UifFormBase {
         this.displayField006 = displayField006;
     }
 
+    public boolean isFilterField006() {
+    	return isFilterControlFields() || !"true".equals(displayField006);
+    }
+    
     public String getDisplayField007() {
         return displayField007;
     }
@@ -915,6 +923,10 @@ public class EditorForm extends UifFormBase {
         this.displayField007 = displayField007;
     }
 
+    public boolean isFilterField007() {
+    	return isFilterControlFields() || !"true".equals(displayField007);
+    }
+    
     public String getDisplayField008() {
         return displayField008;
     }
@@ -923,6 +935,10 @@ public class EditorForm extends UifFormBase {
         this.displayField008 = displayField008;
     }
 
+    public boolean isFilterField008() {
+    	return isFilterControlFields() || !"true".equals(displayField008);
+    }
+    
     public boolean isShowClose() {
         return showClose;
     }

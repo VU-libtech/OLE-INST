@@ -2305,7 +2305,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
             Timestamp recallDueDate = (Timestamp) engineResult.getAttribute(OLEConstants.RECALL_DUE_DATE);
             String notice = (String) engineResult.getAttribute(OLEConstants.NOTICE);
             oleDeliverRequestBo.setNoticeType(notice);
-            if (recallDueDate != null && oleLoanDocument.getLoanDueDate()!=null && oleLoanDocument.getLoanDueDate().compareTo(recallDueDate) > 0) {
+            if (recallDueDate != null && oleLoanDocument.getLoanDueDate()!=null) {
                 oleLoanDocument.setLoanDueDate(recallDueDate);
                 oleDeliverRequestBo.setRecallDueDate(recallDueDate);
                 getBusinessObjectService().save(oleLoanDocument);

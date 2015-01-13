@@ -11,19 +11,27 @@ import java.io.Serializable;
 public class BibInfoRecord  extends PersistableBusinessObjectBase
         implements Serializable {
 
-    private String bibId;
-
+    private int bibId;
+    private String bibIdStr;
     private String title;
     private String author;
     private String publisher;
     private String isxn;
 
-    public String getBibId() {
+    public int getBibId() {
         return bibId;
     }
 
-    public void setBibId(String bibId) {
+    public void setBibId(int bibId) {
         this.bibId = bibId;
+    }
+
+    public String getBibIdStr() {
+        return bibIdStr;
+    }
+
+    public void setBibIdStr(String bibIdStr) {
+        this.bibIdStr = bibIdStr;
     }
 
     public String getTitle() {

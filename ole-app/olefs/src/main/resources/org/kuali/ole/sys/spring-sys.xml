@@ -64,6 +64,7 @@
                 <value>weeklyEmailJob</value>
                 <value>modulesLockJob</value>
 				<value>modulesUnlockJob</value>
+				<value>actionListBatchJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -1029,7 +1030,19 @@
 		<property name="lockModuleService" ref="lockModuleService" />
 		<property name="lockModule" value="false" />
 	</bean>
-	
+
+
+    <bean id="actionListBatchJob" parent="actionListBatchJob-parentBean"/>
+    <bean id="actionListBatchJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+       <property name="steps">
+           <list>
+               <ref bean="actionListBatchJobStep"/>
+           </list>
+       </property>
+    </bean>
+
+    <bean id="actionListBatchJobStep" class="org.kuali.ole.sys.context.ActionListBatchProcessor" parent="step"/>
+
 	<bean id="lockModuleService" parent="lockModuleService-parentBean"/>
 	<bean id="lockModuleService-parentBean" class="org.kuali.ole.sys.batch.service.impl.LockModuleServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />

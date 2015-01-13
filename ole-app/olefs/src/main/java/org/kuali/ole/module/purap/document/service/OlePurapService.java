@@ -75,4 +75,6 @@ public interface OlePurapService {
 
     public String setDocumentDescription(String description,Map descMap);
 
+    public String getItemDescription(OlePurchaseOrderItem olePurchaseOrderItem);
+
 }

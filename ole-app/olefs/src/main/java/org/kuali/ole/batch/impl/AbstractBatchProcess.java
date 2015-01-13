@@ -336,7 +336,7 @@ public abstract class AbstractBatchProcess implements OLEBatchProcess {
 
     protected void createFile(String[] content) throws Exception {
 
-        getOLEBatchProcessDataHelper().createFile(content, processDef.getBatchProcessType(), "Deleted_Bibs.txt",job.getJobId());
+        getOLEBatchProcessDataHelper().createFile(content, processDef.getBatchProcessType(), job.getJobId() + OLEConstants.OLEBatchProcess.DELETED_BIB_IDS_FILE_NAME, job.getJobId());
     }
 
     /**

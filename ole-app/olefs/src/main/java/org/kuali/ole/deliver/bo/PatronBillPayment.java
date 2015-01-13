@@ -61,7 +61,9 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     }
 
     public String getPatronName() {
-        this.patronName = olePatron.getEntity().getNames().get(0).getFirstName() + " " + olePatron.getEntity().getNames().get(0).getLastName();
+        if(olePatron!=null){
+            this.patronName = olePatron.getEntity().getNames().get(0).getFirstName() + " " + olePatron.getEntity().getNames().get(0).getLastName();
+        }
         return patronName;
     }
 

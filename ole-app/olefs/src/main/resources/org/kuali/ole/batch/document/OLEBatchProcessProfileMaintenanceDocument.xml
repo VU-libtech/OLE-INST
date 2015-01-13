@@ -202,7 +202,7 @@
     </bean>
 
 
-    <bean id="OLEBatchProcessProfileBo-MaintenanceView-holdingMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Delete'}">
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-holdingMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">
         <property name="headerText" value="Holding Match Points" />
         <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />
@@ -239,7 +239,7 @@
             </list>
         </property>
     </bean>
-    <bean id="OLEBatchProcessProfileBo-MaintenanceView-itemMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Delete'}">
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-itemMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">
         <property name="headerText" value="Item Match Points" />
         <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />
@@ -276,7 +276,7 @@
     </bean>
 
 
-    <bean id="OLEBatchProcessProfileBo-MaintenanceView-eHoldingMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Delete'}">
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-eHoldingMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">
         <property name="headerText" value="Eholding Match Points" />
         <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />

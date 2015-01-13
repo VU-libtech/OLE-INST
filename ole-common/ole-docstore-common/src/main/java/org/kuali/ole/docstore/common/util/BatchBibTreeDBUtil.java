@@ -98,7 +98,14 @@ public class BatchBibTreeDBUtil {
            this.isStaffOnly=isStaffOnly;
    }
 
-    public void init() throws SQLException {
+    public void init(int startIndex, int endIndex) throws SQLException {
+
+        if(startIndex != 0 && endIndex != 0) {
+            bibQuery = "SELECT * FROM OLE_DS_BIB_T WHERE BIB_ID BETWEEN " + startIndex + " AND " + endIndex +" ORDER BY BIB_ID";
+        }
+        else {
+            bibQuery = "SELECT * FROM OLE_DS_BIB_T ORDER BY BIB_ID";
+        }
         if(!isStaffOnly){
             bibQuery = bibStaffOnly;
             holdingsQuery =  holdingsQuery + staffOnlyHoldings;
@@ -134,12 +141,13 @@ public class BatchBibTreeDBUtil {
 
         itemPreparedStatement = itemConnection.prepareStatement(itemQuery);
 
-        String insertQuery = "INSERT INTO OLE_DS_BIB_INFO_T VALUES (?,?,?,?,?)";
+        String insertQuery = "INSERT INTO OLE_DS_BIB_INFO_T(BIB_ID, BIB_ID_STR, TITLE, AUTHOR, PUBLISHER, ISXN) VALUES (?,?,?,?,?,?)";
         bibInsertPreparedStatement = connection.prepareStatement(insertQuery);
 
-        String updateQuery = "UPDATE OLE_DS_BIB_INFO_T SET TITLE=?, AUTHOR=?, PUBLISHER=?, ISXN=? WHERE BIB_ID=?";
+        String updateQuery = "UPDATE OLE_DS_BIB_INFO_T SET TITLE=?, AUTHOR=?, PUBLISHER=?, ISXN=?, BIB_ID_STR=? WHERE BIB_ID=?";
         bibUpdatePreparedStatement = connection.prepareStatement(updateQuery);
 
+//        bibRangeStatement = connection.prepareStatement(bibRangeQuery);
     }
 
 
@@ -435,8 +443,11 @@ public class BatchBibTreeDBUtil {
             bib.setStaffOnly((bibResultSet.getString("STAFF_ONLY").equalsIgnoreCase("Y") ? Boolean.TRUE : Boolean.FALSE));
         }
         bib.setContent(bibResultSet.getString("CONTENT"));
-        bib.setUpdatedBy(bibResultSet.getString("STATUS_UPDATED_BY"));
-        bib.setUpdatedOn(bibResultSet.getString("STATUS_UPDATED_DATE"));
+        bib.setUpdatedBy(bibResultSet.getString("UPDATED_BY"));
+        bib.setUpdatedOn(bibResultSet.getString("DATE_UPDATED"));
+        bib.setStatus(bibResultSet.getString("STATUS"));
+        bib.setStatusUpdatedBy(bibResultSet.getString("STATUS_UPDATED_BY"));
+        bib.setStatusUpdatedOn(bibResultSet.getString("STATUS_UPDATED_DATE"));
         bib.setLastUpdated(bibResultSet.getString("DATE_UPDATED"));
         String uuid = bibResultSet.getString("UNIQUE_ID_PREFIX") + "-" + bibResultSet.getString(1);
         bib.setId(uuid);
@@ -925,59 +936,75 @@ public class BatchBibTreeDBUtil {
         while (bibResultSet.next()) {
             count++;
 
-            BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(bibResultSet.getString("CONTENT"));
+            int bibId = 0;
+            int bibId2 = 0;
+            String bibIdStr = "";
 
-            if(bibMarcRecords != null && bibMarcRecords.getRecords() != null && bibMarcRecords.getRecords().size() > 0) {
 
-                Map<String, String> dataFields = bibMarcUtil.buildDataValuesForBibInfo(bibMarcRecords.getRecords().get(0));
-                String bibId = bibResultSet.getString("UNIQUE_ID_PREFIX")  + "-"  +  bibResultSet.getString(1);
-                String title = dataFields.get(BibMarcUtil.TITLE_DISPLAY);
-                String author = dataFields.get(BibMarcUtil.AUTHOR_DISPLAY);
-                String publisher = dataFields.get(BibMarcUtil.PUBLISHER_DISPLAY);
-                String isbn = dataFields.get(BibMarcUtil.ISBN_DISPLAY);
-                String issn = dataFields.get(BibMarcUtil.ISSN_DISPLAY);
+            try {
 
-                String commonIdentifier = "";
-                if(StringUtils.isNotEmpty(isbn)) {
-                    commonIdentifier = isbn;
-                }
-                else {
-                    commonIdentifier = issn;
+                bibId = bibResultSet.getInt("BIB_ID");
+                bibId2 = bibResultSet.getInt("BIB_ID");
+                bibIdStr = bibResultSet.getString("UNIQUE_ID_PREFIX") + "-" + bibId;
+
+                if (bibId != bibId2) {
+                    LOG.error("bibId is not equal to bibId2: bibId = " + bibId + "; bibId2 = " + bibId2);
                 }
 
-                bibInsertPreparedStatement.setString(1, bibId);
-                bibInsertPreparedStatement.setString(2, truncateData(title));
-                bibInsertPreparedStatement.setString(3, truncateData(author));
-                bibInsertPreparedStatement.setString(4, truncateData(publisher));
-                bibInsertPreparedStatement.setString(5, commonIdentifier);
+
+                BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(bibResultSet.getString("CONTENT"));
+
+                if (bibMarcRecords != null && bibMarcRecords.getRecords() != null && bibMarcRecords.getRecords().size() > 0) {
+
+                    Map<String, String> dataFields = bibMarcUtil.buildDataValuesForBibInfo(bibMarcRecords.getRecords().get(0));
+                    String title = dataFields.get(BibMarcUtil.TITLE_DISPLAY);
+                    String author = dataFields.get(BibMarcUtil.AUTHOR_DISPLAY);
+                    String publisher = dataFields.get(BibMarcUtil.PUBLISHER_DISPLAY);
+                    String isbn = dataFields.get(BibMarcUtil.ISBN_DISPLAY);
+                    String issn = dataFields.get(BibMarcUtil.ISSN_DISPLAY);
+
+                    String commonIdentifier = "";
+                    if (StringUtils.isNotEmpty(isbn)) {
+                        commonIdentifier = isbn;
+                    } else {
+                        commonIdentifier = issn;
+                    }
+
+                    bibInsertPreparedStatement.setInt(1, bibId);
+                    bibInsertPreparedStatement.setString(2, bibIdStr);
+                    bibInsertPreparedStatement.setString(3, truncateData(title, 4000));
+                    bibInsertPreparedStatement.setString(4, truncateData(author, 4000));
+                    bibInsertPreparedStatement.setString(5, truncateData(publisher, 4000));
+                    bibInsertPreparedStatement.setString(6, truncateData(commonIdentifier, 100));
 
 
-                try {
-                    bibInsertPreparedStatement.executeUpdate();
-                } catch (Exception e) {
-//                    e.printStackTrace();
-                    if (e.getMessage().startsWith("Duplicate entry")) {
+                    try {
+                        bibInsertPreparedStatement.executeUpdate();
+                    } catch (Exception e) {
+                        if (e.getMessage().startsWith("Duplicate entry")) {
 
-
-
-                        bibUpdatePreparedStatement.setString(1, truncateData(title));
-                        bibUpdatePreparedStatement.setString(2, truncateData(author));
-                        bibUpdatePreparedStatement.setString(3, truncateData(publisher));
-                        bibUpdatePreparedStatement.setString(4, commonIdentifier);
-                        bibUpdatePreparedStatement.setString(5, bibId);
-                        try {
-                            bibUpdatePreparedStatement.executeUpdate();
-                        }
-                        catch (Exception e1) {
-                            LOG.error("Exception while updating into BIB_INFO_T : ",e1);
-                            writeStatusToFile(filePath, fileName, e1.getMessage());
+                            bibUpdatePreparedStatement.setString(1, truncateData(title, 4000));
+                            bibUpdatePreparedStatement.setString(2, truncateData(author, 4000));
+                            bibUpdatePreparedStatement.setString(3, truncateData(publisher, 4000));
+                            bibUpdatePreparedStatement.setString(4, truncateData(commonIdentifier, 100));
+                            bibUpdatePreparedStatement.setString(5, bibIdStr);
+                            bibUpdatePreparedStatement.setInt(6, bibId);
+                            try {
+                                bibUpdatePreparedStatement.executeUpdate();
+                            } catch (Exception e1) {
+                                LOG.error("Exception while updating into BIB_INFO_T, BibId = " + bibId + " BibIdStr = " + bibIdStr + " : ", e1);
+                                writeStatusToFile(filePath, fileName, "Exception while updating into BIB_INFO_T, BibId = " + bibId + " BibIdStr = " + bibIdStr + " : " + e1.getMessage());
+                            }
+                        } else {
+                            LOG.error("Exception while inserting into BIB_INFO_T, BibId = " + bibId + " BibIdStr = " + bibIdStr + " : ", e);
+                            writeStatusToFile(filePath, fileName, "Exception while inserting into BIB_INFO_T, BibId = " + bibId + " BibIdStr = " + bibIdStr + " : " + e.getMessage());
                         }
                     }
-                    else {
-                        LOG.error("Exception while inserting into BIB_INFO_T : ", e);
-                        writeStatusToFile(filePath, fileName, e.getMessage());
-                    }
                 }
+
+            } catch (Exception e) {
+                LOG.error("Exception inserting/updating bibId " + bibId + "; bibId2 = " + bibId2 + " BibIdStr = " + bibIdStr, e);
+                writeStatusToFile(filePath, fileName, "Exception inserting/updating bibId " + bibId + "; bibId2 = " + bibId2 + " BibIdStr = " + bibIdStr + "\t" + e.getMessage());
             }
             bibInfoStatistics.setBibCount((batchSize * batchNo) + count);
             if (count == batchSize) {
@@ -987,13 +1014,13 @@ public class BatchBibTreeDBUtil {
         stopWatch.stop();
         connection.commit();
         return count;
-    } 
-    
-    private  String truncateData(String data) {
+    }
+
+    public static String truncateData(String data, int idLength) {
         //TODO: Handle the case of unicode chars where string.length() <> byte length
         String truncateData = data;
-        if(data != null && data.length() > 4000) {
-            truncateData = data.substring(0,3999);
+        if (data != null && data.length() > idLength) {
+            truncateData = data.substring(0, (idLength-1));
         }
         return truncateData;
     }

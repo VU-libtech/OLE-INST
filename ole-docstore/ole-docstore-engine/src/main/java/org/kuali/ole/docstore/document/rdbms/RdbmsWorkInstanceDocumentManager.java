@@ -2150,7 +2150,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
     }
 
     private void effectiveDateItem(Item item, ItemRecord itemRecord, String effectiveDateForItem) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         Timestamp effectiveDate = null;
         try {
             if (!"".equals(item.getItemStatusEffectiveDate()) && item.getItemStatusEffectiveDate() != null) {

@@ -515,7 +515,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
                     }
                 }
                 if (recallDueDate != null && itemDueDate!=null ) {
-                    if(itemDueDate.compareTo(recallDueDate) > 0){
+                   // if(itemDueDate.compareTo(recallDueDate) > 0){
                         oleDeliverRequestBo.setOriginalDueDate((new java.sql.Date(itemDueDate.getTime())));
                         oleDeliverRequestBo.setNewDueDate(new java.sql.Date(recallDueDate.getTime()));
                         oleLoanDocument.setLoanDueDate(recallDueDate);
@@ -547,10 +547,10 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
                             }
                             LOG.error(e,e);
                         }
-                    }else{
+                    /*}else{
                         oleDeliverRequestBo.setNewDueDate((new java.sql.Date(oleLoanDocument.getLoanDueDate().getTime())));
                         oleDeliverRequestBo.setOriginalDueDate((new java.sql.Date(oleLoanDocument.getLoanDueDate().getTime())));
-                    }
+                    }*/
                 }
             }
 

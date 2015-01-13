@@ -109,18 +109,23 @@ drop table if exists OLE_DS_BIB_INFO_T
 
 CREATE TABLE OLE_DS_BIB_INFO_T
 (
-      BIB_ID VARCHAR(20)
+      BIB_ID_STR VARCHAR(20)
+        , BIB_ID INTEGER(20)
         , TITLE VARCHAR(4000)
         , AUTHOR VARCHAR(4000)
         , PUBLISHER VARCHAR(4000)
         , ISXN VARCHAR(100)
     
-    , CONSTRAINT OLE_DS_BIB_INFO_TP1 PRIMARY KEY(BIB_ID)
+    , CONSTRAINT OLE_DS_BIB_INFO_TP1 PRIMARY KEY(BIB_ID_STR)
 
 
 
 
 
+    
+                                                                                                                                                                            
+                                    
+, INDEX OLE_DS_BIB_INFO_TI1 (BIB_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /

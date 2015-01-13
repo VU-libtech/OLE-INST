@@ -381,15 +381,15 @@ public class BatchBibImportUtil {
                     }
                 }
             } else {
-
-                String[] subFiledArray = dataFieldArrray[1].split("\\$");
-                for (String subFieldString : subFiledArray) {
-                    if (StringUtils.isNotEmpty(subFieldString)) {
-                        SubField subField = new SubField();
-                        subField.setCode(subFieldString);
-                        subFields.add(subField);
+                if (dataFieldArrray.length == 2) {
+                    String[] subFiledArray = dataFieldArrray[1].split("\\$");
+                    for (String subFieldString : subFiledArray) {
+                        if (StringUtils.isNotEmpty(subFieldString)) {
+                            SubField subField = new SubField();
+                            subField.setCode(subFieldString);
+                            subFields.add(subField);
+                        }
                     }
-
                 }
             }
             dataField.setSubFields(subFields);

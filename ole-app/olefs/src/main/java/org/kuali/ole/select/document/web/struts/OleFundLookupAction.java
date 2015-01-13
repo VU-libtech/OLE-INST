@@ -675,7 +675,7 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
         searchMap.put("financialObjectCode", objectCode);
         searchMap.put("universityFiscalYear", fiscalYear);
         searchMap.put("financialBalanceTypeCode", "AC");
-        searchMap.put("financialDocumentTypeCode", "OLE_PREQ");
+        //searchMap.put("financialDocumentTypeCode", "OLE_PREQ");
         List<Entry> entryList = (List) SpringContext.getBean(BusinessObjectService.class).
                 findMatching(Entry.class, searchMap);
         if (entryList.size() > 0) {

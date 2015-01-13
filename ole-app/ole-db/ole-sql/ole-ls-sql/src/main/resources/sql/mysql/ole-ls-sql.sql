@@ -6851,7 +6851,7 @@ CREATE TABLE OLE_BAT_PRCS_MNTN_FIELD_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_BAT_PRCS_MNTN_FIELD_S auto_increment = 1
+ALTER TABLE OLE_BAT_PRCS_MNTN_FIELD_S auto_increment = 10
 /
 
 # -----------------------------------------------------------------------

@@ -53,7 +53,7 @@
   <param name="externalizable.static.content.url">${application.url}/static</param>
   <param name="krad.externalizable.images.url">${application.url}/krad/images/</param>
   <param name="kr.externalizable.images.url">${application.url}/kr/static/images/</param>
-  <param name="externalizable.help.url">http://site.kuali.org/ole/1.5.0-M2-SNAPSHOT</param>
+  <param name="externalizable.help.url">http://site.kuali.org/ole/${project.version}</param>
   <param name="externalizable.images.url">${externalizable.static.content.url}/images/</param>
   <param name="travel.externalizable.images.url">${kr.externalizable.images.url}</param>
   <param name="kr.url">${application.url}/kr</param>
@@ -74,61 +74,15 @@
     <!--OLE Urls -->
   <param name="ole.url" override="false">${application.url}</param>
   <param name="ole.fs.portal.url">${application.url}</param>
-  <param name="ole.fs.discovery.url">${ole.docstore.url.base}/discovery</param>
-<!--  <param name="ole.rice2.url.portal">${ole.fs.url.base}</param>-->
-  <param name="ole.docstore.url">${ole.docstore.url.base}/discovery</param>
-  <param name="discovery.url">${ole.docstore.url.base}/bib</param>
-  <param name="ole.docstoreapp.url">${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true&amp;</param>
-  <param name="ole.docstoreviewapp.url">${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=false&amp;</param>
-  <param name="ole.docsearch.url">${ole.docstore.url.base}/bib/select</param>
-  <param name="docSearchURL">${ole.docstore.url.base}</param>
-  <param name="ole.docsearch.app.url">${ole.docstore.url.base}/</param>
-  <param name="ole.fs.docstore.services.tab.url">${ole.docstore.url.base}?tab=services</param>
-  <param name="license.web.service.url">${ole.fs.url.base}/remoting/oleLicenseRequestWebService</param>
-  <param name="patron.web.service.url" override="false">${ole.fs.url.base}/remoting/olePatronWebService</param>
-  <param name="location.web.service.url">${ole.fs.url.base}/remoting/oleLocationWebService</param>
-  <param name="ole.bibeditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
-  <param name="ole.dublineditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=true</param>
-  <param name="ole.bibeditor.create.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
-  <param name="ole.bibsearch.url">${ole.fs.url.base}/portal.do?channelTitle=Describe%20Workbench&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/olesearchcontroller?viewId=OLEDescribeWorkBenchView&amp;methodToCall=start</param>
-  <param name="ole.instanceEditor.url">${ole.fs.url.base}/portal.do?channelTitle=Instance%20Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/instanceeditor?viewId=InstanceEditorView&amp;methodToCall=loadInstanceRecord</param>
-  <param name="ole.docstore.restful.url">${ole.docstore.url.base}/rest/documents</param>
-   <param name="ole.docstore.Documentrest.url">${ole.docstore.url.base}/documentrest/</param>
-  <param name="ole.provide.feedback.link.text">Provide Feedback</param>
-  <param name="ole.provide.feedback.link">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10792</param>
+
   <param name="PREORDER_NAMESPACE" override="false">http://service.select.ole.kuali.org/</param>
   <param name="PREORDER_URL">${application.url}/remoting/preOrderService</param>
-  <param name="ole.search.url">${ole.fs.url.base}/portal.do?channelTitle=OLE Search&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
-  <param name="ole.editor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
 
-
-
-    <param name="docstore.url">${ole.docstore.url.base}/document</param>
-    <param name="docstore.restful.url">${ole.docstore.url.base}/rest/documents</param>
-
-    <param name="oleExposedWebService.url">${ole.fs.url.base}/remoting/oleExposedWebService</param>
-
-
-    <param name="loadreport.url">${ole.fs.url.base}/portal.do?channelTitle=Load%20Reports&amp;channelUrl=batchlookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.ole.select.businessobject.OleLoadSumRecords&amp;docFormKey=88888888&amp;returnLocation=${ole.fs.url.base}/portal.do&amp;hideReturnLink=true</param>
     <param name="oleRequisitionWebService.url">${ole.fs.url.base}/remoting/oleRequisitionWebService</param>
-
 
     <param name="license.document.initiator">fred</param>
     <param name="license.document.status">LN</param>
-    <param name="bibOverlay.directory">${project.home}/ole/rice2/</param>
     <param name="homeDirectory">${project.home}</param>
-
-    <!--Ingest Properties -->
-    <param name="select.package">org.kuali.ole.select.bo.</param>
-    <param name="validFileFormat">validFileFormat</param>
-
-    <param name="DUE_DT">. You must provide Due Date &lt;br/&gt;</param>
-    <param name="CLAIMS_RETURNED_MESSAGE">Claims Returned item has been found.</param>
-    <param name="PRINT_DUE_DATE_PER_TRANSACTION">No</param>
-    <param name="LOAN_SESSION_INACTIVE_TIME">No</param>
-    <param name="EXP_HOLD_NOTICE_CONTENT">The following item(s),previously on hold at your request, have been returned to the shelf or loaned to the another user.If you would still like to see this material,please make another request.</param>
-    <param name="COURTESY_NOTICE_CONTENT">The following item(s) on loan to you are about to become due. Please return by or before the due date in order to avoid any penalties.</param>
-    <param name="OVERDUE_NOTICE_CONTENT">The following item(s) is now past its due date as shown below. You may already be liable for fines and unresolved overdue situations may result in loss of library privileges. Please return the item as soon as possible.</param>
 
   <!--KFS Business Transaction info -->
   <param name="b2b.user.agent">ole</param>
@@ -255,12 +209,8 @@
 
   <!--OLE specific -->
   <param name="batch.file.lookup.root.directories">${staging.directory};${reports.directory}</param>
-  <param name="ole.marcxml.directory">${work.directory}/marcxml/</param>
   <param name="ole.bibmarcxml.directory">${staging.directory}/select/bibInfo/</param>
   <param name="ole.externalizable.help.url">${externalizable.help.url}</param>
-
-  <!--Are these needed?? -->
-  <param name="kualietl.startdirectory">${work.directory}/etl</param>
 
   <param name="rice.portal.allowed.regex">^${application.url}(/.*|)</param>
   <param name="cas.rice.server.name">${application.url}</param>
@@ -275,31 +225,6 @@
 
   <param name="rice.ksb.web.forceEnable" override="false">true</param>
 
-  <!-- Document Store Properties -->
-  <param name="ole.docstore.result.pagesize" override="false">10</param>
-  <param name="ole.docstore.document.pageSize" override="false">1</param>
-  <param name="ole.docstoreapp.contenttype" override="false">application/x-www-form-urlencoded</param>
-  <param name="orderqueue.docsearch.maxLimit" override="false">500</param>
-  <param name="docsearch.noOfRows" override="false">200</param>
-  <param name="ole.docstoreapp.postdata" override="false">docAction=ingestContent&amp;docCategory=bibliographic&amp;docType=marc&amp;stringContent=</param>
-  <param name="ole.docstoreapp.edit.postdata" override="false">docAction=checkIn</param>
-  <param name="ole.docstoreapp.delete.postdata" override="false">docAction=deleteWithLinkedDocs&amp;requestContent=</param>
-  <param name="ole.docstore.file" override="false">/select/bibInfo/DocStore.xml</param>
-
-  <param name="transaction.timeout" override="false">100000</param>
-  <param name="batch.transaction.timeout" override="false">500000</param>
-  <param name="batch.delete.directory">${staging.directory}/batchDelete</param>
-  <param name="batch.invoice.directory">${staging.directory}/batchInvoice</param>
-  <param name="batch.bibImport.directory">${staging.directory}/batchBibImport</param>
-  <param name="batch.patron.directory">${staging.directory}/batchPatron</param>
-  <param name="batch.location.directory">${staging.directory}/batchLocation</param>
-  <param name="batch.orderRecord.directory">${staging.directory}/batchOrderRecord</param>
-  <param name="batch.export.directory">${staging.directory}/export</param>
-  <param name="batch.serial.import.directory">${staging.directory}/batchSerialImport</param>
-
-  <!-- Locaion ingest Directory -->
-  <param name="location.directory">${staging.directory}/location/</param>
-
     <!-- Vendor Transmission file Directory -->
     <param name="vendor.transmission.directory">${staging.directory}/select/vendortransmissionfiles/</param>
 
@@ -311,11 +236,6 @@
   <param name="batch.quartz.trigger.check.interval" override="false">30000</param>
 
   <!-- Web File Configuration -->
-  <!--<param name="kns.javascript.files" override="false">krad/plugins/jquery/jquery-1.8.3.js,krad/plugins/postmsg/jquery.ba-postmessage.js,krad/plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,scripts/rice-overrides.js</param>
-  <param name="kns.css.files" override="false">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
-  <param name="portal.javascript.files" override="false">krad/plugins/jquery/jquery-1.8.3.js,krad/plugins/postmsg/jquery.ba-postmessage.js,krad/plugins/cookie/jquery.cookie.js,krad/plugins/scrollto/jquery.scrollTo-1.4.3-min.js,krad/plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,krad/plugins/easydrag/jquery.easydrag.js,krad/plugins/fancybox/jquery.fancybox.pack.js,krad/plugins/easing/jquery.easing-1.3.pack.js,krad/plugins/jgrowl/jquery.jgrowl.js,krad/scripts/portal.initialize.js,rice-portal/scripts/portal.initialize.js,rice-portal/scripts/easyXDM/easyXDM.js</param>
-  <param name="portal.css.files" override="false">css/portal.css,css/portal.css,krad/plugins/jgrowl/jquery.jgrowl.css,krad/plugins/rice/textpopout/popoutTextarea.css,krad/plugins/fancybox/jquery.fancybox.css,rice-portal/css/portal.css,plugins/textpopout/popoutTextarea.css</param>
-  -->
     <param name="kns.javascript.files" override="false">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param>
     <param name="kns.css.files" override="false">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
 
@@ -409,7 +329,6 @@
 
   <!-- Misc OLE Properties -->
   <param name="current.year" override="false">2013</param>
-  <param name="feedback.link.url" override="false"></param>
   <param name="licensing.contact.email" override="false">license@kuali.org</param>
   <param name="report.writer.service.new.line.characters" override="false">\n</param>
   <param name="encrypt.attributes.properties.file" override="false">work/db/fieldsToEncrypt.properties</param>
@@ -432,19 +351,7 @@
   <!-- primaryDelegatorFilterOnActionList: "Primary Delegates on Action List Page" or "Primary Delegates only on Filter Page" -->
   <param name="userOptions.default.primaryDelegatorFilterOnActionList" override="false">Primary Delegates on Action List Page</param>
 
-  <!-- KualiETL Properties -->
-  <param name="kualietl.sourcefolder" override="false">/batchingest</param>
-  <param name="kualietl.etllogfolder" override="false">/select/etllog/</param>
-  <param name="kualietl.destinationfolder" override="false">/select/bibInfo/</param>
-  <param name="kualietl.backupfolder" override="false">/select/vendorbackupfolder</param>
-  <param name="kualietl.vendortransmissionfile" override="false">/select/vendortransmissionfiles/</param>
-  <param name="kualietl.vendordirectory" override="false">/public/POTransmissionFiles</param>
 
-  <!-- added for marc upload screen to display the file path. -->
-  <param name="kualietl.parentfolder" override="false">batchingest</param>
-
-  <!-- Delivery Default Room Number -->
-  <param name="delivery.default.roomNumber" override="false">467</param>
 
   <!--Requisition Max No of Parts -->
   <param name="requisition.max.parts" override="false">1000</param>
@@ -459,80 +366,12 @@
   <param name="ole.partEnumeration.volume">V</param>
 
   <!--############################################################################################################ -->
-  <!--# Property values for Staff Upload of Vendor Order file -->
-  <!--############################################################################################################ -->
-  <param name="ole.staffUpload.maxFileSize" override="false">30720</param>
-  <param name="ole.staffUpload.destinationPath" override="false">/batchingest/firm_fixed_ybp/</param>
-
-  <!--############################################################################################################ -->
   <!--# Property values for Requisition creation through Webservice -->
   <!--############################################################################################################ -->
   <param name="userName" override="false">admin</param>
-  <!--if vendorRecordToRequisitionMapping is true then create one requisition document for each vendor record in the vendor file. -->
-  <!-- if vendorRecordToRequisitionMapping is false then create one requisition document for all the vendor records in the the vendor file. -->
-  <param name="vendorRecordToRequisitionMapping" override="false">true</param>
-  <!--Default values used for soap -->
-  <param name="isbn" override="false">9789004185289</param>
-  <param name="financialYear" override="false">2011</param>
-  <param name="chartOfAccountsCode" override="false">UA</param>
-  <param name="organizationCode" override="false">VPIT</param>
-  <param name="documentFundingSourceCode" override="false">INST</param>
-  <param name="useTaxIndicator" override="false">false</param>
 
-  <param name="deliveryCampusCode" override="false">BL</param>
-  <param name="deliveryBuildingOtherIndicator" override="false">true</param>
-  <param name="deliveryBuildingCode" override="false">BL209</param>
-  <param name="deliveryBuildingLine1Address" override="false">211 S Indiana Ave</param>
-  <param name="deliveryBuildingRoomNumber" override="false">122</param>
-  <param name="deliveryCityName" override="false">BLOOMINGTON</param>
-  <param name="deliveryStateCode" override="false">IN</param>
-  <param name="deliveryPostalCode" override="false">55555</param>
-  <param name="deliveryCountryCode" override="false">US</param>
+    <!--Default values used for soap -->
 
-  <param name="deliveryToName" override="false">admin</param>
-  <param name="billingName" override="false">admin</param>
-  <param name="billingLine1Address" override="false">211 S Indiana Ave</param>
-  <param name="billingCityName" override="false">BLOOMINGTON</param>
-  <param name="billingStateCode" override="false">IN</param>
-  <param name="billingPostalCode" override="false">55555</param>
-  <param name="billingCountryCode" override="false">US</param>
-  <param name="billingPhoneNumber" override="false">812-855-1234</param>
-
-  <param name="uom" override="false">EA</param>
-  <param name="itemTypeCode" override="false">ITEM</param>
-  <param name="listprice" override="false">0.00</param>
-  <param name="quantity" override="false">1</param>
-  <param name="purchaseOrderTransmissionMethodCode" override="false">PRIN</param>
-  <param name="purchaseOrderCostSourceCode" override="false">EST</param>
-  <param name="requestorPersonName" override="false">admin</param>
-  <param name="requestorPersonPhoneNumber" override="false">812-855-1234</param>
-  <param name="requestorPersonEmailAddress" override="false">test@email.edu</param>
-  <param name="location" override="false"></param>
-  <param name="organizationAutomaticPurchaseOrderLimit" override="false">10000</param>
-  <param name="purchaseOrderAutomaticIndicator" override="false">false</param>
-  <param name="receivingDocumentRequiredIndicator" override="false">false</param>
-  <param name="paymentRequestPositiveApprovalIndicator" override="false">false</param>
-  <!--<param name="licensingRequirementIndicator" override="false">false</param>-->
- <!-- <param name="licensingRequirementCode" override="false">NLR</param>-->
-
-  <param name="chart" override="false">BL</param>
-  <param name="accountNumber" override="false">1031400</param>
-  <param name="objectCode" override="false">2100</param>
-  <param name="percent" override="false">100</param>
-
-  <!--Default values for requestor information -->
-  <param name="firstName" override="false">Bruce</param>
-  <param name="lastName" override="false">Willis</param>
-  <param name="address1" override="false">Wall Street</param>
-  <param name="address2" override="false"></param>
-  <param name="city" override="false">Bloomington</param>
-  <param name="stateCode" override="false">IN</param>
-  <param name="postalCode" override="false">56723</param>
-  <param name="countryCode" override="false">USA</param>
-  <param name="phoneNumber" override="false">563-456-7889</param>
-  <param name="email" override="false">test@iu.com</param>
-  <param name="sms" override="false"></param>
-  <param name="notes" override="false">Study Material Request</param>
   <param name="requestorType" override="false">BATCHINGEST</param>
   <param name="PREORDER_SERVICENAME" override="false">preOrderService</param>
   <param name="PREORDER_PORTNAME" override="false">preOrderService</param>
@@ -541,29 +380,6 @@
   <param name="PREORDER_OPENURL_OPR" override="false">createPreOrderForOpenURL</param>
   <param name="dateFrom" override="false">01/01/1001</param>
   <param name="account.document.initiator" override="false">ole-quickstart</param>
-  <param name="mail.smtp.host">email-smtp.us-east-1.amazonaws.com</param>
-  <param name="mail.smtp.port">465</param>
-  <param name="mail.smtp.ssl.enable">true</param>
-  <param name="mail.smtp.auth">true</param>
-  <param name="mail.smtp.username">AKIAJJUBCVBNS3N2K5WA</param>
-  <param name="mail.smtp.password">AkspKuyC3rL5WcQDt4+VpTgIFFEFhvCFSu+EIGuI7pL9</param>
-  <param name="mail.smtps.auth">true</param>
-  <param name="mail.smtp.starttls.enable">true</param>
-    <!--Default Values for NCIP -->
-  <param name="lehigh.operatorId" override="false">dev2</param>
-  <param name="lehigh.itemType" override="false">BOOK</param>
-   <param name="lehigh.itemLocation" override="false">B-EDUC/BED-TEACHMAT</param>
-    <param name="lehigh.requestType" override="false">Page/Delivery Request</param>
-
-    <param name="chicago.operatorId" override="false">eric</param>
-    <param name="chicago.itemType" override="false">CD</param>
-    <param name="chicago.itemLocation" override="false">B-EDUC/BED-TEACHMAT</param>
-    <param name="chicago.requestType" override="false">Page/Delivery Request</param>
-
-    <param name="nfsm.operatorId" override="false">dev2</param>
-    <param name="nfsm.itemType" override="false">BOOK</param>
-    <param name="nfsm.itemLocation" override="false">B-EDUC/BED-TEACHMAT</param>
-    <param name="nfsm.requestType" override="false">Page/Delivery Request</param>
 
     <!-- Default Value for SRR -->
     <param name="save.action.usr" override="false">OLE10002</param>
@@ -593,9 +409,66 @@
 
     <param name="autoIngestDefaults">true</param>
 
+
+
+    <!--OLE Feedback Link-->
+    <param name="ole.provide.feedback.link.text">Provide Feedback</param>
+    <param name="ole.provide.feedback.link">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10792</param>
+
+    <!--Describe related params-->
+    <param name="ole.docstore.url">${ole.docstore.url.base}/discovery</param>
+    <param name="discovery.url">${ole.docstore.url.base}/bib</param>
+    <param name="ole.docstoreapp.url">${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true&amp;</param>
+    <param name="ole.docstoreviewapp.url">${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=false&amp;</param>
+    <param name="ole.search.url">${ole.fs.url.base}/portal.do?channelTitle=OLE Search&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
+    <param name="ole.editor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
+    <param name="ole.docsearch.url">${ole.docstore.url.base}/bib/select</param>
+    <param name="docSearchURL">${ole.docstore.url.base}</param>
+    <param name="ole.docsearch.app.url">${ole.docstore.url.base}/</param>
+    <param name="ole.bibeditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
+    <param name="ole.dublineditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=true</param>
+    <param name="ole.bibeditor.create.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
+    <param name="ole.bibsearch.url">${ole.fs.url.base}/portal.do?channelTitle=Describe%20Workbench&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/olesearchcontroller?viewId=OLEDescribeWorkBenchView&amp;methodToCall=start</param>
+    <param name="ole.instanceEditor.url">${ole.fs.url.base}/portal.do?channelTitle=Instance%20Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/instanceeditor?viewId=InstanceEditorView&amp;methodToCall=loadInstanceRecord</param>
+    <param name="ole.docstore.restful.url">${ole.docstore.url.base}/rest/documents</param>
+    <param name="ole.docstore.Documentrest.url">${ole.docstore.url.base}/documentrest/</param>
+
+    <!-- Document Store Properties -->
+    <param name="ole.docstore.result.pagesize" override="false">10</param>
+    <param name="ole.docstore.document.pageSize" override="false">1</param>
+    <param name="ole.docstoreapp.contenttype" override="false">application/x-www-form-urlencoded</param>
+    <param name="orderqueue.docsearch.maxLimit" override="false">500</param>
+    <param name="docsearch.noOfRows" override="false">200</param>
+    <param name="ole.docstoreapp.postdata" override="false">docAction=ingestContent&amp;docCategory=bibliographic&amp;docType=marc&amp;stringContent=</param>
+    <param name="ole.docstoreapp.edit.postdata" override="false">docAction=checkIn</param>
+    <param name="ole.docstoreapp.delete.postdata" override="false">docAction=deleteWithLinkedDocs&amp;requestContent=</param>
+    <param name="ole.docstore.file" override="false">/select/bibInfo/DocStore.xml</param>
     <param name="organization.marc.code">OLE</param>
 
+    <!--Batch related params-->
+    <param name="transaction.timeout" override="false">100000</param>
+    <param name="batch.transaction.timeout" override="false">500000</param>
+    <param name="batch.delete.directory">${staging.directory}/batchDelete</param>
+    <param name="batch.invoice.directory">${staging.directory}/batchInvoice</param>
+    <param name="batch.bibImport.directory">${staging.directory}/batchBibImport</param>
+    <param name="batch.patron.directory">${staging.directory}/batchPatron</param>
+    <param name="batch.location.directory">${staging.directory}/batchLocation</param>
+    <param name="batch.orderRecord.directory">${staging.directory}/batchOrderRecord</param>
+    <param name="batch.export.directory">${staging.directory}/export</param>
+    <param name="batch.serial.import.directory">${staging.directory}/batchSerialImport</param>
 
+
+    <!-- Locaion ingest Directory -->
+    <param name="location.directory">${staging.directory}/location/</param>
+
+    <param name="mail.transport.protocol">smtp</param>
+
+    <!-- Left padding size to sort left Pane -->
+    <param name="editor.left.padding.size">8</param>
+
+    <!-- services and links-->
+    <param name="ole.fs.discovery.url">${ole.docstore.url.base}/discovery</param>
+    <param name="ole.fs.docstore.services.tab.url">${ole.docstore.url.base}?tab=services</param>
 
 
 

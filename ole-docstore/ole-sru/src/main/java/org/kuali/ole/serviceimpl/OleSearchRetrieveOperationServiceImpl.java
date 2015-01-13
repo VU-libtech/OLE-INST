@@ -331,7 +331,7 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
         }else if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase("adj")) {
             searchCondition.setSearchScope("phrase");
         } else {
-            searchCondition.setSearchScope("or");
+            searchCondition.setSearchScope("and");
         }
         if (null != searchField)
             searchCondition.setSearchField(searchField);
@@ -340,5 +340,4 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
         }
         return searchCondition;
     }
-
 }

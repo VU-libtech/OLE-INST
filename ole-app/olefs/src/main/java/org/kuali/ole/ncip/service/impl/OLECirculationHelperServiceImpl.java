@@ -444,7 +444,7 @@ public class OLECirculationHelperServiceImpl {
     public String checkOutItem(String patronId, String operatorId, String itemBarcode) {
         LOG.info("In  Check Out Item . Patron Barcode : "+patronId + " OperatorId : " +operatorId + "Item Barcode : "+itemBarcode);
         OlePatronDocument olePatronDocument = null;
-        Map<String, String> patronMap = new HashMap<String, String>();
+       /*  Map<String, String> patronMap = new HashMap<String, String>();
         patronMap.put(OLEConstants.BARCODE, patronId);
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) businessObjectService.findMatching(OlePatronDocument.class, patronMap);
         if (olePatronDocumentList.size() > 0) {
@@ -455,25 +455,41 @@ public class OLECirculationHelperServiceImpl {
             oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
             return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
-        }
+        }*/
         OleLoanDocument oleLoanDocument;
         try {
-            oleLoanDocument = getLoanProcessor().getLoanDocument(olePatronDocument.getBarcode(), null, true, false);
+            try{
+                oleLoanDocument = getLoanProcessor().getLoanDocument(patronId, null, true, false);
+                olePatronDocument = oleLoanDocument.getOlePatron();
+            }catch (Exception e){
+                OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
+                oleCheckOutItem.setCode("002");
+                oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+                LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+            }
+            long t66 = System.currentTimeMillis();
             oleLoanDocument.setLoanOperatorId(operatorId);
             Map<String, String> circulationDeskDetailMaps = new HashMap<String, String>();
             circulationDeskDetailMaps.put(OLENCIPConstants.OPERATOR_ID, operatorId);
-            List<OleCirculationDeskDetail> oleCirculationDeskDetailLists = (List<OleCirculationDeskDetail>) businessObjectService.findMatching(OleCirculationDeskDetail.class, circulationDeskDetailMaps);
-            if (oleCirculationDeskDetailLists != null && oleCirculationDeskDetailLists.size() > 0) {
-                for (OleCirculationDeskDetail oleCirculationDeskDetail : oleCirculationDeskDetailLists) {
+            circulationDeskDetailMaps.put("defaultLocation", "Y");
+            List<OleCirculationDeskDetail> oleCirculationDeskDetailList = (List<OleCirculationDeskDetail>) businessObjectService.findMatching(OleCirculationDeskDetail.class, circulationDeskDetailMaps);
+            if (oleCirculationDeskDetailList != null && oleCirculationDeskDetailList.size() > 0) {
+                for (OleCirculationDeskDetail oleCirculationDeskDetail : oleCirculationDeskDetailList) {
                     if (oleCirculationDeskDetail.isDefaultLocation()) {
                         String circulationDeskId = oleCirculationDeskDetail.getCirculationDeskId();
                         oleLoanDocument.setCirculationLocationId(circulationDeskId);
-                        Map<String, String> circulationMap = new HashMap<String, String>();
-                        circulationMap.put(OLEConstants.CIRCULATION_DESK_ID, circulationDeskId);
-                        List<OleCirculationDesk> oleCirculationDeskList = (List<OleCirculationDesk>) businessObjectService.findMatching(OleCirculationDesk.class, circulationMap);
-                        if (oleCirculationDeskList.size() > 0)
-                            oleLoanDocument.setOleCirculationDesk(oleCirculationDeskList.get(0));
-                        break;
+                        if(oleCirculationDeskDetail.getOleCirculationDesk()!=null){
+                            oleLoanDocument.setOleCirculationDesk(oleCirculationDeskDetail.getOleCirculationDesk());
+                        }else{
+                            Map<String, String> circulationMap = new HashMap<String, String>();
+                            circulationMap.put(OLEConstants.CIRCULATION_DESK_ID, circulationDeskId);
+                            List<OleCirculationDesk> oleCirculationDeskList = (List<OleCirculationDesk>) businessObjectService.findMatching(OleCirculationDesk.class, circulationMap);
+                            if (oleCirculationDeskList.size() > 0){
+                                oleLoanDocument.setOleCirculationDesk(oleCirculationDeskList.get(0));
+                                break;
+                            }
+                        }
                     }
                 }
             } else {
@@ -553,43 +569,39 @@ public class OLECirculationHelperServiceImpl {
     public String checkInItem(String patronBarcode, String operatorId, String itemBarcode, String deleteIndicator) {
         LOG.info("Inside checkInItem method .Patron barcode : " + patronBarcode + " Operator Id : " +operatorId + " Item Barcode : " + itemBarcode );
 
-        OleLoanDocument oleLoanDocument = new OleLoanDocument();
+        OleLoanDocument oleLoanDocument = null;
         OLECheckInItem oleCheckInItem = new OLECheckInItem();
         try {
             // oleLoanDocument= loanProcessor.returnLoan(oleLoanDocument);
 
-            Map<String, String> loanMap = new HashMap<String, String>();
-            loanMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, itemBarcode);
-            List<OleLoanDocument> oleLoanList = (List<OleLoanDocument>) businessObjectService.findMatching(OleLoanDocument.class, loanMap);
-            if (oleLoanList.size() > 0) {
-                oleLoanDocument = oleLoanList.get(0);
-                String olePatronId = oleLoanList.get(0).getPatronId();
-                Map<String, String> patronMap = new HashMap<String, String>();
-                patronMap.put(OLEConstants.OleDeliverRequest.PATRON_ID, olePatronId);
-                List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) businessObjectService.findMatching(OlePatronDocument.class, patronMap);
-                if (olePatronDocumentList.size() > 0) {
-                    oleLoanDocument.setOlePatron(olePatronDocumentList.get(0));
-                    oleLoanDocument.setPatronBarcode(olePatronDocumentList.get(0).getBarcode());
-                    if(olePatronDocumentList.get(0).getOleBorrowerType()!=null){
-                    oleLoanDocument.setBorrowerTypeCode(olePatronDocumentList.get(0).getOleBorrowerType().getBorrowerTypeCode());
-                    oleLoanDocument.setBorrowerTypeName(olePatronDocumentList.get(0).getOleBorrowerType().getBorrowerTypeName());
-                    }
-                }
+            if (itemBarcode != null) {
+                oleLoanDocument = getLoanProcessor().getOleLoanDocumentUsingItemBarcode(itemBarcode);
+            } else {
+                oleLoanDocument = getLoanProcessor().getOleLoanDocumentUsingItemUUID(itemBarcode);
+            }
+            if (oleLoanDocument == null) {
+                oleLoanDocument = new OleLoanDocument();
             }
             Map<String, String> circulationDeskDetailMap = new HashMap<String, String>();
             circulationDeskDetailMap.put(OLENCIPConstants.OPERATOR_ID, operatorId);
+            circulationDeskDetailMap.put("defaultLocation", "Y");
             List<OleCirculationDeskDetail> oleCirculationDeskDetailList = (List<OleCirculationDeskDetail>) businessObjectService.findMatching(OleCirculationDeskDetail.class, circulationDeskDetailMap);
             if (oleCirculationDeskDetailList != null && oleCirculationDeskDetailList.size() > 0) {
                 for (OleCirculationDeskDetail oleCirculationDeskDetail : oleCirculationDeskDetailList) {
                     if (oleCirculationDeskDetail.isDefaultLocation()) {
                         String circulationDeskId = oleCirculationDeskDetail.getCirculationDeskId();
                         oleLoanDocument.setCirculationLocationId(circulationDeskId);
-                        Map<String, String> circulationMap = new HashMap<String, String>();
-                        circulationMap.put(OLEConstants.CIRCULATION_DESK_ID, circulationDeskId);
-                        List<OleCirculationDesk> oleCirculationDeskList = (List<OleCirculationDesk>) businessObjectService.findMatching(OleCirculationDesk.class, circulationMap);
-                        if (oleCirculationDeskList.size() > 0)
-                            oleLoanDocument.setOleCirculationDesk(oleCirculationDeskList.get(0));
-                        break;
+                        if(oleCirculationDeskDetail.getOleCirculationDesk()!=null){
+                            oleLoanDocument.setOleCirculationDesk(oleCirculationDeskDetail.getOleCirculationDesk());
+                        }else{
+                            Map<String, String> circulationMap = new HashMap<String, String>();
+                            circulationMap.put(OLEConstants.CIRCULATION_DESK_ID, circulationDeskId);
+                            List<OleCirculationDesk> oleCirculationDeskList = (List<OleCirculationDesk>) businessObjectService.findMatching(OleCirculationDesk.class, circulationMap);
+                            if (oleCirculationDeskList.size() > 0){
+                                oleLoanDocument.setOleCirculationDesk(oleCirculationDeskList.get(0));
+                            break;
+                            }
+                        }
                     }
                 }
                 oleLoanDocument = getLoanProcessor().returnLoan(itemBarcode, oleLoanDocument);
@@ -627,10 +639,10 @@ public class OLECirculationHelperServiceImpl {
                 return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
             }
         } catch (Exception e) {
-            if(e.getMessage()!=null && e.getMessage().equals("")){
+            if(e.getMessage()!=null && (e.getMessage().equals(OLEConstants.ITM_BARCD_NT_AVAL_DOC)||e.getMessage().equals(OLEConstants.INVAL_ITEM) ||e.getMessage().equals(OLEConstants.ITM_STS_NT_AVAL)||e.getMessage().equals(OLEConstants.NO_LOC_CIR_DESK))){
                 oleCheckInItem.setCode("014");
-                oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-                LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED) + "." + e.getMessage());
+                LOG.info(ConfigContext.getCurrentContextConfig().getProperty(e.getMessage()));
                 LOG.error(e,e);
                 return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
             }

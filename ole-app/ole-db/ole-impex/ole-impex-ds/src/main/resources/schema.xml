@@ -40,11 +40,15 @@
         <column default="" name="CONTENT" type="CLOB"/>
     </table>
     <table name="OLE_DS_BIB_INFO_T">
-        <column name="BIB_ID" primaryKey="true" type="VARCHAR" size="20"/>
+        <column name="BIB_ID_STR" size="20" type="VARCHAR" primaryKey="true"/>
+        <column name="BIB_ID" type="INTEGER" size="20"/>
         <column default="" name="TITLE" size="4000" type="VARCHAR"/>
         <column default="" name="AUTHOR" size="4000" type="VARCHAR"/>
         <column default="" name="PUBLISHER" size="4000" type="VARCHAR"/>
         <column default="" name="ISXN" size="100" type="VARCHAR"/>
+        <index name="OLE_DS_BIB_INFO_TI1">
+            <index-column name="BIB_ID"/>
+        </index>
     </table>
     <table name="OLE_DS_HOLDINGS_COVERAGE_T">
         <column name="HOLDINGS_COVERAGE_ID" primaryKey="true" type="INTEGER"/>

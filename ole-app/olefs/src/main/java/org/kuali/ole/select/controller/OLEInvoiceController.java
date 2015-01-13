@@ -252,7 +252,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                                     item.setItemExchangeRate(null);
                                 }
                                 if(item.getItemTitleId()!=null){
-                                    item.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(item.getItemTitleId()));
+                                    item.setItemDescription(SpringContext.getBean(OlePurapService.class).getItemDescription(item));
+                                   // item.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(item.getItemTitleId()));
                                 }
                                 olePurchaseOrderDocument.getItems().add(item);
                             }

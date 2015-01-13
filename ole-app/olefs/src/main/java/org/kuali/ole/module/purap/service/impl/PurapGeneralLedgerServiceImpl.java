@@ -666,7 +666,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
             // for CM cancel or create, do not book encumbrances if PO is CLOSED, but do update the amounts on the PO
           //  Coomented for JIRA:OLE-5162 as encumbrance added here
-          /*  List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
+          //  UnCommented for JIRA:OLE-6992 as encumbrance added here for positive values
+            List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
             if (!(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getApplicationDocumentStatus()))) {
                 if (encumbrances != null) {
                     cm.setGenerateEncumbranceEntries(true);
@@ -674,7 +675,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     // even if generating encumbrance entries on cancel, call is the same because the method gets negative amounts
                     // from
                     // the map so Debits on negatives = a credit
-                    cm.setDebitCreditCodeForGLEntries(GL_DEBIT_CODE);
+                    cm.setDebitCreditCodeForGLEntries(GL_CREDIT_CODE);
 
                     for (Iterator iter = encumbrances.iterator(); iter.hasNext(); ) {
                         AccountingLine accountingLine = (AccountingLine) iter.next();
@@ -684,7 +685,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                         }
                     }
                 }
-            }*/
+            }
         }
 
         List<SummaryAccount> summaryAccounts = purapAccountingService.generateSummaryAccountsWithNoZeroTotalsNoUseTax(cm);
@@ -2002,7 +2003,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             final KualiDecimal cmItemTotalAmount = (cmItem.getTotalAmount() == null) ? KualiDecimal.ZERO : cmItem.getTotalAmount();
             ;
             // If there isn't a PO item or the total amount is 0, we don't need encumbrances
-            if ((poItem == null) || (cmItemTotalAmount == null) || (cmItemTotalAmount.doubleValue() == 0)) {
+            if ((poItem == null) || (cmItemTotalAmount == null) || (cmItemTotalAmount.doubleValue() == 0) ||
+                    (cmItemTotalAmount!=null && !cmItemTotalAmount.isNegative())) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " No encumbrances required");
                 }
@@ -2265,7 +2267,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 encumbranceQuantityChange = encumbranceQuantityChange.add(difference);
             }
         }
-// Coomented for JIRA:OLE-5162 as encumbrance get doubled here. 
+// Coomented for JIRA:OLE-5162 as encumbrance get doubled here.
        /* else {
             if (poItem.getItemInvoicedTotalQuantity().doubleValue() < 0) {
                 LOG.debug("calculateQuantityChange() Create overflow");

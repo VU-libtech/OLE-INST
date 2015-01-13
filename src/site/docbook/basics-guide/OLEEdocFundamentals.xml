@@ -2107,9 +2107,10 @@
                                 </listitem>
                             </itemizedlist>
                             <note>
-                                <para>In order to search for Item Barcodes, choose the option "As a
-                                    phrase" and be sure the complete barcode is entered in the
-                                    "Search For" field.</para>
+                                <para>You may search for hyphenated text if you choose to search "As
+                                    a phrase". As noted on the interface, the hyphen will be
+                                    ignored.  By searching "As a phrase" the order of the text is
+                                    taken into consideration.</para>
                             </note>
                             <para/>
                             <para>
@@ -2266,6 +2267,9 @@
                                 </screenshot>
                             </para>
                             <para/>
+                            <para>All records matching your search will display in the search
+                                results.  There are no maximum record limits to constrain your
+                                searches.</para>
                             <para>To display a single record in the search results for editing from
                                 the above example, click in the blue title entry. To open multiple
                                 records for editing, put a check in the box to the left of the

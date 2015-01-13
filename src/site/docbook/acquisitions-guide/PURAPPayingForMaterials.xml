@@ -597,28 +597,49 @@
                                     <para role="Table Cells">Pay Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Defaults to the date automatically calculated by the system. If payment
-                                        terms are edited, the system repopulates this field only if it is blank. Override the automatic
-                                        entry by entering a pay date or selecting it from the calendar <inlinemediaobject>
+                                    <para role="Table Cells">Defaults to the date automatically
+                                        calculated by the system. If payment terms are edited, the
+                                        system repopulates this field only if it is blank. Override
+                                        the automatic entry by entering a pay date or selecting it
+                                        from the calendar <inlinemediaobject>
                                             <imageobject>
-                                                <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-30.png"/>
+                                                <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-30.png"
+                                                />
                                             </imageobject>
                                         </inlinemediaobject>.</para>
                                     <note>
                                         <para>
                                             <emphasis role="bold">Pay Date Calculations:
-                                            </emphasis>The pay date is calculated automatically as
-                                            follows. The payment terms specified are applied to the
-                                            invoice date to generate a pay date. The payment terms
-                                            parameters are in the Payment Terms Type table.
-                                            Additionally, ten days (or another institutionally
-                                            defined default number of days) are added to the current
-                                            date to generate a pay date. Kuali OLE selects the later
-                                            of these two dates and uses it as the default pay date
-                                            for this Payment Request document.</para>
+                                            </emphasis>The pay date is calculated automatically in
+                                            two different ways. The payment terms specified are
+                                            applied to the invoice date to generate a pay date. The
+                                            payment terms parameters are in the Payment Terms Type
+                                            table.  Additionally, ten days (or another
+                                            institutionally defined default number of days -
+                                            controlled by the parameter
+                                            NUMBER_OF_DAYS_USED_TO_CALCULATE_DEFAULT_PAY_DATE under
+                                            component "Invoice") are added to the current date to
+                                            generate a pay date. OLE selects the later of these two
+                                            dates and uses it as the default pay date for this
+                                            Invoice document.  The pay date will not appear until
+                                            after you save, submit or blanket approve the
+                                            invoice.</para>
                                     </note>
-                                    <para role="Table Cells">The pay date may be entered manually, but it must not be a past date. If
-                                        the date is more than 60 days from the current date, the system displays a warning message.</para>
+                                    <para role="Table Cells">The pay date may be entered manually,
+                                        but it must not be a past date. If the date is more than 60
+                                        days from the current date, the system displays a warning
+                                        message.</para>
+                                    <note>
+                                        <para>There are several issues noted for the pay date, see
+                                                <link
+                                                xlink:href="https://jira.kuali.org/browse/OLE-5522"
+                                                >OLE-5522</link>. </para>
+                                        <para>There is also an enhancement noted to allow future pay
+                                            dates, see <link
+                                                xlink:href="https://jira.kuali.org/browse/OLE-6216"
+                                                >OLE-6216</link>.</para>
+                                    </note>
                                 </entry>
                             </row>
                             <row>
@@ -1079,9 +1100,11 @@
                             >add P.O.</emphasis> button and the checked title(s) will be moved to the Current Items section.
                          You can then enter your next Purchase Order number to begin working on the next title on the
                         invoice.</para>
-                    <para>Once a title has been moved to the Current Items section, its price and accounting string can
-                        still be changed.  Additionally, you may click <emphasis role="bold">delete</emphasis> to remove the
-                        item from the Invoice.</para>
+                    <para>Once a title has been moved to the Current Items section, its price and
+                        accounting string can still be changed. Additionally, you may click
+                            <emphasis role="bold">Delete</emphasis> to remove the item from the
+                        Invoice or <emphasis role="bold">Unlink</emphasis> to link a different
+                        purchase order to the Invoice.</para>
                     <para/>
                     <para role="Illustration">
                         <screenshot>
@@ -1389,6 +1412,34 @@
                 <para/>
                 <para>At the top of the document, a "Document was successfully submitted" message
                     will appear. </para>
+            </section>
+            <section>
+                <title>Canceling an Invoice</title>
+                <para>While an Invoice is still in saved or initiated document status, the option to
+                    cancel an invoice is available.  To fully remove the link between the purchase
+                    order(s) added to the Invoice and the Invoice document, first <emphasis
+                        role="bold">Delete</emphasis> the purchase orders from the current items
+                    section of the Invoice.</para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Click the delete button on the action column of the Invoice's
+                                Current Items</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-2.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>Then click <emphasis role="bold">Cancel</emphasis> at the bottom of the
+                    document.</para>
+                <para>Skipping the first step will not cause problems within OLE but the purchase
+                    order(s) will maintain links to the canceled Invoice, which may cause confusion
+                    for staff.</para>
             </section>
             <section>
                 <title>Business Rules</title>
@@ -4132,9 +4183,8 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Pay Date</para>
-                                </entry>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"><para
+                                        role="Table Cells">Pay Date</para>Ok,</entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                     <para role="Table Cells">Defaults to the date automatically
                                         calculated by the system. If payment terms are edited, the
@@ -4150,15 +4200,18 @@
                                     <note>
                                         <para>
                                             <emphasis role="bold">Pay Date Calculations:
-                                            </emphasis>The pay date is calculated automatically as
-                                            follows. The payment terms specified are applied to the
-                                            invoice date to generate a pay date. The payment terms
-                                            parameters are in the Payment Terms Type table.
-                                            Additionally, ten days (or another institutionally
-                                            defined default number of days) are added to the current
-                                            date to generate a pay date. KUALI OLE selects the later
-                                            of these two dates and uses it as the default pay date
-                                            for this Payment Request document.</para>
+                                            </emphasis>The pay date is calculated automatically in
+                                            two different ways. The payment terms specified are
+                                            applied to the payment request date to generate a pay
+                                            date. The payment terms parameters are in the Payment
+                                            Terms Type table.  Additionally, ten days (or another
+                                            institutionally defined default number of days -
+                                            controlled by the parameter
+                                            NUMBER_OF_DAYS_USED_TO_CALCULATE_DEFAULT_PAY_DATE under
+                                            component "Payment Request") are added to the current
+                                            date to generate a pay date. OLE selects the later of
+                                            these two dates and uses it as the default pay date for
+                                            this Payment Request document.</para>
                                     </note>
                                     <para role="Table Cells">The pay date may be entered manually,
                                         but it must not be a past date. If the date is more than 60

@@ -1001,7 +1001,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                 BibInfoRecord  bibInfoRecord = items.getBibInfoRecord();
 
                 if(bibInfoRecord !=null){
-                    items.setBibUUID(bibInfoRecord.getBibId());
+                    items.setBibUUID(bibInfoRecord.getBibIdStr());
                     items.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(items.getItemTitleId()));
 
                     itemDescription = ((bibInfoRecord.getTitle() != null && !bibInfoRecord.getTitle().isEmpty()) ? bibInfoRecord.getTitle().trim() + ", " : "")

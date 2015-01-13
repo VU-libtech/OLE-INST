@@ -4,12 +4,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileBo;
+import org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint;
 import org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo;
 import org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument;
 import org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm;
 import org.kuali.ole.batch.helper.OLESchedulerHelper;
-import org.kuali.ole.select.bo.OLESerialReceivingDocument;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -55,6 +55,12 @@ public class OLEBatchProcessRule {
                     if (oleBatchProcessDefinitionDocument.getIngestedFile() != null && !oleBatchProcessDefinitionDocument.getIngestedFile().getOriginalFilename().contains(".mrc")) {
                         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.BATCH_BIB_IMPORT_INGEST_FILE_FORMAT);
                     }
+                } else if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT) && oleBatchProcessDefinitionDocument.getLoadIdFromFile().equalsIgnoreCase("true")) {
+                    if (oleBatchProcessDefinitionDocument.getIngestedFile() == null) {
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.BATCH_EXPORT_INGEST_FILE_FORMAT);
+                    } else if (oleBatchProcessDefinitionDocument.getIngestedFile() != null && !oleBatchProcessDefinitionDocument.getIngestedFile().getOriginalFilename().contains(".txt")) {
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.BATCH_EXPORT_INGEST_FILE_FORMAT);
+                    }
                 } else if (oleBatchProcessDefinitionDocument.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_DELETE)) {
                     if (oleBatchProcessDefinitionDocument.getIngestedFile() != null && !(oleBatchProcessDefinitionDocument.getIngestedFile().getOriginalFilename().contains(".txt")
                             || oleBatchProcessDefinitionDocument.getIngestedFile().getOriginalFilename().contains(".mrc"))) {
@@ -65,11 +71,12 @@ public class OLEBatchProcessRule {
                     List<OLEBatchProcessProfileBo> oleBatchProcessProfileBos = (List<OLEBatchProcessProfileBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEBatchProcessProfileBo.class, map);
                     if (oleBatchProcessProfileBos != null && oleBatchProcessProfileBos.size() > 0) {
                         OLEBatchProcessProfileBo oleBatchProcessProfileBo = oleBatchProcessProfileBos.get(0);
-                        if (oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList() == null) {
+                        List<OLEBatchProcessProfileMatchPoint> bibMatchPointList = BatchBibImportUtil.buildMatchPointListByDataType(oleBatchProcessProfileBo.getOleBatchProcessProfileMatchPointList(), org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode());
+                        if (bibMatchPointList == null) {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.BATCH_DELETE_MATCH_POINT);
-                        } else if (oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList().size() == 0) {
+                        } else if (bibMatchPointList.size() == 0) {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.BATCH_DELETE_MATCH_POINT);
-                        } else if (StringUtils.isEmpty(oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList().get(0).getOleBibMatchPoint())) {
+                        } else if (StringUtils.isEmpty(bibMatchPointList.get(0).getMatchPoint())) {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OLEBatchProcess.BATCH_DELETE_MATCH_POINT);
                         }
 

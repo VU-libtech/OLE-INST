@@ -896,23 +896,108 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     public void createPaymentRequestOrCreditMemoDocument(OleInvoiceDocument inv) {
         List<OleInvoiceItem> negativeItems = new ArrayList<>();
         List<OleInvoiceItem> positiveItems = new ArrayList<>();
+        List<OleInvoiceItem> lineItems = new ArrayList<>();
+        List<OleInvoiceItem> positiveLineItems = new ArrayList<>();
+        List<OleInvoiceItem> negativeLineItems = new ArrayList<>();
+        Boolean isItemLevelDebit = null;
+        Boolean isAdditionalChargeLevelDebit = null;
+        Boolean isItemLevelCredit = null;
+        Boolean isAdditionalChargeLevelCredit = null;
+        BigDecimal firstPOTotalUnitPrice=BigDecimal.ZERO;
         for (OleInvoiceItem item : (List<OleInvoiceItem>) inv.getItems()) {
-            if (item.isDebitItem()  && item.getItemListPrice().isNonZero()) {
-                positiveItems.add(item);
+            if (item.isDebitItem()  &&
+                    (item.getItemListPrice().isNonZero() ||
+                    (item.getItemUnitPrice()!=null && item.getItemUnitPrice().compareTo(BigDecimal.ZERO)!=0))){
+
+                if(lineItems.size()==0 && item.getPurchaseOrderIdentifier()!=null){
+                    lineItems.add(item);
+                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.add(item.getItemUnitPrice());
+                }
+
+                if(item.getItemType().isQuantityBasedGeneralLedgerIndicator()){
+                    if(isItemLevelDebit==null){
+                        isItemLevelDebit = true;
+                    }
+                    isItemLevelDebit &= item.isDebitItem();
+
+                    if(lineItems.size()>0 && item.getItemListPrice().isNonZero()){
+                        positiveLineItems.add(item);
+                    }
+                }
+                if(item.getItemType().isAdditionalChargeIndicator()){
+                    if(isAdditionalChargeLevelDebit==null){
+                        isAdditionalChargeLevelDebit = true;
+                    }
+                    isAdditionalChargeLevelDebit &= item.isDebitItem();
+                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.add(item.getItemUnitPrice());
+
+                }
+                if(item.getItemListPrice().isNonZero()){
+                    positiveItems.add(item);
+                }
+
             }
-            else if(!item.isDebitItem() && item.getItemListPrice().isNonZero()){
-                negativeItems.add(item);
+            else if(!item.isDebitItem() &&
+                    (item.getItemListPrice().isNonZero() ||
+                    (item.getItemUnitPrice()!=null && item.getItemUnitPrice().compareTo(BigDecimal.ZERO)!=0))){
+
+                if(lineItems.size()==0 && item.getPurchaseOrderIdentifier()!=null){
+                    lineItems.add(item);
+                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.subtract(item.getItemUnitPrice());
+                }
+
+                if(item.getItemType().isQuantityBasedGeneralLedgerIndicator()){
+                    if(isItemLevelCredit==null){
+                        isItemLevelCredit = true;
+                    }
+                    isItemLevelCredit &= !item.isDebitItem();
+
+                    if(lineItems.size()>0 && item.getItemListPrice().isNonZero()){
+                        negativeLineItems.add(item);
+                    }
+                }
+                if(item.getItemType().isAdditionalChargeIndicator()){
+                    if(isAdditionalChargeLevelCredit==null){
+                        isAdditionalChargeLevelCredit = true;
+                    }
+                    isAdditionalChargeLevelCredit &= !item.isDebitItem();
+                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.subtract(item.getItemUnitPrice());
+
+                }
+                if(item.getItemListPrice().isNonZero()){
+                    negativeItems.add(item);
+                }
             }
         }
-        if (positiveItems.size() > 0) {
-            createPaymentRequestDocument(inv, positiveItems);
-        }
-        if (negativeItems.size() > 0) {
-            createCreditMemoDocument(inv, negativeItems);
+        positiveLineItems.removeAll(lineItems);
+        negativeLineItems.removeAll(lineItems);
+        if((isItemLevelDebit == null && isAdditionalChargeLevelDebit!=null && isAdditionalChargeLevelDebit) ||
+                (isAdditionalChargeLevelDebit == null && isItemLevelDebit!=null && isItemLevelDebit) ||
+                (isItemLevelCredit == null && isAdditionalChargeLevelCredit!=null && isAdditionalChargeLevelCredit) ||
+                (isAdditionalChargeLevelCredit == null && isItemLevelCredit!=null && isItemLevelCredit)
+                        && !(isItemLevelCredit!=null && isItemLevelCredit && isItemLevelDebit!=null && isItemLevelDebit)){
+            if(new KualiDecimal(firstPOTotalUnitPrice).isNegative()){
+                createCreditMemoDocument(inv, lineItems,true);
+            }else{
+                createPaymentRequestDocument(inv, lineItems,true);
+            }
+            if (positiveLineItems.size() > 0) {
+                createPaymentRequestDocument(inv, positiveLineItems,false);
+            }
+            if (negativeLineItems.size() > 0) {
+                createCreditMemoDocument(inv, negativeLineItems,false);
+            }
+        }else{
+            if (positiveItems.size() > 0) {
+                createPaymentRequestDocument(inv, positiveItems,false);
+            }
+            if (negativeItems.size() > 0) {
+                createCreditMemoDocument(inv, negativeItems,false);
+            }
         }
     }
 
-    public void createPaymentRequestDocument(OleInvoiceDocument inv, List<OleInvoiceItem> items) {
+    public void createPaymentRequestDocument(OleInvoiceDocument inv, List<OleInvoiceItem> items,boolean flag) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating Payment Request document");
@@ -1052,8 +1137,16 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 List<OlePaymentRequestItem> olePaymentRequestItems = new ArrayList<>();
                 // int itemLineNumberCount = 0;
                 for (OleInvoiceItem invoiceItem : invoiceItems) {
-                    if (invoiceItem.isDebitItem() && invoiceItem.getExtendedPrice().isNonZero()) {
+                    if ((flag || invoiceItem.isDebitItem()) && invoiceItem.getExtendedPrice().isNonZero()) {
                         OlePaymentRequestItem olePaymentRequestItem = new OlePaymentRequestItem(invoiceItem, preqDoc, expiredOrClosedAccountList);
+                        if(flag && !invoiceItem.isDebitItem()){
+                            olePaymentRequestItem.setItemListPrice(olePaymentRequestItem.getItemListPrice().negated());
+                            olePaymentRequestItem.setItemUnitPrice(olePaymentRequestItem.getItemUnitPrice().negate());
+                            olePaymentRequestItem.setExtendedPrice(olePaymentRequestItem.getExtendedPrice().negated());
+                            for(PurApAccountingLine purApAccountingLine : olePaymentRequestItem.getSourceAccountingLines()){
+                                purApAccountingLine.setAmount(purApAccountingLine.getAmount().negated());
+                            }
+                        }
                         olePaymentRequestItems.add(olePaymentRequestItem);
                         if (invoiceItem.isReopenPurchaseOrderIndicator()) {
                             preqDoc.setReopenPurchaseOrderIndicator(invoiceItem.isReopenPurchaseOrderIndicator());
@@ -1374,7 +1467,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     }
 
 
-    public void createCreditMemoDocument(OleInvoiceDocument invoiceDocument, List<OleInvoiceItem> items) {
+    public void createCreditMemoDocument(OleInvoiceDocument invoiceDocument, List<OleInvoiceItem> items,boolean flag) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating Payment Request document");
         }
@@ -1524,10 +1617,17 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).expiredOrClosedAccountsList(poDoc);
                 //int itemLineNumberCount = 0;
                 for (OleInvoiceItem invoiceItem : invoiceItems) {
-                    if (!invoiceItem.isDebitItem() && invoiceItem.getExtendedPrice().isNonZero()) {
-                        OleCreditMemoItem creditMemoItem = new OleCreditMemoItem(invoiceItem, vendorCreditMemoDocument, expiredOrClosedAccountList);
-                        creditMemoItems.add(creditMemoItem);
+                    if ((flag || !invoiceItem.isDebitItem()) && invoiceItem.getExtendedPrice().isNonZero()) {
 
+                        OleCreditMemoItem creditMemoItem = new OleCreditMemoItem(invoiceItem, vendorCreditMemoDocument, expiredOrClosedAccountList);
+                        if(flag && invoiceItem.isDebitItem()){
+                            creditMemoItem.setItemUnitPrice(creditMemoItem.getItemUnitPrice().negate());
+                            creditMemoItem.setExtendedPrice(creditMemoItem.getExtendedPrice().negated());
+                            for(PurApAccountingLine purApAccountingLine : creditMemoItem.getSourceAccountingLines()){
+                                purApAccountingLine.setAmount(purApAccountingLine.getAmount().negated());
+                            }
+                        }
+                        creditMemoItems.add(creditMemoItem);
                         if (vendorCreditMemoDocument.getAccountsPayablePurchasingDocumentLinkIdentifier() == null) {
                             vendorCreditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(invoiceItem.getAccountsPayablePurchasingDocumentLinkIdentifier());
                         }
@@ -1600,40 +1700,97 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     }
 
     public OleInvoiceDocument populateInvoiceDocument (OleInvoiceDocument invoiceDocument) {
+        Boolean isItemLevelDebit = null;
+        Boolean isAdditionalChargeLevelDebit = null;
+        Boolean isItemLevelCredit = null;
+        Boolean isAdditionalChargeLevelCredit = null;
         if (invoiceDocument.getPurchaseOrderDocuments() != null && invoiceDocument.getPurchaseOrderDocuments().size() > 0) {
             for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
                 if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null)
                     invoiceItem.setPurchaseOrderIdentifier(invoiceDocument.getPurchaseOrderDocuments().get(0).getPurapDocumentIdentifier());
             }
         }
-
-        Integer poIdentifierForCredit = null;
-        Integer poIdentifierForDebit = null;
-        if (invoiceDocument.getItems() != null && invoiceDocument.getItems().size() > 0) {
-            for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>)invoiceDocument.getItems()) {
-                if (invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && invoiceItem.isDebitItem() &&
-                        invoiceItem.getItemListPrice().isNonZero()) {
-                    poIdentifierForDebit = invoiceItem.getPurchaseOrderIdentifier();
-                    break;
-                }
-            }
-        }
-        if (invoiceDocument.getItems() != null && invoiceDocument.getItems().size() > 0) {
-            for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>)invoiceDocument.getItems()) {
-                if (invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && !invoiceItem.isDebitItem() &&
-                        invoiceItem.getItemListPrice().isNonZero()) {
-                    poIdentifierForCredit = invoiceItem.getPurchaseOrderIdentifier();
-                    break;
-                }
-            }
-        }
-        //if (invoiceDocument.getPurchaseOrderDocuments() != null && invoiceDocument.getPurchaseOrderDocuments().size() > 0) {
+        Integer poIdentifier=null;
         for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
-            if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null && invoiceItem.isDebitItem()) {
-                invoiceItem.setPurchaseOrderIdentifier(poIdentifierForDebit);
+            if (invoiceItem.isDebitItem()  &&
+                    (invoiceItem.getItemListPrice().isNonZero() ||
+                            (invoiceItem.getItemUnitPrice()!=null && invoiceItem.getItemUnitPrice().compareTo(BigDecimal.ZERO)!=0))){
+                if(invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator()){
+                    if(isItemLevelDebit==null){
+                        isItemLevelDebit = true;
+                    }
+                    isItemLevelDebit &= invoiceItem.isDebitItem();
+                }
+                if(invoiceItem.getItemType().isAdditionalChargeIndicator()){
+                    if(isAdditionalChargeLevelDebit==null){
+                        isAdditionalChargeLevelDebit = true;
+                    }
+                    isAdditionalChargeLevelDebit &= invoiceItem.isDebitItem();
+                }
+
             }
-            if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null && !invoiceItem.isDebitItem()) {
-                invoiceItem.setPurchaseOrderIdentifier(poIdentifierForCredit);
+            else if(!invoiceItem.isDebitItem() &&
+                    (invoiceItem.getItemListPrice().isNonZero() ||
+                            (invoiceItem.getItemUnitPrice()!=null && invoiceItem.getItemUnitPrice().compareTo(BigDecimal.ZERO)!=0))){
+                if(invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator()){
+                    if(isItemLevelCredit==null){
+                        isItemLevelCredit = true;
+                    }
+                    isItemLevelCredit &= !invoiceItem.isDebitItem();
+                }
+                if(invoiceItem.getItemType().isAdditionalChargeIndicator()){
+                    if(isAdditionalChargeLevelCredit==null){
+                        isAdditionalChargeLevelCredit = true;
+                    }
+                    isAdditionalChargeLevelCredit &= !invoiceItem.isDebitItem();
+                }
+            }
+            if (invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                    invoiceItem.getItemListPrice().isNonZero() && poIdentifier==null) {
+                poIdentifier = invoiceItem.getPurchaseOrderIdentifier();
+            }
+        }
+        boolean flag = (isItemLevelDebit == null && isAdditionalChargeLevelDebit!=null && isAdditionalChargeLevelDebit) ||
+                (isAdditionalChargeLevelDebit == null && isItemLevelDebit!=null && isItemLevelDebit) ||
+                (isItemLevelCredit == null && isAdditionalChargeLevelCredit!=null && isAdditionalChargeLevelCredit) ||
+                (isAdditionalChargeLevelCredit == null && isItemLevelCredit!=null && isItemLevelCredit) &&
+                        !(isItemLevelCredit!=null && isItemLevelCredit && isItemLevelDebit!=null && isItemLevelDebit);
+        if(!flag){
+            Integer poIdentifierForCredit = null;
+            Integer poIdentifierForDebit = null;
+            if (invoiceDocument.getItems() != null && invoiceDocument.getItems().size() > 0) {
+                for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>)invoiceDocument.getItems()) {
+                    if (invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && invoiceItem.isDebitItem() &&
+                            invoiceItem.getItemListPrice().isNonZero()) {
+                        poIdentifierForDebit = invoiceItem.getPurchaseOrderIdentifier();
+                        break;
+                    }
+                }
+            }
+            if (invoiceDocument.getItems() != null && invoiceDocument.getItems().size() > 0) {
+                for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>)invoiceDocument.getItems()) {
+                    if (invoiceItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && !invoiceItem.isDebitItem() &&
+                            invoiceItem.getItemListPrice().isNonZero()) {
+                        poIdentifierForCredit = invoiceItem.getPurchaseOrderIdentifier();
+                        break;
+                    }
+                }
+            }
+
+            //if (invoiceDocument.getPurchaseOrderDocuments() != null && invoiceDocument.getPurchaseOrderDocuments().size() > 0) {
+            for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
+                if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null && invoiceItem.isDebitItem()) {
+                    invoiceItem.setPurchaseOrderIdentifier(poIdentifierForDebit);
+                }
+                if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null && !invoiceItem.isDebitItem()) {
+                    invoiceItem.setPurchaseOrderIdentifier(poIdentifierForCredit);
+                }
+            }
+        }else{
+            for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
+                if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null) {
+                    invoiceItem.setPurchaseOrderIdentifier(poIdentifier);
+                }
             }
         }
         //}

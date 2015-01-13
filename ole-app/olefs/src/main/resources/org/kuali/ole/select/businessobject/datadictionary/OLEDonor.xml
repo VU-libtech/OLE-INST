@@ -295,14 +295,14 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean id="searchResult_donorCode" parent="Uif-DataField" p:propertyName="donorCode"/>
-                <bean id="searchResult_donorName" parent="Uif-DataField" p:propertyName="donorName"/>
-                <bean id="searchResult_donorNote" parent="Uif-DataField" p:propertyName="donorNote"/>
-                <bean id="searchResult_donorPublicDisplay" parent="Uif-DataField" p:propertyName="donorPublicDisplay"/>
-                <bean id="searchResult_donorAmount" parent="Uif-DataField" p:propertyName="donorAmount"/>
-                <bean id="searchResult_bookPlateUrl" parent="Uif-DataField" p:propertyName="bookPlateUrl"/>
-                <bean id="searchResult_donorPublicUrl" parent="Uif-DataField" p:propertyName="donorPublicUrl"/>
-                <bean id="searchResult_oleDonorActive" parent="Uif-DataField" p:propertyName="active"/>
+                <bean id="searchResult_donorCode" parent="Uif-MessageField" p:label="Donor Code" p:messageText="@{#line.donorCode}"/>
+                <bean id="searchResult_donorName" parent="Uif-MessageField" p:label="Donor Name" p:messageText="@{#line.donorName}"/>
+                <bean id="searchResult_donorNote" parent="Uif-MessageField" p:label="Donor Note" p:messageText="@{#line.donorNote}"/>
+                <bean id="searchResult_donorPublicDisplay" parent="Uif-MessageField" p:label="Donor Public Display" p:messageText="@{#line.donorPublicDisplay}"/>
+                <bean id="searchResult_donorAmount" parent="Uif-MessageField" p:label="Donor Amount" p:messageText="@{T(org.kuali.ole.krad.OleComponentUtils).formatAsCurrency(#line.donorAmount)}"/>
+                <bean id="searchResult_bookPlateUrl" parent="Uif-MessageField" p:label="Bookplate URL" p:messageText="@{#line.bookPlateUrl}"/>
+                <bean id="searchResult_donorPublicUrl" parent="Uif-MessageField" p:label="Donor public URL" p:messageText="@{#line.donorPublicUrl}"/>
+                <bean id="searchResult_oleDonorActive" parent="Uif-MessageField" p:label="Active Indicator" p:messageText="@{#line.active}"/>
             </list>
         </property>
     </bean>

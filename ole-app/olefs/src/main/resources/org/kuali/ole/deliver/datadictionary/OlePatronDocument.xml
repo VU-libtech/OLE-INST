@@ -392,6 +392,7 @@
         <property name="authorizerClass" value="org.kuali.ole.deliver.inquiry.OlePatronInquiryViewAuthorizer"/>
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OlePatronDocument" />
         <property name="singlePageView" value="true"/>
+        <property name="formPostUrl" value="olePatronInquiry" />
         <property name="items">
             <list>
                 <ref bean="OlePatronDocument-InquiryView-OverviewSection"/>
@@ -613,6 +614,8 @@
         <!--<property name="cssClasses" value="@{dataObject.oleLoanDocuments.size() eq 0}"/>-->
         <property name="items">
             <list>
+                <bean id="Show-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show All Loaned Item"  p:render="@{!dataObject.showLoanedRecords}" p:ajaxSubmit="true"/>
+                <bean id="Hide-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide All Loaned Item"  p:render="@{dataObject.showLoanedRecords}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-InquiryView-LoanedItems" />
                 <bean id="inquiry_viewLoanedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getLoanedRecords(dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
@@ -621,7 +624,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-InquiryView-LoanedItems" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" >
+    <bean id="OlePatronDocument-InquiryView-LoanedItems" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" p:render="@{dataObject.showLoanedRecords}">
       <!--  <property name="headerText" value="Loaned Items" /> -->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="oleLoanDocuments"/>

@@ -67,6 +67,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
     private static final String RANGE = "range";
     private static final String AND = "AND";
     private static final String NONE = "none";
+    private static final String PHRASE = "phrase";
     private static final String OR = "OR";
     private StringBuilder errBuilder;
     private String errCnt = "0";
@@ -161,7 +162,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         String fromDate = format.format(lastExportDate);
         searchParams = new SearchParams();
         SearchField searchField = searchParams.buildSearchField(null, "dateUpdated", "[" + fromDate + " TO NOW]");
-        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, null));
+        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(null, "bibIdentifier"));
         searchField = searchParams.buildSearchField(null, "staffOnlyFlag", Boolean.TRUE.toString());
         searchParams.getSearchConditions().add(searchParams.buildSearchCondition(NONE, searchField, "AND"));
@@ -570,6 +571,12 @@ public class BatchProcessExportData extends AbstractBatchProcess {
     @Override
     protected void loadProfile(OLEBatchProcessDefinitionDocument processDef) throws Exception {
         super.loadProfile(processDef);
+        if (processDef.getBatchProcessType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_EXPORT) && processDef.getLoadIdFromFile().equalsIgnoreCase("true")) {
+            String batchProcessFileContent = getBatchProcessFileContent();
+            if (processDef.getOleBatchProcessProfileBo().getOleBatchProcessProfileFilterCriteriaList().size() == 1 && processDef.getOleBatchProcessProfileBo().getOleBatchProcessProfileFilterCriteriaList().get(0).getFilterFieldName().equalsIgnoreCase(LOCAL_ID_DISPLAY)) {
+                processDef.getOleBatchProcessProfileBo().getOleBatchProcessProfileFilterCriteriaList().get(0).setFilterFieldValue(batchProcessFileContent);
+            }
+        }
         List<OLEBatchProcessProfileMappingOptionsBo> optionsBoList = processDef.getOleBatchProcessProfileBo().getOleBatchProcessProfileMappingOptionsList();
         for (OLEBatchProcessProfileMappingOptionsBo bo : optionsBoList) {
             processDef.getOleBatchProcessProfileBo().getOleBatchProcessProfileDataMappingOptionsBoList().addAll(bo.getOleBatchProcessProfileDataMappingOptionsBoList());
@@ -713,7 +720,8 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                 filterMap.put("ole_bat_field_nm", bo.getFilterFieldName());
                 Collection<OLEBatchProcessFilterCriteriaBo> filterBo = KRADServiceLocator.getBusinessObjectService().findMatching(OLEBatchProcessFilterCriteriaBo.class, filterMap);
                 if (filterBo.iterator().hasNext()) {
-                    if (filterBo.iterator().next().getFieldType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DATE)) {
+                    OLEBatchProcessFilterCriteriaBo oleBatchProcessFilterCriteriaBo = filterBo.iterator().next();
+                    if (oleBatchProcessFilterCriteriaBo.getFieldType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DATE)) {
                         searchField.setFieldValue("[" + getSolrDate(bo.getFilterFieldValue(), true) + " TO " + getSolrDate(bo.getFilterFieldValue(), false) + "]");
                         //condition.setSearchText("[" + getSolrDate(bo.getFilterFieldValue(), true) + " TO " + getSolrDate(bo.getFilterFieldValue(), false) + "]");
                         condition.setSearchScope(NONE);
@@ -721,14 +729,19 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                         if (filterBo.iterator().next().getFieldName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.STATUS_UPDATED_ON)) {
                             searchField.setDocType(DocType.BIB.getDescription());
                         }
+                    } else if(oleBatchProcessFilterCriteriaBo.getFieldDisplayName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.OLE_BATCH_FLTR_CRITERIA_LOAD_FROM_FILE)){
+                         buildSearchConditions(bo.getFilterFieldValue());
+                    } else if (oleBatchProcessFilterCriteriaBo.getFieldDisplayName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.OLE_BATCH_FLTR_CRITERIA_BIB_STATUS)) {
+                        buildSearchConditionsForStatus(bo.getFilterFieldValue());
                     } else {
                         searchField.setDocType(DocType.BIB.getDescription());
-                        if (bo.getFilterFieldName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.STATUS_SEARCH)) {
+                        searchField.setFieldValue(bo.getFilterFieldValue());
+                        /*if (bo.getFilterFieldName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.STATUS_SEARCH)) {
                             //To set bib status values as 'Catalogued' or 'Cataloguing' or 'None' in case sensitive.
                             searchField.setFieldValue(StringUtils.capitalize(StringUtils.lowerCase(bo.getFilterFieldValue())));
                         } else {
                             searchField.setFieldValue(bo.getFilterFieldValue());
-                        }
+                        }*/
                         //condition.setSearchText(bo.getFilterFieldValue());
                     }
                 } else {
@@ -782,15 +795,17 @@ public class BatchProcessExportData extends AbstractBatchProcess {
             }
             //to check if bib status or local id is present in the filter criteria, then select only the bib records by setting export type as full
             if (bo.getFilterFieldName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.LOCAL_ID_SEARCH) || bo.getFilterFieldName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.STATUS_SEARCH)
-                    || (StringUtils.isNotEmpty(processDef.getBatchProcessProfileBo().getDataToExport()) && processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase(EXPORT_BIB_ONLY))) {
+                    || (StringUtils.isNotEmpty(processDef.getBatchProcessProfileBo().getDataToExport()) && processDef.getBatchProcessProfileBo().getDataToExport().equalsIgnoreCase(EXPORT_BIB_ONLY) && !bo.getFilterFieldName().equalsIgnoreCase(LOCAL_ID_DISPLAY))) {
                 processDef.getOleBatchProcessProfileBo().setExportScope(EXPORT_FULL);
                 //searchParams.setDocFormat(DocFormat.MARC.getDescription());
                 searchField.setDocType(DocType.BIB.getDescription());
-                if (bo.getFilterFieldName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.STATUS_SEARCH))
-                    condition.setSearchScope(NONE);
+                /*if (bo.getFilterFieldName().equalsIgnoreCase(OLEConstants.OLEBatchProcess.STATUS_SEARCH))
+                    condition.setSearchScope(PHRASE);*/
             }
-            condition.setSearchField(searchField);
-            searchParams.getSearchConditions().add(condition);
+            if (!bo.getFilterFieldName().equalsIgnoreCase(LOCAL_ID_DISPLAY) && !bo.getFilterFieldName().equalsIgnoreCase(STATUS_SEARCH)) {
+                condition.setSearchField(searchField);
+                searchParams.getSearchConditions().add(condition);
+            }
         }
         return "";
     }
@@ -950,7 +965,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         updateJobProgress();
 
 
-        bibTreeDBUtil.init();
+        bibTreeDBUtil.init(0, 0);
 
         recProcessed = Integer.parseInt(job.getNoOfRecordsProcessed());
         totalRecords = Integer.parseInt(job.getTotalNoOfRecords());
@@ -1005,6 +1020,49 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         }
     }
 
+    private void buildSearchConditions(String ids){
+        String[] filterFieldValues = ids.split("\n");
+        for(String id : filterFieldValues){
+            SearchCondition searchCondition = new SearchCondition();
+            searchCondition.setOperator(OR);
+            searchCondition.setSearchScope(NONE);
+            SearchField searchField = new SearchField();
+            searchField.setDocType(DocType.BIB.getDescription());
+            searchField.setFieldName(LOCAL_ID_SEARCH);
+            searchField.setFieldValue(id);
+            searchCondition.setSearchField(searchField);
+            searchParams.getSearchConditions().add(searchCondition);
+        }
+    }
+
+    /**
+     * This method will build the search condition with the bib statuses and adds it to search params.
+     * @param fieldValue
+     */
+    private void buildSearchConditionsForStatus(String fieldValue) {
+        String[] filterFieldValues = fieldValue.split(",");
+        StringBuilder bibStatusBuilder = new StringBuilder();
+        // building the search condition field value
+        String bibStatus = "";
+        for (int i = 0; i < filterFieldValues.length; i++) {
+            bibStatus = filterFieldValues[i];
+            if (StringUtils.isNotBlank(bibStatus)) {
+                bibStatusBuilder.append("\"" + bibStatus + "\"");
+                if (i != filterFieldValues.length - 1) {
+                    bibStatusBuilder.append(OR);
+                }
+            }
+        }
+        SearchCondition searchCondition = new SearchCondition();
+        searchCondition.setOperator(AND);
+        searchCondition.setSearchScope(NONE);
+        SearchField searchField = new SearchField();
+        searchField.setDocType(DocType.BIB.getDescription());
+        searchField.setFieldName(STATUS_SEARCH);
+        searchField.setFieldValue(bibStatusBuilder.toString());
+        searchCondition.setSearchField(searchField);
+        searchParams.getSearchConditions().add(searchCondition);
+    }
 
 
 

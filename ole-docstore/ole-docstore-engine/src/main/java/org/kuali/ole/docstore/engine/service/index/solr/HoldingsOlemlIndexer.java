@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -250,7 +251,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             solrDocForHolding.addField(ADMIN_PASSWORD_DISPLAY, oleHoldings.getPlatform().getAdminPassword());
             solrDocForHolding.addField(ADMIN_PASSWORD_SEARCH, oleHoldings.getPlatform().getAdminPassword());
         }
-        if (oleHoldings.getHoldingsAccessInformation() != null) {
+        /*if (oleHoldings.getHoldingsAccessInformation() != null) {
             solrDocForHolding.addField(AUTHENTICATION_SEARCH, oleHoldings.getHoldingsAccessInformation().getAuthenticationType());
             solrDocForHolding.addField(AUTHENTICATION_DISPLAY, oleHoldings.getHoldingsAccessInformation().getAuthenticationType());
             solrDocForHolding.addField(PROXIED_SEARCH, oleHoldings.getHoldingsAccessInformation().getProxiedResource());
@@ -259,7 +260,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             solrDocForHolding.addField(NUMBER_OF_SIMULTANEOUS_USERS_DISPLAY, oleHoldings.getHoldingsAccessInformation().getNumberOfSimultaneousUser());
             solrDocForHolding.addField(ACCESS_LOCATION_SEARCH, oleHoldings.getHoldingsAccessInformation().getAccessLocation());
             solrDocForHolding.addField(ACCESS_LOCATION_DISPLAY, oleHoldings.getHoldingsAccessInformation().getAccessLocation());
-        }
+        }*/
         solrDocForHolding.addField(PUBLIC_NOTE_DISPLAY, oleHoldings.getDonorPublicDisplay());
 
         if (oleHoldings.getLink() != null) {
@@ -457,26 +458,28 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         LOG.info("HoldingsOlemlIndexer class");
         Holdings holdings = (Holdings) object;
         List<SolrDocument> solrDocumentList = getSolrDocumentBySolrId(holdings.getId());
-        SolrDocument holdingsSolrDocument = solrDocumentList.get(0);
+        if (CollectionUtils.isNotEmpty(solrDocumentList)) {
+            SolrDocument holdingsSolrDocument = solrDocumentList.get(0);
 
-        if (holdingsSolrDocument != null) {
-            Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
-            solrDocForHolding = getSolrInputFieldsForHoldings(holdings, solrDocForHolding);
-            addBibInfoForHoldingsOrItems(solrDocForHolding, holdingsSolrDocument);
+            if (holdingsSolrDocument != null) {
+                Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+                solrDocForHolding = getSolrInputFieldsForHoldings(holdings, solrDocForHolding);
+                addBibInfoForHoldingsOrItems(solrDocForHolding, holdingsSolrDocument);
 
-            DocstoreService docstoreService = new DocstoreServiceImpl();
-            HoldingsTree holdingsTree = docstoreService.retrieveHoldingsTree(holdings.getId());
-            ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
-            for (Item item : holdingsTree.getItems()) {
-                itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, holdingsSolrDocument);
+                DocstoreService docstoreService = new DocstoreServiceImpl();
+                HoldingsTree holdingsTree = docstoreService.retrieveHoldingsTree(holdings.getId());
+                ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
+                for (Item item : holdingsTree.getItems()) {
+                    itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, holdingsSolrDocument);
+                }
+
+                solrDocForHolding.addField(BIB_IDENTIFIER, holdings.getBib().getId());
+                solrDocForHolding.addField(ITEM_IDENTIFIER, itemIdentifier);
+                Date date = new Date();
+                solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
+                solrDocForHolding.addField(DATE_UPDATED, date);
+                solrInputDocuments.add(solrDocForHolding);
             }
-
-            solrDocForHolding.addField(BIB_IDENTIFIER, holdings.getBib().getId());
-            solrDocForHolding.addField(ITEM_IDENTIFIER, itemIdentifier);
-            Date date = new Date();
-            solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
-            solrDocForHolding.addField(DATE_UPDATED, date);
-            solrInputDocuments.add(solrDocForHolding);
         }
     }
 
@@ -495,10 +498,16 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         boolean isDocumentExists = false;
         SolrInputDocument solrInputDocumentExists = null;
         for (SolrInputDocument solrInputDocument : solrInputDocumentList) {
+            List<String> ids = new ArrayList<>();
             SolrInputField docType = solrInputDocument.get("DocType");
             if (docType.getValue().equals("bibliographic")) {
                 SolrInputField holdingsIds = solrInputDocument.get(HOLDINGS_IDENTIFIER);
-                ArrayList<String> ids = (ArrayList<String>) holdingsIds.getValue();
+                Object object = holdingsIds.getValue();
+                if (object instanceof List) {
+                    ids.addAll((List) object);
+                } else {
+                    ids.add((String) object);
+                }
                 for (Object holdingsId : ids) {
                     if (holdingsId.equals(id)) {
                         solrInputDocumentExists = solrInputDocument;

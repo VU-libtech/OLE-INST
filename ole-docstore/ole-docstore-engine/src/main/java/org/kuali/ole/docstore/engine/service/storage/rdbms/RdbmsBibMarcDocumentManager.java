@@ -9,6 +9,7 @@ import org.kuali.ole.docstore.common.document.content.bib.marc.ControlField;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
+import org.kuali.ole.docstore.common.util.BatchBibTreeDBUtil;
 import org.kuali.ole.docstore.common.util.BibMarcUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
@@ -169,12 +170,13 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
             Map<String, String> dataFields = bibMarcUtil.buildDataValuesForBibInfo(bibMarcRecords.getRecords().get(0));
 
             BibInfoRecord bibInfoRecord = new BibInfoRecord();
-            bibInfoRecord.setBibId(DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, bibRecord.getBibId()));
-            bibInfoRecord.setTitle(truncateData(dataFields.get(BibMarcUtil.TITLE_DISPLAY)));
-            bibInfoRecord.setAuthor(truncateData(dataFields.get(BibMarcUtil.AUTHOR_DISPLAY)));
-            bibInfoRecord.setPublisher(truncateData(dataFields.get(BibMarcUtil.PUBLISHER_DISPLAY)));
-            String isbn = dataFields.get(BibMarcUtil.ISBN_DISPLAY);
-            String issn = dataFields.get(BibMarcUtil.ISSN_DISPLAY);
+            bibInfoRecord.setBibId(Integer.valueOf(bibRecord.getBibId()));
+            bibInfoRecord.setBibIdStr(DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, bibRecord.getBibId()));
+            bibInfoRecord.setTitle(BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.TITLE_DISPLAY), 4000));
+            bibInfoRecord.setAuthor(BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.AUTHOR_DISPLAY), 4000));
+            bibInfoRecord.setPublisher(BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.PUBLISHER_DISPLAY), 4000));
+            String isbn = BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.ISBN_DISPLAY), 100);
+            String issn = BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.ISSN_DISPLAY), 100);
 
             if(StringUtils.isNotEmpty(isbn)) {
                 bibInfoRecord.setIsxn(isbn);
@@ -189,12 +191,5 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
     }
 
 
-    private  String truncateData(String data) {
-        String truncateData = data;
-        if(data != null && data.length() > 4000) {
-            truncateData = data.substring(0,3999);
-        }
-        return truncateData;
-    }
 
 }

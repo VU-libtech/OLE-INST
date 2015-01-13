@@ -550,7 +550,7 @@
     function showReindexResult(action) {
         document.getElementById("reindexResult").value = "";
         $.post("./rebuildIndex",
-                {action:"start", batchSize:$("#batchSize").val()},
+                {action:"start", batchSize:$("#batchSize").val(), startIndex:$("#startIndex").val(), endIndex:$("#endIndex").val()},
                 function (data) {
                     document.getElementById("reindexResult").value = data.toString();
                 }, 'html');
@@ -630,6 +630,20 @@
                     </td>
                     <td>
                         <input type="text" name="batchSize" value="5000" id="batchSize"
+                               style="height: 25px; width: 200px; font-style: oblique; font-weight: bold;"/>
+                    </td>
+                    <td>
+                        Start BibId :
+                    </td>
+                    <td>
+                        <input type="text" name="startIndex" value="0" id="startIndex"
+                               style="height: 25px; width: 200px; font-style: oblique; font-weight: bold;"/>
+                    </td>
+                    <td>
+                        End BibId :
+                    </td>
+                    <td>
+                        <input type="text" name="endIndex" value="0" id="endIndex"
                                style="height: 25px; width: 200px; font-style: oblique; font-weight: bold;"/>
                     </td>
                 </tr>

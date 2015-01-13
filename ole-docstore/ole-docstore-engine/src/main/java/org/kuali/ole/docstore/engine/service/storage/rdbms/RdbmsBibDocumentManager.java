@@ -187,9 +187,11 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
 
 
         }
-
-
         getBusinessObjectService().deleteMatching(BibRecord.class, parentCriteria1);
+        // Modified for performance tuning jira OLE-7173
+        parentCriteria1 = new HashMap();
+        parentCriteria1.put("bibIdStr", id);
+        getBusinessObjectService().deleteMatching(BibInfoRecord.class, parentCriteria1);
         //TODO : check in oracle DB also.
     }
 

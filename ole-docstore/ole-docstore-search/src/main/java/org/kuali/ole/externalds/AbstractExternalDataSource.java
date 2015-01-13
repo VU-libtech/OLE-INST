@@ -1,11 +1,8 @@
 package org.kuali.ole.externalds;
 
 import org.kuali.ole.docstore.OleException;
-import org.kuali.ole.docstore.discovery.model.SearchParams;
-import org.kuali.ole.docstore.model.xmlpojo.work.bib.marc.WorkBibMarcRecord;
-import org.kuali.ole.docstore.model.xmlpojo.work.bib.marc.WorkBibMarcRecords;
+import org.kuali.ole.docstore.common.search.SearchParams;
 
-import java.io.IOException;
 import java.util.List;
 
 /**

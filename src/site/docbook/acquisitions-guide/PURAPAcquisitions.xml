@@ -721,15 +721,7 @@
                                 </mediaobject>
                             </screenshot>
                         </para>
-                        <para>Go to the <emphasis role="bold">Admin</emphasis> tab > system
-                            configuration > parameter </para>
-                        <para>Before you can use object code 8410 you will need to modify the
-                            parameter name: "VALID_OBJECT_LEVELS_BY_PAYMENT_REASON" by adding OASS
-                            to the E= section of the parameter value. E is the reason code the DV
-                            now defaults to. OASS is the Level code for the Object Code 8410. Just
-                            add OASS to the end of the string starting with
-                            "E=ADV,CREX,DEBT,OEXP,R&amp;M,SASV,SERV,SUPL; so that it reads
-                            "E=ADV,CREX,DEBT,OEXP,R&amp;M,SASV,SERV,SUPL,OASS;"</para>
+                        <para/>
                     </listitem>
                     <listitem>
                         <para role="C1H Number">Cache will need to be cleared:</para>

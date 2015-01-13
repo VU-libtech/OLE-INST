@@ -82,7 +82,13 @@
                 <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40" p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' }"/>
                 <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"
                       p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' }"/>
-                <ref bean="hiddenButtonForCreatePdf"/>
+                <bean parent="Uif-VerticalBoxGroup">
+                	<property name="items">
+                		<list>
+			                <ref bean="hiddenButtonForCreatePdf"/>
+                		</list>
+                	</property>
+                </bean>
             </list>
         </property>
         <property name="page.footer">

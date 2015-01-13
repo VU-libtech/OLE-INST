@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.engine.service.index.solr;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -273,7 +274,9 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
             SolrServer solr = null;
             try {
                 solr = SolrServerManager.getInstance().getSolrServer();
-                UpdateResponse response = solr.add(solrDocs);
+                if (CollectionUtils.isNotEmpty(solrDocs)) {
+                    UpdateResponse response = solr.add(solrDocs);
+                }
                 // deleting document which contains operation delete
                 delete(idsToDelete, solr);
                 if (isCommit) {

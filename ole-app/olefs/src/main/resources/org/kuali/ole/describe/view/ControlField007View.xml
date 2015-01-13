@@ -5,6 +5,7 @@
 
 
     <bean id="Control_Field_007_Data_Section" parent="Uif-Disclosure-VerticalBoxSection"
+    		class="org.kuali.ole.krad.OleFilteredCopyGroup" p:filterModelProperty="filterField007"
           p:layoutManager.orientation="VERTICAL"
           p:layoutManager.style="border:0px solid;"
           p:render="@{editable eq 'true'  and displayField007 eq 'true'}">

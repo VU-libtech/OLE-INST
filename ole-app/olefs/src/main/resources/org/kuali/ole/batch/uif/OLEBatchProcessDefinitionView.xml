@@ -190,9 +190,7 @@
     </bean>
 
     <bean id="BatchProcessDefinition-input" parent="Uif-VerticalBoxSection"
-          p:render="@{(document.batchProcessType eq 'Bib Import' or document.batchProcessType eq 'Patron Import'
-          or document.batchProcessType eq 'Location Import' or document.batchProcessType eq 'Batch Delete'
-          or document.batchProcessType eq 'Invoice Import')}" p:layoutManager.style="border:1px solid;"
+          p:render="@{(document.batchProcessType eq 'Bib Import' or document.batchProcessType eq 'Patron Import' or document.batchProcessType eq 'Location Import' or document.batchProcessType eq 'Batch Delete' or document.batchProcessType eq 'Invoice Import' or document.loadIdFromFile eq 'true')}" p:layoutManager.style="border:1px solid;"
           p:layoutManager.cssClasses="fl-container-flex">
         <property name="headerText" value="Input Section"/>
         <property name="items">

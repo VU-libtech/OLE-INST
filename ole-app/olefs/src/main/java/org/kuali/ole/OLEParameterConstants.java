@@ -40,6 +40,8 @@ public class OLEParameterConstants {
     public static final String PDF_LOCATION="PDF_LOCATION";
     public static final String NOTICE_FROM_ADDRESS = "NOTICE_FROM_ADDRESS";
     public static final String ITEM_STATUS_FOR_RET_LOAN="ITEM_STATUS_FOR_RET_LOAN";
+    public static final String NCIP_ACCEPT_ITEM_NOTICE_INDICATOR="NCIP_ACCEPT_ITEM_NOTICE_INDICATOR";
+
 
 
 }

@@ -178,6 +178,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         for (BibTree bibTree : bibTrees.getBibTrees()) {
             processBibTree(bibTree, solrInputDocuments, idsToDelete);
         }
+        LOG.info("Solr Input Documents Size : " + solrInputDocuments.size());
         indexAndDelete(solrInputDocuments, idsToDelete, true);
     }
 
@@ -357,7 +358,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         solrInputDocument.setField(STATUS_SEARCH, bib.getStatus());
         solrInputDocument.setField(STATUS_DISPLAY, bib.getStatus());
 
-        if (StringUtils.isNotEmpty(bib.getStatus())) {
+        if (StringUtils.isNotEmpty(bib.getStatusUpdatedOn())) {
             solrInputDocument.setField(STATUS_UPDATED_ON, getDate(bib.getStatusUpdatedOn()));
         }
 
@@ -366,9 +367,27 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         String createdBy = bib.getCreatedBy();
         solrInputDocument.setField(CREATED_BY, createdBy);
         solrInputDocument.setField(UPDATED_BY, createdBy);
+
         Date date = new Date();
-        solrInputDocument.setField(DATE_ENTERED, date);
-        solrInputDocument.setField(DATE_UPDATED, date);
+        Date createdDate = null;
+
+        if (StringUtils.isNotBlank(bib.getCreatedOn())) {
+            createdDate = getDate(bib.getCreatedOn());
+            solrInputDocument.setField(DATE_ENTERED, createdDate);
+        } else {
+            solrInputDocument.setField(DATE_ENTERED, date);
+        }
+
+        if (StringUtils.isNotBlank(bib.getUpdatedOn())) {
+            solrInputDocument.setField(DATE_UPDATED, getDate(bib.getUpdatedOn()));
+        } else {
+            if (StringUtils.isNotBlank(bib.getCreatedOn())) {
+                // Updated date will have created date value when bib is not updated after it is created.
+                solrInputDocument.setField(DATE_UPDATED, createdDate);
+            } else {
+                solrInputDocument.setField(DATE_UPDATED, date);
+            }
+        }
     }
 
     protected void updateRecordInSolr(Object object, List<SolrInputDocument> solrInputDocuments) {
@@ -382,7 +401,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             if (solrDocument != null && solrDocument.getFieldValue(HOLDINGS_IDENTIFIER) != null) {
                 addBibInfoToHoldings(solrInputDocuments, solrInputDocument, solrDocument);
             }
-            if (StringUtils.isNotEmpty(bib.getStatus()) || StringUtils.isNotEmpty(bib.getStatusUpdatedOn())) {
+            if (StringUtils.isNotEmpty(bib.getStatusUpdatedOn())) {
                 solrInputDocument.setField(STATUS_UPDATED_ON, getDate(bib.getStatusUpdatedOn()));
             }
         } else {

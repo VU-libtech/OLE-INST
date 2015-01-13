@@ -338,11 +338,11 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         requisitionDocument.getDocumentHeader().setDocumentDescription(getDocumentDescription(requisitionDocument, oleOrderRecord,job,recPosition));
         requisitionDocument.setPurchaseOrderTransmissionMethodCode(getTransmissionMethodCode(oleOrderRecord.getOleTxRecord().getMethodOfPOTransmission()));//FAX
         requisitionDocument.setPurchaseOrderCostSourceCode(oleOrderRecord.getOleTxRecord().getCostSource());//CON
-        requisitionDocument.setRequestorPersonName(getConfigurationService().getPropertyValueAsString(PurapPropertyConstants.REQUESTOR_PERSON_NAME));
-        requisitionDocument.setRequestorPersonPhoneNumber(getConfigurationService().getPropertyValueAsString(PurapPropertyConstants.REQUESTOR_PERSON_PHONE_NUMBER));
-        requisitionDocument.setRequestorPersonEmailAddress(getConfigurationService().getPropertyValueAsString(PurapPropertyConstants.REQUESTOR_PERSON_EMAIL_ADDRESS));
-        requisitionDocument.setOrganizationAutomaticPurchaseOrderLimit(new KualiDecimal(getConfigurationService().getPropertyValueAsString(VendorPropertyConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT)));
-        requisitionDocument.setPurchaseOrderAutomaticIndicator(Boolean.parseBoolean(getConfigurationService().getPropertyValueAsString(PurapPropertyConstants.PURCHASE_ORDER_AUTOMATIC_INDICATIOR)));
+        requisitionDocument.setRequestorPersonName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_NAME));
+        requisitionDocument.setRequestorPersonPhoneNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_PHONE_NUMBER));
+        requisitionDocument.setRequestorPersonEmailAddress(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.REQUESTOR_PERSON_EMAIL_ADDRESS));
+        requisitionDocument.setOrganizationAutomaticPurchaseOrderLimit(new KualiDecimal(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT)));
+        requisitionDocument.setPurchaseOrderAutomaticIndicator(Boolean.parseBoolean(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.PURCHASE_ORDER_AUTOMATIC_INDICATIOR)));
         requisitionDocument.setReceivingDocumentRequiredIndicator(oleOrderRecord.getOleTxRecord().isReceivingRequired());
         requisitionDocument.setPaymentRequestPositiveApprovalIndicator(oleOrderRecord.getOleTxRecord().isPayReqPositiveApprovalReq());
         requisitionDocument.setRequisitionSourceCode(oleOrderRecord.getOleTxRecord().getRequisitionSource());
@@ -423,7 +423,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                 requisitionDocument.setDeliveryPostalCode(building.getBuildingAddressZipCode());
                 requisitionDocument.setDeliveryCountryCode(building.getBuildingAddressCountryCode());
                 requisitionDocument.setDeliveryBuildingRoomNumber(room.getBuildingRoomNumber());
-                requisitionDocument.setDeliveryToName(getConfigurationService().getPropertyValueAsString(PurapPropertyConstants.DELIVERY_TO_NAME));
+                requisitionDocument.setDeliveryToName(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.DELIVERY_TO_NAME));
 
 
                 requisitionDocument.setBillingCountryCode(building.getBuildingCode());
@@ -433,7 +433,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                 requisitionDocument.setBillingStateCode(building.getBuildingAddressStateCode());
                 requisitionDocument.setBillingPostalCode(building.getBuildingAddressZipCode());
                 requisitionDocument.setBillingCountryCode(building.getBuildingAddressCountryCode());
-                requisitionDocument.setBillingPhoneNumber(getConfigurationService().getPropertyValueAsString(PurapPropertyConstants.BILLING_PHONE_NUMBER));
+                requisitionDocument.setBillingPhoneNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_PHN_NBR));
 
             }
         }
@@ -523,7 +523,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         item.setOleOrderRecord(oleOrderRecord);
         //item.setBibInfoBean(bibInfoBean);
         item.setItemLineNumber(itemLineNumber);
-        item.setItemUnitOfMeasureCode(getConfigurationService().getPropertyValueAsString(PurapPropertyConstants.UOM));
+        item.setItemUnitOfMeasureCode(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.UOM));
         item.setItemQuantity(new KualiDecimal(oleOrderRecord.getOleTxRecord().getQuantity()));
         if(oleOrderRecord.getOleTxRecord().getItemNoOfParts()!= null){
             item.setItemNoOfParts(new KualiInteger(oleOrderRecord.getOleTxRecord().getItemNoOfParts()));

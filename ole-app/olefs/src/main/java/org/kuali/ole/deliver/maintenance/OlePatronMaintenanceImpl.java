@@ -3,8 +3,10 @@ package org.kuali.ole.deliver.maintenance;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
+import org.kuali.ole.krad.OleComponentUtils;
 import org.kuali.ole.service.OlePatronService;
 import org.kuali.ole.service.OlePatronServiceImpl;
 import org.kuali.rice.kim.api.KimConstants;
@@ -18,6 +20,7 @@ import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.uif.util.ProcessLogger;
 
 import java.util.*;
 
@@ -67,31 +70,14 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                 olePatron.setPhones(entity.getEntityTypeContactInfos().get(0).getPhoneNumbers());
                 olePatron.setEmails(entity.getEntityTypeContactInfos().get(0).getEmailAddresses());
             }
-            List<OleProxyPatronDocument> oleProxyPatronDocuments = olePatron.getOleProxyPatronDocuments();
-            List<OleProxyPatronDocument> proxyPatronDocumentList = new ArrayList<OleProxyPatronDocument>();
-            List<OlePatronDocument> olePatronDocuments = new ArrayList<OlePatronDocument>();
-            if (oleProxyPatronDocuments.size() > 0) {
-                for (Iterator<OleProxyPatronDocument> proxyPatronIterator = oleProxyPatronDocuments.iterator(); proxyPatronIterator.hasNext(); ) {
-                    OleProxyPatronDocument oleProxyPatronDocument = (OleProxyPatronDocument) proxyPatronIterator.next();
-                    Map map = new HashMap();
-                    map.put(OLEConstants.OlePatron.PATRON_ID, oleProxyPatronDocument.getProxyPatronId());
-                    OlePatronDocument olePatronDocument = (OlePatronDocument) getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, map);
-                    if (olePatronDocument.isActiveIndicator()) {
-                        oleProxyPatronDocument.setProxyPatronBarcode(olePatronDocument.getBarcode());
-                        oleProxyPatronDocument.setProxyPatronFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
-                        oleProxyPatronDocument.setProxyPatronLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
-                        proxyPatronDocumentList.add(oleProxyPatronDocument);
-                    }
-                }
-                olePatron.setOleProxyPatronDocuments(proxyPatronDocumentList);
-            }
+            
             olePatron.setEmployments(entity.getEmploymentInformation());
             List<OlePatronAffiliation> patronAffiliations = new ArrayList<OlePatronAffiliation>();
             olePatron.setPatronAffiliations(getPatronAffiliationFromEntity(entity.getAffiliations(), entity.getEmploymentInformation()));
 
             if (olePatron.getOlePatronId() != null) {
                 LoanProcessor loanProcessor = new LoanProcessor();
-                OleDeliverRequestDocumentHelperServiceImpl requestService = new OleDeliverRequestDocumentHelperServiceImpl();
+               /* OleDeliverRequestDocumentHelperServiceImpl requestService = new OleDeliverRequestDocumentHelperServiceImpl();
                 List<OleDeliverRequestBo> oleDeliverRequestBoList = olePatron.getOleDeliverRequestBos();
                 if (oleDeliverRequestBoList.size() > 0) {
                     for (int i = 0; i < oleDeliverRequestBoList.size(); i++) {
@@ -108,7 +94,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                     olePatron.setOleDeliverRequestBos(loanProcessor.getPatronRequestRecords(olePatron.getOlePatronId()));
                 } catch (Exception e) {
                     LOG.error("Exception", e);
-                }
+                }*/
                 if (olePatron.getOleLoanDocuments().size() > 0) {
                     olePatron.setLoanFlag(true);
                 }

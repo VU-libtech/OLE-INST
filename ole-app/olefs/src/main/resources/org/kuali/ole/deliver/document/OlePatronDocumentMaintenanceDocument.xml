@@ -49,6 +49,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.maintenance.OlePatronMaintenanceImpl"/>
         <property name="authorizerClass" value="org.kuali.ole.deliver.maintenance.OlePatronMaintenanceViewAuthorizer"/>
         <property name="headerText" value="Patron"/>
+	    <property name="formClass" value="org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -61,16 +62,16 @@
                 <!--<bean id="OlePatronDocument-OleDocumentOverviewSection" parent="Uif-DocumentOverviewSection" p:order="10" p:render="@{maintenanceAction ne 'Delete'}"/>-->
                 <ref bean="OlePatronDocument-OverviewSection"/>
                 <ref bean="OlePatronDocument-ContactsSection" />
-                <ref bean="OlePatronDocument-Affiliation" />
-                <ref bean="OlePatronDocument-LibraryPoliciesSection" />
-                <ref bean="OlePatronDocument-PatronLoanedRecords" />
-                <ref bean="OlePatronDocument-PatronRequestedRecords" />
-                <ref bean="OlePatronDocument-TemporaryCirculationHistoryRecords" />
-                <ref bean="OlePatronDocument-NotesSection" />
-                <ref bean="OlePatronDocument-ProxySection" />
-                <ref bean="OlePatronDocument-ProxyForSection" />
-                <ref bean="OlePatronDocument-PatronLocalIdSection" />
-                <ref bean="OlePatronDocument-InvalidOrLostBarcodeSection" />
+                <ref bean="OlePatronDocument-Affiliation-Wrapper" />
+                <ref bean="OlePatronDocument-LibraryPoliciesSection-Wrapper" />
+                <ref bean="OlePatronDocument-PatronLoanedRecords-Wrapper" />
+                <ref bean="OlePatronDocument-PatronRequestedRecords-Wrapper" />
+                <ref bean="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" />
+                <ref bean="OlePatronDocument-NotesSection-Wrapper" />
+                <ref bean="OlePatronDocument-ProxySection-Wrapper" />
+                <ref bean="OlePatronDocument-ProxyForSection-Wrapper" />
+                <ref bean="OlePatronDocument-PatronLocalIdSection-Wrapper" />
+                <ref bean="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" />
                 <ref bean="OlePatronDocument-Barcode-Update-Section" />
                <!-- <ref bean="OlePatronDocument-MissingPiecesItemInfo"/>-->
                 <ref bean="showUpdateBarcodeDialogBox"/>
@@ -132,19 +133,68 @@
         </property>
     </bean>
 
-
-    <bean id="OlePatronDocument-PatronLoanedRecords" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false"><!--p:render="@{document.newMaintainableObject.dataObject.loanFlag}"-->
-        <property name="headerText" value="Loaned Records" />
+    <bean id="OlePatronDocument-PatronLoanedRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterLoanedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLoanedRecords" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterLoanedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLoanedRecords" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLoanedRecords" value="@{!filterLoanedRecords}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-PatronLoanedRecords" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-PatronLoanedRecords" parent="Uif-VerticalBoxSection"
+    		p:filterModelProperty="filterLoanedRecords"><!--p:render="@{document.newMaintainableObject.dataObject.loanFlag}"-->
         <property name="items">
             <list>
-                <ref bean="OlePatronDocument-LoanedItems" />
+                <bean id="Show-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show All Loaned Item"  p:render="@{!document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true"/>
+                <bean id="Hide-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide All Loaned Item"  p:render="@{document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true" />
+                <ref bean="OlePatronDocument-LoanedItems"/>
                 <bean id="viewLoanedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getLoanedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
         </property>
     </bean>
-    <bean id="OlePatronDocument-LoanedItems" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="21" >
+    <bean id="OlePatronDocument-LoanedItems" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="21" p:render="@{document.newMaintainableObject.dataObject.oleLoanDocuments ne null and document.newMaintainableObject.dataObject.oleLoanDocuments.size()>0 and document.newMaintainableObject.dataObject.showLoanedRecords}" >
         <!-- <property name="headerText" value="Loaned Items" /> -->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="oleLoanDocuments"/>
@@ -229,11 +279,62 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-PatronRequestedRecords" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:componentSecurity.viewAuthz="true">    <!--p:render="@{document.newMaintainableObject.dataObject.requestFlag}"-->
-        <property name="headerText" value="Requested Records" />
+    <bean id="OlePatronDocument-PatronRequestedRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterRequestedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterRequestedRecords" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterRequestedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterRequestedRecords" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterRequestedRecords" value="@{!filterRequestedRecords}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-PatronRequestedRecords" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-PatronRequestedRecords" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true"
+    		p:filterModelProperty="filterRequestedRecords"><!--p:render="@{document.newMaintainableObject.dataObject.requestFlag}"-->
         <property name="items">
             <list>
-                <ref bean="OlePatronDocument-RequestedItems" /><bean id="viewRequestedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getRequestedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
+                <bean id="Show-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronRequestedRecords" p:actionLabel="Show All RequestedItems"  p:render="@{!document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true"/>
+                <bean id="Hide-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronRequestedRecords" p:actionLabel="Hide All RequestedItems"  p:render="@{document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true" />
+                <ref bean="OlePatronDocument-RequestedItems" />
+                <bean id="viewRequestedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getRequestedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
@@ -244,7 +345,7 @@
     <bean id="patronLoan_hdnBtn" parent="Uif-PrimaryActionButton" p:methodToCall="refreshProgGroup" p:hidden="true"
           p:refreshId="OlePatronDocument-LoanedItems" />
 
-    <bean id="OlePatronDocument-RequestedItems" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="12" >
+    <bean id="OlePatronDocument-RequestedItems" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="12" p:render="@{document.newMaintainableObject.dataObject.oleDeliverRequestBos ne null and document.newMaintainableObject.dataObject.oleDeliverRequestBos.size()>0 and document.newMaintainableObject.dataObject.showRequestedItems}">
         <!-- <property name="headerText" value="Requested Items" />  -->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
         <property name="propertyName" value="oleDeliverRequestBos"/>
@@ -273,11 +374,60 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="false" p:componentSecurity.viewAuthz="true"><!--p:render="@{document.newMaintainableObject.dataObject.tempCircHistoryFlag}"-->
-        <property name="headerText" value="Temporary Circulation History records"/>
+    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterTemporaryCirculationHistoryRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterTemporaryCirculationHistoryRecords" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterTemporaryCirculationHistoryRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterTemporaryCirculationHistoryRecords" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterTemporaryCirculationHistoryRecords" value="@{!filterTemporaryCirculationHistoryRecords}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-TemporaryCirculationHistoryRecords" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-VerticalBoxSection"
+          p:filterModelProperty="filterTemporaryCirculationHistoryRecords" p:componentSecurity.viewAuthz="true"><!--p:render="@{document.newMaintainableObject.dataObject.tempCircHistoryFlag}"-->
         <property name="items">
             <list>
+                <bean id="Show-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showTemporaryCirculationHistoryRecords" p:actionLabel="Show All TemporaryCirculationHistoryRecords"  p:render="@{!document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true"/>
+                <bean id="Hide-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideTemporaryCirculationHistoryRecords" p:actionLabel="Hide All TemporaryCirculationHistoryRecords"  p:render="@{document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-TemporaryCirculationHistory"/>
                 <bean id="viewTempRecordsLink" parent="Uif-LinkField" p:style="font-weight:bold;"
                       p:href="@{#ViewHelper.getTempCircRecords(document.newMaintainableObject.dataObject.olePatronId)}"
@@ -288,7 +438,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-TemporaryCirculationHistory" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="13" >
+    <bean id="OlePatronDocument-TemporaryCirculationHistory" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="13" p:render="@{document.newMaintainableObject.dataObject.oleTemporaryCirculationHistoryRecords ne null and document.newMaintainableObject.dataObject.oleTemporaryCirculationHistoryRecords.size()>0 and document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}">
         <!--  <property name="headerText" value="Temporary Circulation History Records" /> -->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory"/>
         <property name="propertyName" value="oleTemporaryCirculationHistoryRecords"/>
@@ -502,9 +652,65 @@
             </list>
         </property>
     </bean>
-    <bean id="OlePatronDocument-Affiliation" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
+
+    <bean id="OlePatronDocument-Affiliation-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterAffiliation}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterAffiliation" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterAffiliation}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterAffiliation" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Affiliation"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterAffiliation" value="@{!filterAffiliation}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-Affiliation" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-Affiliation"
+    		parent="Uif-TableCollectionSection" p:filterModelProperty="filterAffiliation"
+    		p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true">
         <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
-        <property name="headerText" value="Affiliation" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronAffiliation" />
         <property name="propertyName" value="patronAffiliations" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -629,8 +835,56 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-LibraryPoliciesSection" parent="Uif-Disclosure-HorizontalBoxSection" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Library Policies" />
+    <bean id="OlePatronDocument-LibraryPoliciesSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterLibraryPolicies}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-LibraryPoliciesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLibraryPolicies" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterLibraryPolicies}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-LibraryPoliciesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLibraryPolicies" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Library Policies"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-LibraryPoliciesSection-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLibraryPolicies" value="@{!filterLibraryPolicies}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-LibraryPoliciesSection" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-LibraryPoliciesSection" parent="Uif-HorizontalBoxSection"
+          p:filterModelProperty="filterLibraryPolicies" p:componentSecurity.editAuthz="true">
         <property name="items">
             <list>
                 <bean id="generalBlock" parent="Uif-InputField" p:propertyName="generalBlock">
@@ -680,8 +934,62 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-NotesSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Note" />
+    <bean id="OlePatronDocument-NotesSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterNotesSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterNotesSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterNotesSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterNotesSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Note"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterNotesSection" value="@{!filterNotesSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-NotesSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-NotesSection" p:filterModelProperty="filterNotesSection" 
+    		parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronNotes" />
         <property name="propertyName" value="notes" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -1034,8 +1342,62 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-ProxySection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Proxy Patron" />
+    <bean id="OlePatronDocument-ProxySection-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterProxySection}"
+		      					p:methodToCall="refreshProxyPatron"
+			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxySection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterProxySection}"
+		      					p:methodToCall="refreshProxyPatron"
+			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxySection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Proxy Patron"
+		      					p:methodToCall="refreshProxyPatron"
+			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxySection" value="@{!filterProxySection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-ProxySection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-ProxySection" p:layoutManager.numberOfColumns="5" p:componentSecurity.editAuthz="true"
+    		parent="Uif-TableCollectionSection" p:filterModelProperty="filterProxySection">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
         <property name="propertyName" value="oleProxyPatronDocuments" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -1094,8 +1456,63 @@
             </list>
         </property>
     </bean>
-    <bean id="OlePatronDocument-ProxyForSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Proxy For" />
+    
+    <bean id="OlePatronDocument-ProxyForSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterProxyForSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxyForSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterProxyForSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxyForSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Proxy For"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxyForSection" value="@{!filterProxyForSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-ProxyForSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-ProxyForSection" p:layoutManager.numberOfColumns="5" p:componentSecurity.editAuthz="true"
+    		parent="Uif-TableCollectionSection" p:filterModelProperty="filterProxyForSection">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
         <property name="propertyName" value="oleProxyPatronDocumentList" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -1112,8 +1529,62 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-PatronLocalIdSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Local Identification" />
+    <bean id="OlePatronDocument-PatronLocalIdSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterPatronLocalIdSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterPatronLocalIdSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterPatronLocalIdSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterPatronLocalIdSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Local Identification"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterPatronLocalIdSection" value="@{!filterPatronLocalIdSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-PatronLocalIdSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-PatronLocalIdSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:componentSecurity.editAuthz="true"
+    		p:filterModelProperty="filterPatronLocalIdSection">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo" />
         <property name="propertyName" value="olePatronLocalIds" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -1133,8 +1604,62 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.suppressLineWrapping="true" p:disclosure.defaultOpen="false" p:render="@{maintenanceAction eq 'Edit'}" p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Lost/Invalid Barcode Info" />
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" parent="Uif-VerticalBoxGroup" p:render="@{maintenanceAction eq 'Edit'}">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterInvalidOrLostBarcodeSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterInvalidOrLostBarcodeSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterInvalidOrLostBarcodeSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterInvalidOrLostBarcodeSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Lost/Invalid Barcode Info"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterInvalidOrLostBarcodeSection" value="@{!filterInvalidOrLostBarcodeSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-InvalidOrLostBarcodeSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" parent="Uif-TableCollectionSection" p:layoutManager.suppressLineWrapping="true" p:componentSecurity.editAuthz="true"
+    		p:filterModelProperty="filterInvalidOrLostBarcodeSection">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLostBarcode" />
         <property name="propertyName" value="lostBarcodes" />
         <property name="renderAddLine" value="false"/>

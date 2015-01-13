@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.describe.form.EditorForm;
+import org.kuali.ole.krad.OleComponent;
+import org.kuali.ole.krad.OleComponentUtils;
+import org.kuali.ole.krad.OleFilteredCopyGroup;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.field.FieldGroup;
@@ -19,7 +22,7 @@ import org.springframework.util.StringUtils;
  * Time: 8:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OleControlFieldGroup extends FieldGroup {
+public class OleControlFieldGroup extends FieldGroup implements OleComponent {
 
     private static final long serialVersionUID = -6929025512918369521L;
     private static final Logger LOG = Logger
@@ -30,6 +33,15 @@ public class OleControlFieldGroup extends FieldGroup {
     private String controlFieldGroupId;
 
     @Override
+	public String getFilterModelProperty() {
+        return ((OleFilteredCopyGroup) getGroup()).getFilterModelProperty();
+	}
+
+	public void setFilterModelProperty(String filterModelProperty) {
+        ((OleFilteredCopyGroup) getGroup()).setFilterModelProperty(filterModelProperty);
+	}
+
+	@Override
     public void performInitialization(View view, Object form) {
         super.performInitialization(view, form);
 

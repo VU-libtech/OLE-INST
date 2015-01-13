@@ -181,6 +181,9 @@ public class OlePatronRecordHandler {
         xStream.omitField(OlePatronDocument.class, "deletedEmployments");
         xStream.omitField(OlePatronDocument.class, "deletedOleProxyPatronDocuments");
         xStream.omitField(OlePatronDocument.class, "deletedOlePatronLocalIds");
+        xStream.omitField(OlePatronDocument.class, "showLoanedRecords");
+        xStream.omitField(OlePatronDocument.class, "showRequestedItems");
+        xStream.omitField(OlePatronDocument.class, "showTemporaryCirculationHistoryRecords");
         String xml = xStream.toXML(olePatronDocuments);
         stringBuffer.append(xml);
         stringBuffer.append("\n");

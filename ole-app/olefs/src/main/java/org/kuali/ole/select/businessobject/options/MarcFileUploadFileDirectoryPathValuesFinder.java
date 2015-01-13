@@ -18,6 +18,8 @@ package org.kuali.ole.select.businessobject.options;
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.module.purap.document.service.OlePurapService;
+import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.batch.BatchFileUtils;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -32,6 +34,15 @@ import java.util.Collection;
 import java.util.List;
 
 public class MarcFileUploadFileDirectoryPathValuesFinder extends KeyValuesBase {
+
+    protected OlePurapService olePurapService;
+
+    public OlePurapService getOlePurapService() {
+        if (olePurapService == null) {
+            olePurapService = SpringContext.getBean(OlePurapService.class);
+        }
+        return olePurapService;
+    }
 
     @Override
     public List<KeyValue> getKeyValues() {
@@ -71,7 +82,7 @@ public class MarcFileUploadFileDirectoryPathValuesFinder extends KeyValuesBase {
          */
         @Override
         protected void handleDirectoryStart(File directory, int depth, Collection results) throws IOException {
-            String sourcePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kualietl.parentfolder").trim();
+            String sourcePath = getOlePurapService().getParameter(OLEConstants.PARENT_FOLDER).trim();
             super.handleDirectoryStart(directory, depth, results);
             if (directory.getName() != null && !directory.getName().equalsIgnoreCase(sourcePath) && directory.getPath().contains(sourcePath)) {
                 ConcreteKeyValue entry = new ConcreteKeyValue();

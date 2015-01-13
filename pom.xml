@@ -7,7 +7,7 @@
     </parent>
     <groupId>org.kuali.ole</groupId>
     <artifactId>ole</artifactId>
-    <version>1.5.5-r20812</version>
+    <version>1.5.6.2</version>
     <name>OLE</name>
     <packaging>pom</packaging>
     <description>Kuali OLE is designed by and for academic and research libraries for managing and delivering
@@ -21,9 +21,9 @@
         <module>ole-common</module>
     </modules>
     <scm>
-        <connection>scm:svn:https://svn.kuali.org/repos/ole/tags/builds/ole-1.5/1.5.5/20141023-r20812</connection>
-        <developerConnection>scm:svn:https://svn.kuali.org/repos/ole/tags/builds/ole-1.5/1.5.5/20141023-r20812</developerConnection>
-        <url>https://svn.kuali.org/repos/ole/tags/builds/ole-1.5/1.5.5/20141023-r20812</url>
+        <connection>scm:svn:https://svn.kuali.org/repos/ole/tags/ole-1.5.6.2</connection>
+        <developerConnection>scm:svn:https://svn.kuali.org/repos/ole/tags/ole-1.5.6.2</developerConnection>
+        <url>https://svn.kuali.org/repos/ole/tags/ole-1.5.6.2</url>
     </scm>
     <properties>
         <rice.impex.artifactId>rice-impex-server-bootstrap</rice.impex.artifactId>

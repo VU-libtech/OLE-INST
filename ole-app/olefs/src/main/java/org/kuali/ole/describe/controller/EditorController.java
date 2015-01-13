@@ -1036,7 +1036,7 @@ public class EditorController extends UifControllerBase {
         if (documentForm.isCanDeleteEHoldings() && docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
             String url = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
             url = url + "/portal.do?channelTitle=Editor&channelUrl=" + url +
-                    "/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&bibId=&editable=true&docId=" + documentForm.getBibId();
+                    "/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&bibId=&editable=true&docId=" + editorForm.getBibId();
             return performRedirect(editorForm, url);
         }
 
