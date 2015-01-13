@@ -23,7 +23,8 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord" table="OLE_DS_BIB_INFO_T">
-        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="bibIdStr" column="BIB_ID_STR" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
         <field-descriptor name="author" column="AUTHOR" jdbc-type="VARCHAR"/>
         <field-descriptor name="publisher" column="PUBLISHER" jdbc-type="VARCHAR"/>

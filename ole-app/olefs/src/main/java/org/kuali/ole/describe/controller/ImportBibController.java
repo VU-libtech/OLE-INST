@@ -1,5 +1,6 @@
 package org.kuali.ole.describe.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -234,49 +235,65 @@ public class ImportBibController
         LOG.info("Inside Search Method");
         ImportBibForm importBibForm = (ImportBibForm) form;
         SearchParams searchParams = importBibForm.getSearchParams();
-        List<SearchCondition> searchFieldsList = searchParams.getSearchConditions();
-        for (SearchCondition searchCondition : searchFieldsList) {
-            LOG.debug("getSearchText..." + searchCondition.getSearchField().getFieldValue());
-            LOG.debug("getSearchScope..." + searchCondition.getSearchScope());
-            LOG.debug("getDocField..." + searchCondition.getSearchField().getDocType());
-            LOG.debug("getOperator..." + searchCondition.getOperator());
+        if (searchParams.getSearchConditions().get(0).getSearchField().getFieldValue() == "" || searchParams.getSearchConditions().get(0).getSearchField().getFieldValue() == null) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DESCRIBE_ENTER_SEARCH_TEXT);
+            importBibForm.setBibMarcRecordList(null);
+            importBibForm.setBibUuidsList(null);
+            importBibForm.setImportBibSearch(null);
+            searchParams.getSearchResultFields().clear();
+            return getUIFModelAndView(importBibForm);
         }
         String source = importBibForm.getImportBibSearch().getSource();
+        List<BibDocumentSearchResult> searchList = new ArrayList<BibDocumentSearchResult>();
+        importBibForm.getImportBibSearch().setExternalBibDocumentSearchResults(searchList);
         if (source != null && source.length() > 0) {
+            List<String> results = null;
             DataSourceConfig dataSourceConfig = new DataSourceConfig();
             BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
             Map parentCriteria = new HashMap();
             parentCriteria.put("id", source);
             ExternalDataSourceConfig externalDataSourceConfig = new ExternalDataSourceConfig();
-            externalDataSourceConfig = businessObjectService
-                    .findByPrimaryKey(ExternalDataSourceConfig.class, parentCriteria);
+            externalDataSourceConfig = businessObjectService.findByPrimaryKey(ExternalDataSourceConfig.class, parentCriteria);
             dataSourceConfig.setDomainName(externalDataSourceConfig.getDomainName());
             dataSourceConfig.setPortNum(externalDataSourceConfig.getPortNum());
+            dataSourceConfig.setDatabaseName(externalDataSourceConfig.getDatabaseName());
+            dataSourceConfig.setLoginId(externalDataSourceConfig.getLoginId());
+            dataSourceConfig.setPassword(externalDataSourceConfig.getPassword());
+            dataSourceConfig.setAuthKey(externalDataSourceConfig.getAuthKey());
             ExternalDataSource externalDataSource = ExternalDataSourceFactory.getInstance().getExternalDataSource(dataSourceConfig);
-            List<String> results = null;
             // NOTE: Uncomment this line to enable Searching external Z39.50 data sources.
-            //List<String> results = externalDataSource.searchForBibs(searchParams,dataSourceConfig);
+            /*try {
+                results = externalDataSource.searchForBibs(searchParams, dataSourceConfig);
+            } catch (Exception e){
+                LOG.error("Error occurred while fetching the records :"+e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.EXTERNAL_DATA_IMPORT_ERROR);
+                return getUIFModelAndView(importBibForm);
+            }*/
+
             request.getSession().setAttribute("showDetailForExternalSearchRecord", results);
             BibMarcRecords marcRecords = prepareWorkBibMarcRecords(results);
-            //   WorkBibMarcRecords marcRecords =  externalDataSource.searchForBibs(searchParams,dataSourceConfig);
-            if (marcRecords != null) {
+            if (marcRecords != null && CollectionUtils.isNotEmpty(marcRecords.getRecords())) {
                 importBibForm.setBibMarcRecordList(marcRecords.getRecords());
-            }
-            List<Bib> workBibDocumentList = getBibDocumens(marcRecords);
-            List<BibDocumentSearchResult> importBibResultsList = mapMarcFieldValues(workBibDocumentList);
-            SortedMap<BibDocumentSearchResult, BibMarcRecord> marcDocRecMapSorted = new TreeMap<BibDocumentSearchResult, BibMarcRecord>(new ImportBibService());
-            for (int i = 0; i < importBibResultsList.size(); i++) {
-                marcDocRecMapSorted.put(importBibResultsList.get(i), importBibForm.getBibMarcRecordList().get(i));
+                List<Bib> workBibDocumentList = getBibDocumens(marcRecords);
+                List<BibDocumentSearchResult> importBibResultsList = mapMarcFieldValues(workBibDocumentList);
+                SortedMap<BibDocumentSearchResult, BibMarcRecord> marcDocRecMapSorted = new TreeMap<BibDocumentSearchResult, BibMarcRecord>(new ImportBibService());
+                for (int i = 0; i < importBibResultsList.size(); i++) {
+                    marcDocRecMapSorted.put(importBibResultsList.get(i), importBibForm.getBibMarcRecordList().get(i));
+                }
+
+                importBibForm.setMarcDocRecMap(marcDocRecMapSorted);
+                searchList.addAll(importBibForm.getMarcDocRecMap().keySet());
+                // adding the sorted key values to search results list to display in seacrch table
+                importBibForm.getImportBibSearch().setExternalBibDocumentSearchResults(searchList);
+                importBibForm.getImportBibSearch().setReturnCheck(true);
+            } else {
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, OLEConstants.NO_RECORD_FOUND);
             }
 
-            importBibForm.setMarcDocRecMap(marcDocRecMapSorted);
-            List<BibDocumentSearchResult> searchList = new ArrayList<BibDocumentSearchResult>();
-            searchList.addAll(importBibForm.getMarcDocRecMap().keySet());
-            // adding the sorted key values to search results list to display in seacrch table
-            importBibForm.getImportBibSearch().setExternalBibDocumentSearchResults(searchList);
-            importBibForm.getImportBibSearch().setReturnCheck(true);
         } else {
-            LOG.debug("ImportBibController :search : No source selected...");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.SOURCE_NOT_SELECTED);
+            importBibForm.setImportBibSearch(null);
+            return getUIFModelAndView(importBibForm);
         }
 
         return getUIFModelAndView(importBibForm);
@@ -490,12 +507,12 @@ public class ImportBibController
         importBibForm.setMessage(null);
         importBibService.applyUserPref(importBibForm);
         request.getSession().setAttribute("importBibForm", importBibForm);
-        request.getSession().setAttribute("marcDocRecMap",importBibForm.getMarcDocRecMap());
-        request.getSession().setAttribute("bibMarcRecordList",importBibForm.getBibMarcRecordList());
-        request.getSession().setAttribute("bibUuidsList",importBibForm.getBibUuidsList());
-        request.getSession().setAttribute("importBibSearch",importBibForm.getImportBibSearch());
+        request.getSession().setAttribute("marcDocRecMap", importBibForm.getMarcDocRecMap());
+        request.getSession().setAttribute("bibMarcRecordList", importBibForm.getBibMarcRecordList());
+        request.getSession().setAttribute("bibUuidsList", importBibForm.getBibUuidsList());
+        request.getSession().setAttribute("importBibSearch", importBibForm.getImportBibSearch());
         BibTree bibTree = importBibService.createBibTree(importBibForm.getNewBibMarcRecord(), importBibForm.getNewInstanceCollection(), importBibUserPreferences.getImportStatus());
-        if(StringUtils.isNotEmpty(importBibForm.getUuid())) {
+        if (StringUtils.isNotEmpty(importBibForm.getUuid())) {
             bibTree.getBib().setId(importBibForm.getUuid());
         }
         request.getSession().setAttribute("bibTree", bibTree);
@@ -516,7 +533,7 @@ public class ImportBibController
 
     @RequestMapping(params = "methodToCall=close")
     public ModelAndView close(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) {
+                              HttpServletRequest request, HttpServletResponse response) {
 
         String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
         return performRedirect(form, url);
@@ -544,9 +561,9 @@ public class ImportBibController
             }
             importBibForm.getMarcDocRecMap().remove(importBibForm.getImportBibSearch().getSelectedMarc());
             importBibForm.getImportBibSearch()
-                    .setRecordsImported(Math.max(0,importBibForm.getImportBibSearch().getRecordsImported() + 1));
+                    .setRecordsImported(Math.max(0, importBibForm.getImportBibSearch().getRecordsImported() + 1));
             importBibForm.getImportBibSearch()
-                    .setRecordsInFile(Math.max(0 , importBibForm.getImportBibSearch().getRecordsInFile() - 1));
+                    .setRecordsInFile(Math.max(0, importBibForm.getImportBibSearch().getRecordsInFile() - 1));
         }
         return getUIFModelAndView(importBibForm, "SearchBibViewPage");
     }
@@ -560,12 +577,12 @@ public class ImportBibController
         BibTree bibTree = null;
         if (request != null && request.getSession() != null) {
             bibTree = (BibTree) request.getSession().getAttribute("responseBibTree");
-            if(bibTree == null) {
+            if (bibTree == null) {
                 bibTree = (BibTree) request.getSession().getAttribute("bibTree");
             }
             if (request.getSession().getAttribute("importBibForm") != null) {
                 ImportBibForm importBibForminSession = (ImportBibForm) request.getSession().getAttribute("importBibForm");
-                if(importBibForminSession != null) {
+                if (importBibForminSession != null) {
                     importBibForm.setImportBibSearch(importBibForminSession.getImportBibSearch());
                     importBibForm.setBibMarcRecordList(importBibForminSession.getBibMarcRecordList());
                     importBibForm.setBibUuidsList(importBibForminSession.getBibUuidsList());
@@ -573,20 +590,20 @@ public class ImportBibController
                     request.getSession().removeAttribute("importBibForm");
                 }
             }
-            if(importBibForm.getMarcDocRecMap().isEmpty()) {
-                importBibForm.setMarcDocRecMap((SortedMap<BibDocumentSearchResult, BibMarcRecord>)request.getSession().getAttribute("marcDocRecMap"));
+            if (importBibForm.getMarcDocRecMap().isEmpty()) {
+                importBibForm.setMarcDocRecMap((SortedMap<BibDocumentSearchResult, BibMarcRecord>) request.getSession().getAttribute("marcDocRecMap"));
                 request.getSession().removeAttribute("marcDocRecMap");
             }
-            if(importBibForm.getImportBibSearch().getLocalBibDocumentSearchResults() == null || importBibForm.getImportBibSearch().getLocalBibDocumentSearchResults().isEmpty()) {
+            if (importBibForm.getImportBibSearch().getLocalBibDocumentSearchResults() == null || importBibForm.getImportBibSearch().getLocalBibDocumentSearchResults().isEmpty()) {
                 importBibForm.setImportBibSearch((ImportBibSearch) request.getSession().getAttribute("importBibSearch"));
                 request.getSession().removeAttribute("importBibSearch");
             }
-            if(importBibForm.getBibUuidsList().isEmpty() && request.getSession().getAttribute("bibUuidsList") != null) {
-                importBibForm.setBibUuidsList((List<BibDocumentSearchResult>)request.getSession().getAttribute("bibUuidsList"));
-               // request.getSession().removeAttribute("bibUuidsList");
+            if (importBibForm.getBibUuidsList().isEmpty() && request.getSession().getAttribute("bibUuidsList") != null) {
+                importBibForm.setBibUuidsList((List<BibDocumentSearchResult>) request.getSession().getAttribute("bibUuidsList"));
+                // request.getSession().removeAttribute("bibUuidsList");
             }
-            if(importBibForm.getBibMarcRecordList() == null || importBibForm.getBibMarcRecordList().isEmpty()) {
-                importBibForm.setBibMarcRecordList((List<BibMarcRecord>)request.getSession().getAttribute("bibMarcRecordList"));
+            if (importBibForm.getBibMarcRecordList() == null || importBibForm.getBibMarcRecordList().isEmpty()) {
+                importBibForm.setBibMarcRecordList((List<BibMarcRecord>) request.getSession().getAttribute("bibMarcRecordList"));
                 request.getSession().removeAttribute("bibMarcRecordList");
             }
 

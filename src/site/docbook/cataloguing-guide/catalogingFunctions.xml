@@ -1578,6 +1578,14 @@
                                             permit retrieval when the barcode is scanned or typed in
                                             as a search term. Used for identification of physical
                                             item and for circulation purposes. </para>
+                                        <note>
+                                            <para>If you have an automated storage retrieval system
+                                                that speaks to OLE, you should not use barcodes
+                                                containing uppercase letters. These characters cause
+                                                some of the API calls to fail. See <link
+                                                  xlink:href="https://jira.kuali.org/browse/OLE-7112"
+                                                  >OLE-7112</link>.</para>
+                                        </note>
                                     </entry>
                                 </row>
                                 <row>

@@ -61,12 +61,14 @@ public class PurchasingAccountsPayableBelowTheLineValuesValidation extends Gener
                     valid = false;
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "positive");
                 }
-            } else if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isNegative()) {
-                if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_NEGATIVE) && !/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_NEGATIVE, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
+            }
+            // commented negative validation
+            /* else if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isNegative()) {
+                if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_NEGATIVE) && !*//*REFACTORME*//*SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_ALLOWS_NEGATIVE, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
                     valid = false;
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_PRICE, PurapKeyConstants.ERROR_ITEM_BELOW_THE_LINE, itemForValidation.getItemType().getItemTypeDescription(), "negative");
                 }
-            }
+            }*/
             if (ObjectUtils.isNotNull(itemForValidation.getItemUnitPrice()) && (new KualiDecimal(itemForValidation.getItemUnitPrice())).isNonZero() && StringUtils.isEmpty(itemForValidation.getItemDescription())) {
                 if (parameterService.parameterExists(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION) && /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION, itemForValidation.getItemTypeCode()).evaluationSucceeds()) {
                     valid = false;

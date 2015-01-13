@@ -15,6 +15,7 @@
  */
 package org.kuali.ole.select.batch.service.impl;
 
+import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.select.batch.service.VendorToOleExtractService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
@@ -24,16 +25,24 @@ import java.io.File;
 
 public class VendorToOleExtractServiceImpl implements VendorToOleExtractService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorToOleExtractServiceImpl.class);
+    protected OlePurapService olePurapService;
+
+    public OlePurapService getOlePurapService() {
+        if (olePurapService == null) {
+            olePurapService = SpringContext.getBean(OlePurapService.class);
+        }
+        return olePurapService;
+    }
 
     public boolean loadVendorToOleEtl() {
 
         try {
             ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
             String directory = kualiConfigurationService.getPropertyValueAsString(OLEConstants.STAGING_DIRECTORY_KEY);
-            String sourcePath = directory + kualiConfigurationService.getPropertyValueAsString("kualietl.sourcefolder");
-            String logPath = directory + kualiConfigurationService.getPropertyValueAsString("kualietl.etllogfolder");
-            String destinationPath = directory + kualiConfigurationService.getPropertyValueAsString("kualietl.destinationfolder");
-            String backupFolder = directory + kualiConfigurationService.getPropertyValueAsString("kualietl.backupfolder");
+            String sourcePath = directory + getOlePurapService().getParameter(OLEConstants.SOURCE_FOLDER);
+            String logPath = directory + getOlePurapService().getParameter(OLEConstants.LOG_FOLDER);
+            String destinationPath = directory + getOlePurapService().getParameter(OLEConstants.DESTINATION_FOLDER);
+            String backupFolder = directory + getOlePurapService().getParameter(OLEConstants.BACKUP_FOLDER);
             String filePath = getClass().getClassLoader().getResource("KualiETLConfig.xml").toString();
             if (LOG.isDebugEnabled()) {
                 LOG.debug("-------filePath -------------------" + filePath);

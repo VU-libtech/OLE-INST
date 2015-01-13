@@ -376,6 +376,35 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "bibIdentifier"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "holdingsIdentifier"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "staffOnlyFlag"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Location_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "LocationLevelName_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumber_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumberPrefix_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ShelvingSchemeCode_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ShelvingSchemeValue_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Access_Password_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Access_UserName_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "AccessLocation_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Admin_Password_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Admin_url_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Admin_UserName_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Authentication_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CoverageDate_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "DonorCode_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "DonorPublic_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "DonorNote_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "E_Publisher_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "HoldingsNote_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ILL_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ItemPart_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Link_Text_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "NumberOfSimultaneousUses_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "PerpetualAccess_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Persist_Link_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Proxied_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ReceiptStatus_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Subscription_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Url_display"));
         } else if(DocType.ITEM.getCode().equalsIgnoreCase(docType)){
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "LocalId_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), "Title_sort"));
@@ -403,6 +432,8 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Chronology_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "staffOnlyFlag"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "isAnalytic"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ItemTypeCodeValue_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ItemTypeFullValue_display"));
 
         }
     }

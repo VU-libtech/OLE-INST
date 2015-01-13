@@ -169,7 +169,7 @@
             <list merge="true">
                 <ref bean="OLEInvoiceView-vendor"/>
                 <ref bean="OLEInvoiceView-invoiceInfo" />
-                <ref bean="OLEInvoiceView-processItems"/>
+                <ref bean="OLEInvoiceView-processItems-Wrapper"/>
                 <ref bean="OLEInvoiceView-accountSummary"/>
                 <ref bean="invoiceVendorBtn"/>
                 <ref bean="MessagePopupSectionForInvoice"/>
@@ -185,7 +185,7 @@
                 <ref bean="hdnBlanketApproveSubscriptionDateValidationFlag"/>
                 <ref bean="MessagePopupSectionForSubscriptionDateValidation"/>
                 <ref bean="hdnSubscriptionDateValidationFlag"/>
-                <bean id ="hiddenButtonForCurrentItems" parent="Uif-SecondaryActionButton" p:methodToCall="refreshCurrentItem" p:hidden="true"  p:refreshId="OLEInvoiceView-processItems"/>
+                <bean id ="hiddenButtonForCurrentItems" parent="Uif-SecondaryActionButton" p:methodToCall="refreshCurrentItem" p:hidden="true"  p:refreshId="OLEInvoiceView-processItems-Wrapper"/>
                 <ref bean="updatePriceBtn"/>
                 <ref bean="unsaved"/>
                 <ref bean="canClose"/>
@@ -630,8 +630,53 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-processItems"  parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1" p:layoutManager.applyDefaultCellWidths="false" p:style="width: auto">
-        <property name="headerText" value="Process Items"/>
+    <bean id="OLEInvoiceView-processItems-Wrapper" parent="Uif-VerticalBoxGroup">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterProcessItems}"
+			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProcessItems" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterProcessItems}"
+			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProcessItems" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Process Items"
+			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProcessItems" value="@{!filterProcessItems}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OLEInvoiceView-processItems" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OLEInvoiceView-processItems" parent="Uif-GridSection" p:filterModelProperty="filterProcessItems"
+    		p:layoutManager.numberOfColumns="1" p:layoutManager.applyDefaultCellWidths="false" p:style="width: auto">
         <property name="items">
             <list>
                 <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1" >

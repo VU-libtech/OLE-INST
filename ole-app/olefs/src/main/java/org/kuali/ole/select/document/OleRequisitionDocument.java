@@ -65,6 +65,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -776,7 +779,10 @@ public class OleRequisitionDocument extends RequisitionDocument {
         if (!isDefaultAddress) {
             Person personImpl = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId());
             //Modified as per review comments OLE-24
-            String defaultRoomNumber = getConfigurationService().getPropertyValueAsString("delivery.default.roomNumber").trim();
+            String defaultRoomNumber = getParameter("DELIVERY_DEFAULT_ROOMNUMBER");
+            if(defaultRoomNumber != null){
+                defaultRoomNumber = defaultRoomNumber.trim();
+            }
             document.setDeliveryBuildingLine1Address(personImpl.getAddressLine1());
             document.setDeliveryBuildingLine2Address(personImpl.getAddressLine2());
             //Modified as per review comments OLE-24
@@ -1137,5 +1143,11 @@ public class OleRequisitionDocument extends RequisitionDocument {
 
     public boolean getIsATypeOfCORRDoc() {
         return false;
+    }
+
+    public String getParameter(String name){
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
     }
 }

@@ -209,13 +209,6 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         if (!newOleBatchProcessProfileBo.getRemoveValueFrom001()){
                 newOleBatchProcessProfileBo.setValueToRemove("");
         }
-        List<OLEBatchProcessProfileBibMatchPoint> oleBatchProcessProfileBibMatchPoints=newOleBatchProcessProfileBo.getDeletedBatchProcessProfileBibMatchPointList();
-        KRADServiceLocator.getBusinessObjectService().save(oleBatchProcessProfileBibMatchPoints);
-        for(OLEBatchProcessProfileBibMatchPoint oleBatchProcessProfileBibMatchPoint:oleBatchProcessProfileBibMatchPoints){
-            Map<String,String> map=new HashMap<String,String>();
-            map.put("oleBibMatchPointId",oleBatchProcessProfileBibMatchPoint.getOleBibMatchPointId());
-            KRADServiceLocator.getBusinessObjectService().deleteMatching(OLEBatchProcessProfileBibMatchPoint.class,map);
-        }
 
         List<OLEBatchProcessProfileBibStatus> oleBatchProcessProfileBibStatuses=newOleBatchProcessProfileBo.getDeleteBatchProcessProfileBibStatusList();
         KRADServiceLocator.getBusinessObjectService().save(oleBatchProcessProfileBibStatuses);
@@ -314,38 +307,6 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         route(form, result, request, response);
         return super.blanketApprove(form, result, request, response);
     }
-
-
-
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLineConstant")
-    public ModelAndView addLineConstant(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized addLine method");
-        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) document.getNewMaintainableObject().getDataObject();
-        if(oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList().size()<3){
-            String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-            CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
-            String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
-            Object eventObject = ObjectPropertyUtils.getPropertyValue(form, addLinePath);
-            OLEBatchProcessProfileBibMatchPoint oleBatchProcessProfileBibMatchPoint = (OLEBatchProcessProfileBibMatchPoint) eventObject;
-            if(oleBatchProcessProfileBo.getBatchProcessProfileType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_BIB_IMPORT)){
-                if(validateBibMatchPoint(oleBatchProcessProfileBibMatchPoint.getOleBibMatchPoint())==Boolean.FALSE){
-                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEBatchProcess.OLE_BATCH_PROFILE_BIB_MATCH_POINT_SECTION_ID, OLEConstants.OLEBatchProcess.OLE_BATCH_BIB_MATCH_POINT_ERR);
-                    return getUIFModelAndView(form);
-                }
-            }
-            View view = form.getPostedView();
-            view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
-            oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList().remove(oleBatchProcessProfileBibMatchPoint);
-            int lastIndex=oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList().size();
-            oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList().add(lastIndex,oleBatchProcessProfileBibMatchPoint);
-
-        }
-        return getUIFModelAndView(form);
-    }
-
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addBibMatch")
     public ModelAndView addBibMatch(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
@@ -935,30 +896,6 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         return valid;
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLineInstance")
-    public ModelAndView addLineInstance(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized addLine method");
-        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo = (OLEBatchProcessProfileBo) document.getNewMaintainableObject().getDataObject();
-        if(oleBatchProcessProfileBo.getOleBatchProcessProfileInstanceMatchPointList().size()<3){
-            String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-            CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
-            String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
-            Object eventObject = ObjectPropertyUtils.getPropertyValue(form, addLinePath);
-            OLEBatchProcessProfileInstanceMatchPoint oleBatchProcessProfileInstanceMatchPoint = (OLEBatchProcessProfileInstanceMatchPoint) eventObject;
-            View view = form.getPostedView();
-            view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
-            oleBatchProcessProfileBo.getOleBatchProcessProfileInstanceMatchPointList().remove(oleBatchProcessProfileInstanceMatchPoint);
-            int lastIndex=oleBatchProcessProfileBo.getOleBatchProcessProfileInstanceMatchPointList().size();
-            oleBatchProcessProfileBo.getOleBatchProcessProfileInstanceMatchPointList().add(lastIndex,oleBatchProcessProfileInstanceMatchPoint);
-
-        }
-        return getUIFModelAndView(form);
-
-    }
-
     @RequestMapping(params = "methodToCall=refreshPageView")
     public ModelAndView refreshPageView(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -976,19 +913,6 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         return navigate(form, result, request, response);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteBibMatchPoint")
-    public ModelAndView deleteBibMatchPoint(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized addLine method");
-        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
-        String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OLEBatchProcessProfileBo oleBatchProcessProfileBo=(OLEBatchProcessProfileBo)document.getNewMaintainableObject().getDataObject();
-        oleBatchProcessProfileBo.getDeletedBatchProcessProfileBibMatchPointList().add(oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList().get(Integer.parseInt(selectedLineIndex)));
-
-        return deleteLine(uifForm, result, request, response);
-
-    }
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteBibStatus")
     public ModelAndView deleteBibStatus(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {

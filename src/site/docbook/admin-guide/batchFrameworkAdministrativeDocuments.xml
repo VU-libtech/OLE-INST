@@ -473,6 +473,17 @@
                 </orderedlist>
             </section>
             <section>
+                <title>Scheduling a full dump followed by daily incrementals</title>
+                <para>To schedule a full dump and then have daily incrementals, create two separate
+                    profiles - one for the full dump and one for the incremental.  Using the created
+                    profiles, run the full export immediately followed by the scheduled incremental
+                    export.  Schedule the incremental export to run after 'x' amount of time (6pm
+                    every evening for example).  The first incremental export will be useless.
+                    However after the incremental runs the second time and after every 'x' amount of
+                    time following, it will export the records changed from the time it was
+                    scheduled.</para>
+            </section>
+            <section>
                 <title>Business Rules</title>
                 <itemizedlist>
                     <listitem>
@@ -639,6 +650,10 @@
                 Profile</emphasis> link from the <emphasis role="bold">Admin</emphasis> menu, the
             system displays the Batch Process Profile lookup. This screen allows staff to search for
             and edit pre-existing Batch Process Profiles or create new profiles.</para>
+        <note>
+            <para>Once a Batch Process Profile is created, it cannot be deleted from the user
+                interface.</para>
+        </note>
         <section>
             <title>Document Layout</title>
             <para role="Illustration">
@@ -1686,6 +1701,10 @@
                     above), <emphasis role="bold">Data Mapping</emphasis>, <emphasis role="bold"
                         >Protected Field</emphasis>, <emphasis role="bold">Delete Field</emphasis>,
                     and <emphasis role="bold">Rename Field</emphasis>.</para>
+                <note>
+                    <para>All imported MARC bibliographic records must be Unicode-compliant
+                        (UTF-8).</para>
+                </note>
                 <para/>
                 <para role="Illustration">
                     <screenshot>

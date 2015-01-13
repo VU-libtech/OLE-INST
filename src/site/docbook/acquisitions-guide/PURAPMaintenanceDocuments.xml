@@ -2231,7 +2231,11 @@
                     </imageobject>
                 </inlinemediaobject></emphasis></para>
         <para role="Body Text">Order Type identifies the type of order which affects workflow e.g.,
-            Firm, Standing, Subscription, etc. </para>
+            Firm, Standing, Subscription, etc.  Order types were defined primarily to be used for
+            two purposes: (1) to identify POs that would be open indefinitely and against which you
+            would receive and/or pay repeatedly over time (really any order type that was NOT
+            “firm/fixed”); and (2) to allow for different rules to be applied to different order
+            types when defining rules for FY close/rollover.</para>
         <section>
             <title>Document Layout</title>
             <para role="Illustration">
@@ -5327,6 +5331,983 @@
                     </tbody>
                 </tgroup>
             </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_organizationReversion"/>Organization Reversion</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Select &amp; Acquire Admin</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-181.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Financial Transaction Controls</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-187.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;</emphasis>
+                <inlinemediaobject>
+                    <alt>Organization Reversion</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-128.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Reversion Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-131.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Reversion</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-132.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Organization Reversion document defines the reversion/carry forward rules for the
+            year-end process.</para>
+        <para>The Organization Reversion document comes with a global document option where changes
+            to a group of organizations can be applied at once. This feature of the Global
+            Organization Reversion document is explained in the section after the Organization
+            Reversion document section.</para>
+        <para>The Organization Reversion Maintenance and Global Organization Reversion documents may
+            be initatied by members of the OLE-SYS Chart Manager role, whereas the Organization
+            Reversion Category document may be initiated by the normal OLE-SYS Manager role.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Reversion Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-149.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Organization Reversion document includes the<emphasis role="bold"> Edit
+                    Organization Reversion</emphasis> and <emphasis role="bold">Edit Organization
+                    Reversion Details</emphasis> tabs  The system automatically enters data into
+                both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <section>
+                <title><anchor xml:id="_editOrganizationReversionTab"/>Edit Organization Reversion
+                    Tab</title>
+                <para>The <emphasis role="bold">Edit Organization Reversion</emphasis> tab defines
+                    two reversion accounts: the budget reversion account and the cash reversion
+                    account. The definitions are for specific university organizations as defined
+                    within the Chart of Accounts hierarchy and for a specific fiscal year. The
+                    accounts are determined by chart code and account number.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Organization Reversion Document: Edit Organization Reversion
+                                Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-150.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Edit Organization Reversion tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">University Fiscal Year</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The university fiscal year for the
+                                        designated reversion account</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Chart Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The chart code for this reversion
+                                        process.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Organization Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The organization code for this
+                                        reversion process.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Budget Reversion Chart</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The code that identifies the
+                                        Chart of Accounts that the budget reversion account belongs
+                                        to. Existing charts may be retrieved from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                    <tip>
+                                        <para> If accounts cannot cross Charts OLE-SYS
+                                            ACCOUNTS_CAN_CROSS_CHARTS_IND parameter is set to 'N'),
+                                            this value is read-only.</para>
+                                    </tip>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Budget Reversion Account</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The account code that
+                                        identifies the specific account to be used for budget
+                                        reversions. Existing accounts may be retrieved from the
+                                        lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Cash Reversion Chart</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The code that identifies the
+                                        Chart of Accounts that the cash reversion account belongs
+                                        to. Existing charts may be retrieved from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                    <tip>
+                                        <para> If accounts cannot cross Charts OLE-SYS
+                                            ACCOUNTS_CAN_CROSS_CHARTS_IND parameter is set to 'N'),
+                                            this value is read-only.</para>
+                                    </tip>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Cash Reversion Account</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The code that identifies the
+                                        specific account to be used for cash reversion. Existing
+                                        accounts may be retrieved from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Carry Forward by Object Code
+                                        Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The box is checked when the
+                                        organization reversion category-defined object code(s) are
+                                        used for carry forward. Clear the check box when the
+                                        unallocated object code is used for carry forward. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this org reversion
+                                        process is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <section>
+                    <title><anchor xml:id="_editOrganizationReversionDetailsTab"/>Edit Organization
+                        Reversion Details Tab</title>
+                    <para>The <emphasis role="bold">Edit Organization Reversion Details</emphasis>
+                        tab includes the object codes and carry forward/reversion rules by
+                        organization reversion category. Fields indicated as required are only
+                        required if that organization reversion category is completed.</para>
+                    <para>This tab must be completed regardless of the carry forward indicator in
+                        the <emphasis role="bold">Edit Organization Reversion</emphasis> tab.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Organization Reversion Document: Edit Organization Reversion
+                                    Details Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-153.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Edit Organization Reversion tab
+                            definition</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Category Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. Identifies a
+                                            pre-defined organization reversion category. The
+                                            categories include 'Org Wages,' 'Salary/Fringes,'
+                                            'Financial Aid,' 'Reserve,' 'Transfer Out,' 'Transfer
+                                            In,' 'Travel,' 'Other Expense,' 'Assess Expend, and
+                                            Revenue.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Object Code</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. The object code to be
+                                            used in generated carry forward entries by object code
+                                            when the <emphasis role="bold">Carry Forward Object Code
+                                                Indicator</emphasis> is selected. Existing object
+                                            codes may be retrieved from the lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Object Code Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The descriptive name associated
+                                            with the object code above.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Org Reversion Code</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. The code that identifies
+                                            a particular combination of carry forward and reversion
+                                            rules that may be retrieved from the list (codes are
+                                            described below).</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <section>
+                        <title>Carry Forward Rules</title>
+                        <para>Each organization reversion code represents a combination of reversion
+                            rules (see the table below).</para>
+                        <para role="TableHeading"><emphasis role="bold">Organization Reversion
+                                Codes</emphasis><informaltable frame="top" rowsep="1" colsep="1">
+                                <tgroup cols="8">
+                                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                                    <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                                    <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+                                    <colspec colname="c5" colnum="5" colwidth="1.0*"/>
+                                    <colspec colname="c6" colnum="6" colwidth="1.0*"/>
+                                    <colspec colname="c7" colnum="7" colwidth="1.0*"/>
+                                    <colspec colname="c8" colnum="8" colwidth="1.0*"/>
+                                    <thead>
+                                        <row>
+                                            <entry>Org Reversion Code</entry>
+                                            <entry>Rule xa</entry>
+                                            <entry>Rule xb</entry>
+                                            <entry>Rule xc</entry>
+                                            <entry>Rule xd</entry>
+                                            <entry>Rule xe</entry>
+                                            <entry>Rule xn</entry>
+                                            <entry>Rule xp</entry>
+                                        </row>
+                                    </thead>
+                                    <tbody>
+                                        <row>
+                                            <entry>A</entry>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry/>
+                                            <entry/>
+                                            <entry/>
+                                        </row>
+                                        <row>
+                                            <entry>C1</entry>
+                                            <entry/>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                        </row>
+                                        <row>
+                                            <entry>C2</entry>
+                                            <entry/>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry/>
+                                            <entry>a</entry>
+                                        </row>
+                                        <row>
+                                            <entry>N1</entry>
+                                            <entry/>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry>a</entry>
+                                            <entry/>
+                                        </row>
+                                        <row>
+                                            <entry>N2</entry>
+                                            <entry/>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry/>
+                                        </row>
+                                        <row>
+                                            <entry>R1</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry/>
+                                        </row>
+                                        <row>
+                                            <entry>R2</entry>
+                                            <entry/>
+                                            <entry>a</entry>
+                                            <entry>a</entry>
+                                            <entry>a</entry>
+                                            <entry/>
+                                            <entry/>
+                                            <entry/>
+                                        </row>
+                                    </tbody>
+                                </tgroup>
+                            </informaltable></para>
+                        <para>Also, see the following Carry Forward Rules table for an explanation
+                            of each rule. For example, refer to the Rule Code 'xa and xc' to
+                            understand which rules apply to the Org Reversion Code 'A.</para>
+                        <para role="TableHeading"><emphasis role="bold">Carry Forward
+                                Rules</emphasis></para>
+                        <informaltable frame="top">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Rule Code</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">xa</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Carry forward the budget
+                                                balance (budget - <emphasis role="bold"
+                                                >a</emphasis>ctual, whether it is positive or
+                                                negative) in the same account. No budget balances
+                                                (budget - actual) are reverted to the budget
+                                                reversion account.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">xb</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Revert a <emphasis role="bold"
+                                                  >b</emphasis>udget balance (budget - actual -
+                                                encumbrance, whether it is positive or negative) to
+                                                the budget reversion account.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">xc</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Revert the actual <emphasis
+                                                  role="bold">c</emphasis>ash balance to the cash
+                                                reversion account.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">xd</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells"><emphasis role="bold"
+                                                  >D</emphasis>o not carry forward budget to cover
+                                                encumbrances.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">xe</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Carry forward enough budget to
+                                                  cover<emphasis role="bold">
+                                                e</emphasis>ncumbrances.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">xn</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Revert a positive budget
+                                                balance (budget - actual) to the budget reversion
+                                                account or carry forward a <emphasis role="bold"
+                                                  >n</emphasis>egative budget balance (budget -
+                                                actual) to the same account.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">xp</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Carry forward a <emphasis
+                                                  role="bold">p</emphasis>ositive budget balance
+                                                (budget - actual) to the same account or revert a
+                                                negative budget balance (budget - actual) to the
+                                                budget reversion account.</para>
+                                        </entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                        <note>
+                            <para>The organization reversion categories maintained in the <emphasis
+                                    role="bold">Edit Organization Reversion Details </emphasis>tab
+                                are created and deactivated with the Organization Reversion Category
+                                Document</para>
+                        </note>
+                        <tip>
+                            <para><emphasis role="bold">Selection_ Parameter: </emphasis>Selection_
+                                parameters establish the organization reversion selection rules for
+                                the organization reversion step within the GL batch process. These
+                                parameters are used in the order identified by the number that comes
+                                after SELECTION_ in the parameter name. You may make the rules
+                                operate on whatever field of the GL Balance table you want by
+                                changing the part of the parameter value that proceeds the '='
+                                sign.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Organization Reversion Selection Parameters</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-154.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </tip>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Only members of the OLE-SYS Chart Manager role may initiate the
+                            document.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing</title>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Organization Reversion Routing</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-155.png"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_organizationReversionCategory"/>Organization Reversion
+            Category</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Select &amp; Acquire Admin</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-181.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Financial Transaction Controls</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-187.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;</emphasis>
+                <inlinemediaobject>
+                    <alt>Organization Reversion Category</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-129.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Reversion Category Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-156.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Reversion Category</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-159.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Organization Reversion Category document  creates new organization reversion
+            categories by assigning them a code, a name, and assigning them a place in the display
+            sequence. Clearing the <emphasis role="bold">Active Indicator</emphasis> on this
+            document causes the category to no longer appear on the <emphasis role="bold">Edit
+                Organization Details Details</emphasis> tab in the Organization Reversion document.
+            Editing an existing category code could change its name or change its position in the
+            display sequence in the Organization Reversion document.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Reversion Category Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-160.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Organization Reversion Category document includes the <emphasis role="bold"
+                    >Edit Organization Reversion Category</emphasis> tab. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections. Selected data fields are available for
+                editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Organization Reversion Category tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Category Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The code that identifies the organization
+                                    reversion category.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Category Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The descriptive name associated
+                                    with a particular organization reversion category code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The code used to display the
+                                    organization reversion categories in a particular order in the
+                                        <emphasis role="bold">Edit Organization Reversion
+                                        Details</emphasis> tab of the Organization Reversion
+                                    document.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this organization
+                                    reversion category is active or inactive. Remove the check mark
+                                    to deactivate this organization reversion category.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>The organization reversion categories and the rules are tied by a series of
+                organization reversion business rules stored in the Parameter table. Each
+                organization reversion category is defined for one or more object code
+                attributes.</para>
+            <para role="TableHeading"><emphasis role="bold">Organization Reversion Business Rule
+                    Examples</emphasis></para>
+            <informaltable frame="top" rowsep="1" colsep="1">
+                <tgroup cols="5">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.0*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1.0*"/>
+                    <colspec colname="c4" colnum="4" colwidth="1.0*"/>
+                    <colspec colname="c5" colnum="5" colwidth="1.0*"/>
+                    <thead>
+                        <row>
+                            <entry>Category</entry>
+                            <entry>Object Consolidation Codes</entry>
+                            <entry>Object Level Codes</entry>
+                            <entry>Object Type Codes</entry>
+                            <entry>Object Sub-Type Codes</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Org Wages</entry>
+                            <entry>CMPN</entry>
+                            <entry>HRCO</entry>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Salary/Fringes</entry>
+                            <entry>CMPN</entry>
+                            <entry>All levels except for HRCO</entry>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Financial Aid</entry>
+                            <entry>SCHL</entry>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Capital Equiptment</entry>
+                            <entry>CPTL</entry>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Reserve</entry>
+                            <entry>RSRX</entry>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Transfer Out</entry>
+                            <entry/>
+                            <entry/>
+                            <entry>TE, EX, EE, EX</entry>
+                            <entry>TN, TF, MT</entry>
+                        </row>
+                        <row>
+                            <entry>Transfer In</entry>
+                            <entry/>
+                            <entry/>
+                            <entry>TI, IN, CH, IC</entry>
+                            <entry>TN, TF, MT</entry>
+                        </row>
+                        <row>
+                            <entry>Travel</entry>
+                            <entry>TRVL</entry>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Other Expense</entry>
+                            <entry>GENX, IDEX</entry>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Asset Expense</entry>
+                            <entry>ASEX</entry>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>Revenue</entry>
+                            <entry>ARSE, IDIN, OTRE, SAPR, STFE</entry>
+                            <entry/>
+                            <entry/>
+                            <entry/>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <note>
+                <para>This is an example of how organization reversion could be implemented in KFS.
+                    Each institution must define its own rules.</para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_organizationReversionGlobal"/>Organization Reversion Global</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Select &amp; Acquire Admin</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-181.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Financial Transaction Controls</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-187.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;</emphasis>
+                <inlinemediaobject>
+                    <alt>Organization Reversion Global</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-130.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Reversion Global</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-161.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <note>
+            <para> For general information about accessing and working with global documents, see
+                    <link linkend="_GlobalCOAEdocs">Global COA E-Docs</link>. </para>
+        </note>
+        <para>The Organization Reversion Global document enables reversion records to be established
+            for multiple organizations simultaneously. Only members of the OLE-SYS Chart Manager
+            role can initiate the Organization Reversion Global document. It routes the same way as
+            the Organization Reversion document.</para>
+        <note>
+            <para>The Organization Reversion Global document updates only existing records, just as
+                the Global Account document does. It cannot create new records (as Global Object or
+                Global Sub-Object documents do).</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Reversion Global</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-162.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Organization Reversion Global document includes the <emphasis role="bold">Edit
+                    Global Organization Reversion Organizations</emphasis>, <emphasis role="bold"
+                    >Edit Global Organization Reversion</emphasis>, and <emphasis role="bold">Edit
+                    Global Organization Reversion Details</emphasis> tabs. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections. Selected data fields are available for
+                editing.</para>
+            <para>The Offset Definition document includes the <emphasis role="bold">Edit Offset
+                    Definition</emphasis> tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <section>
+                <title>Edit Organization Reversion Tab</title>
+                <para>There are two ways to populate the list of organization codes that you want to
+                    change globally. One is by entering or selecting one organization code at a time
+                    from the normal<emphasis role="bold">Organization Code</emphasis> lookup <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject>. The other is by using the<emphasis role="bold"> Look Up /
+                        Add Multiple Organization Code Lines </emphasis><inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to return multiple values.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Organization Reversion Global Document: Edit Global Organization
+                                Reversion Organizations Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-163.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <note>
+                    <para> For more information about the two types of lookup, see <link
+                            xlink:href="../../../webhelp/BASICS/content/ch02s01.html#_fieldLookup"
+                            >Field Lookup</link> and <link
+                            xlink:href="../../../webhelp/BASICS/content/ch02s01.html#_multipleValueLookup"
+                            >Multiple Value Lookup</link> on the <link
+                            xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide
+                                to OLE Basic Functionality and Key
+                        Concepts</emphasis></link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Edit Global Organization Reversion Tab</title>
+                <para>The <emphasis role="bold">Edit Global Organization Reversion</emphasis> tab
+                    works in the same manner as the <emphasis role="bold">Edit Organization
+                        Reversion</emphasis> tab of the Organization Reversion document. This tab
+                    defines two reversion accounts: the budget reversion account and the cash
+                    reversion account. These definitions are for specific university organizations
+                    as defined within the Chart of Accounts hierarchy and for a specific fiscal
+                    year. The accounts are determined by chart code and account number.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Organization Reversion Global Document: Edit Global Organization
+                                Reversion Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-165.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <note>
+                    <para> For more information about the Edit Global Organization Reversion Tab,
+                        see <link linkend="_editOrganizationReversionTab">Edit Organization
+                            Reversion Tab</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Edit Global Organization Reversion Details Tab</title>
+                <para>The <emphasis role="bold">Edit Global Organization Reversion
+                        Details</emphasis> tab works in the same manner as the <emphasis role="bold"
+                        >Edit Organization Reversion Details</emphasis> tab of the Organization
+                    Reversion document. It contains object codes and carry forward/reversion rules
+                    by organization reversion category. Fields indicated as required are required
+                    only if that organization reversion category is completed.</para>
+                <para>This tab must be completed regardless of the Carry Forward Indicator in the
+                        <emphasis role="bold">Edit Organization Reversion</emphasis> tab.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Organization Reversion Global Document: Edit Global Organization
+                                Reversion DetailsTab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-166.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <note>
+                    <para> For more information about the Edit GlobalOrganization Reversion
+                        DetailsTab, see <link linkend="_editOrganizationReversionDetailsTab">Edit
+                            Organization Reversion DetailsTab</link>.</para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para>The business rules and routing of the Organization Reversion Global document are
+                identical to those of the Organization Reversion document.</para>
         </section>
     </section>
 </chapter>

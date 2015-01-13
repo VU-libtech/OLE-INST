@@ -77,6 +77,9 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String uiMessageType;
     private boolean reinstated;
     private int numberOfClaimsReturned;
+    private boolean showLoanedRecords;
+    private boolean showRequestedItems;
+    private boolean showTemporaryCirculationHistoryRecords;
 
     private transient IdentityService identityService;
 
@@ -1418,5 +1421,29 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setDeletedOlePatronLocalIds(List<OlePatronLocalIdentificationBo> deletedOlePatronLocalIds) {
         this.deletedOlePatronLocalIds = deletedOlePatronLocalIds;
+    }
+
+    public boolean isShowLoanedRecords() {
+        return showLoanedRecords;
+    }
+
+    public void setShowLoanedRecords(boolean showLoanedRecords) {
+        this.showLoanedRecords = showLoanedRecords;
+    }
+
+    public boolean isShowRequestedItems() {
+        return showRequestedItems;
+    }
+
+    public void setShowRequestedItems(boolean showRequestedItems) {
+        this.showRequestedItems = showRequestedItems;
+    }
+
+    public boolean isShowTemporaryCirculationHistoryRecords() {
+        return showTemporaryCirculationHistoryRecords;
+    }
+
+    public void setShowTemporaryCirculationHistoryRecords(boolean showTemporaryCirculationHistoryRecords) {
+        this.showTemporaryCirculationHistoryRecords = showTemporaryCirculationHistoryRecords;
     }
 }

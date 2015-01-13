@@ -1782,29 +1782,35 @@ public class LoanProcessor {
      * @return OleLoanDocument
      * @throws Exception
      */
-    private OleLoanDocument setLocation(StringBuffer location, String locationLevelName, String locationCode, String locationName, OleLoanDocument oleLoanDoc) throws Exception {
+    private OleLoanDocument setLocation(StringBuffer location,StringBuffer locationCodeBuff ,String locationLevelName, String locationCode, String locationName, OleLoanDocument oleLoanDoc) throws Exception {
         LOG.debug("Inside the setLocation method");
         if (locationCode != null) {
             if (locationLevelName.equalsIgnoreCase(OLEConstants.LOCATION_LEVEL_SHELVING)) {
                 location.append(locationName);
+                locationCodeBuff.append(locationCode);
                 oleLoanDoc.setItemLocation(locationCode);
             } else if (locationLevelName.equalsIgnoreCase(OLEConstants.LOCATION_LEVEL_COLLECTION)) {
 
                 location.append(locationName + "-");
+                locationCodeBuff.append(locationCode + "/");
                 oleLoanDoc.setItemCollection(locationCode);
 
             } else if (locationLevelName.equalsIgnoreCase(OLEConstants.LOCATION_LEVEL_LIBRARY)) {
                 location.append(locationName + "-");
+                locationCodeBuff.append(locationCode + "/");
                 oleLoanDoc.setItemLibrary(locationCode);
             } else if (locationLevelName.equalsIgnoreCase(OLEConstants.LOCATION_LEVEL_INSTITUTION)) {
                 location.append(locationName + "-");
+                locationCodeBuff.append(locationCode + "/");
                 oleLoanDoc.setItemInstitution(locationCode);
             } else if (locationLevelName.equalsIgnoreCase(OLEConstants.LOCATION_LEVEL_CAMPUS)) {
                 location.append(locationName + "-");
+                locationCodeBuff.append(locationCode + "/");
                 oleLoanDoc.setItemCampus(locationCode);
             }
         }
         return oleLoanDoc;
+
     }
 
     /**
@@ -1879,6 +1885,7 @@ public class LoanProcessor {
     public void getOleLocationLevel(OleLoanDocument oleLoanDocument, LocationLevel locationLevel) throws Exception {
         LOG.debug("Inside the getOleLocationLevel method");
         StringBuffer location = new StringBuffer();
+        StringBuffer locationCodeBuff = new StringBuffer();
         while (locationLevel.getLocationLevel() != null) {
             OleLocationLevel oleLocationLevel = getLocationLevelByName(locationLevel.getLevel());
             OleLocation oleLocation = new OleLocation();
@@ -1886,7 +1893,7 @@ public class LoanProcessor {
                 oleLocation = getLocationByLocationCode(locationLevel.getName());
                 oleLoanDocument.setOleLocation(oleLocation);
             }
-            setLocation(location, oleLocationLevel.getLevelName(), oleLocation.getLocationCode(), oleLocation.getLocationName(), oleLoanDocument);
+            setLocation(location, locationCodeBuff,oleLocationLevel.getLevelName(), oleLocation.getLocationCode(), oleLocation.getLocationName(), oleLoanDocument);
             OleCirculationDesk oleCirculationDesk = getCirculationDeskByLocationId(oleLocation.getLocationId());
             if(oleCirculationDesk!=null){
                 oleLoanDocument.setLocationCode(oleCirculationDesk.getCirculationDeskCode());
@@ -1914,7 +1921,9 @@ public class LoanProcessor {
             oleLoanDocument.setRouteToLocationName(oleLocation.getLocationName());
         }
         location.append(oleLocation.getLocationName());
+        locationCodeBuff.append(oleLocation.getLocationCode());
         oleLoanDocument.setLocation(location.toString());
+        oleLoanDocument.setOleLocationCode(locationCodeBuff.toString());
         // }
     }
 
@@ -2205,15 +2214,15 @@ public class LoanProcessor {
                             existingLoanObject.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
                             existingLoanObject.setItemLocation(locationMap.get(OLEConstants.ITEM_SHELVING));
                         }
-                        getOleDeliverNoticeHelperService().deleteDeliverNotices(oleLoanDocument.getLoanId());
-                        getOleDeliverNoticeHelperService().generateDeliverNotices(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid(),
-                                oleLoanDocument.getOleCirculationDesk()!=null ? oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode() : null,
-                                borrowerCode,existingLoanObject.getItemTypeName(), existingLoanObject.getItemStatus(),
-                                existingLoanObject.isClaimsReturnedIndicator() ? OLEConstants.TRUE : OLEConstants.FALSE,
-                                oleLoanDocument.getRepaymentFeePatronBillId() != null ? OLEConstants.TRUE : OLEConstants.FALSE,
-                                existingLoanObject.getItemLocation(), existingLoanObject.getItemCollection(), existingLoanObject.getItemLibrary(),
-                                existingLoanObject.getItemCampus(), existingLoanObject.getItemInstitution(), oleLoanDocument.getLoanDueDate(),oleLoanDocument.getLoanId());
                     }
+                    getOleDeliverNoticeHelperService().deleteDeliverNotices(oleLoanDocument.getLoanId());
+                    getOleDeliverNoticeHelperService().generateDeliverNotices(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid(),
+                            oleLoanDocument.getOleCirculationDesk()!=null ? oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode() : null,
+                            borrowerCode,existingLoanObject.getItemTypeName(), existingLoanObject.getItemStatus(),
+                            existingLoanObject.isClaimsReturnedIndicator() ? OLEConstants.TRUE : OLEConstants.FALSE,
+                            oleLoanDocument.getRepaymentFeePatronBillId() != null ? OLEConstants.TRUE : OLEConstants.FALSE,
+                            existingLoanObject.getItemLocation(), existingLoanObject.getItemCollection(), existingLoanObject.getItemLibrary(),
+                            existingLoanObject.getItemCampus(), existingLoanObject.getItemInstitution(), oleLoanDocument.getLoanDueDate(),oleLoanDocument.getLoanId());
                 }
             }
         }

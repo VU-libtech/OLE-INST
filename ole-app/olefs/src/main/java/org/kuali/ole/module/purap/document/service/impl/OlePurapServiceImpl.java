@@ -18,9 +18,11 @@ package org.kuali.ole.module.purap.document.service.impl;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.docstore.common.document.content.bib.marc.DataField;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.module.purap.businessobject.PurApItem;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.document.*;
@@ -609,6 +611,32 @@ public class OlePurapServiceImpl implements OlePurapService {
         }
         StringEscapeUtils stringEscapeUtils = new StringEscapeUtils();
         itemDescription = stringEscapeUtils.unescapeHtml(itemDescription);
+        return itemDescription;
+    }
+
+
+    public String getItemDescription(OlePurchaseOrderItem olePurchaseOrderItem) {
+        BibInfoRecord bibInfoRecord = olePurchaseOrderItem.getBibInfoRecord();
+        String itemDescription = null;
+        if (bibInfoRecord != null) {
+            olePurchaseOrderItem.setBibUUID(bibInfoRecord.getBibIdStr());
+            olePurchaseOrderItem.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(olePurchaseOrderItem.getItemTitleId()));
+
+            itemDescription = ((bibInfoRecord.getTitle() != null && !bibInfoRecord.getTitle().isEmpty()) ? bibInfoRecord.getTitle().trim() + ", " : "")
+                    + ((bibInfoRecord.getAuthor() != null && !bibInfoRecord
+                    .getAuthor().isEmpty()) ? bibInfoRecord.getAuthor().trim() + ", "
+                    : "")
+                    + ((bibInfoRecord.getPublisher() != null && !bibInfoRecord
+                    .getPublisher().isEmpty()) ? bibInfoRecord.getPublisher().trim()
+                    + ", " : "")
+                    + ((bibInfoRecord.getIsxn() != null && !bibInfoRecord.getIsxn()
+                    .isEmpty()) ? bibInfoRecord.getIsxn().trim() + ", " : "");
+        }
+        if (itemDescription != null && !(itemDescription.equals(""))) {
+            itemDescription = itemDescription.substring(0, itemDescription.lastIndexOf(","));
+            StringEscapeUtils stringEscapeUtils = new StringEscapeUtils();
+            itemDescription = stringEscapeUtils.unescapeXml(itemDescription);
+        }
         return itemDescription;
     }
 

@@ -1,9 +1,38 @@
 package org.kuali.ole.deliver.controller;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.bo.OleAddressBo;
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.bo.OleEntityAddressBo;
+import org.kuali.ole.deliver.bo.OleItemSearch;
+import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.bo.OlePatronAffiliation;
+import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo;
+import org.kuali.ole.deliver.bo.OlePatronLostBarcode;
+import org.kuali.ole.deliver.bo.OleProxyPatronDocument;
+import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
+import org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -32,6 +61,7 @@ import org.kuali.rice.krad.service.MaintenanceDocumentService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.util.ProcessLogger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -47,19 +77,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
-
 /**
  * .OlePatronMaintenanceDocumentController invokes MaintenanceDocumentController and returns instance of MaintenanceDocumentService.
  */
@@ -74,7 +91,13 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
     private DateTimeService dateTimeService;
 
-    public DateTimeService getDateTimeService() {
+    @Override
+	protected MaintenanceDocumentForm createInitialForm(
+			HttpServletRequest request) {
+		return new OlePatronMaintenanceDocumentForm();
+	}
+
+	public DateTimeService getDateTimeService() {
         return (DateTimeService)SpringContext.getService("dateTimeService");
     }
 
@@ -140,6 +163,9 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
 
             patronDocument.setExpirationFlag(false);
         }
+        olePatronDocument.setShowLoanedRecords(false);
+        olePatronDocument.setShowRequestedItems(false);
+        olePatronDocument.setShowTemporaryCirculationHistoryRecords(false);
         return getUIFModelAndView(form);
     }
 
@@ -158,6 +184,9 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 olePatronLocalIdentificationBo.setOlePatronDocument(null);
            }
         }
+        patronDocument.setShowLoanedRecords(false);
+        patronDocument.setShowRequestedItems(false);
+        patronDocument.setShowTemporaryCirculationHistoryRecords(false);
         return getUIFModelAndView(form);
     }
 
@@ -182,6 +211,9 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         OlePatronDocument patronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         olePatronDocument.setBarcodeEditable(false);
         patronDocument.setBarcodeEditable(false);
+        olePatronDocument.setShowLoanedRecords(false);
+        olePatronDocument.setShowRequestedItems(false);
+        olePatronDocument.setShowTemporaryCirculationHistoryRecords(false);
         return getUIFModelAndView(form);
     }
 
@@ -1485,6 +1517,142 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             newOlePatronDocument.getDeletedEmployments().add(entityEmploymentBo);
             return deleteLine(uifForm, result, request, response);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=showPatronLoanedItem")
+    public ModelAndView showPatronLoanedItem(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Patron View : showing Patron Loaned Records");
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        try {
+            olePatronDocument.setOleLoanDocuments(getLoanProcessor().getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId()));
+        } catch (Exception e) {
+            LOG.error("While fetching loan records error occured" + e);
+        }
+        olePatronDocument.setShowLoanedRecords(true);
+        return getUIFModelAndView(form);
+    }
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=hidePatronLoanedItem")
+    public ModelAndView hidePatronLoanedItem(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Patron View : Hiding Patron Loaned Records");
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        olePatronDocument.setOleLoanDocuments(new ArrayList<OleLoanDocument>());
+        olePatronDocument.setShowLoanedRecords(false);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=showPatronRequestedRecords")
+    public ModelAndView showPatronRequestedRecords(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Patron View : showing Patron Requested Records");
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        try {
+            OleDeliverRequestDocumentHelperServiceImpl requestService = new OleDeliverRequestDocumentHelperServiceImpl();
+            List<OleDeliverRequestBo> oleDeliverRequestBoList = olePatronDocument.getOleDeliverRequestBos();
+            if (oleDeliverRequestBoList.size() > 0) {
+                for (int i = 0; i < oleDeliverRequestBoList.size(); i++) {
+                    OleItemSearch oleItemSearch = requestService.getItemDetailsForPatron(oleDeliverRequestBoList.get(i).getItemUuid());
+                    if (oleItemSearch != null && oleItemSearch.getItemBarCode() != null) {
+                        oleDeliverRequestBoList.get(i).setTitle(oleItemSearch.getTitle());
+                        oleDeliverRequestBoList.get(i).setCallNumber(oleItemSearch.getCallNumber());
+                    }
+                }
+            }
+            olePatronDocument.setOleDeliverRequestBos(loanProcessor.getPatronRequestRecords(olePatronDocument.getOlePatronId()));
+        } catch (Exception e) {
+            LOG.error("While fetching Patron Requested Records error occured" + e);
+        }
+        olePatronDocument.setShowRequestedItems(true);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=hidePatronRequestedRecords")
+    public ModelAndView hidePatronRequestedRecords(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Patron View : Hiding Patron Loaned Records");
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        olePatronDocument.setOleDeliverRequestBos(new ArrayList<OleDeliverRequestBo>());
+        olePatronDocument.setShowRequestedItems(false);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=showTemporaryCirculationHistoryRecords")
+    public ModelAndView showTemporaryCirculationHistoryRecords(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Patron View : showing Patron TemporaryCirculationHistory Records");
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        try {
+            olePatronDocument.setOleTemporaryCirculationHistoryRecords(loanProcessor.getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
+        } catch (Exception e) {
+            LOG.error("While fetching Patron TemporaryCirculationHistory Records error occured" + e);
+        }
+
+        olePatronDocument.setShowTemporaryCirculationHistoryRecords(true);
+        return getUIFModelAndView(form);
+    }
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=hideTemporaryCirculationHistoryRecords")
+    public ModelAndView hideTemporaryCirculationHistoryRecords(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Patron View : Hiding Patron Loaned Records");
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        olePatronDocument.setOleTemporaryCirculationHistoryRecords(new ArrayList<OleTemporaryCirculationHistory>());
+        olePatronDocument.setShowTemporaryCirculationHistoryRecords(false);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=refreshLoanedItemSection")
+    public ModelAndView refreshLoanedItemSection(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Patron View : Hiding Patron Loaned Records");
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=refreshProxyPatron")
+    public ModelAndView refreshProxyPatron(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        if ((uifForm instanceof OlePatronMaintenanceDocumentForm)
+        		&& !((OlePatronMaintenanceDocumentForm) uifForm).isFilterProxySection()) {
+        	
+        	OlePatronMaintenanceDocumentForm form = (OlePatronMaintenanceDocumentForm) uifForm;
+            OlePatronDocument olePatron =
+            		(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
+        	
+            List<OleProxyPatronDocument> oleProxyPatronDocuments = olePatron.getOleProxyPatronDocuments();
+            List<OleProxyPatronDocument> proxyPatronDocumentList = new ArrayList<OleProxyPatronDocument>();
+            List<OlePatronDocument> olePatronDocuments = new ArrayList<OlePatronDocument>();
+			ProcessLogger.trace("patron:proxy:begin:"
+					+ oleProxyPatronDocuments.size());
+            if (oleProxyPatronDocuments.size() > 0) {
+                for (Iterator<OleProxyPatronDocument> proxyPatronIterator = oleProxyPatronDocuments.iterator(); proxyPatronIterator.hasNext(); ) {
+                    OleProxyPatronDocument oleProxyPatronDocument = (OleProxyPatronDocument) proxyPatronIterator.next();
+                    Map map = new HashMap();
+                    map.put(OLEConstants.OlePatron.PATRON_ID, oleProxyPatronDocument.getProxyPatronId());
+        			ProcessLogger.trace("patron:proxy:"
+        					+ oleProxyPatronDocument.getProxyPatronId());
+                    OlePatronDocument olePatronDocument = (OlePatronDocument) getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, map);
+                    if (olePatronDocument.isActiveIndicator()) {
+                        oleProxyPatronDocument.setProxyPatronBarcode(olePatronDocument.getBarcode());
+                        oleProxyPatronDocument.setProxyPatronFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
+                        oleProxyPatronDocument.setProxyPatronLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
+                        proxyPatronDocumentList.add(oleProxyPatronDocument);
+                    }
+                }
+                olePatron.setOleProxyPatronDocuments(proxyPatronDocumentList);
+                ProcessLogger.trace("patron:proxy:end");
+            }
+        }
+        
+        return super.refresh(uifForm, result, request, response);
     }
 
 }

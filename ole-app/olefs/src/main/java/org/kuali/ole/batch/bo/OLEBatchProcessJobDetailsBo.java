@@ -79,6 +79,7 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
     private Integer noOfEinstanceDeleted;
     private Integer noOfEinstanceCreatedWithOutLink;
     private Integer noOfbibsHaveMoreThanOneEinstance;
+    private boolean bibsDeletedForExportFlag;
 
     private OLEBatchProcessScheduleBo oleBatchProcessScheduleBo;
     private List<OLEBatchProcessScheduleBo> oleBatchProcessScheduleBoList;
@@ -147,6 +148,18 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
 
     public void setFileCreatedWithMoreThanOneLinkFlag(boolean fileCreatedWithMoreThanOneLinkFlag) {
         this.fileCreatedWithMoreThanOneLinkFlag = fileCreatedWithMoreThanOneLinkFlag;
+    }
+
+    public boolean isBibsDeletedForExportFlag() {
+        File file = new File(getBatchProcessFilePath(this.getBatchProcessType(), this.getJobId()) + this.getJobId() + OLEConstants.OLEBatchProcess.DELETED_BIB_IDS_FILE_NAME);
+        if (file.exists()) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setBibsDeletedForExportFlag(boolean bibsDeletedForExportFlag) {
+        this.bibsDeletedForExportFlag = bibsDeletedForExportFlag;
     }
 
     public Integer getNoOfEinstanceAdded() {
@@ -608,7 +621,7 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
     }
 
     public void setJobstatistics(OLEBatchBibImportStatistics bibImportStatistics) {
-        setNoOfRecordsProcessed(bibImportStatistics.getTotalCount() + "");
+        setNoOfRecordsProcessed(Integer.parseInt(noOfRecordsProcessed) + bibImportStatistics.getTotalCount() + "");
         setNoOfSuccessRecords(bibImportStatistics.getSuccessRecord() + "");
         setNoOfFailureRecords((bibImportStatistics.getMismatchRecordList().size()) + "");
         setNoOfEinstanceAdded(bibImportStatistics.getNoOfEinstanceAdded());

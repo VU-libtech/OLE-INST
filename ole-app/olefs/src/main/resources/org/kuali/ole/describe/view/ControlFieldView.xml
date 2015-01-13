@@ -3,7 +3,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="Control_Field" parent="Uif-Disclosure-VerticalBoxSection" p:layoutManager.orientation="VERTICAL" >
+	<bean id="OleControlFieldGroup" parent="Uif-VerticalFieldGroup" abstract="true"
+			class="org.kuali.ole.describe.bo.marc.structuralfields.OleControlFieldGroup">
+		<property name="group">
+			<bean parent="Uif-VerticalBoxGroup" 
+				class="org.kuali.ole.krad.OleFilteredCopyGroup" />
+		</property>
+	</bean>
+
+    <bean id="Control_Field" parent="Uif-Disclosure-VerticalBoxSection" p:layoutManager.orientation="VERTICAL"
+    		class="org.kuali.ole.krad.OleFilteredCopyGroup">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Control Fields"/>
         <property name="items">
@@ -41,7 +50,11 @@
                 <bean id="Control_Field_005ReadOnly" parent="Uif-DataField"
                       p:propertyName="documentForm.marcControlFields.controlField005" p:label="005"
                       p:render="@{editable eq 'false'}"/>
-                <bean id="Control_Field_006_Section" parent="Uif-VerticalFieldGroup" p:style="font-weight:bold;border:0px;"  class="org.kuali.ole.describe.bo.marc.structuralfields.OleControlFieldGroup" p:displayFieldProperty="displayField006" p:fieldLinkId="006FieldLink" p:controlFieldGroupId="Control_Field_006_Data_Section">
+                <bean id="Control_Field_006_Section" parent="OleControlFieldGroup"
+                		p:style="font-weight:bold;border:0px;"
+						p:filterModelProperty="filterControlFields"
+						p:displayFieldProperty="displayField006" p:fieldLinkId="006FieldLink"
+						p:controlFieldGroupId="Control_Field_006_Data_Section">
                     <property name="items">
                         <list>
                             <bean id="006load" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="loadControlField006"
@@ -61,9 +74,12 @@
 
                 </bean>
 
-                <ref bean="Control_Field_006_Collection"/>
-                <bean id="Control_Field_007_Section" parent="Uif-VerticalFieldGroup" p:style="font-weight:bold;border:0px;"  class="org.kuali.ole.describe.bo.marc.structuralfields.OleControlFieldGroup"
-                      p:displayFieldProperty="displayField007" p:fieldLinkId="007FieldLink" p:controlFieldGroupId="Control_Field_007_Data_Section">
+				<ref bean="Control_Field_006_Collection"/>
+				<bean id="Control_Field_007_Section" parent="OleControlFieldGroup"
+						p:style="font-weight:bold;border:0px;"
+						p:filterModelProperty="filterControlFields"
+						p:displayFieldProperty="displayField007" p:fieldLinkId="007FieldLink"
+						p:controlFieldGroupId="Control_Field_007_Data_Section">
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
@@ -84,8 +100,11 @@
                 </bean>
 
                 <ref bean="Control_Field_007_Collection"/>
-                <bean id="Control_Field_008_Section" parent="Uif-VerticalFieldGroup" p:style="font-weight:bold;border:0px;" class="org.kuali.ole.describe.bo.marc.structuralfields.OleControlFieldGroup"
-                      p:displayFieldProperty="displayField008" p:fieldLinkId="008FieldLink" p:controlFieldGroupId="Control_Field_008_Data_Section">
+				<bean id="Control_Field_008_Section" parent="OleControlFieldGroup"
+						p:style="font-weight:bold;border:0px;"
+						p:filterModelProperty="filterControlFields"
+						p:displayFieldProperty="displayField008" p:fieldLinkId="008FieldLink"
+						p:controlFieldGroupId="Control_Field_008_Data_Section">
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>

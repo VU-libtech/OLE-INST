@@ -18,6 +18,7 @@ package org.kuali.ole.select.businessobject;
 
 
 import org.kuali.ole.docstore.common.document.ids.BibId;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
@@ -181,6 +182,7 @@ public class OleRequisitionItem extends RequisitionItem implements OlePurchasing
     private Date claimDate;
     private String claimNote;
     private KualiInteger claimCount;
+    private BibInfoRecord bibInfoRecord;
 
     private List<OLEPOClaimHistory> claimHistories = new ArrayList<>();
 
@@ -1315,5 +1317,13 @@ public class OleRequisitionItem extends RequisitionItem implements OlePurchasing
 
     public void setBibTree(BibId bibTree) {
         this.bibTree = bibTree;
+    }
+
+    public BibInfoRecord getBibInfoRecord() {
+        return bibInfoRecord;
+    }
+
+    public void setBibInfoRecord(BibInfoRecord bibInfoRecord) {
+        this.bibInfoRecord = bibInfoRecord;
     }
 }

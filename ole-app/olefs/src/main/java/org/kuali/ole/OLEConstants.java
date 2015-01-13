@@ -1,8 +1,8 @@
 package org.kuali.ole;
 
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
-import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.PatronBillPayment;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -143,7 +143,7 @@ public class OLEConstants {
     public static final String INVAL_ITEM_STATUS = "Invalid Item Status";
     public static final String ITEM_STATUS_CODE = "itemAvailableStatusCode";
     public static final String OPTR_ID = "operatorId";
-    public static final String VALID_FILE_FORMAT = "validFileFormat";
+    public static final String VALID_FILE_FORMAT = "VALID_FILE_FORMAT";
     public static final String APPL_ID = "KUALI";
     public static final String APPL_ID_OLE = "OLE";
     public static final String SELECT_NMSPC = "OLE-SELECT";
@@ -400,7 +400,7 @@ public class OLEConstants {
     public static final String ITEM = "item";
     public static final String HOLDING = "holding";
     public static final String DOCUMENT_ITEM = "documentItem";
-    public static final String GREGORIAN_PATTERN="yyyy-mm-dd hh:mm:ss";
+    public static final String GREGORIAN_PATTERN = "yyyy-mm-dd hh:mm:ss";
     public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
 
 
@@ -424,6 +424,8 @@ public class OLEConstants {
         public static final String OLE_BATCH_FLTR_NUMBER = "Number";
         public static final String OLE_BATCH_FLTR_NUMBER_RANGE = "Number Range";
         public static final String OLE_BATCH_FLTR_STRING = "String";
+        public static final String OLE_BATCH_FLTR_CRITERIA_LOAD_FROM_FILE = "Bib Local Id From File";
+        public static final String OLE_BATCH_FLTR_CRITERIA_BIB_STATUS = "Bib Status";
         public static final String OLE_BATCH_SCHEDULE = "error.format.required";
         public static final String OLE_BATCH_SCHEDULE_TIME = "error.format.time";
         public static final String OLE_BATCH_SCHEDULE_ERR = "error.scheduler.time";
@@ -482,6 +484,7 @@ public class OLEConstants {
         public static final String BATCH_DELETE = "Batch Delete";
         public static final String BATCH_DELETE_INGEST_FILE_FORMAT = "error.batch.delete.ingest.file";
         public static final String BATCH_BIB_IMPORT_INGEST_FILE_FORMAT = "error.batch.bib.import.ingest.file";
+        public static final String BATCH_EXPORT_INGEST_FILE_FORMAT = "error.batch.export.ingest.file";
         public static final String BATCH_DELETE_MATCH_POINT = "error.batch.delete.match.point";
         public static final String LOCATION_IMPORT_INGEST_FILE_FORMAT = "error.location.import.ingest.file";
         public static final String ERROR_EMAIL_ID = "error.email.id";
@@ -551,6 +554,8 @@ public class OLEConstants {
         public static final String DATE_ENTERED = "Date Entered";
         public static final String DESTINATION_FIELD_ITEM_ITEM_BARCODE = "Item Barcode";
         public static final String DESTINATION_FIELD_ITEM_ENUMERATION = "Enumeration";
+        public static final String DESTINATION_FIELD_ITEM_CHRONOLOGY = "Chronology";
+        public static final String DESTINATION_FIELD_VENDOR_LINE_ITEM_IDENTIFIER = "Vendor Line Item Identifier";
         public static final String CONTROL_FIELD_NAME_001 = "controlfield_001";
         public static final String CONTROL_FIELD_001 = "001";
         public static final String CONTROL_FIELD_003 = "003";
@@ -591,6 +596,7 @@ public class OLEConstants {
 
         public static final String MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD = "More than one matching found from existing record";
         public static final String PROCESS_FAILURE = "Failed to process bib trees";
+        public static final String NO_MATCH_DISCARD_BIB = "Bib discarded";
         // batch directories
 
         public static final String SERIAL_XML_CSV_FORMAT = "error.serial.input.both.format";
@@ -639,8 +645,10 @@ public class OLEConstants {
         public static final String STATUS_UPDATED_ON = "statusUpdatedOn";
         public static final String STATUS_SEARCH = "Status_search";
         public static final String LOCAL_ID_SEARCH = "LocalId_search";
+        public static final String LOCAL_ID_DISPLAY = "LocalId_display";
         public static final String STAFF_ONLY_FLAG = "staffOnlyFlag";
         public static final String DYNAMIC_FIELD_PREFIX = "mdf_";
+        public static final String DELETED_BIB_IDS_FILE_NAME = "_Deleted_Bibs.txt";
 
         // batch delete
         public static final String FAILURE_INFO = "failureInfo";
@@ -650,7 +658,7 @@ public class OLEConstants {
         public static final String ITEM_ONHOLD = "Item is OnHold";
         public static final String MORE_BIB_RECORDS = "Contains more than one bib record";
         public static final String MORE_HOLDINGS = "bib record contains more than one holdings";
-        public static final String MORE_EHOLDINGS ="bib record contains more than one eHoldings";
+        public static final String MORE_EHOLDINGS = "bib record contains more than one eHoldings";
         public static final String BIB_BOUNDS_WITH = "bib record bounds with other record";
         public static final String BATCH_DELETION_JOB = "Batch deletion job ";
         public static final String FAILED = " has FAILED";
@@ -771,7 +779,7 @@ public class OLEConstants {
         public static final String INVALID_BLDGCD_CMPCD_ROOM_COMBINATION = "Please enter a right combination of Building Code, Delivery Campus Code and Building Room Number.";
         public static final String INVALID_VNDRNBR_CUSTNBR_COMBINATION = "Please enter a right combination of Vendor Number and Acquisition Unit's Vendor account / Vendor Info Customer #";
         public static final String BIB_IMP_FAILED = "Bib import failed ";
-        public static final String REASON = " Reason :  " ;
+        public static final String REASON = " Reason :  ";
 
         // data mapping and profile constants for invoice import
 
@@ -932,7 +940,7 @@ public class OLEConstants {
         public static final String ERROR_PATRON_LAST_NAME = "error.patron.last.name";
         public static final String PATRON_NAME_VALIDATION = "PATRON_NAME_VALIDATION";
         public static final String PATRON_BILL_REVIEW_PRINT = "PATRON_BILL_REVIEW_PRINT";
-        public static final String PATRON_SUCCESS_MAIL ="error.message.mail.patron.sent";
+        public static final String PATRON_SUCCESS_MAIL = "error.message.mail.patron.sent";
         public static final String ERROR_PATRON_MAIL = "error.message.mail.patron";
         public static final String FIRST_NAME = "dataObject.name.firstName";
         public static final String MIDDLE_NAME = "dataObject.name.middleName";
@@ -1138,6 +1146,7 @@ public class OLEConstants {
     public static final String PAGE_HOLD_ITEM_STATUS = "PAGE_HOLD_ITEM_STATUS";
     public static final String COPY_REQUEST_ITEM_STATUS = "COPY_REQUEST_ITEM_STATUS";
     public static final String ASR_REQUEST_ITEM_STATUS = "ASR_REQUEST_ITEM_STATUS";
+    public static final String REQUEST_DOC_TYPE = "OLE_DLVR_REQS";
 
 
     //Docstore operations
@@ -1476,7 +1485,7 @@ public class OLEConstants {
     public static final String DAT_FORMAT_EFFECTIVE_PRINT = "MM/dd/yyyy hh:mm a";
     public static final String DAT_FORMAT_EFFECTIVE_NOTICE = "MM/dd/yyyy hh:mm:ss";
     public static final String INVAL_LOC = "error.invalid.location";
-    public static final String ITEM_NOT_AVAILABLE="item.not.available";
+    public static final String ITEM_NOT_AVAILABLE = "item.not.available";
     public static final String INVAL_ITEM = "Either item type or item status or both are empty";
     public static final String GENERAL_BLOCK = "generalBlock";
     public static final String LOST_BARCODE = "lostBarcode";
@@ -1544,7 +1553,7 @@ public class OLEConstants {
     public static final String FEE_TYPE_CODE_OVERDUE = "OVR_DUE";
     public static final String FEE_TYPE_CODE_REPL_FEE = "REPL_FEE";
     public static final String LOANED_ITEM_COUNT = "loanedItemCount";
-    public  static final String FEE_TYPE_PATRON_ID="patronBillPayment.patronId";
+    public static final String FEE_TYPE_PATRON_ID = "patronBillPayment.patronId";
     public static final String ITEM_LOCATION = "itemLocation";
     public static final String IS_ITEM_PRICE = "isItemPrice";
     public static final String DELIVERY_PRIVILEGES = "deliveryPrivileges";
@@ -1672,10 +1681,10 @@ public class OLEConstants {
     public static final String FLAG_TYP_ITM_MISSING = "MISSING";
     public static final String FLAG_TYP_ITM_CLAIMS_RETURNED = "CLAIMS_RETURNED";
     public static final String FLAG_TYP_ITM_DAMAGED = "DAMAGED";
-    public static final String ERROR_MISSING_ITEM_NO_GREATER= "Item no of pieces should no be less than 1";
-    public static final String ERROR_MISSING_COUNT_NO_LESS= "No of missing piece count should no be less than 1";
-    public static final String ERROR_MISSING_ITEM_GREATER_COUNT= "Missing piece count should not be greater than no of pieces";
-    public static final String ERROR_MISSING_ITEM_COUNT_REQUIRED= "Provide missing  piece count  information";
+    public static final String ERROR_MISSING_ITEM_NO_GREATER = "Item no of pieces should no be less than 1";
+    public static final String ERROR_MISSING_COUNT_NO_LESS = "No of missing piece count should no be less than 1";
+    public static final String ERROR_MISSING_ITEM_GREATER_COUNT = "Missing piece count should not be greater than no of pieces";
+    public static final String ERROR_MISSING_ITEM_COUNT_REQUIRED = "Provide missing  piece count  information";
 
     public static final String CHECKIN_TIME_FORMAT_MESSAGE = "Check-In time must be a valid 24 hour (0-23) time in HH:mm format, seconds are optional";
     public static final String ALTER_DUE_DATE_TIME_FORMAT_MESSAGE = "Cannot alter due date, Entered time must be a valid 24 hour (0-23) time in HH:mm format, seconds are optional";
@@ -1725,8 +1734,8 @@ public class OLEConstants {
     public static final String CANCEL = "Cancel";
     public static final String CANCEL_MESSAGE = "This Bill has been Cancelled ";
     public static final String CANCEL_MESSAGE_AMT = "This bill has been Cancelled with an amount ";
-    public static final String FORGIVE_MESSAGE =" has  been forgiven ";
-    public static final String ERROR_MESSAGE =" has made an error ";
+    public static final String FORGIVE_MESSAGE = " has  been forgiven ";
+    public static final String ERROR_MESSAGE = " has made an error ";
     public static final String FEE_TYPE_NONE = "None";
     public static final String ITEM_STATUS_LOST = "LOST";
     public static final BigDecimal BIGDECIMAL_DEF_VALUE = new BigDecimal(0.00);
@@ -1881,24 +1890,24 @@ public class OLEConstants {
     }
 
     public static final class OlePatronBill {
-        public static final String LABEL_BILL_NUMBER="Bill No";
-        public static final String LABEL_PATRON_RECEIPT_NUMBER="Trans Id";
-        public static final String LABEL_TRANSACTION_DATE="Transaction Date";
-        public static final String LABEL_OPERATOR_ID="Operator Id";
-        public static final String LABEL_ITEM_BARCODE="Item Barcode";
-        public static final String LABEL_ITEM_TITLE="Title";
-        public static final String LABEL_ITEM_AUTHOR="Author";
-        public static final String LABEL_ITEM_CALL_NUMBER="Call Number";
-        public static final String LABEL_ITEM_COPY_NUMBER="Copy Number";
-        public static final String LABEL_TOTAL_AMOUNT="Total Amount";
-        public static final String LABEL_PAID_AMOUNT="Amount paid by user";
-        public static final String LABEL_TRANSACTION_NUMBER="Check/CreditCard/Journal-Ledger Number";
-        public static final String LABEL_TRANSACTION_NOTE="Transaction Note";
-        public static final String LABEL_PAYMENT_MODE="Payment Mode";
-        public static final String LABEL_FEE_TYPE="Fee Type";
-        public static final String HEADER_PATRON_RECEIPT="PATRON RECEIPT";
-        public static final String LABEL_NOTE="Note";
-        public static final String NEW_PATRON_BILL_DESC="New Patron Bill";
+        public static final String LABEL_BILL_NUMBER = "Bill No";
+        public static final String LABEL_PATRON_RECEIPT_NUMBER = "Trans Id";
+        public static final String LABEL_TRANSACTION_DATE = "Transaction Date";
+        public static final String LABEL_OPERATOR_ID = "Operator Id";
+        public static final String LABEL_ITEM_BARCODE = "Item Barcode";
+        public static final String LABEL_ITEM_TITLE = "Title";
+        public static final String LABEL_ITEM_AUTHOR = "Author";
+        public static final String LABEL_ITEM_CALL_NUMBER = "Call Number";
+        public static final String LABEL_ITEM_COPY_NUMBER = "Copy Number";
+        public static final String LABEL_TOTAL_AMOUNT = "Total Amount";
+        public static final String LABEL_PAID_AMOUNT = "Amount paid by user";
+        public static final String LABEL_TRANSACTION_NUMBER = "Check/CreditCard/Journal-Ledger Number";
+        public static final String LABEL_TRANSACTION_NOTE = "Transaction Note";
+        public static final String LABEL_PAYMENT_MODE = "Payment Mode";
+        public static final String LABEL_FEE_TYPE = "Fee Type";
+        public static final String HEADER_PATRON_RECEIPT = "PATRON RECEIPT";
+        public static final String LABEL_NOTE = "Note";
+        public static final String NEW_PATRON_BILL_DESC = "New Patron Bill";
 
     }
 
@@ -2068,6 +2077,7 @@ public class OLEConstants {
         public static final String ACCESS_TYPE_NAME_FIELD = "dataObject.oleAccessLocationName";
         public static final String ACCESS_TYPE_NAME = "oleAccessLocationName";
     }
+
     public static final class OleDepartment {
         public static final String DEP_TYPE_NAME_FIELD = "dataObject.depCode";
         public static final String DEP_TYPE_CODE = "depCode";
@@ -2212,6 +2222,7 @@ public class OLEConstants {
         public static final List<String> ERESOURCE_RESULT_FIELDS = getSearchEresourcefield();
         public static final String FUND_CODE = "fundCode";
         public static final String ERROR_FUND_CODE = "error.fund.code.doesnt.exist";
+
         public static final List<String> getSearchEresourcefield() {
             List<String> resultFields = new ArrayList<String>();
             resultFields.add(ERESOURCE_TITLE);
@@ -2288,7 +2299,7 @@ public class OLEConstants {
     public static final String CHECK_IN_FAILED = "error.checkin.failed";
     public static final String REQUEST_SUCCESSFULLEY_CANCELLED = "request.successfully.cancelled";
     public static final String NO_REQUEST_FOUND_REQUEST_ID = "error.no.request.id.found";
-    public static final String NO_REQUEST_FOUND="error.no.request";
+    public static final String NO_REQUEST_FOUND = "error.no.request";
     public static final String ITEM_NOT_CREATED = "item.not.created";
     public static final String ITEM_EXIST = "item.barcode.exist";
     public static final String INVALID_OPERATOR = "Operator Id received does not belong to an Operator";
@@ -2346,6 +2357,9 @@ public class OLEConstants {
     public static final String DESCRIBE_SEARCH_MESSAGE = "error.results.not.found";
     public static final String DESCRIBE_ENTER_SEARCH_TEXT = "error.enter.search.field";
     public static final String DESCRIBE_SEARCH_FILE_NOT_FOUND = "error.search.file.not.found";
+    //Added for SOAS DB Validation
+    public static final String SOURCE_NOT_SELECTED = "error.source.not.selected";
+    public static final String EXTERNAL_DATA_IMPORT_ERROR = "error.import.external.db";
     public static final String TRANSFER_LEFT_TREE_SECTION = "TransferTreeSection1";
     public static final String TRANSFER_RIGHT_TREE_SECTION = "TransferTreeSection2";
     public static final String TRANSFER_FAIL_MESSAGE_ITEM_ATTACHED_OLE = "error.transfer.failure";
@@ -2414,8 +2428,8 @@ public class OLEConstants {
     public static final String INVALID_RQST_TYP = "error.invalid.request.type";
     public static final String INVALID_PK_UP_LOCN = "error.invalid.pickup.location";
     public static final String BARCODE = "barcode";
-    public static final String PATRON_ID="patronId";
-    public static final String CIRCULATION_DESK_ID="circulationDeskId";
+    public static final String PATRON_ID = "patronId";
+    public static final String CIRCULATION_DESK_ID = "circulationDeskId";
 
     public static final String PTRN_RCRD_EXPRD = "Patron record expired";
     public static final String RQST_ALRDY_RAISD = "error.request.already.raised";
@@ -2430,15 +2444,15 @@ public class OLEConstants {
     public static final String SMTP_HOST = "mail.smtp.host";
     public static final String SMTP_AUTH = "mail.smtps.auth";
     public static final String SMTP_STARTTLS = "mail.smtp.starttls.enable";
-    public static final String TRANSPORT_PROTOCOL = "smtps";
-    public static final String RQST_PRBLM=" .Problem occured while retrieving item information";
+    public static final String TRANSPORT_PROTOCOL = "mail.transport.protocol";
+    public static final String RQST_PRBLM = " .Problem occured while retrieving item information";
 
     //Boundwith
     public static final String LEFT_TREE_SECTION = "LeftTreeSection";
     public static final String ERROR_BOUNDWITH_SELECT_BIBS = "error.boundwith.select.bibs";
     public static final String BOUNDWITH_SELECTION_SECTION = "BoundwithSelectionSection";
-    public static final String ERROR_BOUNDWITH_SELECT_BIBS_TREE2 =  "error.boundwith.select.bibs.tree2";
-    public static final String ERROR_BOUNDWITH_SELECT_BIBS_TREE1 =  "error.boundwith.select.bibs.tree1";
+    public static final String ERROR_BOUNDWITH_SELECT_BIBS_TREE2 = "error.boundwith.select.bibs.tree2";
+    public static final String ERROR_BOUNDWITH_SELECT_BIBS_TREE1 = "error.boundwith.select.bibs.tree1";
 
     //Analytics
     public static final String ANALYTICS_VIEW = "AnalyticsView";
@@ -2585,7 +2599,7 @@ public class OLEConstants {
 
     public static final String GLOBAL_EDIT_PERMISSION = "Global Edit of Holdings/Items/EHoldings";
     public static final String ANALYTICS_PERMISSION = "Create Analytics";
-    public static final String SERIAL_RCVNG_DOC_TYP="OLE_SER_RECV_REC";
+    public static final String SERIAL_RCVNG_DOC_TYP = "OLE_SER_RECV_REC";
 
     public static final String INVALID_RECORD_TYPE = "Invalid Record Type";
     public static final String LINKED_TYP_FAILED = "Linked Serial Receiving Type Record Failed";
@@ -2595,114 +2609,115 @@ public class OLEConstants {
     public static final String RECORD_TYP_SUPPLEMENTARY = "Supplement";
     public static final String RECORD_TYP_INDEX = "Index";
     public static final String SERIAL_LOADER_DELIMITER = "SERIAL_RECEIVING_LOADER_DELIMETER";
-    public static final String YES="YES";
+    public static final String YES = "YES";
     public static final String NO = "NO";
     public static final String DELIVERY = "Delivery";
     public static final String PAGING = "Paging";
     public static final String PROFILE = "Profile";
     public static final String BLOCKED = "BLOCKED";
-    public static final String LOCATION_CODE="locationCode";
-    public static final String AVAILABLE="AVAILABLE";
+    public static final String LOCATION_CODE = "locationCode";
+    public static final String AVAILABLE = "AVAILABLE";
     public static final String LCC = "LCC";
-    public static final String DUEDATE= "DUEDATE";
-    public static final String CHECKINDATE="CHECKINDATE";
-    public static final String EXCLUDE_TIME= "EXCLUDE_TIME";
-    public static final String NONCIRC= "NONCIRC";
+    public static final String DUEDATE = "DUEDATE";
+    public static final String CHECKINDATE = "CHECKINDATE";
+    public static final String EXCLUDE_TIME = "EXCLUDE_TIME";
+    public static final String NONCIRC = "NONCIRC";
 
     public static final String DELIVERY_DESCRIPTION = "Eligible to receive item";
-    public static final String PAGING_DESCRIPTION ="Eligible to Page item";
+    public static final String PAGING_DESCRIPTION = "Eligible to Page item";
     public static final String PROFILE_DESCRIPTION = "User Profile";
     public static final String COURTESY_DESCRIPTION = "Eligible to receive the courtesy Notices";
-    public static final String STATUS_DESCRIPTION ="Allowed to Check out an item or not";
-    public static final String OK ="OK";
-    public static final String ITEM_IDENTIFIER="itemIdentifier";
-    public static final String LOAN_ID="loanId";
+    public static final String STATUS_DESCRIPTION = "Allowed to Check out an item or not";
+    public static final String OK = "OK";
+    public static final String ITEM_IDENTIFIER = "itemIdentifier";
+    public static final String LOAN_ID = "loanId";
 
-    public static final class OleSerialReceivingDocumentLoader{
-        public static final String FDOC_NBR="FDOC_NBR";
-        public static final String SER_RCV_REC_ID="SER_RCV_REC_ID";
-        public static final String BIB_ID="BIB_ID";
-        public static final String BOUND_LOC="BOUND_LOC";
-        public static final String CALL_NUM="CALL_NUM";
-        public static final String RCV_REC_TYP="RCV_REC_TYP";
-        public static final String CLAIM="CLAIM";
-        public static final String CLAIM_INTRVL_INFO="CLAIM_INTRVL_INFO";
-        public static final String COPY_NUM="COPY_NUM";
-        public static final String CORPORATE_AUTH="CORPORATE_AUTH";
-        public static final String CREATE_ITEM="CREATE_ITEM";
-        public static final String GEN_RCV_NOTE="GEN_RCV_NOTE";
-        public static final String INSTANCE_ID="INSTANCE_ID";
-        public static final String ISSN="ISSN";
-        public static final String PO_ID="PO_ID";
-        public static final String PRINT_LBL="PRINT_LBL";
-        public static final String PUBLIC_DISPLAY="PUBLIC_DISPLAY";
-        public static final String PUBLISHER="PUBLISHER";
-        public static final String SER_RCPT_LOC="SER_RCPT_LOC";
-        public static final String SER_RCV_REC="SER_RCV_REC";
-        public static final String SUBSCR_STAT="SUBSCR_STAT";
-        public static final String TREATMENT_INSTR_NOTE="TREATMENT_INSTR_NOTE";
-        public static final String UNBOUND_LOC="UNBOUND_LOC";
-        public static final String URGENT_NOTE="URGENT_NOTE";
-        public static final String VENDOR="VENDOR";
-        public static final String CREATE_DATE="CREATE_DATE";
-        public static final String OPTR_ID="OPTR_ID";
-        public static final String MACH_ID="MACH_ID";
-        public static final String SUBSCR_STAT_DT="SUBSCR_STAT_DT";
-        public static final String SR_TITLE="SR_TITLE";
-        public static final String OBJ_ID="OBJ_ID";
-        public static final String VER_NBR="VER_NBR";
-        public static final String ACTIVE="ACTIVE";
+    public static final class OleSerialReceivingDocumentLoader {
+        public static final String FDOC_NBR = "FDOC_NBR";
+        public static final String SER_RCV_REC_ID = "SER_RCV_REC_ID";
+        public static final String BIB_ID = "BIB_ID";
+        public static final String BOUND_LOC = "BOUND_LOC";
+        public static final String CALL_NUM = "CALL_NUM";
+        public static final String RCV_REC_TYP = "RCV_REC_TYP";
+        public static final String CLAIM = "CLAIM";
+        public static final String CLAIM_INTRVL_INFO = "CLAIM_INTRVL_INFO";
+        public static final String COPY_NUM = "COPY_NUM";
+        public static final String CORPORATE_AUTH = "CORPORATE_AUTH";
+        public static final String CREATE_ITEM = "CREATE_ITEM";
+        public static final String GEN_RCV_NOTE = "GEN_RCV_NOTE";
+        public static final String INSTANCE_ID = "INSTANCE_ID";
+        public static final String ISSN = "ISSN";
+        public static final String PO_ID = "PO_ID";
+        public static final String PRINT_LBL = "PRINT_LBL";
+        public static final String PUBLIC_DISPLAY = "PUBLIC_DISPLAY";
+        public static final String PUBLISHER = "PUBLISHER";
+        public static final String SER_RCPT_LOC = "SER_RCPT_LOC";
+        public static final String SER_RCV_REC = "SER_RCV_REC";
+        public static final String SUBSCR_STAT = "SUBSCR_STAT";
+        public static final String TREATMENT_INSTR_NOTE = "TREATMENT_INSTR_NOTE";
+        public static final String UNBOUND_LOC = "UNBOUND_LOC";
+        public static final String URGENT_NOTE = "URGENT_NOTE";
+        public static final String VENDOR = "VENDOR";
+        public static final String CREATE_DATE = "CREATE_DATE";
+        public static final String OPTR_ID = "OPTR_ID";
+        public static final String MACH_ID = "MACH_ID";
+        public static final String SUBSCR_STAT_DT = "SUBSCR_STAT_DT";
+        public static final String SR_TITLE = "SR_TITLE";
+        public static final String OBJ_ID = "OBJ_ID";
+        public static final String VER_NBR = "VER_NBR";
+        public static final String ACTIVE = "ACTIVE";
 
     }
-    public static final class OleSerialReceivingTypeLoader{
-        public static final String SER_RCPT_HIS_REC_ID="SER_RCPT_HIS_REC_ID";
-        public static final String SER_RCV_REC_ID="SER_RCV_REC_ID";
-        public static final String RCV_REC_TYP="RCV_REC_TYP";
-        public static final String CHRON_LVL_1="CHRON_LVL_1";
-        public static final String CHRON_LVL_2="CHRON_LVL_2";
-        public static final String CHRON_LVL_3="CHRON_LVL_3";
-        public static final String CHRON_LVL_4="CHRON_LVL_4";
-        public static final String CLAIM_COUNT="CLAIM_COUNT";
-        public static final String CLAIM_DATE="CLAIM_DATE";
-        public static final String CLAIM_NOTE="CLAIM_NOTE";
-        public static final String CLAIM_TYPE="CLAIM_TYPE";
-        public static final String CLAIM_RESP="CLAIM_RESP";
-        public static final String ENUM_LVL_1="ENUM_LVL_1";
-        public static final String ENUM_LVL_2="ENUM_LVL_2";
-        public static final String ENUM_LVL_3="ENUM_LVL_3";
-        public static final String ENUM_LVL_4="ENUM_LVL_4";
-        public static final String ENUM_LVL_5="ENUM_LVL_5";
-        public static final String ENUM_LVL_6="ENUM_LVL_6";
-        public static final String PUB_DISPLAY="PUB_DISPLAY";
-        public static final String SER_RCPT_NOTE="SER_RCPT_NOTE";
-        public static final String OPTR_ID="OPTR_ID";
-        public static final String MACH_ID="MACH_ID";
-        public static final String RCPT_STAT="RCPT_STAT";
-        public static final String RCPT_DATE="RCPT_DATE";
-        public static final String PUB_RCPT="PUB_RCPT";
-        public static final String STAFF_ONLY_RCPT="STAFF_ONLY_RCPT";
-        public static final String OBJ_ID="OBJ_ID";
-        public static final String VER_NBR="VER_NBR";
+
+    public static final class OleSerialReceivingTypeLoader {
+        public static final String SER_RCPT_HIS_REC_ID = "SER_RCPT_HIS_REC_ID";
+        public static final String SER_RCV_REC_ID = "SER_RCV_REC_ID";
+        public static final String RCV_REC_TYP = "RCV_REC_TYP";
+        public static final String CHRON_LVL_1 = "CHRON_LVL_1";
+        public static final String CHRON_LVL_2 = "CHRON_LVL_2";
+        public static final String CHRON_LVL_3 = "CHRON_LVL_3";
+        public static final String CHRON_LVL_4 = "CHRON_LVL_4";
+        public static final String CLAIM_COUNT = "CLAIM_COUNT";
+        public static final String CLAIM_DATE = "CLAIM_DATE";
+        public static final String CLAIM_NOTE = "CLAIM_NOTE";
+        public static final String CLAIM_TYPE = "CLAIM_TYPE";
+        public static final String CLAIM_RESP = "CLAIM_RESP";
+        public static final String ENUM_LVL_1 = "ENUM_LVL_1";
+        public static final String ENUM_LVL_2 = "ENUM_LVL_2";
+        public static final String ENUM_LVL_3 = "ENUM_LVL_3";
+        public static final String ENUM_LVL_4 = "ENUM_LVL_4";
+        public static final String ENUM_LVL_5 = "ENUM_LVL_5";
+        public static final String ENUM_LVL_6 = "ENUM_LVL_6";
+        public static final String PUB_DISPLAY = "PUB_DISPLAY";
+        public static final String SER_RCPT_NOTE = "SER_RCPT_NOTE";
+        public static final String OPTR_ID = "OPTR_ID";
+        public static final String MACH_ID = "MACH_ID";
+        public static final String RCPT_STAT = "RCPT_STAT";
+        public static final String RCPT_DATE = "RCPT_DATE";
+        public static final String PUB_RCPT = "PUB_RCPT";
+        public static final String STAFF_ONLY_RCPT = "STAFF_ONLY_RCPT";
+        public static final String OBJ_ID = "OBJ_ID";
+        public static final String VER_NBR = "VER_NBR";
     }
 
-    public static final class OleSerialReceivingHistoryLoader{
-        public static final String SER_RCV_REC_TYP_ID="SER_RCV_REC_TYP_ID";
-        public static final String SER_RCV_REC_ID="SER_RCV_REC_ID";
-        public static final String RCV_REC_TYP="RCV_REC_TYP";
-        public static final String ACTN_DATE="ACTN_DATE";
-        public static final String ACTN_INTRVL="ACTN_INTRVL";
-        public static final String CHRON_CAPTN_LVL1="CHRON_CAPTN_LVL1";
-        public static final String CHRON_CAPTN_LVL2="CHRON_CAPTN_LVL2";
-        public static final String CHRON_CAPTN_LVL3="CHRON_CAPTN_LVL3";
-        public static final String CHRON_CAPTN_LVL4="CHRON_CAPTN_LVL4";
-        public static final String ENUM_CAPTN_LVL1="ENUM_CAPTN_LVL1";
-        public static final String ENUM_CAPTN_LVL2="ENUM_CAPTN_LVL2";
-        public static final String ENUM_CAPTN_LVL3="ENUM_CAPTN_LVL3";
-        public static final String ENUM_CAPTN_LVL4="ENUM_CAPTN_LVL4";
-        public static final String ENUM_CAPTN_LVL5="ENUM_CAPTN_LVL5";
-        public static final String ENUM_CAPTN_LVL6="ENUM_CAPTN_LVL6";
-        public static final String OBJ_ID="OBJ_ID";
-        public static final String VER_NBR="VER_NBR";
+    public static final class OleSerialReceivingHistoryLoader {
+        public static final String SER_RCV_REC_TYP_ID = "SER_RCV_REC_TYP_ID";
+        public static final String SER_RCV_REC_ID = "SER_RCV_REC_ID";
+        public static final String RCV_REC_TYP = "RCV_REC_TYP";
+        public static final String ACTN_DATE = "ACTN_DATE";
+        public static final String ACTN_INTRVL = "ACTN_INTRVL";
+        public static final String CHRON_CAPTN_LVL1 = "CHRON_CAPTN_LVL1";
+        public static final String CHRON_CAPTN_LVL2 = "CHRON_CAPTN_LVL2";
+        public static final String CHRON_CAPTN_LVL3 = "CHRON_CAPTN_LVL3";
+        public static final String CHRON_CAPTN_LVL4 = "CHRON_CAPTN_LVL4";
+        public static final String ENUM_CAPTN_LVL1 = "ENUM_CAPTN_LVL1";
+        public static final String ENUM_CAPTN_LVL2 = "ENUM_CAPTN_LVL2";
+        public static final String ENUM_CAPTN_LVL3 = "ENUM_CAPTN_LVL3";
+        public static final String ENUM_CAPTN_LVL4 = "ENUM_CAPTN_LVL4";
+        public static final String ENUM_CAPTN_LVL5 = "ENUM_CAPTN_LVL5";
+        public static final String ENUM_CAPTN_LVL6 = "ENUM_CAPTN_LVL6";
+        public static final String OBJ_ID = "OBJ_ID";
+        public static final String VER_NBR = "VER_NBR";
     }
 
     public static final class OLEPatronEntityViewBo {
@@ -2739,7 +2754,7 @@ public class OLEConstants {
     public static final String PRINT = "print";
     public static final String GL_DEBIT_CODE = "D";
     public static final String FIRST_NM = "firstName";
-    public static final String LAST_NM  = "lastName";
+    public static final String LAST_NM = "lastName";
     public static final String PERCENTAGE = "%";
     public static final String DOCUMENT_DESCRIPTION = "YBP";
     public static final String UPDATE_BIB_CNT = "updateBibCount";
@@ -2748,44 +2763,44 @@ public class OLEConstants {
     public static final String FAILURE_REASON = "reasonForFailure";
     public static final String EDI_XML_CONTENT = "ediXMLContent";
     public static final String BATCH_PROFILE_NM = "batchProcessProfileName";
-    public static final String AGENDA_NM  = "agenda_name";
-    public static final String INVALID_CHART_CD  = "Invalid Chart Of Accounts Code -";
-    public static final String INVALID_ORG_CD  = "Invalid Org Code -";
-    public static final String INVALID_CONTRACT_MANAGER_NM  = "Invalid Contract Manager Name -";
-    public static final String INVALID_ASSIGN_TO_USER  = "Invalid Assign to user -";
-    public static final String INVALID_ORDER_TYPE  = "Invalid Order Type -";
-    public static final String INVALID_FUNDING_SOURCE_CD  = "Invalid Funding Source Code -";
-    public static final String INVALID_CAMPUS_CODE  = "Invalid Campus Code -";
-    public static final String INVALID_BUILDING_CD  = "Invalid Building Code -";
-    public static final String INVALID_DELIVERY_BUILDING_ROOM_NUMBER  = "Invalid Building Room Number -";
-    public static final String INVALID_VENDOR_CHOICE_CD  = "Invalid Vendor Choice Code -";
-    public static final String INVALID_VENDOR_CUST_NBR  = "Invalid Acquisition Unit's Vendor account / Vendor Info Customer # -";
-    public static final String INVALID_ITEM_TYPE_CD  = "Invalid Item Type Code -";
-    public static final String INVALID_METHOD_OF_PO_TRANSMISSION_CD  = "Invalid PO Transmission Method Code -";
-    public static final String INVALID_COST_SOURCE_CD  = "Invalid Cost Source Code -";
-    public static final String INVALID_PERCENT  = "Invalid Percentage -";
-    public static final String INVALID_LOCN_NM  = "Invalid Location Name -";
-    public static final String INVALID_LIST_PRICE  = "Invalid List Price -";
-    public static final String INVALID_INVOICED_PRICE  = "Invalid Invoiced Price -";
-    public static final String INVALID_FOREIGN_INVOICED_PRICE  = "Invalid Foreign Invoiced Price -";
-    public static final String INVALID_VENDOR_NUMBER  = "Invalid Vendor Number -";
-    public static final String INVALID_QTY  = "Invalid Quantity -";
-    public static final String INVALID_NO_OF_PARTS  = "Invalid No Of Parts -";
-    public static final String INVALID_RECEIVING_REQUIRED  = "Invalid Receiving Required -";
-    public static final String INVALID_USE_TAX_INDICATOR  = "Invalid Use Tax Indicator -";
-    public static final String INVALID_PREQ_POSITIVE_APPROVAL_REQ  = "Invalid PREQ Positive Approval Required -";
-    public static final String INVALID_PO_CONFIRMATION_INDICATOR  = "Invalid PO Confirmation Indicator -";
-    public static final String INVALID_ROUTE_TO_REQUESTOR  = "Invalid route to requestor -";
-    public static final String INVALID_DONOR_CODE  = "Invalid Donor Code -";
-    public static final String INVALID_REQUESTOR_NAME  = "Invalid Requestor Name -";
-    public static final String INVALID_ITEM_STATUS  = "Invalid Item Status -";
-    public static final String INVALID_DISCOUNT  = "Invalid Discount -";
-    public static final String INVALID_DISCOUNT_TYPE  = "Invalid Discount Type -";
-    public static final String INVALID_ACCOUNT_NUMBER  = "Invalid Account Number -";
-    public static final String INVALID_OBJECT_CODE  = "Invalid Object Code -";
+    public static final String AGENDA_NM = "agenda_name";
+    public static final String INVALID_CHART_CD = "Invalid Chart Of Accounts Code -";
+    public static final String INVALID_ORG_CD = "Invalid Org Code -";
+    public static final String INVALID_CONTRACT_MANAGER_NM = "Invalid Contract Manager Name -";
+    public static final String INVALID_ASSIGN_TO_USER = "Invalid Assign to user -";
+    public static final String INVALID_ORDER_TYPE = "Invalid Order Type -";
+    public static final String INVALID_FUNDING_SOURCE_CD = "Invalid Funding Source Code -";
+    public static final String INVALID_CAMPUS_CODE = "Invalid Campus Code -";
+    public static final String INVALID_BUILDING_CD = "Invalid Building Code -";
+    public static final String INVALID_DELIVERY_BUILDING_ROOM_NUMBER = "Invalid Building Room Number -";
+    public static final String INVALID_VENDOR_CHOICE_CD = "Invalid Vendor Choice Code -";
+    public static final String INVALID_VENDOR_CUST_NBR = "Invalid Acquisition Unit's Vendor account / Vendor Info Customer # -";
+    public static final String INVALID_ITEM_TYPE_CD = "Invalid Item Type Code -";
+    public static final String INVALID_METHOD_OF_PO_TRANSMISSION_CD = "Invalid PO Transmission Method Code -";
+    public static final String INVALID_COST_SOURCE_CD = "Invalid Cost Source Code -";
+    public static final String INVALID_PERCENT = "Invalid Percentage -";
+    public static final String INVALID_LOCN_NM = "Invalid Location Name -";
+    public static final String INVALID_LIST_PRICE = "Invalid List Price -";
+    public static final String INVALID_INVOICED_PRICE = "Invalid Invoiced Price -";
+    public static final String INVALID_FOREIGN_INVOICED_PRICE = "Invalid Foreign Invoiced Price -";
+    public static final String INVALID_VENDOR_NUMBER = "Invalid Vendor Number -";
+    public static final String INVALID_QTY = "Invalid Quantity -";
+    public static final String INVALID_NO_OF_PARTS = "Invalid No Of Parts -";
+    public static final String INVALID_RECEIVING_REQUIRED = "Invalid Receiving Required -";
+    public static final String INVALID_USE_TAX_INDICATOR = "Invalid Use Tax Indicator -";
+    public static final String INVALID_PREQ_POSITIVE_APPROVAL_REQ = "Invalid PREQ Positive Approval Required -";
+    public static final String INVALID_PO_CONFIRMATION_INDICATOR = "Invalid PO Confirmation Indicator -";
+    public static final String INVALID_ROUTE_TO_REQUESTOR = "Invalid route to requestor -";
+    public static final String INVALID_DONOR_CODE = "Invalid Donor Code -";
+    public static final String INVALID_REQUESTOR_NAME = "Invalid Requestor Name -";
+    public static final String INVALID_ITEM_STATUS = "Invalid Item Status -";
+    public static final String INVALID_DISCOUNT = "Invalid Discount -";
+    public static final String INVALID_DISCOUNT_TYPE = "Invalid Discount Type -";
+    public static final String INVALID_ACCOUNT_NUMBER = "Invalid Account Number -";
+    public static final String INVALID_OBJECT_CODE = "Invalid Object Code -";
     public static final String INVALID_ITEM_CHART_CD = "Invalid Item Chart Code -";
     public static final String INVALID_FORMAT = "Invalid Format -";
-    public static final String INVALID_VENDOR_INV_AMT  = "Invalid Vendor Invoice Amount -";
+    public static final String INVALID_VENDOR_INV_AMT = "Invalid Vendor Invoice Amount -";
     public static final String INVALID_INV_NMBR = "Invalid Invoice Number -";
     public static final String INVALID_INV_DT = "Invalid Invoice Date -";
     public static final String INV_FAILURE_REASON = "invoiceIngestFailureReason";
@@ -2821,7 +2836,7 @@ public class OLEConstants {
     public static final String REQUIRED_PERCENT = "Percentage";
     public static final String REQUIRED_LOCATION_NM = "Location";
     public static final String REQUIRED_VENDOR_REF_NMBR = "Vendor Reference Number";
-    public static final String REQUIRED_VENDOR_ITEM_IDENTIFIER  = "Vendor Item Identifier";
+    public static final String REQUIRED_VENDOR_ITEM_IDENTIFIER = "Vendor Item Identifier";
     public static final String REQUIRED_DONOR_CD = "Donor Code";
     public static final String REQUIRED_REQUESTOR_NM = "Requestor Name";
     public static final String REQUIRED_ITEM_STATUS = "Item Status";
@@ -2837,17 +2852,17 @@ public class OLEConstants {
     public static final String FORMAT_TYPE_ID = "formatTypeId";
     public static final String NOT_PAID = "Not Paid";
 
-	public static final String REQUESTOR_PATRON_ID = "patronId";
+    public static final String REQUESTOR_PATRON_ID = "patronId";
     public static final String SYSTEM = "System";
-    public static final String DATEFORMAT="MM/dd/yyyy";
-    public static final String TIMESTAMP="MM/dd/yyyy hh:mm a";
+    public static final String DATEFORMAT = "MM/dd/yyyy";
+    public static final String TIMESTAMP = "MM/dd/yyyy hh:mm a";
 
-    public static final String TEMPITEMTYPE="TemporaryItemTypeCodeValue_search";
-    public static final String PUBLISHERDISPLAY="Publisher_display";
-    public static final String STAFF_ONLY_COLOR="#FF0000";
-    public static final String NON_STAFF_ONLY_COLOR="#000000";
-    public static final String STAFF_ONLY_STYLE="italic";
-    public static final String NON_STAFF_ONLY_STYLE="normal";
+    public static final String TEMPITEMTYPE = "TemporaryItemTypeCodeValue_search";
+    public static final String PUBLISHERDISPLAY = "Publisher_display";
+    public static final String STAFF_ONLY_COLOR = "#FF0000";
+    public static final String NON_STAFF_ONLY_COLOR = "#000000";
+    public static final String STAFF_ONLY_STYLE = "italic";
+    public static final String NON_STAFF_ONLY_STYLE = "normal";
     public static final String INVOICE_IMPORT_INV_DESC = "INVOICE_IMPORT_INV_DESC";
     public static final String PO_ID = "poId";
     public static final String SERIAL_RECEIVING_RECORD_ID = "serialReceivingRecordId";
@@ -2859,7 +2874,7 @@ public class OLEConstants {
     public static final String AND_SEARCH_SCOPE = "AND";
     public static final String PO_NONE = "NONE";
     public static final String RANGE_QUERY = "[* TO *]";
-    public static final String HUNDRED="100";
+    public static final String HUNDRED = "100";
     public static final String ITEM_IN_LOAN = "error.item.in.loan.patron";
     public static final String ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC = "ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC";
     public static final String ORDER_RECORD_IMPORT_MARC_ONLY_PRINT = "ORDER_RECORD_IMPORT_MARC_ONLY_PRINT";
@@ -2887,9 +2902,10 @@ public class OLEConstants {
     public static final String LOAN = "LOAN";
     public static final String SERIAL_RECEIVING = "SERIAL RECEIVING";
     public static final String DELETE_VIEW_PAGE = "DeleteViewPage";
-    public static final String RENEW_INFO_INDICATOR="RENEW_INFORMATION_INDICATOR_FOR_VUFIND_SERVICES";
-    public static final String NUMBER_OF_ITEM_INFO =  "NUMBER_OF_ITEM_INFO_IN_SINGLE_SOLR_CALL";
-
+    public static final String RENEW_INFO_INDICATOR = "RENEW_INFORMATION_INDICATOR_FOR_VUFIND_SERVICES";
+    public static final String NUMBER_OF_ITEM_INFO = "NUMBER_OF_ITEM_INFO_IN_SINGLE_SOLR_CALL";
+    public static final String  ON_HOLD_NOTICE_REQUEST_TYPE = "ON_HOLD_NOTICE_REQUEST_TYPE";
+    public static final String   ON_HOLD_NOTICE_ITEM_STATUS = "ON_HOLD_NOTICE_ITEM_STATUS";
 
 
 }

@@ -26,6 +26,9 @@ import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -131,7 +134,7 @@ public class BatchLoadServiceImpl implements BatchLoadService {
     public boolean fileSizeValidation(Long fileSize) {
         ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
 
-        String maxFileSizeString = kualiConfigurationService.getPropertyValueAsString(OleSelectPropertyConstants.STAFF_UPLOAD_MAXFILESIZE);
+        String maxFileSizeString = getParameter(OleSelectPropertyConstants.STAFF_UPLOAD_MAXFILESIZE);
         Long maxFileSize = Long.parseLong(maxFileSizeString);
 
         if (LOG.isDebugEnabled()) {
@@ -391,7 +394,7 @@ public class BatchLoadServiceImpl implements BatchLoadService {
     public String getDestinationPath() {
         ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         //Properties properties = loadPropertiesFromClassPath(OLEConstants.LOAD_FILE_PROPERTIES);
-        String destinationPath = kualiConfigurationService.getPropertyValueAsString(OLEConstants.STAGING_DIRECTORY_KEY) + kualiConfigurationService.getPropertyValueAsString(OleSelectPropertyConstants.STAFF_UPLOAD_DESTINATIONPATH);
+        String destinationPath = kualiConfigurationService.getPropertyValueAsString(OLEConstants.STAGING_DIRECTORY_KEY) + getParameter(OleSelectPropertyConstants.STAFF_UPLOAD_DESTINATIONPATH);
         File dirCheck = (new File(destinationPath));
         boolean isDir = dirCheck.exists();
         if (LOG.isDebugEnabled()) {
@@ -641,5 +644,11 @@ public class BatchLoadServiceImpl implements BatchLoadService {
             LOG.error("Exception while getting document status---->" + e);
         }
         return null;
+    }
+
+    public String getParameter(String name){
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
     }
 }

@@ -156,6 +156,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String noticeType;
     private String noticeSendType;
     private OLEDeliverNotice oleDeliverNotice;
+    private String oleLocationCode;
 
     /*private boolean statusLost;
 
@@ -1740,5 +1741,13 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setOleDeliverNotice(OLEDeliverNotice oleDeliverNotice) {
         this.oleDeliverNotice = oleDeliverNotice;
+    }
+
+    public String getOleLocationCode() {
+        return oleLocationCode;
+    }
+
+    public void setOleLocationCode(String oleLocationCode) {
+        this.oleLocationCode = oleLocationCode;
     }
 }

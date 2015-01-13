@@ -49,8 +49,8 @@ public class OleSelectPropertyConstants {
 
     public static final String ERROR_ITEM_FOREIGN_LIST_PRICE = "error.item.foreignListPrice.required";
 
-    public static final String STAFF_UPLOAD_MAXFILESIZE = "ole.staffUpload.maxFileSize";
-    public static final String STAFF_UPLOAD_DESTINATIONPATH = "ole.staffUpload.destinationPath";
+    public static final String STAFF_UPLOAD_MAXFILESIZE = "OLE_STAFFUPLOAD_MAXFILESIZE";
+    public static final String STAFF_UPLOAD_DESTINATIONPATH = "OLE_STAFFUPLOAD_DESTINATIONPATH";
 
     // added for Requistion Validation
     public static final String ERROR_ITEM_LIST_PRICE_NON_ZERO = "error.item.ListPrice.nonZero";

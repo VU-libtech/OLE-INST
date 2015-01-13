@@ -93,7 +93,7 @@ public class TransferUtil {
 
     public void copyToTree(BoundwithForm transferForm, List<String> bibIdentifierListForTree, String treeId) {
         DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.addForTransfer(bibIdentifierListForTree);
+        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.addForTransfer(bibIdentifierListForTree, transferForm.getDocType());
         if (LOG.isDebugEnabled()){
             LOG.debug("Tree id-->" + treeId);
         }

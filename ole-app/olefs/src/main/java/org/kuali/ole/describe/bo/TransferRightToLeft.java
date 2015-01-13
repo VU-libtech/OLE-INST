@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.describe.form.BoundwithForm;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.select.util.TransferUtil;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.tree.Node;
@@ -38,6 +39,8 @@ public class TransferRightToLeft {
                                     HttpServletResponse response) throws Exception {
         List<String> bibIdentifierListForRightTree = new ArrayList<String>();
         List<String> bibInstanceListForRightTree = new ArrayList<String>();
+        List<String> bibInstanceListForLeftTree = new ArrayList<String>();
+        List<String> bibInstanceListAllForRightTree = new ArrayList<String>();
         List<String> bibItemListForRightTree = new ArrayList<String>();
         List<String> bibIdentifierListForLeftTree = new ArrayList<String>();
         List<String> destBibIdentifierListForLeftTree = new ArrayList<String>();
@@ -61,14 +64,20 @@ public class TransferRightToLeft {
 
         Tree<DocumentTreeNode, String> rightTree = transferForm.getRightTree();
         Node<DocumentTreeNode, String> rightTreeRootElement = rightTree.getRootElement();
+        if(transferForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
+            status1 = selectCheckedNodesRightTree(rightTreeRootElement, bibIdentifierListForRightTree,
+                    bibInstanceListForRightTree, bibItemListForRightTree,
+                    stringBufferRightTree, bibIdentifiersListWhenInstanceSelectedForRightTree,
+                    instanceIdentifiersListWhenItemSelectedForRightTree,
+                    bibIdentifiersToDelete, instanceIdentifiersToDelete); //source
+            selectCheckedNodesLeftTree(leftTreeRootElement, bibIdentifierListForLeftTree, stringBufferLeftTree,
+                    destBibIdentifierListForLeftTree, destInstanceIdentifierListForLeftTree);//dest
+        } else if(transferForm.getDocType().equalsIgnoreCase(OLEConstants.HOLDING_DOC_TYPE)) {
+            selectCheckedNodesRightTreeForItemTransfer(rightTreeRootElement, bibInstanceListForRightTree, bibInstanceListAllForRightTree,
+                                                       stringBufferRightTree, bibItemListForRightTree, instanceIdentifiersListWhenItemSelectedForRightTree, instanceIdentifiersToDelete); //source
 
-        status1 = selectCheckedNodesRightTree(rightTreeRootElement, bibIdentifierListForRightTree,
-                bibInstanceListForRightTree, bibItemListForRightTree,
-                stringBufferRightTree, bibIdentifiersListWhenInstanceSelectedForRightTree,
-                instanceIdentifiersListWhenItemSelectedForRightTree,
-                bibIdentifiersToDelete, instanceIdentifiersToDelete); //source
-        selectCheckedNodesLeftTree(leftTreeRootElement, bibIdentifierListForLeftTree, stringBufferLeftTree,
-                destBibIdentifierListForLeftTree, destInstanceIdentifierListForLeftTree);//dest
+            selectCheckedNodesLeftTreeForItemTransfer(leftTreeRootElement, bibInstanceListForLeftTree, stringBufferLeftTree, destInstanceIdentifierListForLeftTree);//dest
+        }
 
         isRightBibsSelected = stringBufferRightTree.toString();
         isLeftItemsSelected = stringBufferLeftTree.toString();
@@ -76,7 +85,9 @@ public class TransferRightToLeft {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "error.transfer.empty.records", "left");
         } else if (rightTreeRootElement == null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "error.transfer.empty.records", "right");
-        } else if (isRightBibsSelected.equalsIgnoreCase("true")) {
+        }else if (bibInstanceListForRightTree.size() > 0 && transferForm.getDocType().equalsIgnoreCase(OLEConstants.HOLDING_DOC_TYPE)) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "error.transfer.invalid", "Holding", "right");
+        }else if (isRightBibsSelected.equalsIgnoreCase("true")) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "error.transfer.invalid", "Bib", "right");
         } else if (bibInstanceListForRightTree.size() == 0 && bibItemListForRightTree.size() == 0) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "error.transfer.selected.none", "right");
@@ -160,14 +171,101 @@ public class TransferRightToLeft {
                     return;
                 }
                 TransferUtil.getInstance().transferItems(bibItemListForRightTree, destInstanceIdentifier);
-                TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForRightTree, OLEConstants.RIGHT_TREE);
-                TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForLeftTree, OLEConstants.LEFT_TREE);
+
+                if (transferForm.getDocType().equalsIgnoreCase((DocType.BIB.getDescription()))) {
+                    TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForRightTree, OLEConstants.RIGHT_TREE);
+                    TransferUtil.getInstance().copyToTree(transferForm, bibIdentifierListForLeftTree, OLEConstants.LEFT_TREE);
+                } else if (transferForm.getDocType().equalsIgnoreCase((DocType.HOLDINGS.getCode()))) {
+                    TransferUtil.getInstance().copyToTree(transferForm, bibInstanceListAllForRightTree, OLEConstants.RIGHT_TREE);
+                    TransferUtil.getInstance().copyToTree(transferForm, bibInstanceListForLeftTree, OLEConstants.LEFT_TREE);
+                }
                 GlobalVariables.getMessageMap().putInfoForSectionId(OLEConstants.TRANSFER_LEFT_TREE_SECTION, "info.transfer", "Items");
             }
         } else {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.TRANSFER_RIGHT_TREE_SECTION, "error.transfer.bib");
         }
         return;
+    }
+
+    private void selectCheckedNodesLeftTreeForItemTransfer(Node<DocumentTreeNode, String> rootElement, List<String> bibInstanceListForLeftTree,
+                                                           StringBuffer stringBufferLeftTree,
+                                                           List<String> destInstanceIdentifierListForLeftTree) {
+
+        DocumentTreeNode documentTreeNode;
+        if (rootElement != null) {
+            List<Node<DocumentTreeNode, String>> instanceList = rootElement.getChildren();
+
+                for (Node<DocumentTreeNode, String> instanceNode : instanceList) {
+                    documentTreeNode = instanceNode.getData();
+                    bibInstanceListForLeftTree.add(instanceNode.getNodeType());
+                    if (documentTreeNode.isSelect()) {
+                        String instanceUUID = instanceNode.getNodeType();
+                        destInstanceIdentifierListForLeftTree.add(instanceUUID);
+                    }
+                    List<Node<DocumentTreeNode, String>> itemList = instanceNode.getChildren();
+                    for (Node<DocumentTreeNode, String> itemNode : itemList) {
+                        documentTreeNode = itemNode.getData();
+                        if (documentTreeNode.isSelect()) {
+                            stringBufferLeftTree.append("true");
+                            break;
+                        }
+                    }
+
+                }
+        }
+
+    }
+
+    private void selectCheckedNodesRightTreeForItemTransfer(Node<DocumentTreeNode, String> rootElement, List<String> bibInstanceListForRightTree,
+                                                            List<String> bibInstanceListAllForRightTree,
+                                                            StringBuffer stringBufferRightTree,
+                                                            List<String> bibItemListForRightTree,
+                                                            List<String> instanceIdentifiersListWhenItemSelectedForRightTree,
+                                                            List<String> instanceIdentifiersToDelete) {
+        DocumentTreeNode documentTreeNode;
+        int itemCount = 0;
+        List<String> instanceIdentifiersListTemp = new ArrayList<String>();
+        if (rootElement != null) {
+            List<Node<DocumentTreeNode, String>> instanceList = rootElement.getChildren();
+            for (Node<DocumentTreeNode, String> instanceNode : instanceList) {
+                String instanceUUID = "";
+                documentTreeNode = instanceNode.getData();
+                instanceUUID = instanceNode.getNodeType();
+                bibInstanceListAllForRightTree.add(instanceUUID);
+                if (documentTreeNode.isSelect()) {
+                    LOG.info("documentTreeNode.isSelectTree1()-->" + documentTreeNode.isSelect());
+//                    stringBufferRightTree.append("true");
+                    bibInstanceListForRightTree.add(instanceUUID);
+                    break;
+                }
+                List<Node<DocumentTreeNode, String>> itemList = null;
+                instanceIdentifiersListTemp.clear();
+                itemCount = 0;
+                itemList = instanceNode.getChildren();
+                for (Node<DocumentTreeNode, String> itemNode : itemList) {
+                        //itemCount=0;
+                        documentTreeNode = itemNode.getData();
+                        if (documentTreeNode.isSelect()) {
+                            itemCount++;
+                            String itemUUID = itemNode.getNodeType();
+                            bibItemListForRightTree.add(itemUUID);
+                            instanceIdentifiersListWhenItemSelectedForRightTree.add(instanceUUID);
+                        }
+                    } //item loop end
+                    if (itemCount == itemList.size()) {
+                        instanceIdentifiersListTemp.add(instanceUUID);
+                        LOG.debug("in if of no items instanceidenifiersListTemp " + instanceIdentifiersListTemp);
+                        //status="Instance will remain with no items if this transfer takes place. Instance must have atleast one item. Transfer failed";
+                }
+                //instance loop end
+
+                instanceIdentifiersToDelete.addAll(instanceIdentifiersListTemp);
+                LOG.debug("instanceIdentifiersToDelete " + instanceIdentifiersToDelete);
+
+            }//bib loop end
+        }
+
+
     }
 
     private String selectCheckedNodesRightTree(Node<DocumentTreeNode, String> rootElement,

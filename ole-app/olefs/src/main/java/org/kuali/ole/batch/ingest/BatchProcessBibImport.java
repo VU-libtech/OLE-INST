@@ -93,7 +93,7 @@ public class BatchProcessBibImport extends AbstractBatchProcess {
             //create error text file
             if (StringUtils.isNotEmpty(bibImportStatistics.getErrorBuilder().toString()))
                 createBatchErrorAttachmentFile(bibImportStatistics.getErrorBuilder().toString());
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
     }
 

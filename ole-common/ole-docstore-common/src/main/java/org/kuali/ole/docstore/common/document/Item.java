@@ -668,7 +668,7 @@ public class Item
             buildItemCallNumber(itemPojo);
             itemPojo.getCallNumber().setNumber(fieldValue);
             String callNumberType = itemPojo.getCallNumber().getShelvingScheme().getCodeValue();
-            if(StringUtils.isEmpty(callNumberType)) {
+            if(StringUtils.isEmpty(callNumberType) || callNumberType.equals(NO_INFO_CALL_NUMBER_TYPE_CODE)) {
                 itemPojo.getCallNumber().getShelvingScheme().setCodeValue(LCC);
             }
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE)) {

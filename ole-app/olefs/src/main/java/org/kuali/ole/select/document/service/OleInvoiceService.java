@@ -62,7 +62,7 @@ public interface OleInvoiceService extends InvoiceService {
 
     public OleInvoiceDocument populateVendorDetail(String vendorNumber, OleInvoiceDocument oleInvoiceDocument);
 
-    public void createCreditMemoDocument(OleInvoiceDocument invoiceDocument, List<OleInvoiceItem> item);
+    public void createCreditMemoDocument(OleInvoiceDocument invoiceDocument, List<OleInvoiceItem> item,boolean flag);
 
     public OleInvoiceDocument getInvoiceDocumentById(Integer invoiceIdentifier);
 

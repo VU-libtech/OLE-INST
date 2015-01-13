@@ -159,8 +159,10 @@ public class BatchProcessDeleteServiceImpl implements BatchProcessDeleteService 
         SearchField searchField = new SearchField();
         try {
             searchField.setDocType("bibliographic");
-            if("001".equals(dataField)) {
-               dataField = "controlfield_001";
+            if (OLEConstants.OLEBatchProcess.CONTROL_FIELD_001.equals(dataField)) {
+                dataField = OLEConstants.OLEBatchProcess.CONTROL_FIELD_NAME_001;
+            } else {
+                dataField = OLEConstants.PREFIX_FOR_DATA_FIELD + dataField;
             }
             searchField.setFieldName(dataField);
             searchField.setFieldValue(searchData);

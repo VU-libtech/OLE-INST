@@ -440,6 +440,9 @@
         <reference-descriptor name="oleReceiptStatus" class-ref="org.kuali.ole.select.businessobject.OleReceiptStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
             <foreignkey field-ref="receiptStatusId"/>
         </reference-descriptor>
+        <reference-descriptor name="bibInfoRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+            <foreignkey field-ref="itemTitleId" target-field-ref="bibIdStr"/>
+        </reference-descriptor>
         <!--<reference-descriptor name="oleRequestor" class-ref="org.kuali.ole.select.businessobject.OleRequestor" auto-retrieve="true" auto-update="true" auto-delete="false" >
         <foreignkey field-ref="requestorId" />
     </reference-descriptor>-->
@@ -797,6 +800,9 @@
         </reference-descriptor>
         <reference-descriptor name="oleReceiptStatus" class-ref="org.kuali.ole.select.businessobject.OleReceiptStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
             <foreignkey field-ref="receiptStatusId"/>
+        </reference-descriptor>
+        <reference-descriptor name="bibInfoRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+            <foreignkey field-ref="itemTitleId" target-field-ref="bibIdStr"/>
         </reference-descriptor>
         <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.ole.select.businessobject.OlePurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <orderby name="accountNumber" sort="ASC" />
@@ -3612,7 +3618,7 @@
         </collection-descriptor>
 
         <reference-descriptor name="bibInfoRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-            <foreignkey field-ref="itemTitleId" target-field-ref="bibId"/>
+            <foreignkey field-ref="itemTitleId" target-field-ref="bibIdStr"/>
         </reference-descriptor>
 
     </class-descriptor>

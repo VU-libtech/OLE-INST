@@ -24,6 +24,8 @@ public class OLEInvoiceForm extends TransactionalDocumentFormBase {
 
     private String duplicationMessage;
     private String duplicationApproveMessage;
+    
+    private boolean filterProcessItems = true;
 
     public String getSubscriptionDateValidationFlag() {
         return subscriptionDateValidationFlag;
@@ -148,5 +150,14 @@ public class OLEInvoiceForm extends TransactionalDocumentFormBase {
     public void setDuplicationApproveMessage(String duplicationApproveMessage) {
         this.duplicationApproveMessage = duplicationApproveMessage;
     }
+
+	public boolean isFilterProcessItems() {
+		return filterProcessItems;
+	}
+
+	public void setFilterProcessItems(boolean filterProcessItems) {
+		this.filterProcessItems = filterProcessItems;
+	}
+
 }
 

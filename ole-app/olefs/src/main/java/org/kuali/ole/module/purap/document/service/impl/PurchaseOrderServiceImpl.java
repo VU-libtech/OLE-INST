@@ -125,6 +125,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     protected static final boolean TRANSMISSION_IS_RETRANSMIT = true;
     protected static final boolean TRANSMISSION_IS_NOT_RETRANSMIT = !TRANSMISSION_IS_RETRANSMIT;
+    protected OlePurapService olePurapService;
+
+    public OlePurapService getOlePurapService() {
+        if (olePurapService == null) {
+            olePurapService = SpringContext.getBean(OlePurapService.class);
+        }
+        return olePurapService;
+    }
 
     @Override
     public boolean isPurchaseOrderOpenForProcessing(Integer poId) {
@@ -2348,7 +2356,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         String ediFileName = documentType + "_" + po.getPurapDocumentIdentifier().toString() + "_" + PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE + item.getItemLineNumber() + "_" + System.currentTimeMillis() + ".edi";
                         String pdfFileName = documentType + "_" + po.getPurapDocumentIdentifier().toString() + "_" + System.currentTimeMillis() + ".pdf";
                         String directory = kualiConfigurationService.getPropertyValueAsString(OLEConstants.STAGING_DIRECTORY_KEY);
-                        String fileLocation = directory + kualiConfigurationService.getPropertyValueAsString("kualietl.vendortransmissionfile");
+                        String fileLocation = directory + getOlePurapService().getParameter(OLEConstants.VENDOR_TRANSMISSION_FILE);
                         File fileLocationDir = new File(fileLocation);
                         if (!(fileLocationDir.exists())) {
                             fileLocationDir.mkdir();

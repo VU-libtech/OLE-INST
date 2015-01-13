@@ -5,14 +5,14 @@
         <primary> Purchasing/Accounts Payable</primary>
         <secondary>batch processes </secondary>
     </indexterm></title>
-    <para role="Body Text">Users do not interact directly with OLE batch processes, but some users want
-        to understand how these processes keep the data base up to date. For users who are interested, the
-        following table summarizes the functions of the system’s Purchasing/Accounts Payable batch
-        processes. These processes, which are run according to a predetermined schedule, not only keep your
-        data base up to date but, in some cases, generate new e-docs as needed to make certain types of
-        adjustments. </para>
+    <para role="Body Text">Users do not interact directly with OLE batch processes, but some users
+        want to understand how these processes keep the data base up to date. For users who are
+        interested, the following table summarizes the functions of the system’s Purchasing/Accounts
+        Payable batch processes. These processes, which are run according to a predetermined
+        schedule, not only keep your database up to date but, in some cases, generate new e-docs as
+        needed to make certain types of adjustments. </para>
     <note>
-        <para role="Body Text"> These batch processes continue to be reviewed into the 1.0 release. </para>
+        <para role="Body Text"> These batch processes continue to be reviewed into the 2.0 release. </para>
     </note>
     <para role="TableHeading"><emphasis role="bold">Purchasing and Accounts Payable Batch
         Jobs</emphasis></para>

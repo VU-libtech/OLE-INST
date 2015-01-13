@@ -545,7 +545,7 @@ public class BoundwithController extends OLESearchController {
         DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
         Node<DocumentTreeNode, String> rootNode = null;
         try {
-            rootNode = documentSelectionTree.add(uuids, DocType.BIB.getDescription(),true);
+            rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(), true);
         } catch (SolrServerException e) {
             //e.printStackTrace();
             LOG.error("refreshLeftTree Exception:" + e);
@@ -573,7 +573,7 @@ public class BoundwithController extends OLESearchController {
         DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
         Node<DocumentTreeNode, String> rootNode = null;
         try {
-            rootNode = documentSelectionTree.add(uuids, DocType.BIB.getDescription(),true);
+            rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(), true);
         } catch (SolrServerException e) {
             //e.printStackTrace();
             LOG.error("refreshRightTree Exception:" + e);
@@ -611,7 +611,7 @@ public class BoundwithController extends OLESearchController {
         request.getSession().setAttribute(OLEConstants.LEFT_LIST, uuidLeftList);
         Collection<String> uuids = uuidLeftList.values();
         DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, DocType.BIB.getDescription(),true);
+        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(), true);
         boundwithForm.getLeftTree().setRootElement(rootNode);
         return navigate(boundwithForm, result, request, response);
     }
@@ -645,7 +645,7 @@ public class BoundwithController extends OLESearchController {
         request.getSession().setAttribute(OLEConstants.RIGHT_LIST, uuidRightList);
         Collection<String> uuids = uuidRightList.values();
         DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, DocType.BIB.getDescription(),true);
+        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(), true);
         boundwithForm.getRightTree().setRootElement(rootNode);
         return navigate(boundwithForm, result, request, response);
     }

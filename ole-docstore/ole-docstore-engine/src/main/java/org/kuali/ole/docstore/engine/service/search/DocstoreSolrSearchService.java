@@ -869,9 +869,9 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
                     query.append("(");
                     if (StringUtils.isNotBlank(searchScope)) {
                         if (searchScope.equalsIgnoreCase("AND")) {
-                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+AND+");
+                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+ AND +");
                         } else if (searchScope.equalsIgnoreCase("OR")) {
-                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+OR+");
+                            searchTextVal = searchTextVal.trim().replaceAll("\\s+", "+ OR +");
                         } else if (searchScope.equalsIgnoreCase("phrase")) {
                             searchTextVal = "\"" + searchText + "\"";
                         } else if (searchScope.equalsIgnoreCase("none")) {

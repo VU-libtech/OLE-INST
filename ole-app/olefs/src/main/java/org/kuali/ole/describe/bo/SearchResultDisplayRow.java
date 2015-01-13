@@ -1055,7 +1055,7 @@ public class SearchResultDisplayRow  {
                 setCopyNumber(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("CopyNumberLabel_display")) {
-                setCopyNumber(searchResultField.getFieldValue());
+                setCopyNumberLabel(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("VolumeNumber_display")) {
                 setVolumeNumber(searchResultField.getFieldValue());
@@ -1074,6 +1074,9 @@ public class SearchResultDisplayRow  {
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeCodeValue_display")) {
                 setItemTypeCodeValue(searchResultField.getFieldValue());
+            }
+            if (searchResultField.getFieldName().equalsIgnoreCase("ItemTypeFullValue_display")) {
+                setItemTypeFullValue(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("isAnalytic")) {
                 setAnalyticItem(searchResultField.getFieldValue());
@@ -1123,10 +1126,10 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("Authentication_display")) {
                 setAuthentication(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("CallNumber")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("CallNumber_display")) {
                 setCallNumber(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display")) {
                 setCallNumberPrefix(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("ClassificationPart")) {
@@ -1159,16 +1162,19 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("ItemPart_display")) {
                 setItemPart(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("LinkText_display")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("Link_Text_display")) {
                 setLinkText(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("LocalId_display")) {
                 setLocalId(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("LocationLevel")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("Location_display")) {
                 setLocationName(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("LocationLevelName")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("LocationLevel")) {
+                setLocationLevel(searchResultField.getFieldValue());
+            }
+            if (searchResultField.getFieldName().equalsIgnoreCase("LocationLevelName_display")) {
                 setLocationLevelName(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("NumberOfSimultaneousUses_display")) {
@@ -1177,7 +1183,7 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("PerpetualAccess_display")) {
                 setPerpetualAccess(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("PersistLink_display")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("Persist_Link_display")) {
                 setPersistLink(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("Platform_display")) {
@@ -1210,7 +1216,7 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("Url_display")) {
                 setUrl(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("Public_Note_display")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("DonorPublic_display")) {
                 setPublicNote(searchResultField.getFieldValue());
             }
         }

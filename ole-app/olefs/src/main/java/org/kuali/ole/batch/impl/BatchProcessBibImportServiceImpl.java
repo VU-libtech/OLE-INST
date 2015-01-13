@@ -1,11 +1,13 @@
 package org.kuali.ole.batch.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.*;
 import org.kuali.ole.batch.helper.OLEBatchProcessDataHelper;
 import org.kuali.ole.batch.service.BatchProcessBibImportService;
+import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
@@ -94,9 +96,9 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
     public Bib findMatchingBibRecord(BibMarcRecord bibRecord, OLEBatchProcessProfileBo oleBatchProcessProfileBo, List<BibMarcRecord> failureRecordsList) throws Exception {
 
         Bib bibDocument = null;
-        List<OLEBatchProcessProfileBibMatchPoint> bibMatchingRecordList = oleBatchProcessProfileBo.getOleBatchProcessProfileBibMatchPointList();
-        for (OLEBatchProcessProfileBibMatchPoint oleBatchProcessProfileBibMatchPoint : bibMatchingRecordList) {
-            String profileBibMatchRecord = oleBatchProcessProfileBibMatchPoint.getOleBibMatchPoint();
+        List<OLEBatchProcessProfileMatchPoint> bibMatchingRecordList = BatchBibImportUtil.buildMatchPointListByDataType(oleBatchProcessProfileBo.getOleBatchProcessProfileMatchPointList(), DocType.BIB.getCode());
+        for (OLEBatchProcessProfileMatchPoint oleBatchProcessProfileBibMatchPoint : bibMatchingRecordList) {
+            String profileBibMatchRecord = oleBatchProcessProfileBibMatchPoint.getMatchPoint();
             List<String> profileBibMatchRecordValues = getMatchingrecordValue(bibRecord, profileBibMatchRecord);
             String matchRecord = getMatchRecord(profileBibMatchRecord);
             List<String> matchPointUuids = new ArrayList<String>();
@@ -549,21 +551,24 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
         String fullDataField = null;
         List<OLEBatchProcessProfileConstantsBo> oleBatchProcessProfileConstantsBoList = oleBatchProcessProfileBo.getOleBatchProcessProfileConstantsList();
         for (OLEBatchProcessProfileConstantsBo oleBatchProcessProfileConstantsBo : oleBatchProcessProfileConstantsBoList) {
-            if (!isProtectedField(oleBatchProcessProfileBo, oleBatchProcessProfileConstantsBo.getAttributeName(), "")) {
-                for (DataField dataField : targetRecord.getDataFields()) {
-                    if (dataField.getTag().equalsIgnoreCase(oleBatchProcessProfileConstantsBo.getAttributeName().substring(0, 3))) {
-                        for (SubField subField : dataField.getSubFields()) {
-                            fullDataField = getBatchDataFldFullString(dataField.getTag(), dataField.getInd1(), dataField.getInd2(), subField.getCode());
-                            if (fullDataField.equalsIgnoreCase(oleBatchProcessProfileConstantsBo.getAttributeName())) {
-                                if (oleBatchProcessProfileConstantsBo.getDefaultValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.PROFILE_CONSTANT_DEFAULT)) {
-                                    if (StringUtils.isEmpty(subField.getValue()))
-                                        subField.setValue(oleBatchProcessProfileConstantsBo.getAttributeValue());
-                                } else subField.setValue(oleBatchProcessProfileConstantsBo.getAttributeValue());
+            //if (!isProtectedField(oleBatchProcessProfileBo, oleBatchProcessProfileConstantsBo.getAttributeName(), "")) {
+            for (DataField dataField : targetRecord.getDataFields()) {
+                if (dataField.getTag().equalsIgnoreCase(oleBatchProcessProfileConstantsBo.getAttributeName().substring(0, 3))) {
+                    for (SubField subField : dataField.getSubFields()) {
+                        fullDataField = getBatchDataFldFullString(dataField.getTag(), dataField.getInd1(), dataField.getInd2(), subField.getCode());
+                        if (fullDataField.equalsIgnoreCase(oleBatchProcessProfileConstantsBo.getAttributeName())) {
+                            if (oleBatchProcessProfileConstantsBo.getDefaultValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.PROFILE_CONSTANT_DEFAULT)) {
+                                if (StringUtils.isEmpty(subField.getValue())) {
+                                    subField.setValue(oleBatchProcessProfileConstantsBo.getAttributeValue());
+                                }
+                            } else {
+                                subField.setValue(oleBatchProcessProfileConstantsBo.getAttributeValue());
                             }
                         }
                     }
                 }
             }
+            //}
         }
 
     }
@@ -694,20 +699,17 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
         List<String> protectedFields = getProtectedFieldsTags(processProfile);
         List<DataField> dataFields = matchedRecord.getDataFields();
         List<DataField> dataFieldList = new ArrayList<>();
-        //Remove the dataFields which are not protected in matched record.
+
+        //Add Protected fields into list from matched record
         for (DataField dataField : dataFields) {
             if (protectedFields.contains(dataField.getTag())) {
                 dataFieldList.add(dataField);
             }
         }
 
-        //Add the dataFields which are in record.
+        // Add incoming data fields from list
+        dataFieldList.addAll(inComingRecord.getDataFields());
 
-        for (DataField dataField : inComingRecord.getDataFields()) {
-            if (!protectedFields.contains(dataField.getTag())) {
-                dataFieldList.add(dataField);
-            }
-        }
         matchedRecord.setDataFields(dataFieldList);
         List<ControlField> controlFields = inComingRecord.getControlFields();
         ControlField controlField001 = getMatchedControlField(inComingRecord, OLEConstants.OLEBatchProcess.CONTROL_FIELD_001);
@@ -733,20 +735,28 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
             oleBatchbibImportStatistics.getErrorBuilder().append(OLEConstants.OLEBatchProcess.PROCESS_FAILURE).append(System.lineSeparator());
         }
 
-        for (int i=0; i<oleBatchBibImportDataObjects.getBibTrees().getBibTrees().size();i++) {
-            BibTree bibTree=oleBatchBibImportDataObjects.getBibTrees().getBibTrees().get(i);
-            if (DocstoreDocument.ResultType.FAILURE.equals(bibTree.getBib().getResult())){
-                setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, bibTree.getBib().getMessage());
-                continue;
-            }
-            for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
-                if (DocstoreDocument.ResultType.FAILURE.equals(holdingsTree.getHoldings().getResult())) {
-                    setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, holdingsTree.getHoldings().getMessage());
+        for (int i = 0; i < oleBatchBibImportDataObjects.getBibTrees().getBibTrees().size(); i++) {
+            BibTree bibTree = oleBatchBibImportDataObjects.getBibTrees().getBibTrees().get(i);
+            if (null != bibTree) {
+                if (null != bibTree.getBib() && DocstoreDocument.ResultType.FAILURE.equals(bibTree.getBib().getResult())) {
+                    setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, bibTree.getBib().getMessage());
                     continue;
                 }
-                for (Item item : holdingsTree.getItems()) {
-                    if (DocstoreDocument.ResultType.FAILURE.equals(item.getResult())) {
-                        setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, item.getMessage());
+                if (CollectionUtils.isNotEmpty(bibTree.getHoldingsTrees())) {
+                    for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
+                        if (null != holdingsTree.getHoldings() && DocstoreDocument.ResultType.FAILURE.equals(holdingsTree.getHoldings().getResult())) {
+                            setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, holdingsTree.getHoldings().getMessage());
+                            continue;
+                        }
+                        if (CollectionUtils.isNotEmpty(holdingsTree.getItems())) {
+                            for (Item item : holdingsTree.getItems()) {
+                                if (null != item) {
+                                    if (DocstoreDocument.ResultType.FAILURE.equals(item.getResult())) {
+                                        setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, item.getMessage());
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

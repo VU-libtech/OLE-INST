@@ -208,6 +208,11 @@
                             <!--<ref bean="oleBatchPrcsScheduleIdField-popup"/>-->
                             <ref bean="viewFailRecords"/>
                             <ref bean="downloadErrorAttachmentFile"/>
+                            <bean id="downloadDeletedBibIdsFile" parent="Uif-LinkField" p:style="font-weight:bold;"
+                                  p:linkText="Download Deleted Bib Ids File"
+                                  p:href="oleBatchProcessJobController?&amp;methodToCall=downLoadFile&amp;jobId=@{oleBatchProcessJobDetailsBo.jobId}"
+                                  p:label="Deleted Records"
+                                  p:render="@{oleBatchProcessJobDetailsBo.bibsDeletedForExportFlag}"/>
                         </list>
                     </property>
                 </bean>

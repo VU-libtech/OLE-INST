@@ -21,6 +21,21 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<bean id="Uif-Page" parent="Uif-Page-parentBean"
+		class="org.kuali.ole.krad.OlePageGroup" />
+	
+	<bean id="Uif-GroupBase" abstract="true" parent="Uif-GroupBase-parentBean"
+		class="org.kuali.ole.krad.OleFilteredCopyGroup" />
+
+	<bean id="Uif-CollectionGroupBase" abstract="true" parent="Uif-CollectionGroupBase-parentBean"
+		class="org.kuali.ole.krad.OleCollectionGroup" />
+	
+	<bean id="Uif-DropdownControl" parent="Uif-DropdownControl-parentBean"
+		class="org.kuali.ole.krad.OleSelectControl" />
+
+	<bean id="Uif-MultiSelectControl" parent="Uif-MultiSelectControl-parentBean"
+		class="org.kuali.ole.krad.OleSelectControl" />
+	
     <!-- ComponentBase -->
 
     <bean id="Uif-WidgetBase" parent="Uif-WidgetBase-parentBean" abstract="true"/>

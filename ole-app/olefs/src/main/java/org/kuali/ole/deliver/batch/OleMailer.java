@@ -185,7 +185,8 @@ public class OleMailer extends MailerImpl {
             message.setContent(multipart);
         }
         try {
-            Transport tr = session.getTransport(OLEConstants.TRANSPORT_PROTOCOL);
+            String transferProtocol = properties.getProperty(OLEConstants.TRANSPORT_PROTOCOL);
+            Transport tr = session.getTransport(transferProtocol);
             tr.connect(host, Integer.parseInt(port), userName, password);
             tr.sendMessage(message, message.getAllRecipients());
             LOG.debug("Mail Sent Successfully");

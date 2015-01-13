@@ -3,10 +3,10 @@
     <parent>
         <artifactId>ole-docstore</artifactId>
         <groupId>org.kuali.ole</groupId>
-        <version>1.5.5-r20812</version>
+        <version>1.5.6.2</version>
     </parent>
     <artifactId>ole-docstore-search</artifactId>
-    <version>1.5.5-r20812</version>
+    <version>1.5.6.2</version>
     <name>OLE Document Store Search</name>
     <dependencies>
         <dependency>

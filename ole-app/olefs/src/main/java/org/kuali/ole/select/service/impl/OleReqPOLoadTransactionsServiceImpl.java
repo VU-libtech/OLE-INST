@@ -41,6 +41,9 @@ import org.kuali.ole.sys.batch.service.BatchInputFileService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.UserSession;
@@ -452,7 +455,7 @@ public class OleReqPOLoadTransactionsServiceImpl implements OleReqPOLoadTransact
     }
 
     public String getDestinationPath() {
-        String destinationPath = getConfigurationService().getPropertyValueAsString(OLEConstants.STAGING_DIRECTORY_KEY) + getConfigurationService().getPropertyValueAsString(OleSelectPropertyConstants.STAFF_UPLOAD_DESTINATIONPATH);
+        String destinationPath = getConfigurationService().getPropertyValueAsString(OLEConstants.STAGING_DIRECTORY_KEY) + getParameter(OleSelectPropertyConstants.STAFF_UPLOAD_DESTINATIONPATH);
         File dirCheck = (new File(destinationPath));
         boolean isDir = dirCheck.exists();
         if (LOG.isDebugEnabled()) {
@@ -469,6 +472,12 @@ public class OleReqPOLoadTransactionsServiceImpl implements OleReqPOLoadTransact
         bibliographicNamedFieldsBean.setBibliographicRecord(originalRecord);
         oleLoadFailureRecord.setTitle(bibliographicNamedFieldsBean.getTitle());
         oleLoadFailureRecord.setIsbn(bibliographicNamedFieldsBean.getFieldNameFor("020", "a"));
+    }
+
+    public String getParameter(String name){
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
     }
 
 }

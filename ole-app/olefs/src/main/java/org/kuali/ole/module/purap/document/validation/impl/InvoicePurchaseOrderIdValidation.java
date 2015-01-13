@@ -33,9 +33,7 @@ import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InvoicePurchaseOrderIdValidation extends GenericValidation {
 
@@ -45,9 +43,9 @@ public class InvoicePurchaseOrderIdValidation extends GenericValidation {
         OleInvoiceDocument document = (OleInvoiceDocument) event.getDocument();
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(OLEPropertyConstants.DOCUMENT);
-
         Integer POID = document.getPurchaseOrderIdentifier();
         if (document.getItems().size() > 0) {
+            Set closedVendorIds = new TreeSet();
             for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) document.getItems()) {
                 if (invoiceItem.getItemType().isLineItemIndicator()) {
                     lineItemtypeIndicator = true;
@@ -73,10 +71,13 @@ public class InvoicePurchaseOrderIdValidation extends GenericValidation {
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
                     valid &= false;
                 } else if (purchaseOrderDocument != null && !StringUtils.equals(purchaseOrderDocument.getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
-                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
-                    valid &= false;
+                    closedVendorIds.add(purchaseOrderDocument.getPurapDocumentIdentifier());
                     // if the PO is pending and it is not a Retransmit, we cannot generate a Invoice for it
                 }
+            }
+            if(closedVendorIds.size() > 0){
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_POS_NOT_OPEN,closedVendorIds.toString().replace("[" ,"").replace("]",""));
+                valid &= false;
             }
         } else {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);

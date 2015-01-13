@@ -11,7 +11,7 @@ public class DocStoreConstants {
     public static final String DOC_STORE_PROP_HOME = DOC_STORE_HOME + "/properties";
 
     // For unit tests.
-    public static final String TEST_DOC_STORE_HOME = System.getProperty("user.home")+"/kuali/main/local/docstore-test";
+    public static final String TEST_DOC_STORE_HOME = System.getProperty("user.home") + "/kuali/main/local/docstore-test";
     public static final String TEST_DOC_STORE_PROP_HOME = TEST_DOC_STORE_HOME + "/properties";
 
     public static boolean isVersioningEnabled = false;
@@ -33,4 +33,10 @@ public class DocStoreConstants {
     public static final String UUID_CHECK_WEB_SERVICE_CLASS = "org.kuali.ole.docstore.service.OleUuidCheckWebService";
     public static final String UUID_CHECK_WEB_SERVICE = "oleUuidCheckWebService";
     public static final String COMMA = ",";
+
+    //Added for  External Z3950 Bib Import
+    public static final String APPL_ID = "KUALI";
+    public static final String SELECT_NMSPC = "OLE-DESC";
+    public static final String SELECT_CMPNT = "Describe";
+    public static final String LEFT_PADDING_SIZE = "editor.left.padding.size";
 }

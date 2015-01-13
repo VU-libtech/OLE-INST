@@ -1,5 +1,6 @@
 package org.kuali.ole.describe.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -168,6 +169,9 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                             marcEditorDataField.setValue(tempValue);
                         }
                     }
+                }
+                if (CollectionUtils.isEmpty(marcEditorDataFields)) {
+                 marcEditorDataFields.add(new MarcEditorDataField());
                 }
                 workBibMarcForm.setDataFields(marcEditorDataFields);
                 BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();

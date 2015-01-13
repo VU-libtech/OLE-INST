@@ -441,6 +441,33 @@ public class InstanceMappingHelper {
                     } else {
                         generateItemStatus(item, getCode(entry.getKey()), dataField);
                     }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_ITEM_ENUMERATION)) {
+                    dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateEnumeration(item, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldItemList.add(dataField);
+                    } else {
+                        generateEnumeration(item, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_ITEM_CHRONOLOGY)) {
+                    dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateChronology(item, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldItemList.add(dataField);
+                    } else {
+                        generateChronology(item, getCode(entry.getKey()), dataField);
+                    }
+                } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_VENDOR_LINE_ITEM_IDENTIFIER)) {
+                    dataField = checkDataField(dataFieldItemList, StringUtils.trim(entry.getKey()).substring(0, 3));
+                    if (dataField == null) {
+                        dataField = getDataField(entry);
+                        generateVendorLineItemIdentifier(item, getCode(entry.getKey()), dataField);
+                        if (!dataField.getSubFields().isEmpty()) dataFieldItemList.add(dataField);
+                    } else {
+                        generateVendorLineItemIdentifier(item, getCode(entry.getKey()), dataField);
+                    }
                 }
             }
             if (!CollectionUtils.isEmpty(dataFieldsDonorMap)) {
@@ -1186,7 +1213,62 @@ public class InstanceMappingHelper {
         }
     }
 
+    /**
+     * generates subfield for Enumeration for the given item
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateEnumeration(Item item, String code, DataField dataField) {
+        try {
+            if (item != null && StringUtils.isNotEmpty(item.getEnumeration())) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(item.getEnumeration());
+                addDataFieldForItem(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(item, ex, "generateEnumeration()");
+        }
+    }
 
+    /**
+     * generates subfield for Chronology for the given item
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateChronology(Item item, String code, DataField dataField) {
+        try {
+            if (item != null && StringUtils.isNotEmpty(item.getChronology())) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(item.getChronology());
+                addDataFieldForItem(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(item, ex, "generateChronology()");
+        }
+    }
+
+    /**
+     * generates subfield for Vendor line item identifier for the given item
+     * @param item
+     * @param code
+     * @param dataField
+     */
+    private void generateVendorLineItemIdentifier(Item item, String code, DataField dataField) {
+        try {
+            if (item != null && StringUtils.isNotEmpty(item.getVendorLineItemIdentifier())) {
+                SubField subField = new SubField();
+                subField.setCode(code);
+                subField.setValue(item.getVendorLineItemIdentifier());
+                addDataFieldForItem(dataField, subField);
+            }
+        } catch (Exception ex) {
+            logError(item, ex, "generateVendorLineItemIdentifier()");
+        }
+    }
 
     /**
      * Logs error for exception happening for holdings or item mapping

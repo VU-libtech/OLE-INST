@@ -15,6 +15,7 @@
  */
 package org.kuali.ole.select.batch.service.impl;
 
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.module.purap.PurapParameterConstants;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
 import org.kuali.ole.select.OleSelectConstant;
@@ -25,6 +26,9 @@ import org.kuali.ole.select.service.impl.BuildVendorBibInfoBean;
 import org.kuali.ole.sys.batch.service.BatchInputFileService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
@@ -131,7 +135,7 @@ public class RequisitionLoadTransactionsServiceImpl implements RequisitionLoadTr
     public List saveRequisitionDocument(List<BibInfoBean> bibInfoBeanList) throws Exception {
         boolean vendorRecordMappingFlag = false;
         List reqList = new ArrayList(0);
-        String vendorRecordMappingProperty = kualiConfigurationService.getPropertyValueAsString("vendorRecordToRequisitionMapping");
+        String vendorRecordMappingProperty = getParameter("VENDOR_RECORD_TO_REQUISITION_MAPPING");
         if (vendorRecordMappingProperty.equalsIgnoreCase("TRUE"))
             vendorRecordMappingFlag = true;
         oleRequisitionCreateDocumentService.saveRequisitionDocument(bibInfoBeanList, vendorRecordMappingFlag);
@@ -159,5 +163,11 @@ public class RequisitionLoadTransactionsServiceImpl implements RequisitionLoadTr
 
         return properties;
     }*/
+
+    public String getParameter(String name){
+        ParameterKey parameterKey = ParameterKey.create(OLEConstants.APPL_ID,OLEConstants.SELECT_NMSPC,OLEConstants.SELECT_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
+    }
 
 }

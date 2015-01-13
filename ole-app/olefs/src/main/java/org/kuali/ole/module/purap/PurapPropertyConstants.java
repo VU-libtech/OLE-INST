@@ -91,7 +91,7 @@ public class PurapPropertyConstants {
     // Staff Upload
     public static final String PURCHASE_ORDER_AUTOMATIC_INDICATIOR = "purchaseOrderAutomaticIndicator";
     public static final String PAYMENT_REQUEST_APPROVAL_INDICATIOR = "paymentRequestPositiveApprovalIndicator";
-    public static final String DELIVERY_DEFAULT_ROOM_NUMBER = "delivery.default.roomNumber";
+    public static final String DELIVERY_DEFAULT_ROOM_NUMBER = "DELIVERY_DEFAULT_ROOMNUMBER";
     public static final String BILLING_PHONE_NUMBER = "billingPhoneNumber";
     public static final String UOM = "uom";
     public static final String FIRST_NAME = "firstName";

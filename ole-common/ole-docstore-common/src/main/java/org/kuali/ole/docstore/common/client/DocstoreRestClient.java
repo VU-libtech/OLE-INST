@@ -189,6 +189,11 @@ public class DocstoreRestClient implements DocstoreClient {
             if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
                 throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());
             } else {
+                if (bibIds.size() == 1) {
+                    Bib bib = new Bib();
+                    bibsObj.getBibs().add((Bib) bib.deserialize(restResponse.getResponseBody()));
+                    return bibsObj.getBibs();
+                }
                 bibsObj = (Bibs) Bibs.deserialize(restResponse.getResponseBody());
 
             }

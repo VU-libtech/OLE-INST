@@ -53,9 +53,10 @@
         <createTable catalogName="ole"
                      schemaName="ole"
                      tableName="OLE_DS_BIB_INFO_T ">
-            <column name="BIB_ID"   type="VARCHAR(20)"/>
-            <column name="AUTHOR"   type="VARCHAR(4000)"/>
+            <column name="BIB_ID_STR"   type="VARCHAR(20)"/>
+            <column name="BIB_ID"   type="INTEGER"/>
             <column name="TITLE"  type="VARCHAR(4000)"/>
+            <column name="AUTHOR"   type="VARCHAR(4000)"/>
             <column name="PUBLISHER"  type="VARCHAR(4000)"/>
             <column name="ISXN"  type="VARCHAR(100)"/>
         </createTable>
@@ -63,11 +64,20 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_DS_BIB_INFO_T_PK">
         <addPrimaryKey catalogName="ole"
-                       columnNames="BIB_ID"
+                       columnNames="BIB_ID_STR"
                        constraintName="OLE_DS_BIB_INFO_T_PK"
                        schemaName="ole"
                        tableName="OLE_DS_BIB_INFO_T"/>
 
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DS_BIB_INFO_T_INDX">
+        <createIndex catalogName="ole"
+                     indexName="BIB_ID_INDX"
+                     schemaName="ole"
+                     tableName="OLE_DS_BIB_INFO_T">
+            <column name="BIB_ID" type="INTEGER"/>
+        </createIndex>
     </changeSet>
 
 

@@ -126,7 +126,7 @@ public class OLEConstants {
     public static final String APO_RULE_FAILED="APO_RULE_FAILED";
     public static final String BATCH_FAILURE_ATCH_NAME="Failure Mrk File";
     public static final String DOWNLOAD_CUSTM_BO_ATTACHMENT_METHOD="downloadCustomBOAttachment";
-    public static final String LICENSE_WEB_SERVICE_URL="license.web.service.url";
+    //public static final String LICENSE_WEB_SERVICE_URL="license.web.service.url";
     public static final String   EXCEPTION="EXCEPTION";
     public static final String   FINAL="FINAL";
     public static final String   REQ_IDENTIFIER="requisitionIdentifier";
@@ -1903,6 +1903,43 @@ public class OLEConstants {
     public static final String ORDER_TYP = "{ORDER_TYPE}";
     public static final String VND_ITM_ID = "{VND_ITM_ID}";
     public static final String ORDER_IMPORT_REQ_DESC = "ORDER_IMPORT_REQ_DESC";
+    public static final String BILL_PHN_NBR = "BILL_PHN_NBR";
+    public static final String DELIVERY_TO_NAME = "DELIVERY_TO_NAME";
+    public static final String UOM = "UOM";
+    public static final String REQUESTOR_PERSON_NAME = "REQUESTOR_PERSON_NAME";
+    public static final String REQUESTOR_PERSON_PHONE_NUMBER = "REQUESTOR_PERSON_PHONE_NUMBER";
+    public static final String REQUESTOR_PERSON_EMAIL_ADDRESS = "REQUESTOR_PERSON_EMAIL_ADDRESS";
+    public static final String VENDOR_CONTRACT_DEFAULT_APO_LIMIT = "VENDOR_CONTRACT_DEFAULT_APO_LIMIT";
+    public static final String PURCHASE_ORDER_AUTOMATIC_INDICATIOR = "PURCHASE_ORDER_AUTOMATIC_INDICATIOR";
+    public static final String FIN_YEAR = "FIN_YEAR";
+    public static final String CHART_OF_ACC_CD = "CHART_OF_ACC_CD";
+    public static final String ORG_CODE = "ORG_CODE";
+    public static final String FUND_SRC_CD = "FUND_SRC_CD";
+    public static final String USE_TAX_IND = "USE_TAX_IND";
+    public static final String DLVR_CMPS_CD = "DLVR_CMPS_CD";
+    public static final String DLVR_BLDNG_OTHR_IND = "DLVR_BLDNG_OTHR_IND";
+    public static final String DLVR_BLDNG_CD = "DLVR_BLDNG_CD";
+    public static final String DLVR_BLDNG_LN_ADDR = "DLVR_BLDNG_LN_ADDR";
+    public static final String DLVR_BLDNG_ROOM_NBR = "DLVR_BLDNG_ROOM_NBR";
+    public static final String DLVR_CITY_NM = "DLVR_CITY_NM";
+    public static final String DLVR_STATE_CD = "DLVR_STATE_CD";
+    public static final String DLVR_POSTAL_CD = "DLVR_POSTAL_CD";
+    public static final String DLVR_CNTRY_CD = "DLVR_CNTRY_CD";
+    public static final String ITEM_TYPE_CD = "ITEM_TYPE_CD";
+    public static final String LIST_PRICE = "LIST_PRICE";
+    public static final String QTY = "QTY";
+    public static final String PO_TRNS_MTH_CD = "PO_TRNS_MTH_CD";
+    public static final String PO_CST_SRC_CD = "PO_CST_SRC_CD";
+    public static final String LOCATION = "LOCATION";
+    public static final String ORG_PO_LMT = "ORG_PO_LMT";
+    public static final String RCV_REQ_INT = "RCV_REQ_INT";
+    public static final String PREQ_APPRL_INT = "PREQ_APPRL_INT";
+    public static final String BILL_NM = "BILL_NM";
+    public static final String BILL_CITY_NM = "BILL_CITY_NM";
+    public static final String BILL_CNTRY_CD = "BILL_CNTRY_CD";
+    public static final String BILL_LIN_ADDR = "BILL_LIN_ADDR";
+    public static final String BILL_POSTAL_CD = "BILL_POSTAL_CD";
+    public static final String BILL_STATE_CD = "BILL_STATE_CD";
 
     public static final String ANGLE_BRACKET_LESS_THAN = "<";
     public static final String ANGLE_BRACKET_GREATER_THAN = ">";
@@ -1920,4 +1957,13 @@ public class OLEConstants {
     public static final String NOTE_ID = "noteTypeId";
 
     public static final String CURRENCY_OVERRIDE = "error.currency.override";
+
+    public static final String SOURCE_FOLDER = "SOURCE_FOLDER";
+    public static final String LOG_FOLDER = "LOG_FOLDER";
+    public static final String DESTINATION_FOLDER = "DESTINATION_FOLDER";
+    public static final String BACKUP_FOLDER = "BACKUP_FOLDER";
+    public static final String VENDOR_TRANSMISSION_FILE = "VENDOR_TRANSMISSION_FILE";
+    public static final String VENDOR_DIRECTORY = "VENDOR_DIRECTORY";
+    public static final String PARENT_FOLDER = "PARENT_FOLDER";
+
 }

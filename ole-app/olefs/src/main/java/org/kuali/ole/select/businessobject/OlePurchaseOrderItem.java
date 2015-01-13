@@ -17,6 +17,7 @@ package org.kuali.ole.select.businessobject;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
@@ -137,6 +138,7 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
 
     private boolean claimFilter = false;
     private String title;
+    private BibInfoRecord bibInfoRecord;
 
     public List<OLEPOClaimHistory> getClaimHistories() {
         return claimHistories;
@@ -1671,5 +1673,13 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public BibInfoRecord getBibInfoRecord() {
+        return bibInfoRecord;
+    }
+
+    public void setBibInfoRecord(BibInfoRecord bibInfoRecord) {
+        this.bibInfoRecord = bibInfoRecord;
     }
 }

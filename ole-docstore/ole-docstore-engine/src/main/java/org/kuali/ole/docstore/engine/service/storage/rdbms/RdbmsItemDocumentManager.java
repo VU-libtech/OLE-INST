@@ -2,6 +2,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.docstore.DocStoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.Item;
@@ -35,6 +36,7 @@ import org.kuali.ole.docstore.engine.service.search.DocstoreSearchService;
 import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -45,6 +47,8 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,6 +61,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
 
     private static RdbmsItemDocumentManager rdbmsItemDocumentManager = null;
     private static final Logger LOG = LoggerFactory.getLogger(RdbmsItemDocumentManager.class);
+    private static final String leftPaddingSize = ConfigContext.getCurrentContextConfig().getProperty(DocStoreConstants.LEFT_PADDING_SIZE);
 
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
 
@@ -481,7 +486,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
             addDataToLabel(labelName, itemRecord.getBarCode());
         }
         itemDoc.setSortedValue(sortedValue.toString());
-        itemDoc.setDisplayLabel(labelName.toString());
+        LOG.debug("Sorted Value : " + itemDoc.getSortedValue());
+        //itemDoc.setDisplayLabel(labelName.toString());
+        itemDoc.setDisplayLabel(encodeString(labelName.toString()));
 //        List<HoldingsItemRecord> holdingsItemRecords = (List<HoldingsItemRecord>) getBusinessObjectService().findMatching(HoldingsItemRecord.class, getItemMap(itemDoc.getId()));
 //        if (!CollectionUtils.isEmpty(holdingsItemRecords)) {
 //            List<Holdings> holdingsList = new ArrayList<>();
@@ -781,7 +788,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
 
 
     private void effectiveDateItem(org.kuali.ole.docstore.common.document.content.instance.Item item, ItemRecord itemRecord, String effectiveDateForItem) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         Timestamp effectiveDate = null;
         try {
             if (!"".equals(item.getItemStatusEffectiveDate()) && item.getItemStatusEffectiveDate() != null) {
@@ -1239,53 +1246,19 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
             }
     }
 
-    public String getNormalized(String enumation) {
-        if (enumation.contains(".")) {
-            StringBuffer resultBuf = new StringBuffer();
-            String[] splitEnum = enumation.split("\\.");
-            if (splitEnum.length > 1) {
-                String enumerationNo = splitEnum[1];
-                String enumBufAfterDot = null;
-                String enumBufAfterSpecial = null;
-                String normalizedEnum = null;
-                enumerationNo = enumerationNo.trim();
-                if (enumerationNo != null && (enumerationNo.trim().length() > 0)) {
-                    int pos = 0;
-                    boolean numCheck = false;
-                    for (int i = 0; i < enumerationNo.length(); i++) {
-                        char c = enumerationNo.charAt(i);
-                        String convertedEnum = String.valueOf(c);
-                        if (convertedEnum.matches("[0-9]")) {
-                            if (Character.isDigit(c)) {
-                                pos = i;
-                                numCheck = true;
-                            } else {
-                                break;
-                            }
-                        } else {
-                            if (pos == 0 && numCheck == false) {
-                                return enumation;
-                            }
-                            break;
-                        }
-                    }
-                    enumBufAfterDot = enumerationNo.substring(0, pos + 1);
-                    normalizedEnum = normalizeFloatForEnumeration(enumBufAfterDot, 5);
-                    enumBufAfterSpecial = enumerationNo.substring(pos + 1);
-                    splitEnum[1] = normalizedEnum + enumBufAfterSpecial;
-                }
-                for (int j = 0; j < splitEnum.length; j++) {
-                    resultBuf.append(splitEnum[j]);
-                    resultBuf.append(".");
-                }
-
-                return resultBuf.substring(0, resultBuf.length() - 1).toString();
-            } else {
-                return enumation;
-            }
-        } else {
-            return enumation;
+    public String getNormalized(String enumeration) {
+        Pattern validPattern = Pattern.compile("[0-9]+");
+        int leftPadSize = 0;
+        if (leftPaddingSize != null) {
+            leftPadSize = Integer.parseInt(leftPaddingSize);
         }
+        Matcher matcher = validPattern.matcher(enumeration);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, StringUtils.leftPad(matcher.group(), leftPadSize, "0"));
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 
     public String normalizeFloatForEnumeration(String floatStr, int digitsB4) {

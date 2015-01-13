@@ -1,6 +1,7 @@
 package org.kuali.ole.handler;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.kuali.ole.OleSRUConstants;
 import org.kuali.ole.bo.diagnostics.OleSRUDiagnostic;
 import org.kuali.ole.bo.diagnostics.OleSRUDiagnostics;
@@ -46,12 +47,11 @@ public class OleSRUOpacXMLResponseHandler {
      * @param oleSRUSearchRetrieveResponse object
      * @return xml as a String
      */
-    public String toXML(OleSRUSearchRetrieveResponse oleSRUSearchRetrieveResponse,String recordSchema) {
+    public String toXML(OleSRUSearchRetrieveResponse oleSRUSearchRetrieveResponse, String recordSchema) {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        XStream xStream = new XStream();
+        XStream xStream = new XStream(new DomDriver("UTF-8"));
         xStream.registerConverter(new OleSRUCirculationDocumentConverter());
-        if(recordSchema!=null && recordSchema.equalsIgnoreCase("OPAC")){
         xStream.alias("zs:searchRetrieveResponse", OleSRUSearchRetrieveResponse.class);
         xStream.aliasField("zs:version", OleSRUSearchRetrieveResponse.class, "version");
         xStream.aliasField("zs:numberOfRecords", OleSRUSearchRetrieveResponse.class, "numberOfRecords");
@@ -63,44 +63,30 @@ public class OleSRUOpacXMLResponseHandler {
         xStream.alias("zs:record", OleSRUResponseRecord.class);
         xStream.aliasField("zs:recordSchema", OleSRUResponseRecord.class, "recordSchema");
         xStream.aliasField("zs:recordPacking", OleSRUResponseRecord.class, "recordPacking");
-        xStream.aliasField("opacRecord", OleSRUResponseDocument.class, "oleSRUResponseRecordData");
         xStream.aliasField("zs:recordPosition", OleSRUResponseRecord.class, "recordPosition");
         xStream.alias("holding", OleSRUInstanceDocument.class);
         xStream.alias("circulation", OleSRUCirculationDocument.class);
         xStream.alias("volume", OleSRUInstanceVolume.class);
-        String xml = xStream.toXML(oleSRUSearchRetrieveResponse);
-        xml = xml.replace("<zs:searchRetrieveResponse>", "<zs:searchRetrieveResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:zs=\"http://www.loc.gov/zing/srw/\">");
-        xml = xml.replace("<diagnostic>","<diagnostic xmlns=\"http://www.loc.gov/zing/srw/diagnostic/\">");
-        xml = xml.replace("<oleSRUResponseDocument>", "<zs:recordData>");
-        xml = xml.replace("</oleSRUResponseDocument>", "</zs:recordData>");
-            stringBuffer.append(xml);
-        }else {
-            xStream.alias("zs:searchRetrieveResponse", OleSRUSearchRetrieveResponse.class);
-            xStream.aliasField("zs:version", OleSRUSearchRetrieveResponse.class, "version");
-            xStream.aliasField("zs:numberOfRecords", OleSRUSearchRetrieveResponse.class, "numberOfRecords");
-            xStream.aliasField("zs:records", OleSRUSearchRetrieveResponse.class, "oleSRUResponseRecords");
-            xStream.aliasField("zs:diagnostics", OleSRUSearchRetrieveResponse.class, "oleSRUDiagnostics");
-            xStream.addImplicitCollection(OleSRUResponseRecords.class, "oleSRUResponseRecordList");
-            xStream.addImplicitCollection(OleSRUDiagnostics.class, "oleSRUDiagnosticList");
-            xStream.alias("diagnostic", OleSRUDiagnostic.class);
-            xStream.alias("zs:record", OleSRUResponseRecord.class);
-            xStream.aliasField("zs:recordSchema", OleSRUResponseRecord.class, "recordSchema");
-            xStream.aliasField("zs:recordPacking", OleSRUResponseRecord.class, "recordPacking");
-            xStream.aliasField("zs:recordData", OleSRUResponseDocument.class, "oleSRUResponseRecordData");
-            xStream.aliasField("zs:recordPosition", OleSRUResponseRecord.class, "recordPosition");
-            xStream.alias("holding", OleSRUInstanceDocument.class);
-            xStream.alias("circulation", OleSRUCirculationDocument.class);
-            xStream.alias("volume", OleSRUInstanceVolume.class);
+        if (recordSchema != null && recordSchema.equalsIgnoreCase("OPAC")) {
+            xStream.aliasField("opacRecord", OleSRUResponseDocument.class, "oleSRUResponseRecordData");
             String xml = xStream.toXML(oleSRUSearchRetrieveResponse);
             xml = xml.replace("<zs:searchRetrieveResponse>", "<zs:searchRetrieveResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:zs=\"http://www.loc.gov/zing/srw/\">");
-            xml = xml.replace("<diagnostic>","<diagnostic xmlns=\"http://www.loc.gov/zing/srw/diagnostic/\">");
+            xml = xml.replace("<diagnostic>", "<diagnostic xmlns=\"http://www.loc.gov/zing/srw/diagnostic/\">");
+            xml = xml.replace("<oleSRUResponseDocument>", "<zs:recordData>");
+            xml = xml.replace("</oleSRUResponseDocument>", "</zs:recordData>");
+            stringBuffer.append(xml);
+        } else {
+            xStream.alias("zs:searchRetrieveResponse", OleSRUSearchRetrieveResponse.class);
+            xStream.aliasField("zs:recordData", OleSRUResponseDocument.class, "oleSRUResponseRecordData");
+            String xml = xStream.toXML(oleSRUSearchRetrieveResponse);
+            xml = xml.replace("<zs:searchRetrieveResponse>", "<zs:searchRetrieveResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:zs=\"http://www.loc.gov/zing/srw/\">");
+            xml = xml.replace("<diagnostic>", "<diagnostic xmlns=\"http://www.loc.gov/zing/srw/diagnostic/\">");
             xml = xml.replace("<oleSRUResponseDocument>", "");
             xml = xml.replace("<bibliographicRecord>", "");
             xml = xml.replace("</oleSRUResponseDocument>", "");
             xml = xml.replace("</bibliographicRecord>", "");
             stringBuffer.append(xml);
         }
-
         return stringBuffer.toString();
     }
 }

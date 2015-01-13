@@ -287,12 +287,26 @@ public class DocumentSelectionTree {
     }
 
 
-    public Node<DocumentTreeNode, String> addForTransfer(List<String> uuidList) {
-        List<BibTree> bibTreeList = buildDocTreeList(DocCategory.WORK.getCode(), DocType.BIB.getDescription(), uuidList);
-        List<Node<DocumentTreeNode, String>> nodeList = buildNodeListForTransfer(bibTreeList);
-        for (Node<DocumentTreeNode, String> node : nodeList) {
-            rootNode.addChild(node);
+    public Node<DocumentTreeNode, String> addForTransfer(List<String> uuidList, String docType) {
+        if (docType.equalsIgnoreCase((DocType.BIB.getDescription()))) {
+            List<BibTree> bibTreeList = buildDocTreeList(DocCategory.WORK.getCode(), DocType.BIB.getDescription(), uuidList);
+            List<Node<DocumentTreeNode, String>> nodeList = buildNodeListForTransfer(bibTreeList);
+            for (Node<DocumentTreeNode, String> node : nodeList) {
+                rootNode.addChild(node);
+            }
+        } else if (docType.equalsIgnoreCase((DocType.HOLDINGS.getCode()))) {
+            try {
+                List<HoldingsTree> holdingsTreeList = buildHoldingsTreeList(DocCategory.WORK.getCode(), docType, uuidList);
+                for (HoldingsTree holdingsTree : holdingsTreeList) {
+                    Node<DocumentTreeNode,String> node = buildHoldingsNode(holdingsTree);
+                    rootNode.addChild(node);
+                }
+            } catch (SolrServerException ex) {
+                LOG.error(ex.getMessage());
+            }
         }
+
+
         return rootNode;
     }
 

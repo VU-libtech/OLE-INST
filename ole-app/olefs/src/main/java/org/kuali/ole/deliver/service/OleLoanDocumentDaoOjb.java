@@ -80,6 +80,8 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
     public Collection<Object> getHoldRequests(List<String> requestTypeIds){
         Criteria criteria = new Criteria();
         criteria.addIn("requestTypeId",requestTypeIds);
+        criteria.addEqualTo("borrowerQueuePosition","1");
+        criteria.addColumnIsNull("ONHLD_NTC_SNT_DT");
         QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestBo.class, criteria);
         query.addOrderBy("borrowerId");
         Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -338,6 +340,32 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return  oleOverDueDeliverNoticeList;
     }
 
+
+    public Collection<Object> getRequestTypeForHoldNotice(List<String> requestTypeCodes){
+        Criteria criteria = new Criteria();
+        criteria.addIn("requestTypeCode",requestTypeCodes);
+        QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestType.class, criteria);
+        Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
+ public List<String> getRequestTypeIds(Collection<Object> requestTypeObjects){
+     List<String> requestTypeIds =  new ArrayList<String>();
+     OleDeliverRequestType oleDeliverRequestType = null;
+      if(requestTypeObjects != null && requestTypeObjects.size()>0){
+         for(Object obj: requestTypeObjects){
+             oleDeliverRequestType = (OleDeliverRequestType)obj;
+             requestTypeIds.add(oleDeliverRequestType.getRequestTypeId());
+         }
+     }
+    return requestTypeIds;
+ }
+
+
+    public List<String> getRequestTypeIdsForHoldNotice(List<String> requestTypeCodes){
+    Collection<Object> requestTypes = getRequestTypeForHoldNotice(requestTypeCodes);
+    return getRequestTypeIds(requestTypes);
+    }
 
 
 

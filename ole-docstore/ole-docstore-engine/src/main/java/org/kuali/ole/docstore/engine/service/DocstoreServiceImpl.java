@@ -1,6 +1,6 @@
 package org.kuali.ole.docstore.engine.service;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
@@ -905,25 +905,25 @@ public class DocstoreServiceImpl implements DocstoreService {
                     }
                     if (itemContent.getCallNumber() != null) {
                         if (existingItemContent.getCallNumber() != null) {
-                            if (itemContent.getCallNumber().getPrefix() != null) {
+                            if (StringUtils.isNotBlank(itemContent.getCallNumber().getPrefix())) {
                                 existingItemContent.getCallNumber().setPrefix(itemContent.getCallNumber().getPrefix());
                             }
-                            if (itemContent.getCallNumber().getNumber() != null) {
+                            if (StringUtils.isNotBlank(itemContent.getCallNumber().getNumber())) {
                                 existingItemContent.getCallNumber().setNumber(itemContent.getCallNumber().getNumber());
-                            }
-                            if (itemContent.getCallNumber().getShelvingScheme() != null &&
-                                    itemContent.getCallNumber().getShelvingScheme().getCodeValue() != null) {
-                                existingItemContent.getCallNumber().setShelvingScheme(itemContent.getCallNumber().getShelvingScheme());
+                                if (itemContent.getCallNumber().getShelvingScheme() != null &&
+                                        StringUtils.isNotBlank(itemContent.getCallNumber().getShelvingScheme().getCodeValue()) && !itemContent.getCallNumber().getShelvingScheme().getCodeValue().equalsIgnoreCase("NOINFO")) {
+                                    existingItemContent.getCallNumber().setShelvingScheme(itemContent.getCallNumber().getShelvingScheme());
+                                }
                             }
                             if (itemContent.getCallNumber().getShelvingOrder() != null &&
-                                    itemContent.getCallNumber().getShelvingOrder().getFullValue() != null) {
+                                    StringUtils.isNotBlank(itemContent.getCallNumber().getShelvingOrder().getFullValue())) {
                                 existingItemContent.getCallNumber().setShelvingOrder(itemContent.getCallNumber().getShelvingOrder());
                             }
                         } else {
                             existingItemContent.setCallNumber(itemContent.getCallNumber());
                         }
                     }
-                    if (itemContent.getEnumeration() != null) {
+                    if (StringUtils.isNotBlank(itemContent.getEnumeration())) {
                         existingItemContent.setEnumeration(itemContent.getEnumeration());
                     }
                     if (itemContent.getAccessInformation() != null) {
@@ -1046,7 +1046,9 @@ public class DocstoreServiceImpl implements DocstoreService {
                         existingItemContent.setHighDensityStorage(itemContent.getHighDensityStorage());
                     }
                     if (itemContent.getItemStatus() != null) {
-                        existingItemContent.setItemStatus(itemContent.getItemStatus());
+                        if (StringUtils.isNotBlank(itemContent.getItemStatus().getCodeValue()) || StringUtils.isNotBlank(itemContent.getItemStatus().getFullValue())) {
+                            existingItemContent.setItemStatus(itemContent.getItemStatus());
+                        }
                     }
                     if (canUpdateStaffOnlyFlag.equalsIgnoreCase("true")) {
                         existingItem.setStaffOnly(item.isStaffOnly());

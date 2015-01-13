@@ -138,7 +138,7 @@
     <bean id="ExternalDataSource-externalDataSourceLogInId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
         <property name="shortLabel" value="External DataSource LogIn Id"/>
-        <property name="maxLength" value="10"/>
+        <property name="maxLength" value="30"/>
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern"/>
         </property>
@@ -146,7 +146,7 @@
             <bean parent="Uif-TextControl" p:size="30"/>
         </property>
         <property name="name" value="loginId"/>
-        <property name="label" value="LogIn Id"/>
+        <property name="label" value="LogIn Id/Database Name"/>
         <property name="description" value="External DataSource LogIn Id"/>
     </bean>
 
@@ -241,7 +241,8 @@
                   value="org.kuali.ole.describe.lookup.OleExternalDataSourceConfigLookupableImpl"/>
         <property name="criteriaFields">
             <list>
-                <bean id="externalDataSourceName" parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:enableAutoDirectInquiry="false"/>
+                <bean id="externalDataSourceName" parent="Uif-LookupCriteriaInputField" p:propertyName="name"
+                      p:enableAutoDirectInquiry="false"/>
                 <bean id="externalDataSourceDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="desc"/>
                 <bean id="externalDataSourceDomainName" parent="Uif-LookupCriteriaInputField"
                       p:propertyName="domainName"/>

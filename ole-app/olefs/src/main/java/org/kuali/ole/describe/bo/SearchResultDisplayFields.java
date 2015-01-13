@@ -3,6 +3,7 @@ package org.kuali.ole.describe.bo;
 import org.kuali.ole.docstore.common.document.config.DocFieldConfig;
 import org.kuali.ole.docstore.common.document.config.DocFormatConfig;
 import org.kuali.ole.docstore.common.document.config.DocTypeConfig;
+import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 
 import java.util.List;
@@ -662,7 +663,8 @@ public class SearchResultDisplayFields {
                 for (DocFormatConfig docFormatConfig : docTypeConfig.getDocFormatConfigList()) {
                     if (docFormatConfig.getDocTypeId().equals(docTypeConfig.getId())) {
                         for (DocFieldConfig docFieldConfig : docFormatConfig.getDocFieldConfigList()) {
-                            if (docFieldConfig.isDisplayable() && docFieldConfig.getName().endsWith("_display")) {
+                            if (docFieldConfig.isDisplayable() && docFieldConfig.getName().endsWith("_display") || ((docFormatConfig.getName().equalsIgnoreCase(DocFormat.MARC.getCode()) || docFormatConfig.getName().equalsIgnoreCase(DocFormat.OLEML.getCode())) && docFieldConfig.getName().equalsIgnoreCase("Title_display"))) {
+                                // Condition : If a field is displayable or if it is a title field of marc or oleml doc format. Renders title column for all doc types as default, independent of displayable flag.
                                 boolean boSortFlag = false;
 
                                 if(DocType.BIB.getCode().equalsIgnoreCase(docType)){
@@ -836,7 +838,7 @@ public class SearchResultDisplayFields {
                                         setStatisticalCode(true);
                                         boSortFlag = true;
                                     }
-                                    else if (docFieldConfig.getName().equalsIgnoreCase("Item_display")) {
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("ItemPart_display")) {
                                         setItemPart(true);
                                         boSortFlag = true;
                                     }
@@ -951,19 +953,23 @@ public class SearchResultDisplayFields {
                                     }
 
                                     else if (docFieldConfig.getName().equalsIgnoreCase("CoverageDate_display")) {
-                                        setDonorCode(true);
+                                        setCoverageDate(true);
                                         boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("PerpetualAccess_display")) {
-                                        setDonorCode(true);
+                                        setPerpetualAccess(true);
                                         boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Public_Note_display")) {
-                                        setDonorCode(true);
+                                        setPublicNote(true);
                                         boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Url_display")) {
-                                        setDonorCode(true);
+                                        setUrl(true);
+                                        boSortFlag = true;
+                                    }
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("E_Publisher_display")) {
+                                        setPublisher(true);
                                         boSortFlag = true;
                                     }
 

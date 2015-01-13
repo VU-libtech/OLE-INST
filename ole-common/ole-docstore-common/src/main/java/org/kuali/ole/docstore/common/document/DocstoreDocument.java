@@ -92,6 +92,7 @@ public abstract class DocstoreDocument {
     public static final String DESTINATION_FIELD_DONOR_CODE = "Donor Code";
     public static final String DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY = "Donor Public Display";
     public static final String DESTINATION_FIELD_DONOR_NOTE = "Donor Note";
+    public static final String NO_INFO_CALL_NUMBER_TYPE_CODE = "NOINFO";
 
     public enum OperationType {CREATE, UPDATE, DELETE};
     public enum ResultType {SUCCESS, FAILURE};

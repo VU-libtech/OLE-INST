@@ -1,14 +1,14 @@
 package org.kuali.ole.batch.document;
 
-import org.kuali.ole.batch.bo.OLEBatchProcessIngestFile;
-import org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo;
-import org.kuali.ole.batch.bo.OLEBatchProcessProfileBo;
-import org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo;
+import org.kuali.ole.batch.bo.*;
 import org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,6 +64,7 @@ public class OLEBatchProcessDefinitionDocument extends TransactionalDocumentBase
     private boolean runNowFlag = false;
     private String runNowOrSchedule;
     private boolean afterSubmitFlag;
+    private String loadIdFromFile = "false";
 
     public boolean isAfterSubmitFlag() {
         return afterSubmitFlag;
@@ -570,5 +571,25 @@ public class OLEBatchProcessDefinitionDocument extends TransactionalDocumentBase
 
     public void setRunNowFlag(boolean runNowFlag) {
         this.runNowFlag = runNowFlag;
+    }
+
+    public String getLoadIdFromFile() {
+        if (batchProcessProfileId != null) {
+            Map ids = new HashMap();
+            ids.put("batchProcessProfileId", batchProcessProfileId);
+            OLEBatchProcessProfileFilterCriteriaBo oleBatchProcessProfileFilterCriteriaBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEBatchProcessProfileFilterCriteriaBo.class, ids);
+            if (oleBatchProcessProfileFilterCriteriaBo != null) {
+                if (("LocalId_display").equalsIgnoreCase(oleBatchProcessProfileFilterCriteriaBo.getFilterFieldName())) {
+                    loadIdFromFile = "true";
+                }
+            } else {
+                loadIdFromFile = "false";
+            }
+        }
+        return loadIdFromFile;
+    }
+
+    public void setLoadIdFromFile(String loadIdFromFile) {
+        this.loadIdFromFile = loadIdFromFile;
     }
 }
