@@ -10,23 +10,28 @@
         <sql>ALTER SESSION SET NLS_DATE_FORMAT = 'RRMMDDHH24MISS'</sql>
     </changeSet>
     -->
-
+    
+    <!-- Maintenance > Chart of Accounts > Account Attributes > Fund Group -->
     <changeSet context="demo" author="ole" id="CA_FUND_GRP_T">
         <loadData tableName="CA_FUND_GRP_T" file="ole-inst/chart-of-accounts/CA_FUND_GRP_T.csv"/>
     </changeSet>
-
+    
+    <!-- Maintenance > Chart of Accounts > Account Attributes > Sub-Fund Group -->
     <changeSet context="demo" author="ole" id="CA_SUB_FUND_GRP_T">
         <loadData tableName="CA_SUB_FUND_GRP_T" file="ole-inst/chart-of-accounts/CA_SUB_FUND_GRP_T.csv"/>
     </changeSet>
 
+    <!-- Maintenance > Chart of Accounts > Account > Chart -->
     <changeSet context="demo" author="ole" id="CA_CHART_T">
         <loadData tableName="CA_CHART_T" file="ole-inst/chart-of-accounts/CA_CHART_T.csv"/>
     </changeSet>
 
+    <!-- Maintenance > Chart of Accounts > Account > Organization -->
     <changeSet context="demo" author="ole" id="CA_ORG_T">
         <loadData tableName="CA_ORG_T" file="ole-inst/chart-of-accounts/CA_ORG_T.csv"/>
     </changeSet>
 
+    <!-- Maintenance > Chart of Accounts > Account > Account -->
     <changeSet context="demo" author="ole" id="CA_ACCOUNT_T">
         <loadData tableName="CA_ACCOUNT_T" file="ole-inst/chart-of-accounts/CA_ACCOUNT_T.csv"/>
     </changeSet>
@@ -45,10 +50,13 @@
         <loadData tableName="CA_ACCT_DELEGATE_T" file="ole-inst/chart-of-accounts/CA_ACCT_DELEGATE_T.csv"/>
     </changeSet>
     -->
+    
+    <!-- Support table for CA_ACCOUNT_T > New Account "Account Description" tab -->
     <changeSet context="demo" author="ole" id="CA_ACCT_DESC_T">
         <loadData tableName="CA_ACCT_DESC_T" file="ole-inst/chart-of-accounts/CA_ACCT_DESC_T.csv"/>
     </changeSet>
-
+    
+    <!-- Support table for CA_ACCOUNT_T > New Account "Guidelines And Purpose" tab -->
     <changeSet context="demo" author="ole" id="CA_ACCT_GDLNPRPS_T">
         <loadData tableName="CA_ACCT_GDLNPRPS_T" file="ole-inst/chart-of-accounts/CA_ACCT_GDLNPRPS_T.csv"/>
     </changeSet>
@@ -57,15 +65,17 @@
         <loadData tableName="CA_CFDA_REF_T" file="ole-inst/chart-of-accounts/CA_CFDA_REF_T.csv"/>
     </changeSet>
     -->
+    <!-- Maintenance > Chart of Accounts > ACCOUNT ATTRIBUTES > Object Consolidation -->
     <changeSet context="demo" author="ole" id="CA_OBJ_CONSOLDTN_T">
         <loadData tableName="CA_OBJ_CONSOLDTN_T" file="ole-inst/chart-of-accounts/CA_OBJ_CONSOLDTN_T.csv"/>
     </changeSet>
 
-
+    <!-- Maintenance > Chart of Accounts > ACCOUNT ATTRIBUTES > Object Level -->
     <changeSet context="demo" author="ole" id="CA_OBJ_LEVEL_T">
         <loadData tableName="CA_OBJ_LEVEL_T" file="ole-inst/chart-of-accounts/CA_OBJ_LEVEL_T.csv"/>
     </changeSet>
 
+    <!-- Maintenance > Chart of Accounts > ACCOUNT > Object Code -->
     <changeSet context="demo" author="ole" id="CA_OBJECT_CODE_T">
         <loadData tableName="CA_OBJECT_CODE_T" file="ole-inst/chart-of-accounts/CA_OBJECT_CODE_T.csv"/>
     </changeSet>
@@ -95,6 +105,7 @@
     </changeSet>
     -->
     <!--Financial System-->
+    <!-- TODO: is there a maintenance table for this? -->
     <changeSet context="demo" author="ole" id="FS_OPTION_T">
         <loadData tableName="FS_OPTION_T" file="ole-inst/financial-system/FS_OPTION_T.csv"/>
     </changeSet>
@@ -112,6 +123,7 @@
     </changeSet>
     -->
     
+    <!-- Maintenance > Chart of Accounts > ACCOUNT > Accounting Period -->
     <changeSet context="demo" author="ole" id="SH_ACCT_PERIOD_T">
         <loadData tableName="SH_ACCT_PERIOD_T" file="ole-inst/financial-system/SH_ACCT_PERIOD_T.csv"/>
     </changeSet>
@@ -137,12 +149,15 @@
         <loadData tableName="FS_TAX_STATE_T" file="ole-inst/financial-system/FS_TAX_STATE_T.csv"/>
     </changeSet>
     -->
-    <!--General Ledger-->
+    
+    <!-- General Ledger -->
+    
+    <!-- Maintenance > Select & Acquire Admin > FINANCIAL TRANSACTION CONTROLS > Offset Definition -->
     <changeSet context="demo" author="ole" id="GL_OFFSET_DEFN_T">
         <loadData tableName="GL_OFFSET_DEFN_T" file="ole-inst/general-ledger/GL_OFFSET_DEFN_T.csv"/>
     </changeSet>
 
-    <!-- -->
+    <!-- Maintenance > Select & Acquire Admin > ORDER INFORMATION > Cancellation Reason -->
     <changeSet context="demo" author="ole" id="ole_cncl_rsn_t">
         <loadData tableName="ole_cncl_rsn_t" file="ole-inst/ole_cncl_rsn_t.csv"/>
     </changeSet>
@@ -170,11 +185,14 @@
     </changeSet>
     -->
     
-    <!--Vendor-->
+    <!-- Vendor Admin -->
+    
+    <!-- Maintenance > Vendor Admin > Payment Terms Type -->
     <changeSet context="demo" author="ole" id="PUR_PMT_TERM_TYP_T">
         <loadData tableName="PUR_PMT_TERM_TYP_T" file="ole-inst/purchasing/PUR_PMT_TERM_TYP_T.csv"/>
     </changeSet>
 
+    <!-- TODO: Is there a maintanenance table for this? -->
     <changeSet context="demo" author="ole" id="OLE_VNDR_TRANS_FRMT_TYP_INT_T">
         <loadData tableName="OLE_VNDR_TRANS_FRMT_TYP_INT_T" file="ole-inst/vendor/OLE_VNDR_TRANS_FRMT_TYP_INT_T.csv"/>
     </changeSet>
