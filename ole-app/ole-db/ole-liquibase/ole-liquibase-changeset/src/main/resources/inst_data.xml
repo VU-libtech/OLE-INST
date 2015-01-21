@@ -192,27 +192,31 @@
         <loadData tableName="PUR_PMT_TERM_TYP_T" file="ole-inst/purchasing/PUR_PMT_TERM_TYP_T.csv"/>
     </changeSet>
 
-    <!-- TODO: Is there a maintanenance table for this? -->
+    <!-- TODO: Is there a maintenance table for this? -->
     <changeSet context="demo" author="ole" id="OLE_VNDR_TRANS_FRMT_TYP_INT_T">
         <loadData tableName="OLE_VNDR_TRANS_FRMT_TYP_INT_T" file="ole-inst/vendor/OLE_VNDR_TRANS_FRMT_TYP_INT_T.csv"/>
     </changeSet>
 
-    <!-- Vendor Campus -->
+    <!-- Maintenance > Vendor Admin > Campus -->
     <changeSet context="demo" author="ole" id="PUR_AP_CMP_PARM_T">
         <loadData tableName="PUR_AP_CMP_PARM_T" file="ole-inst/purchasing/PUR_AP_CMP_PARM_T.csv"/>
     </changeSet>
 
+    <!-- Maintenance > Select & Acquire Admin > ORGANIZATION INFORMATION > Organization APO Limit -->
     <changeSet context="demo" author="ole" id="PUR_AP_ORG_PARM_T">
         <loadData tableName="PUR_AP_ORG_PARM_T" file="ole-inst/purchasing/PUR_AP_ORG_PARM_T.csv"/>
     </changeSet>
 
+    <!-- Maintenance > Select & Acquire Admin > ORDER INFORMATION > Billing Address -->
     <changeSet context="demo" author="ole" id="PUR_BILL_ADDR_T">
         <loadData tableName="PUR_BILL_ADDR_T" file="ole-inst/purchasing/PUR_BILL_ADDR_T.csv"/>
     </changeSet>
 
+    <!-- TODO: Is there a maintenance table for this? -->
     <changeSet context="demo" author="ole" id="PUR_COMM_T">
         <loadData tableName="PUR_COMM_T" file="ole-inst/purchasing/PUR_COMM_T.csv"/>
     </changeSet>
+    
     <!--
     <changeSet context="demo" author="ole" id="PUR_PO_CONTR_LANG_T">
         <loadData tableName="PUR_PO_CONTR_LANG_T" file="ole-inst/purchasing/PUR_PO_CONTR_LANG_T.csv"/>
@@ -222,17 +226,22 @@
         <loadData tableName="PUR_PO_QT_LANG_T" file="ole-inst/purchasing/PUR_PO_QT_LANG_T.csv"/>
     </changeSet>
     -->
+    
+    <!-- Maintenance > Select & Acquire Admin > ORGANIZATION INFORMATION > Receiving Address -->
     <changeSet context="demo" author="ole" id="PUR_RCVNG_ADDR_T">
         <loadData tableName="PUR_RCVNG_ADDR_T" file="ole-inst/purchasing/PUR_RCVNG_ADDR_T.csv"/>
     </changeSet>
 
+    <!-- TODO: Is there a maintenance table for this? -->
     <changeSet context="demo" author="ole" id="PUR_VNDR_ADDR_T">
         <loadData tableName="PUR_VNDR_ADDR_T" file="ole-inst/purchasing/PUR_VNDR_ADDR_T.csv"/>
     </changeSet>
 
+    <!-- TODO: Is there a maintenance table for this? -->
     <changeSet context="demo" author="ole" id="PUR_VNDR_ALIAS_T">
         <loadData tableName="PUR_VNDR_ALIAS_T" file="ole-inst/purchasing/PUR_VNDR_ALIAS_T.csv"/>
     </changeSet>
+    
     <!--
     <changeSet context="demo" author="ole" id="PUR_VNDR_CNTCT_PHN_NBR_T">
         <loadData tableName="PUR_VNDR_CNTCT_PHN_NBR_T" file="ole-inst/purchasing/PUR_VNDR_CNTCT_PHN_NBR_T.csv"/>
@@ -258,6 +267,8 @@
         <loadData tableName="PUR_VNDR_DFLT_ADDR_T" file="ole-inst/purchasing/PUR_VNDR_DFLT_ADDR_T.csv"/>
     </changeSet>
     -->
+
+    <!-- TODO: Is there a maintenance table for this? -->
     <changeSet context="demo" author="ole" id="PUR_VNDR_HDR_T">
         <loadData tableName="PUR_VNDR_HDR_T" file="ole-inst/purchasing/PUR_VNDR_HDR_T.csv"/>
     </changeSet>
@@ -412,7 +423,7 @@
     -->
     <!-- auto_increment=12 -->
     <changeSet context="demo" author="ole" id="ole_crcl_dsk_t">
-        <loadData tableName="ole_crcl_dsk_t" file="ole-inst/ole_crcl_dsk_t.csv"/>
+        <loadData tableName="fac" file="ole-inst/ole_crcl_dsk_t.csv"/>
     </changeSet>
     <changeSet context="demo" author="ole" id="ole_crcl_dsk_s">
         <loadData tableName="ole_crcl_dsk_s" file="ole-inst/ole_crcl_dsk_s.csv"/>
