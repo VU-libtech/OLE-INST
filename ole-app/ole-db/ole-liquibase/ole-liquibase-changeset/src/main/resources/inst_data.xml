@@ -272,7 +272,8 @@
     <changeSet context="demo" author="ole" id="PUR_VNDR_HDR_T">
         <loadData tableName="PUR_VNDR_HDR_T" file="ole-inst/purchasing/PUR_VNDR_HDR_T.csv"/>
     </changeSet>
-
+    
+    <!-- This Editor is on the S&A tab -->
     <changeSet context="demo" author="ole" id="PUR_VNDR_DTL_T">
         <loadData tableName="PUR_VNDR_DTL_T" file="ole-inst/purchasing/PUR_VNDR_DTL_T.csv"/>
     </changeSet>
