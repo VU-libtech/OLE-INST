@@ -91,11 +91,11 @@
     </changeSet>
     -->
     <!--Financial Processing-->
-    <!--
+    <!-- Maintenance > Select & Acquire Admin > Bank -->
     <changeSet context="demo" author="ole" id="FP_BANK_T">
-        <loadData tableName="FP_BANK_T" file="ole-inst/financial-processing/FP_BANK_T.csv"/>
+        <loadData tableName="FP_BANK_T" file="ole-inst/financial-processing/fp_bank_t.csv"/>
     </changeSet>
-
+    <!--
     <changeSet context="demo" author="ole" id="FP_DV_DOC_LOC_T">
         <loadData tableName="FP_DV_DOC_LOC_T" file="ole-inst/financial-processing/FP_DV_DOC_LOC_T.csv"/>
     </changeSet>
