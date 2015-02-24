@@ -464,7 +464,7 @@
     -->
     <!-- auto_increment=12 -->
     <changeSet context="demo" author="ole" id="ole_crcl_dsk_t">
-        <loadData tableName="fac" file="ole-inst/ole_crcl_dsk_t.csv"/>
+        <loadData tableName="ole_crcl_dsk_t" file="ole-inst/ole_crcl_dsk_t.csv"/>
     </changeSet>
     <changeSet context="demo" author="ole" id="ole_crcl_dsk_s">
         <loadData tableName="ole_crcl_dsk_s" file="ole-inst/ole_crcl_dsk_s.csv"/>
