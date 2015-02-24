@@ -410,10 +410,10 @@
     <!-- Created by bootstrap (i think) -->
     <!-- entity -->
     <changeSet context="demo" author="ole" id="krim_entity_t">
-        <loadData tableName="krim_entity_t" file="ole-inst/persons/krim_entity_t.csv"/>
+        <loadData tableName="krim_entity_t" file="ole-inst/patrons/krim_entity_t.csv"/>
     </changeSet>
     <changeSet context="demo" author="ole" id="krim_entity_id_s">
-        <loadData tableName="krim_entity_id_s" file="ole-inst/persons/krim_entity_id_s.csv"/>
+        <loadData tableName="krim_entity_id_s" file="ole-inst/patrons/krim_entity_id_s.csv"/>
     </changeSet>
     <!-- -->
     
