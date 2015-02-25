@@ -349,14 +349,25 @@
     </changeSet>
     
     <!-- Created by bootstrap (i think) -->
-    <!-- email (and _s) -->
+    <!-- NEW -->
+    <!--  -->
+    <changeSet context="demo" author="ole" id="krim_entity_t">
+        <loadData tableName="krim_entity_t" file="ole-inst/patrons/krim_entity_t.csv"/>
+    </changeSet>
+    <changeSet context="demo" author="ole" id="krim_entity_id_s">
+        <loadData tableName="krim_entity_id_s" file="ole-inst/patrons/krim_entity_id_s.csv"/>
+    </changeSet>
+    
+    
+    <!-- Created by bootstrap (i think) -->
+    <!-- NEW -->
+    <!-- -->
     <changeSet context="demo" author="ole" id="krim_entity_email_t">
         <loadData tableName="krim_entity_email_t" file="ole-inst/patrons/krim_entity_email_t.csv"/>
     </changeSet>
     <changeSet context="demo" author="ole" id="krim_entity_email_id_s">
         <loadData tableName="krim_entity_email_id_s" file="ole-inst/patrons/krim_entity_email_id_s.csv"/>
     </changeSet>
-    <!-- address (and _s) -->
     <changeSet context="demo" author="ole" id="krim_entity_addr_t">
         <loadData tableName="krim_entity_addr_t" file="ole-inst/patrons/krim_entity_addr_t.csv"/>
     </changeSet>
@@ -375,10 +386,12 @@
     </changeSet>
     
     <!-- Created by bootstrap (i think) -->
+    <!-- NEW -->
     <!-- -->
     <changeSet context="demo" author="ole" id="krim_entity_ent_typ_t">
-        <loadData tableName="krim_entity_ent_typ_t" file="ole-inst/persons/krim_entity_ent_typ_t.csv"/>
+        <loadData tableName="krim_entity_ent_typ_t" file="ole-inst/patrons/krim_entity_ent_typ_t.csv"/>
     </changeSet>
+    
     
     <!-- not created by bootstrap -->
     <!--
@@ -387,6 +400,7 @@
     </changeSet>
     -->
     <!-- Created by bootstrap (i think) -->
+    <!-- NEW -->
     <!-- -->
     <changeSet context="demo" author="ole" id="krim_entity_nm_t">
         <loadData tableName="krim_entity_nm_t" file="ole-inst/patrons/krim_entity_nm_t.csv"/>
@@ -394,29 +408,22 @@
     <changeSet context="demo" author="ole" id="krim_entity_nm_id_s">
         <loadData tableName="krim_entity_nm_id_s" file="ole-inst/patrons/krim_entity_nm_id_s.csv"/>
     </changeSet>
-    <!-- phone -->
     <changeSet context="demo" author="ole" id="krim_entity_phone_t">
         <loadData tableName="krim_entity_phone_t" file="ole-inst/patrons/krim_entity_phone_t.csv"/>
     </changeSet>
     <changeSet context="demo" author="ole" id="krim_entity_phone_id_s">
         <loadData tableName="krim_entity_phone_id_s" file="ole-inst/patrons/krim_entity_phone_id_s.csv"/>
     </changeSet>
+    
+    
     <!--
     <changeSet context="demo" author="ole" id="krim_entity_priv_pref_t">
         <loadData tableName="krim_entity_priv_pref_t" file="ole-inst/persons/krim_entity_priv_pref_t.csv"/>
     </changeSet>
     -->
 
-    <!-- Created by bootstrap (i think) -->
-    <!-- entity -->
-    <changeSet context="demo" author="ole" id="krim_entity_t">
-        <loadData tableName="krim_entity_t" file="ole-inst/patrons/krim_entity_t.csv"/>
-    </changeSet>
-    <changeSet context="demo" author="ole" id="krim_entity_id_s">
-        <loadData tableName="krim_entity_id_s" file="ole-inst/patrons/krim_entity_id_s.csv"/>
-    </changeSet>
-    <!-- -->
-    
+
+    <!--
     <changeSet context="demo" author="ole" id="krim_prncpl_t">
         <loadData tableName="krim_prncpl_t" file="ole-inst/persons/krim_prncpl_t.csv"/>
     </changeSet>
@@ -442,11 +449,11 @@
     <changeSet context="demo" author="ole" id="ole_proxy_ptrn_s">
         <loadData tableName="ole_proxy_ptrn_s" file="ole-inst/patrons/ole_proxy_ptrn_s.csv"/>
     </changeSet>
-    <!-- no idea -->
+    <!-- no idea 
     <changeSet context="demo" author="ole" id="ole_ptrn_entity_v">
         <loadData tableName="ole_ptrn_entity_v" file="ole-inst/patrons/ole_ptrn_entity_v.csv"/>
     </changeSet>
-    
+    -->
     <!-- E-Resource Admin -->
     <changeSet context="demo" author="ole" id="ole_acc_loc_t">
         <loadData tableName="ole_acc_loc_t" file="ole-inst/location/ole_acc_loc_t.csv"/>
