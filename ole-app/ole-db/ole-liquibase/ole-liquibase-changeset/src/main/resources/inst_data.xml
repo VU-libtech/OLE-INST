@@ -93,7 +93,7 @@
     <!--Financial Processing-->
     <!-- Maintenance > Select & Acquire Admin > Bank -->
     <changeSet context="demo" author="ole" id="FP_BANK_T">
-        <loadData tableName="FP_BANK_T" file="ole-inst/financial-processing/fp_bank_t.csv"/>
+        <loadData tableName="FP_BANK_T" file="ole-inst/financial-processing/FP_BANK_T.csv"/>
     </changeSet>
     <!--
     <changeSet context="demo" author="ole" id="FP_DV_DOC_LOC_T">
@@ -294,12 +294,12 @@
     -->
     <!--Locations-->
     <changeSet context="demo" author="ole" id="OLE_LOCN_LEVEL_T">
-        <loadData tableName="OLE_LOCN_LEVEL_T" file="ole-inst/location/ole_locn_level_t.csv"/>
+        <loadData tableName="OLE_LOCN_LEVEL_T" file="ole-inst/location/OLE_LOCN_LEVEL_T.csv"/>
     </changeSet>
 
     <!-- AUTO_INCREMENT=10000, we insert up to 10002 -->
     <changeSet context="demo" author="ole" id="OLE_LOCN_T">
-        <loadData tableName="OLE_LOCN_T" file="ole-inst/location/ole_locn_t.csv"/>
+        <loadData tableName="OLE_LOCN_T" file="ole-inst/location/OLE_LOCN_T.csv"/>
     </changeSet>
     <changeSet context="demo" author="ole" id="OLE_LOCN_S">
         <loadData tableName="OLE_LOCN_S" file="ole-inst/location/ole_locn_s.csv"/>
@@ -307,11 +307,11 @@
 
     <!--Delivery Addresses-->
     <changeSet context="demo" author="ole" id="SH_BUILDING_T">
-        <loadData tableName="SH_BUILDING_T" file="ole-inst/delivery-address/sh_building_t.csv"/>
+        <loadData tableName="SH_BUILDING_T" file="ole-inst/delivery-address/SH_BUILDING_T.csv"/>
     </changeSet>
 
     <changeSet context="demo" author="ole" id="SH_ROOM_T">
-        <loadData tableName="SH_ROOM_T" file="ole-inst/delivery-address/sh_room_t.csv"/>
+        <loadData tableName="SH_ROOM_T" file="ole-inst/delivery-address/SH_ROOM_T.csv"/>
     </changeSet>
 
     <!-- campus -->
