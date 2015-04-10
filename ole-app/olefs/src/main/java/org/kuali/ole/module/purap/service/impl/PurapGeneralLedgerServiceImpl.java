@@ -1357,7 +1357,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 encumbranceAccounts.add(acctString);
             }
         }
-       // SpringContext.getBean(BusinessObjectService.class).save(po);
+        //SpringContext.getBean(BusinessObjectService.class).save(po);
         return encumbranceAccounts;
     }
 
@@ -2147,9 +2147,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        // SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
+         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         //MSU Contribution OLEMI-8639 DTT-4009 OLECNTRB-966
-        SpringContext.getBean(BusinessObjectService.class).save(po);
+       // SpringContext.getBean(BusinessObjectService.class).save(po);
 
         return encumbranceAccounts;
     }

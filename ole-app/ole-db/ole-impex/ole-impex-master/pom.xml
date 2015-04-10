@@ -3,11 +3,11 @@
     <parent>
         <groupId>org.kuali.ole</groupId>
         <artifactId>ole-impex</artifactId>
-        <version>1.6.0-r22081</version>
+        <version>1.6.0-r22482</version>
     </parent>
     <name>OLE Impex Master</name>
     <artifactId>ole-impex-master</artifactId>
-    <version>1.6.0-r22081</version>
+    <version>1.6.0-r22482</version>
     <properties>
         <impex.sql.artifactId>ole-master-sql</impex.sql.artifactId>
         <impex.copy.phase>process-resources</impex.copy.phase>

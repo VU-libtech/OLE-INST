@@ -691,8 +691,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         OutputStream os = null;
-        //Document document = new Document(new Rectangle(253, 430));
-        Document document = new Document(PageSize.A4);
+        Document document = new Document(new Rectangle(253, 430));
         document.setMargins(0, 0, 5, 5);
         document.open();
         document.newPage();

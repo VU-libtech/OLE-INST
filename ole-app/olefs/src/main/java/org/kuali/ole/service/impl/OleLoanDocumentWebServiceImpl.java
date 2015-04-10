@@ -139,6 +139,7 @@ public class OleLoanDocumentWebServiceImpl implements OleLoanDocumentWebService 
                         String borrowerType = olePatronDocuments.get(0).getOleBorrowerType().getBorrowerTypeCode();
                         String numberOfClaimsReturned = String.valueOf(olePatronDocuments.get(0).getNumberOfClaimsReturned());
                         String numberOfRenewals = oleLoanDocuments.get(0).getNumberOfRenewals();
+                        Integer noOfRenewals = Integer.parseInt(numberOfRenewals);
                         String digitRoutine = getLoanProcessor().getParameter(OLEParameterConstants.ITEM_DIGIT_ROUTINE);
                         Integer overdueFineAmt = 0;
                         Integer replacementFeeAmt = 0;
@@ -176,7 +177,7 @@ public class OleLoanDocumentWebServiceImpl implements OleLoanDocumentWebService 
                         termValues.put(OLEConstants.OVERDUE_FINE_AMT, overdueFineAmt);
                         termValues.put(OLEConstants.REPLACEMENT_FEE_AMT, replacementFeeAmt);
                         termValues.put(OLEConstants.ALL_CHARGES, overdueFineAmt + replacementFeeAmt + serviceFeeAmt);
-                        termValues.put(OLEConstants.NUM_RENEWALS, numberOfRenewals);
+                        termValues.put(OLEConstants.NUM_RENEWALS, noOfRenewals);
                         termValues.put(OLEConstants.ITEMS_DUE_DATE, loanDueDate);
                         termValues.put(OLEConstants.PATRON_ID_POLICY, patronId);
                         termValues.put(OLEConstants.ITEM_ID_POLICY, itemId);

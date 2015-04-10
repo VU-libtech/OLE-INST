@@ -414,7 +414,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             if ("".equals(itemIdentifier)) {
                 itemIdentifier = null;
             }
-                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,null,null);
+                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,"Item Level",null);
                 responseMessage = responseMessage.replaceAll("&lt;br/&gt;", "");
                 responseMessage = responseMessage.replaceAll("<br/>", "");
                 OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
@@ -792,7 +792,8 @@ public class OLECirculationServiceImpl implements OLECirculationService {
         termValues.put(OLEConstants.ITEM_LIBRARY, oleLoanDocument.getItemLibrary());
         termValues.put(OLEConstants.ITEM_CAMPUS, oleLoanDocument.getItemCampus());
         termValues.put(OLEConstants.ITEM_INSTITUTION, oleLoanDocument.getItemInstitution());
-        termValues.put(OLEConstants.NUM_RENEWALS, oleLoanDocument.getNumberOfRenewals());
+        Integer noOfRenewals = Integer.parseInt(oleLoanDocument.getNumberOfRenewals());
+        termValues.put(OLEConstants.NUM_RENEWALS, noOfRenewals);
         termValues.put(OLEConstants.PATRON_ID_POLICY, patronId);
         termValues.put(OLEConstants.ITEM_ID_POLICY, itemId);
         try {

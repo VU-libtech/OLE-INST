@@ -179,7 +179,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public boolean isInquiryRendered() {
-        if (isPostingYearPrior() && (getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_DEPARTMENT_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_AUTO_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS))) {
+        if (isPostingYearPrior() && (getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_DEPARTMENT_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_AUTO_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE))) {
             return false;
         } else {
             return true;
@@ -769,7 +769,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
 
                 if (ObjectUtils.isNotNull(nodeName)) {
                     if (((StringUtils.isBlank(disapprovalStatus)) && ((InvoiceStatuses.APPDOC_INITIATE.equals(getApplicationDocumentStatus())) || (InvoiceStatuses.APPDOC_IN_PROCESS.equals(getApplicationDocumentStatus()))))) {
-                        disapprovalStatus = InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                        disapprovalStatus = InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE;
                     }
                     if (StringUtils.isNotBlank(disapprovalStatus)) {
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
@@ -787,7 +787,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
                 if (StringUtils.isBlank(cancelledStatus) &&
                         StringUtils.isBlank(InvoiceStatuses.getInvoiceAppDocDisapproveStatuses().get(currentNodeName)) &&
                         (InvoiceStatuses.APPDOC_INITIATE.equals(getStatusCode()) || InvoiceStatuses.APPDOC_IN_PROCESS.equals(getStatusCode()))) {
-                    cancelledStatus = InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                    cancelledStatus = InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE;
                 }
                 //**END AZ**
 

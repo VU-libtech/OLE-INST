@@ -987,6 +987,52 @@ public class DocstoreServiceImpl implements DocstoreService {
 
                         }
                     }
+                    if(itemContent.getItemClaimsReturnedRecords() != null && itemContent.getItemClaimsReturnedRecords().size() > 0){
+                        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = existingItemContent.getItemClaimsReturnedRecords();
+                        if(itemClaimsReturnedRecords != null && itemClaimsReturnedRecords.size() > 0){
+                            for(ItemClaimsReturnedRecord itemClaimsReturnedRecord : itemContent.getItemClaimsReturnedRecords()){
+                                itemClaimsReturnedRecords.add(itemClaimsReturnedRecord);
+                            }
+                            existingItemContent.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+                        } else {
+                            for(ItemClaimsReturnedRecord itemClaimsReturnedRecord : itemContent.getItemClaimsReturnedRecords()){
+                                itemClaimsReturnedRecords.add(itemClaimsReturnedRecord);
+                            }
+                            if(itemClaimsReturnedRecords != null && itemClaimsReturnedRecords.size() > 0)
+                                existingItemContent.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+                        }
+                    }
+                    if(itemContent.getItemDamagedRecords() != null && itemContent.getItemDamagedRecords().size() > 0){
+                        List<ItemDamagedRecord> itemDamagedRecords = existingItemContent.getItemDamagedRecords();
+                        if(itemDamagedRecords != null && itemDamagedRecords.size() > 0){
+                            for(ItemDamagedRecord itemDamagedRecord : itemContent.getItemDamagedRecords()){
+                                itemDamagedRecords.add(itemDamagedRecord);
+                            }
+                            existingItemContent.setItemDamagedRecords(itemDamagedRecords);
+                        } else {
+                            for(ItemDamagedRecord itemDamagedRecord : itemContent.getItemDamagedRecords()){
+                                itemDamagedRecords.add(itemDamagedRecord);
+                            }
+                            if(itemDamagedRecords != null && itemDamagedRecords.size() > 0)
+                                existingItemContent.setItemDamagedRecords(itemDamagedRecords);
+                        }
+                    }
+                    if(itemContent.getMissingPieceItemRecordList() != null && itemContent.getMissingPieceItemRecordList().size() > 0){
+                        List<MissingPieceItemRecord> missingPieceItemRecords = existingItemContent.getMissingPieceItemRecordList();
+                        if(missingPieceItemRecords != null && missingPieceItemRecords.size()>0){
+                            for(MissingPieceItemRecord missingPieceItemRecord : itemContent.getMissingPieceItemRecordList()){
+                                missingPieceItemRecords.add(missingPieceItemRecord);
+                            }
+                            existingItemContent.setMissingPieceItemRecordList(missingPieceItemRecords);
+                        } else {
+                            for(MissingPieceItemRecord missingPieceItemRecord : itemContent.getMissingPieceItemRecordList()){
+                                missingPieceItemRecords.add(missingPieceItemRecord);
+                            }
+                            if(missingPieceItemRecords != null && missingPieceItemRecords.size()>0){
+                                existingItemContent.setMissingPieceItemRecordList(missingPieceItemRecords);
+                            }
+                        }
+                    }
 
 
                     if (itemContent.getCheckinNote() != null && !itemContent.getCheckinNote().isEmpty()) {

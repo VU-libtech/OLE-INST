@@ -1,12 +1,12 @@
 <%--
    - Copyright 2011 The Kuali Foundation.
-   - 
+   -
    - Licensed under the Educational Community License, Version 2.0 (the "License");
    - you may not use this file except in compliance with the License.
    - You may obtain a copy of the License at
-   - 
+   -
    - http://www.opensource.org/licenses/ecl2.php
-   - 
+   -
    - Unless required by applicable law or agreed to in writing, software
    - distributed under the License is distributed on an "AS IS" BASIS,
    - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -172,11 +172,11 @@
                                     styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideImport();return false;" />' +
                         '<\/div>');*/
     </SCRIPT>
-       <%-- <NOSCRIPT>Import lines <html:file size="30"
-                                          property="itemImportFile" style="font:10px;height:16px;" /> <html:image
-                property="methodToCall.importItems"
-                src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-                alt="add imported items" title="add imported items" /></NOSCRIPT>--%>
+        <%-- <NOSCRIPT>Import lines <html:file size="30"
+                                           property="itemImportFile" style="font:10px;height:16px;" /> <html:image
+                 property="methodToCall.importItems"
+                 src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                 alt="add imported items" title="add imported items" /></NOSCRIPT>--%>
     </td>
 </tr>
 
@@ -212,15 +212,15 @@
             <input type="image" hidden="true" id="bibSelectExistingItemButton" name="existing bib" src="${ConfigProperties.externalizable.images.url}existing bib.gif" onclick="javascript:addXMLContent('${bibSearchURL}','','${docNumber}','${marcXMLFileDirLocation}','${ctr}','marc','EB_'+getHoldingValue())">
         </div>
     </td>
-        <%-- <kul:htmlAttributeHeaderCell
-        attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
-        <td class="infoline" colspan="3">
-        <div align="center" />
-        <kul:htmlControlAttribute
-            attributeEntry="${itemAttributes.itemLocation}"
-            property="newPurchasingItemLine.itemLocation"
-            extraReadOnlyProperty="newPurchasingItemLine.itemLocation"
-            tabindexOverride="${tabindexOverrideBase + 0}" /></td> --%>
+    <%-- <kul:htmlAttributeHeaderCell
+    attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
+    <td class="infoline" colspan="3">
+    <div align="center" />
+    <kul:htmlControlAttribute
+        attributeEntry="${itemAttributes.itemLocation}"
+        property="newPurchasingItemLine.itemLocation"
+        extraReadOnlyProperty="newPurchasingItemLine.itemLocation"
+        tabindexOverride="${tabindexOverrideBase + 0}" /></td> --%>
     <kul:htmlAttributeHeaderCell
             attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
     <td class="infoline" colspan="3">
@@ -240,14 +240,14 @@
                 tabindexOverride="${tabindexOverrideBase + 0}"/></div>
     </td>
 
-        <%-- <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.itemPublicViewIndicator}" />
-        <td class="infoline">
-            <div align="center"><kul:htmlControlAttribute
-                    attributeEntry="${itemAttributes.itemPublicViewIndicator}"
-                    property="newPurchasingItemLine.itemPublicViewIndicator"
-                    tabindexOverride="${tabindexOverrideBase + 0}" />
-        </td> --%>
+    <%-- <kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.itemPublicViewIndicator}" />
+    <td class="infoline">
+        <div align="center"><kul:htmlControlAttribute
+                attributeEntry="${itemAttributes.itemPublicViewIndicator}"
+                property="newPurchasingItemLine.itemPublicViewIndicator"
+                tabindexOverride="${tabindexOverrideBase + 0}" />
+    </td> --%>
 </tr>
 
 <tr>
@@ -329,18 +329,18 @@
     </td>
 
 
-        <%-- <th align=right width='75%' colspan="${colSpanTotalLabel}"
-                    scope="row">
-                <div align="right"><kul:htmlAttributeLabel
-                    attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
-                </div>
-                </th>
-                <td valign=middle class="datacell" colspan="2">
-                <div align="right"><b> <kul:htmlControlAttribute
-                    attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}"
-                    property="document.totalDollarAmount" readOnly="true" />&nbsp; </b></div>
-                </td> --%>
-        <%-- <td class="datacell" colspan="${colSpanTotalBlank}">&nbsp;</td> --%>
+    <%-- <th align=right width='75%' colspan="${colSpanTotalLabel}"
+                scope="row">
+            <div align="right"><kul:htmlAttributeLabel
+                attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
+            </div>
+            </th>
+            <td valign=middle class="datacell" colspan="2">
+            <div align="right"><b> <kul:htmlControlAttribute
+                attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}"
+                property="document.totalDollarAmount" readOnly="true" />&nbsp; </b></div>
+            </td> --%>
+    <%-- <td class="datacell" colspan="${colSpanTotalBlank}">&nbsp;</td> --%>
     <!-- </tr> -->
 
 </tr>
@@ -380,46 +380,46 @@
                     attributeEntry="${itemAttributes.itemForeignListPrice}"
                     readOnly="false" tabindexOverride="${tabindexOverrideBase + 0}" /></div>
         </td>
-            <%-- <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemForeignUnitCost}" colspan="1" />
-                <td class="infoline" colspan="1">
-            <div align="center"><kul:htmlControlAttribute
-                property="newPurchasingItemLine.itemForeignUnitCost"
-                attributeEntry="${itemAttributes.itemForeignUnitCost}"
-                readOnly="true"/></div>
-            </td> --%>
-            <%-- <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.itemForiegnExtendedPrice}" width="10%"/>
-            <td class="infoline">
-            <div align="center"><kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.itemForiegnExtendedPrice}"
-                property="newPurchasingItemLine.extendedPrice" readOnly="true" />
-            </div>
-            </td>
-            <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.itemForiegnExtendedPrice}" width="10%"/>
-            <td class="infoline" colspan="2">
-            <div align="center"><kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.itemForiegnExtendedPrice}"
-                property="newPurchasingItemLine.extendedPrice" readOnly="true" />
-            </div>
-            </td> --%>
-            <%-- <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemForeignListPrice}"
-                forceRequired="true" colspan="2" />
-            <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemForeignDiscount}" />
-            <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemForeignDiscountType}" />
-            <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemForeignDiscountAmt}"
-                colspan="2" />
-            <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemForeignUnitCost}" colspan="2" />
-            <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemExchangeRate}" colspan="2" />
-            <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemUnitCostUSD}" colspan="2" /> --%>
+        <%-- <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemForeignUnitCost}" colspan="1" />
+            <td class="infoline" colspan="1">
+        <div align="center"><kul:htmlControlAttribute
+            property="newPurchasingItemLine.itemForeignUnitCost"
+            attributeEntry="${itemAttributes.itemForeignUnitCost}"
+            readOnly="true"/></div>
+        </td> --%>
+        <%-- <kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.itemForiegnExtendedPrice}" width="10%"/>
+        <td class="infoline">
+        <div align="center"><kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.itemForiegnExtendedPrice}"
+            property="newPurchasingItemLine.extendedPrice" readOnly="true" />
+        </div>
+        </td>
+        <kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.itemForiegnExtendedPrice}" width="10%"/>
+        <td class="infoline" colspan="2">
+        <div align="center"><kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.itemForiegnExtendedPrice}"
+            property="newPurchasingItemLine.extendedPrice" readOnly="true" />
+        </div>
+        </td> --%>
+        <%-- <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemForeignListPrice}"
+            forceRequired="true" colspan="2" />
+        <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemForeignDiscount}" />
+        <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemForeignDiscountType}" />
+        <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemForeignDiscountAmt}"
+            colspan="2" />
+        <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemForeignUnitCost}" colspan="2" />
+        <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemExchangeRate}" colspan="2" />
+        <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemUnitCostUSD}" colspan="2" /> --%>
     </tr>
 
 </c:if>
@@ -653,9 +653,9 @@
         </td>
     </c:if>
 
-        <%--<select:oleUnitCost itemAttributes="${itemAttributes}"
-                    accountPrefix="document.item[${ctr}]."
-                    itemColSpan="${accountColumnCount}" count="${ctr}" /> --%>
+    <%--<select:oleUnitCost itemAttributes="${itemAttributes}"
+                accountPrefix="document.item[${ctr}]."
+                itemColSpan="${accountColumnCount}" count="${ctr}" /> --%>
 
 </tr>
 
@@ -685,7 +685,24 @@
     <c:set var="currentItemRowspan" value="6" />
 </c:if>
 
+<c:choose>
+    <c:when test="${KualiForm.document.orderType.purchaseOrderType eq PurapConstants.ORDER_TYPE_FIRM}">
+        <c:set var="readOnlyFlag" value="true" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="readOnlyFlag" value="false" />
+    </c:otherwise>
+</c:choose>
 
+
+<c:choose>
+    <c:when test="${itemLine.itemInvoicedTotalAmount != null}">
+        <c:set var="invoiceFlag" value="false" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="invoiceFlag" value="true" />
+    </c:otherwise>
+</c:choose>
 
 <c:if
         test="${(!lockB2BEntry and !hasLineItems and isRequestSourceCode and !isRequestSourceCodeMan) or (lockB2BEntry and !hasItems and isRequestSourceCode and isRequestSourceCodeMan)}">
@@ -754,22 +771,22 @@
                         alt="Move Item Down" title="Move Item Down"
                         styleClass="tinybutton" />
         </c:if></td>
-        <%-- <td class="infoline">
-        <div align="center" />
-        <kul:htmlControlAttribute
-            attributeEntry="${itemAttributes.itemTypeCode}"
-            property="document.item[${ctr}].itemTypeCode"
-            extraReadOnlyProperty="document.item[${ctr}].itemType.itemTypeDescription"
-            readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.versionNumber == null)) or itemLine.itemTypeCode == 'UNOR' or lockB2BEntry}"
-            tabindexOverride="${tabindexOverrideBase + 0}" /></td> --%>
+    <%-- <td class="infoline">
+    <div align="center" />
+    <kul:htmlControlAttribute
+        attributeEntry="${itemAttributes.itemTypeCode}"
+        property="document.item[${ctr}].itemTypeCode"
+        extraReadOnlyProperty="document.item[${ctr}].itemType.itemTypeDescription"
+        readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.versionNumber == null)) or itemLine.itemTypeCode == 'UNOR' or lockB2BEntry}"
+        tabindexOverride="${tabindexOverrideBase + 0}" /></td> --%>
     <th colspan="1" rowspan="1">&nbsp;Bib Info:</th>
 
     <c:if test="${not isPurchaseOrder }">
         <td class="infoline" colspan="5">
             <div align="left">
-                    <%-- <c:out value="${bibeditorEditURL }"/>
-                    <c:set var="uuid" value="${document.item['${ctr}'].bibUUID}"/>
-                    <c:out value="uuid --> '${uuid }'"/> --%>
+                <%-- <c:out value="${bibeditorEditURL }"/>
+                <c:set var="uuid" value="${document.item['${ctr}'].bibUUID}"/>
+                <c:out value="uuid --> '${uuid }'"/> --%>
                 <c:set var="docformat" value="${KualiForm.document.items[ctr].docFormat}"/>
                 <c:if test="${isSaved and docformat eq 'dublinunq'}">
                     <a href="#" onclick="javascript:editXMLContent('${dublinEditorEditURL}','document.item[${ctr}].bibUUID','${docNumber}','${marcXMLFileDirLocation}','${ctr}','dublinunq')">
@@ -820,7 +837,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     attributeEntry="${itemAttributes.itemLocation}"
                     property="document.item[${ctr}].itemLocation"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                    readOnly="${(not amendmentEntry or(readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                     tabindexOverride="${tabindexOverrideBase + 0}" />
 
         </td>
@@ -831,7 +848,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     attributeEntry="${itemAttributes.singleCopyNumber}"
                     property="document.item[${ctr}].singleCopyNumber"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                    readOnly="${(readOnlyFlag and invoiceFlag) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                     tabindexOverride="${tabindexOverrideBase + 0}"/>
 
         </td>
@@ -845,7 +862,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                              tabindexOverride="${tabindexOverrideBase + 0}" />
         </td> --%>
     </c:if>
-        <%-- <c:out value="-------------->${isPurchaseOrder }"/> --%>
+    <%-- <c:out value="-------------->${isPurchaseOrder }"/> --%>
 
     <c:if test="${isPurchaseOrder }">
         <c:set var="docformat" value="${KualiForm.document.items[ctr].docFormat}"/>
@@ -919,219 +936,221 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         </td>
 
     </c:if>
-        <%-- <c:if test="${not isPurchaseOrder }">
+    <%-- <c:if test="${not isPurchaseOrder }">
 
-        </c:if> --%>
+    </c:if> --%>
 
 </tr>
 
 <tr>
-    <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.oleItemQuantity}" width="10%" forceRequired="true"/>
+<kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.oleItemQuantity}" width="10%" forceRequired="true"/>
 
-    <td class="infoline">
-        <div align="center" />
-        <c:if test="${!amendmentEntry}">
-            <kul:htmlControlAttribute
-                    attributeEntry="${itemAttributes.oleItemQuantity}"
-                    property="document.item[${ctr}].oleItemQuantity"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                    tabindexOverride="${tabindexOverrideBase + 0}" />
-        </c:if>
-        <c:if test="${amendmentEntry}">
-            <c:choose>
-                <c:when test="${itemLine.oleItemQuantity == 1 && itemLine.itemNoOfParts == 1}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.oleItemQuantity}"
-                            property="document.item[${ctr}].oleItemQuantity"
-                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.oleItemQuantity > 1 && (itemLine.previousItemQuantity == itemLine.itemQuantity)}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.oleItemQuantity}"
-                            property="document.item[${ctr}].oleItemQuantity"
-                            readOnly="${amendmentEntry}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.oleItemQuantity > 1 && !(itemLine.previousItemQuantity == itemLine.itemQuantity)}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.oleItemQuantity}"
-                            property="document.item[${ctr}].oleItemQuantity"
-                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.oleItemQuantity == 1 && !(itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.oleItemQuantity}"
-                            property="document.item[${ctr}].oleItemQuantity"
-                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.oleItemQuantity > 1}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.oleItemQuantity}"
-                            property="document.item[${ctr}].oleItemQuantity"
-                            readOnly="${amendmentEntry}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:otherwise>
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.oleItemQuantity}"
-                            property="document.item[${ctr}].oleItemQuantity"
-                            readOnly="${amendmentEntry}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-    </td>
-
-    <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.itemNoOfParts}" forceRequired="true"/>
-
-    <td class="infoline">
-        <div align="center" />
-        <c:if test="${!amendmentEntry}">
-            <kul:htmlControlAttribute
-                    attributeEntry="${itemAttributes.itemNoOfParts}"
-                    property="document.item[${ctr}].itemNoOfParts"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                    tabindexOverride="${tabindexOverrideBase + 0}" />
-        </c:if>
-        <c:if test="${amendmentEntry}">
-            <c:choose>
-                <c:when test="${itemLine.oleItemQuantity == 1 && itemLine.itemNoOfParts == 1}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.itemNoOfParts}"
-                            property="document.item[${ctr}].itemNoOfParts"
-                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.itemNoOfParts > 1 && (itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.itemNoOfParts}"
-                            property="document.item[${ctr}].itemNoOfParts"
-                            readOnly="${amendmentEntry}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.itemNoOfParts > 1 && !(itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.itemNoOfParts}"
-                            property="document.item[${ctr}].itemNoOfParts"
-                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.itemNoOfParts == 1 && !(itemLine.previousItemQuantity == itemLine.itemQuantity)}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.itemNoOfParts}"
-                            property="document.item[${ctr}].itemNoOfParts"
-                            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:when test="${itemLine.itemNoOfParts > 1}">
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.itemNoOfParts}"
-                            property="document.item[${ctr}].itemNoOfParts"
-                            readOnly="${amendmentEntry}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:when>
-                <c:otherwise>
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.itemNoOfParts}"
-                            property="document.item[${ctr}].itemNoOfParts"
-                            readOnly="${amendmentEntry}"
-                            tabindexOverride="${tabindexOverrideBase + 0}" />
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-    </td>
-
-    <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.itemListPrice}"
-            forceRequired="true" width="10%"/>
-    <c:if
-            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
-        <td class="infoline" colspan="1">
-            <div align="center" />
-            <kul:htmlControlAttribute
-                    attributeEntry="${itemAttributes.itemListPrice}"
-                    property="document.item[${ctr}].itemListPrice" readOnly="true"
-                    tabindexOverride="${tabindexOverrideBase + 0}" /></td>
-        <!-- <td class="infoline">&nbsp;</td>
-        <td class="infoline">&nbsp;</td> -->
-    </c:if>
-    <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or (KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
-
-        <td class="infoline" colspan="1">
-            <div align="center" />
-            <kul:htmlControlAttribute
-                    attributeEntry="${itemAttributes.itemListPrice}"
-                    property="document.item[${ctr}].itemListPrice"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                    tabindexOverride="${tabindexOverrideBase + 0}" /></td>
-        <%-- <td class="infoline">
-        <div align="center" />
+<td class="infoline">
+    <div align="center" />
+    <c:if test="${!amendmentEntry}">
         <kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.itemDiscount}"
-                property="document.item[${ctr}].itemDiscount"
+                attributeEntry="${itemAttributes.oleItemQuantity}"
+                property="document.item[${ctr}].oleItemQuantity"
                 readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
-                tabindexOverride="${tabindexOverrideBase + 0}" /></td>
-        <td class="infoline">
+                tabindexOverride="${tabindexOverrideBase + 0}" />
+    </c:if>
+    <c:if test="${amendmentEntry}">
+        <c:choose>
+            <c:when test="${itemLine.oleItemQuantity == 1 && itemLine.itemNoOfParts == 1}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.oleItemQuantity}"
+                        property="document.item[${ctr}].oleItemQuantity"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.oleItemQuantity > 1 && (itemLine.previousItemQuantity == itemLine.itemQuantity)}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.oleItemQuantity}"
+                        property="document.item[${ctr}].oleItemQuantity"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (amendmentEntry)}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.oleItemQuantity > 1 && !(itemLine.previousItemQuantity == itemLine.itemQuantity)}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.oleItemQuantity}"
+                        property="document.item[${ctr}].oleItemQuantity"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.oleItemQuantity == 1 && !(itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.oleItemQuantity}"
+                        property="document.item[${ctr}].oleItemQuantity"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.oleItemQuantity > 1}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.oleItemQuantity}"
+                        property="document.item[${ctr}].oleItemQuantity"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (amendmentEntry)}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:otherwise>
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.oleItemQuantity}"
+                        property="document.item[${ctr}].oleItemQuantity"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (amendmentEntry)}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:otherwise>
+        </c:choose>
+    </c:if>
+</td>
+
+<kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.itemNoOfParts}" forceRequired="true"/>
+
+<td class="infoline">
+    <div align="center" />
+    <c:if test="${!amendmentEntry}">
+        <kul:htmlControlAttribute
+                attributeEntry="${itemAttributes.itemNoOfParts}"
+                property="document.item[${ctr}].itemNoOfParts"
+                readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                tabindexOverride="${tabindexOverrideBase + 0}" />
+    </c:if>
+    <c:if test="${amendmentEntry}">
+        <c:choose>
+            <c:when test="${itemLine.oleItemQuantity == 1 && itemLine.itemNoOfParts == 1}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.itemNoOfParts}"
+                        property="document.item[${ctr}].itemNoOfParts"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.itemNoOfParts > 1 && (itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.itemNoOfParts}"
+                        property="document.item[${ctr}].itemNoOfParts"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (amendmentEntry)}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.itemNoOfParts > 1 && !(itemLine.previousItemNoOfParts == itemLine.itemNoOfParts)}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.itemNoOfParts}"
+                        property="document.item[${ctr}].itemNoOfParts"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.itemNoOfParts == 1 && !(itemLine.previousItemQuantity == itemLine.itemQuantity)}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.itemNoOfParts}"
+                        property="document.item[${ctr}].itemNoOfParts"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:when test="${itemLine.itemNoOfParts > 1}">
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.itemNoOfParts}"
+                        property="document.item[${ctr}].itemNoOfParts"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (amendmentEntry)}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:when>
+            <c:otherwise>
+                <kul:htmlControlAttribute
+                        attributeEntry="${itemAttributes.itemNoOfParts}"
+                        property="document.item[${ctr}].itemNoOfParts"
+                        readOnly="${(readOnlyFlag and invoiceFlag) and (amendmentEntry)}"
+                        tabindexOverride="${tabindexOverrideBase + 0}" />
+            </c:otherwise>
+        </c:choose>
+    </c:if>
+</td>
+
+<kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.itemListPrice}"
+        forceRequired="true" width="10%"/>
+<c:if
+        test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+    <td class="infoline" colspan="1">
         <div align="center" />
         <kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.itemDiscountType}"
-                property="document.item[${ctr}].itemDiscountType"
-                extraReadOnlyProperty="document.item[${ctr}].itemDiscountType"
-                readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}" /></td>
+                attributeEntry="${itemAttributes.itemListPrice}"
+                property="document.item[${ctr}].itemListPrice" readOnly="true"
+                tabindexOverride="${tabindexOverrideBase + 0}" /></td>
+    <!-- <td class="infoline">&nbsp;</td>
+    <td class="infoline">&nbsp;</td> -->
+</c:if>
+<c:if
+        test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or (KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
+
+    <td class="infoline" colspan="1">
+        <div align="center" />
+        <kul:htmlControlAttribute
+                attributeEntry="${itemAttributes.itemListPrice}"
+                property="document.item[${ctr}].itemListPrice"
+                readOnly="${((not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))))}"
+                tabindexOverride="${tabindexOverrideBase + 0}" /></td>
+    <%-- <td class="infoline">
+    <div align="center" />
+    <kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.itemDiscount}"
+            property="document.item[${ctr}].itemDiscount"
+            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+            tabindexOverride="${tabindexOverrideBase + 0}" /></td>
+    <td class="infoline">
+    <div align="center" />
+    <kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.itemDiscountType}"
+            property="document.item[${ctr}].itemDiscountType"
+            extraReadOnlyProperty="document.item[${ctr}].itemDiscountType"
+            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}" /></td>
 --%>
-    </c:if>
+</c:if>
 
-        <%-- <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.itemUnitPrice}" width="10%"/>
+<%-- <kul:htmlAttributeHeaderCell
+    attributeEntry="${itemAttributes.itemUnitPrice}" width="10%"/>
 
-        <td class="infoline">
-        <div align="right"><kul:htmlControlAttribute
-            attributeEntry="${itemAttributes.itemUnitPrice}"
-            property="document.item[${ctr}].itemUnitPrice" readOnly="${true}" />
-        </div>
-        </td> --%>
-    <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.extendedPrice}" width="10%"/>
-    <td class="infoline">
-        <div align="center"><kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.extendedPrice}"
-                property="document.item[${ctr}].extendedPrice" readOnly="${true}" />
-        </div>
-    </td>
-    <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.itemPublicViewIndicator}" />
-    <td class="infoline">
-        <div align="center"><kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.itemPublicViewIndicator}"
-                property="document.item[${ctr}].itemPublicViewIndicator"
-                tabindexOverride="${tabindexOverrideBase + 0}" />
-    </td>
+<td class="infoline">
+<div align="right"><kul:htmlControlAttribute
+    attributeEntry="${itemAttributes.itemUnitPrice}"
+    property="document.item[${ctr}].itemUnitPrice" readOnly="${true}" />
+</div>
+</td> --%>
+<kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.extendedPrice}" width="10%"/>
+<td class="infoline">
+    <div align="center"><kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.extendedPrice}"
+            property="document.item[${ctr}].extendedPrice" readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}" />
+    </div>
+</td>
+<kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.itemPublicViewIndicator}" />
+<td class="infoline">
+    <div align="center"><kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.itemPublicViewIndicator}"
+            property="document.item[${ctr}].itemPublicViewIndicator"
+            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
+            tabindexOverride="${tabindexOverrideBase + 0}" />
+</td>
 
-    <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.doNotClaim}" />
-    <td class="infoline">
-        <div align="center"><kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.doNotClaim}"
-                property="document.item[${ctr}].doNotClaim"
-                tabindexOverride="${tabindexOverrideBase + 0}" />
-    </td>
+<kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.doNotClaim}" />
+<td class="infoline">
+    <div align="center"><kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.doNotClaim}"
+            property="document.item[${ctr}].doNotClaim"
+            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
+            tabindexOverride="${tabindexOverrideBase + 0}" />
+</td>
 
-        <%-- <th align=right width='75%' colspan="${colSpanTotalLabel}"
-    scope="row">
+<%-- <th align=right width='75%' colspan="${colSpanTotalLabel}"
+scope="row">
 <div align="right"><kul:htmlAttributeLabel
-    attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
+attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}" />
 </div>
 </th>
 <td valign=middle class="datacell" colspan="2">
 <div align="right"><b> <kul:htmlControlAttribute
-    attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}"
-    property="document.totalDollarAmount" readOnly="true" />&nbsp; </b></div>
+attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}"
+property="document.totalDollarAmount" readOnly="true" />&nbsp; </b></div>
 </td> --%>
 </tr>
 
@@ -1149,7 +1168,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <div align="center"><kul:htmlControlAttribute
                     property="document.vendorDetail.currencyType.currencyType"
                     attributeEntry="${itemAttributes.itemCurrencyType}"
-                    readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}" /></div>
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}" tabindexOverride="${tabindexOverrideBase + 0}" /></div>
         </td>
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemExchangeRate}" colspan="1" />
@@ -1157,7 +1176,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <div align="center"><kul:htmlControlAttribute
                     property="document.item[${ctr}].itemExchangeRate"
                     attributeEntry="${itemAttributes.itemExchangeRate}"
-                    readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}" /></div>
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}" tabindexOverride="${tabindexOverrideBase + 0}" /></div>
         </td>
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemForeignListPrice}"
@@ -1167,32 +1186,32 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     property="document.item[${ctr}].itemForeignListPrice"
                     attributeEntry="${itemAttributes.itemForeignListPrice}"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                     tabindexOverride="${tabindexOverrideBase + 0}" /></td>
-            <%-- <kul:htmlAttributeHeaderCell
-                attributeEntry="${itemAttributes.itemForeignUnitCost}" colspan="1" />
-                <td class="infoline" colspan="1">
-            <div align="center"><kul:htmlControlAttribute
-                property="document.item[${ctr}].itemForeignUnitCost"
-                attributeEntry="${itemAttributes.itemForeignUnitCost}"
-                readOnly="true"/></div>
-            </td> --%>
-            <%-- <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.extendedPrice}" width="10%"/>
-            <td class="infoline">
-            <div align="right"><kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.extendedPrice}"
-                property="newPurchasingItemLine.extendedPrice" readOnly="true" />
-            </div>
-            </td>
-            <kul:htmlAttributeHeaderCell
-            attributeEntry="${itemAttributes.extendedPrice}" width="10%"/>
-            <td class="infoline" colspan="2">
-            <div align="right"><kul:htmlControlAttribute
-                attributeEntry="${itemAttributes.extendedPrice}"
-                property="newPurchasingItemLine.extendedPrice" readOnly="true" />
-            </div>
-            </td> --%>
+        <%-- <kul:htmlAttributeHeaderCell
+            attributeEntry="${itemAttributes.itemForeignUnitCost}" colspan="1" />
+            <td class="infoline" colspan="1">
+        <div align="center"><kul:htmlControlAttribute
+            property="document.item[${ctr}].itemForeignUnitCost"
+            attributeEntry="${itemAttributes.itemForeignUnitCost}"
+            readOnly="true"/></div>
+        </td> --%>
+        <%-- <kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.extendedPrice}" width="10%"/>
+        <td class="infoline">
+        <div align="right"><kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.extendedPrice}"
+            property="newPurchasingItemLine.extendedPrice" readOnly="true" />
+        </div>
+        </td>
+        <kul:htmlAttributeHeaderCell
+        attributeEntry="${itemAttributes.extendedPrice}" width="10%"/>
+        <td class="infoline" colspan="2">
+        <div align="right"><kul:htmlControlAttribute
+            attributeEntry="${itemAttributes.extendedPrice}"
+            property="newPurchasingItemLine.extendedPrice" readOnly="true" />
+        </div>
+        </td> --%>
     </tr>
 
 
@@ -1207,7 +1226,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.receiptStatusId}"
                 property="document.item[${ctr}].receiptStatusId"
-                tabindexOverride="${tabindexOverrideBase + 0}" readOnly="true"/>
+                tabindexOverride="${tabindexOverrideBase + 0}" readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"/>
 
     </td>
 
@@ -1219,7 +1238,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.noOfCopiesReceived}"
                 property="document.item[${ctr}].noOfCopiesReceived"
-                readOnly="true"
+                readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
                 tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1230,7 +1249,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.noOfPartsReceived}"
                 property="document.item[${ctr}].noOfPartsReceived"
-                readOnly="true"
+                readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
                 tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1240,7 +1259,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.itemPriceSourceId}"
             property="document.item[${ctr}].itemPriceSourceId"
-            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1250,7 +1269,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.requestSourceTypeId}"
             property="document.item[${ctr}].requestSourceTypeId"
-            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1261,7 +1280,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                 attributeEntry="${itemAttributes.claimDate}"
                 property="document.item[${ctr}].claimDate"
                 datePicker="true"
-                readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                 tabindexOverride="${tabindexOverrideBase + 0}" />
 
     </td>
@@ -1275,7 +1294,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.formatTypeId}"
             property="document.item[${ctr}].formatTypeId"
-            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1285,7 +1304,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.categoryId}"
             property="document.item[${ctr}].categoryId"
-            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1294,7 +1313,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center" /><kul:htmlControlAttribute
             attributeEntry="${itemAttributes.vendorItemPoNumber}"
             property="document.item[${ctr}].vendorItemPoNumber"
-            readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+            readOnly="${not amendmentEntry}"
             tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     <kul:htmlAttributeHeaderCell
@@ -1310,7 +1329,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                 <kul:htmlControlAttribute
                         attributeEntry="${itemAttributes.requestorFirstName}"
                         property="document.item[${ctr}].requestorFirstName"
-                        readOnly="${true}"
+                        readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
                         tabindexOverride="${tabindexOverrideBase + 0}" />
             </kul:inquiry>
             <c:if test="${fullEntryMode}">
@@ -1327,7 +1346,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                     <kul:htmlControlAttribute
                             attributeEntry="${itemAttributes.requestorFirstName}"
                             property="document.item[${ctr}].requestorFirstName"
-                            readOnly="${true}"
+                            readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))}"
                             tabindexOverride="${tabindexOverrideBase + 0}" />
                 </kul:inquiry>
             </c:if>
@@ -1345,7 +1364,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center"><kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.itemRouteToRequestorIndicator}"
                 property="document.item[${ctr}].itemRouteToRequestorIndicator"
-                readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                 tabindexOverride="${tabindexOverrideBase + 0}" /></div>
     </td>
 
@@ -1363,7 +1382,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     property="document.item[${ctr}].itemForeignUnitCost"
                     attributeEntry="${itemAttributes.itemForeignUnitCost}"
-                    readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}" />
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag))} " tabindexOverride="${tabindexOverrideBase + 0}" />
         </td>
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemForeignDiscount}"
@@ -1373,7 +1392,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     property="document.item[${ctr}].itemForeignDiscount"
                     attributeEntry="${itemAttributes.itemForeignDiscount}"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                     tabindexOverride="${tabindexOverrideBase + 0}" /></td>
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemForeignDiscountType}" />
@@ -1382,7 +1401,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     property="document.item[${ctr}].itemForeignDiscountType"
                     attributeEntry="${itemAttributes.itemForeignDiscountType}"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                     tabindexOverride="${tabindexOverrideBase + 0}" /></td>
 
     </c:if>
@@ -1403,7 +1422,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             <kul:htmlControlAttribute
                     attributeEntry="${itemAttributes.itemDiscount}"
                     property="document.item[${ctr}].itemDiscount"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                     tabindexOverride="${tabindexOverrideBase + 0}" /></td>
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemDiscountType}" width="10%"/>
@@ -1413,7 +1432,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
                     attributeEntry="${itemAttributes.itemDiscountType}"
                     property="document.item[${ctr}].itemDiscountType"
                     extraReadOnlyProperty="document.item[${ctr}].itemDiscountType"
-                    readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}" /></td>
+                    readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}" /></td>
     </c:if>
 
     <kul:htmlAttributeHeaderCell
@@ -1423,7 +1442,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <div align="center"><kul:htmlControlAttribute
                 attributeEntry="${itemAttributes.itemStatus}"
                 property="document.item[${ctr}].itemStatus"
-                readOnly="${not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
+                readOnly="${(not amendmentEntry or (readOnlyFlag and invoiceFlag)) and (not ((fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))))}"
                 tabindexOverride="${tabindexOverrideBase + 0}" /></div>
     </td>
 

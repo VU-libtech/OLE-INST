@@ -26,7 +26,7 @@ function closeDuplicationMessage() {
     if (jq("#hdnAmountExceeds_control").val() == 'true' || jq('#hdnAmountExceeds span').text().trim() =='true'){
         displayDialogWindow("div#MessagePopupSectionForInvoiceAmountExceedsThreshold");
     }
-    }
+}
 
 function closeDuplicationApprovalMessage() {
     jq("div#OLEInvoice-DuplicationApprovePopUp").fadeOut(300);
@@ -39,7 +39,7 @@ function closeDuplicationApprovalMessage() {
     }
     else {
         validateInvoiceSubscriptionBlanketApprove();
-    }
+}
 }
 
 jq("#invoice-vendorHeaderIdentifier_control").live("change",function() {
@@ -53,13 +53,13 @@ jq("#invoice-currencyType_control").live("change", function() {
 
 
 /*function MessageInvoiceCurrencyPopup() {
-    if(jq("#hiddenCurrencyOverrideBtn_control").val() == "true") {
-        displayDialogWindow("div#MessagePopUpSectionForCurrencyOverride");
-    }
-}*/
+ if(jq("#hiddenCurrencyOverrideBtn_control").val() == "true") {
+ displayDialogWindow("div#MessagePopUpSectionForCurrencyOverride");
+ }
+ }*/
 /*jq("#invoice-invoiceNumber").live("focusout",function() {
-    jq('#invoiceNumberBtn').click();
-});*/
+ jq('#invoiceNumberBtn').click();
+ });*/
 
 jq(".prorateByQuantityClass").live("click",function(){
     jq(".prorateByDollarClass").removeAttr("checked");
@@ -108,11 +108,23 @@ function selectNoProrate(){
     jq(".prorateByManualClass").removeAttr("checked");
 }
 
+function save() {
+    if(jq("#hdnduplicateSaveFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-DuplicationSavePopUp");
+
+    }
+}
+
+function closeInvoiceVendorSavePopUp(){
+    jq("div#OLEInvoice-DuplicationSavePopUp").fadeOut(300);
+    jq("#mask").fadeOut(300);
+}
+
 
 function route(){
     if(jq("#hdnSfcFlag_control").val() == 'true') {
         displayDialogWindow("div#MessagePopupSectionForInvoice");
-    } 
+    }
     else{
         validateInvoiceSubscriptionApprove();
     }
@@ -120,13 +132,14 @@ function route(){
 
 function blanketApprove(){
     if(jq("#hdnduplicateApproveFlag_control").val() == 'true' || jq('#hdnduplicateApproveFlag span').text().trim() =='true') {
+        jq("#unsaved_control").val(false);
         displayDialogWindow("div#OLEInvoice-DuplicationApprovePopUp");
     }
     else if(jq("#hdnSfcFlagForBlankApp_control").val() == 'true') {
         displayDialogWindow("div#MessagePopupSectionForInvoiceBlankApp");
     }
     else if(jq("#hdnAmountExceedsForBlanketApprove_control").val() == 'true') {
-        jq("#unsaved_control").val(false);
+         jq("#unsaved_control").val(false);
         displayDialogWindow("div#MessagePopupSectionForInvoiceAmountExceedsForBlanketApprove");
     }
     else if(jq("#hdnBlanketApproveValidationFlag_control").val() == 'true') {
@@ -158,9 +171,11 @@ function refreshCurrentItems(){
 function closeInvoiceValidationPopUp(){
     jq("div#MessagePopupSectionForInvoiceValidation").fadeOut(300);
     jq("#mask").fadeOut(300);
+    validateInvoiceNumber();
 }
 
 function closeInvoiceBlanketApproveValidationPopUp(){
+    jq("#unsaved_control").val(false);
     jq("div#MessagePopupSectionForBlanketApproveInvoiceValidation").fadeOut(300);
     jq("#mask").fadeOut(300);
 }
@@ -180,7 +195,7 @@ function closeInvoiceSubscriptionDateValidationPopUp(){
 function closeInvoiceAmountExceedsApprovalPopUp(){
     jq("div#MessagePopupSectionForInvoiceAmountExceedsThreshold").fadeOut(300);
     jq("#mask").fadeOut(300);
-    }
+}
 
 function closeInvoiceAmountExceedsBlankApprovalPopUp(){
     jq("div#MessagePopupSectionForInvoiceAmountExceedsForBlanketApprove").fadeOut(300);
@@ -200,18 +215,33 @@ function closeInvoiceAmountExceedsBlankApprovalPopUp(){
 
 function onChangePriceScript() {
     jq("#updatePriceBtn").focus().click();
-   /* writeHiddenToForm('methodToCall', 'updatePrice');
-    jQuery.fancybox.close();
-    jQuery('#kualiForm').submit();*/
+    /* writeHiddenToForm('methodToCall', 'updatePrice');
+     jQuery.fancybox.close();
+     jQuery('#kualiForm').submit();*/
 }
 
 function validateInvoiceAmount(){
     if(jq("#hdnValidationFlag_control").val() == 'true') {
         displayDialogWindow("div#MessagePopupSectionForInvoiceValidation");
-        jq('#mask').fadeOut(300);
-    }else{
+        /* jq('#mask').fadeOut(300);*/
+    } else {
+        validateInvoiceNumber();
+    }
+}
+
+function validateInvoiceNumber(){
+    if(jq("#hdnduplicateRouteFlag_control").val() == 'true' || jq('#hdnduplicateRouteFlag span').text().trim() =='true') {
+        displayDialogWindow("div#OLEInvoice-DuplicationRoutePopUp");
+        /*jq('#mask').fadeOut(300);*/
+    }
+    else{
         unsaved();
     }
+}
+
+function closeInvoiceVendorRoutePopUp(){
+    jq("div#OLEInvoice-DuplicationRoutePopUp").fadeOut(300);
+    jq("#mask").fadeOut(300);
 }
 
 function unsaved(){
@@ -219,13 +249,13 @@ function unsaved(){
 }
 
 function validateInvoiceAmountBlanketApprove(){
-	if(jq("#hdnBlanketApproveValidationFlag_control").val() == 'true') {
+    if(jq("#hdnBlanketApproveValidationFlag_control").val() == 'true') {
         displayDialogWindow("div#MessagePopupSectionForBlanketApproveInvoiceValidation");
         jq('#mask').fadeOut(300);
     }
     else{
         if(jq("#unsaved_control").val()=='false'){
-        //    jq("#invoice_close_btn").focus().click();
+            //    jq("#invoice_close_btn").focus().click();
             unsaved();
         }
 
@@ -239,7 +269,7 @@ function validateInvoiceSubscriptionBlanketApprove(){
     }
     else{
         validateInvoiceAmountBlanketApprove();
-        }
+    }
 
 
 }
@@ -251,7 +281,7 @@ function validateInvoiceSubscriptionApprove(){
     }
     else{
         validateInvoiceAmount();
-        }
+    }
 
 
 }
@@ -270,9 +300,9 @@ function toggleCollapseInvoice() {
     if(jq("#OLEInvoiceView-invoiceInfo_disclosureContent").css("display")=="block"){
         jq("#OLEInvoiceView-invoiceInfo_toggle").focus().click();
     }
-   /* if(jq("#OleInvoiceDocument-invoiceItems_disclosureContent").css("display")=="block"){
-        jq("#OleInvoiceDocument-invoiceItems_toggle").focus().click();
-    }*/
+    /* if(jq("#OleInvoiceDocument-invoiceItems_disclosureContent").css("display")=="block"){
+     jq("#OleInvoiceDocument-invoiceItems_toggle").focus().click();
+     }*/
     if(jq("#OLEInvoice-ProcessItem-AdditionalCharges_disclosureContent").css("display")=="block"){
         jq("#OLEInvoice-ProcessItem-AdditionalCharges_toggle").focus().click();
     }
@@ -360,7 +390,7 @@ jq(document).ready(function(){
         }
     }
     jq(".uif-actionImage").live("click",function(){
-       unsaved();
+        unsaved();
     });
     jq(".uif-dropdownControl").live("change",function() {
         jq("#unsaved_control").val("true");
@@ -373,9 +403,9 @@ jq("#invoice-paymentMethod_control").live("change",function() {
 });
 
 /*function closeInvoiceCurrencyOverridePopUp(){
-    jq("div#MessagePopUpSectionForCurrencyOverride").fadeOut(300);
-    jq("#mask").fadeOut(300);
-}*/
+ jq("div#MessagePopUpSectionForCurrencyOverride").fadeOut(300);
+ jq("#mask").fadeOut(300);
+ }*/
 
 function updateExchangeRate() {
     jq("#updateExchangeRateBtn").focus().click();
@@ -394,13 +424,13 @@ function oleInvoicePager(linkElement, collectionId) {
     var link = jQuery(linkElement);
     if (link.parent().is(kradVariables.ACTIVE_CLASS)) return;
     retrieveComponent(collectionId, "refresh", null, {
-    	"pageNumber": link.data(kradVariables.PAGE_NUMBER_DATA)
+        "pageNumber": link.data(kradVariables.PAGE_NUMBER_DATA)
     }, true);
 }
 
 function oleInvoiceRowDetails(lineId, collectionId, show) {
     retrieveComponent(collectionId, "refresh", null, {
-    	"selectRowDetails" : lineId,
-    	"showSelectedRowDetails" : show
+        "selectRowDetails" : lineId,
+        "showSelectedRowDetails" : show
     }, true);
 }

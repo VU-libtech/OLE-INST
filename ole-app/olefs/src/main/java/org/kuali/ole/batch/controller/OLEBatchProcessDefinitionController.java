@@ -603,6 +603,7 @@ public class OLEBatchProcessDefinitionController extends TransactionalDocumentCo
             oleBatchProcessDefinitionDocument.setBatchProcessProfileId(OLEBatchProcessBatchDeleteProfileValueFinder.getValue(oleBatchProcessDefinitionDocument.getBatchProcessProfileName()));
         } else if (OLEConstants.OLEBatchProcess.BATCH_EXPORT.equalsIgnoreCase(oleBatchProcessDefinitionDocument.getBatchProcessType())) {
             oleBatchProcessDefinitionDocument.setBatchProcessProfileId(OLEBatchProcessBatchExportProfileValueFinder.getValue(oleBatchProcessDefinitionDocument.getBatchProcessProfileName()));
+            oleBatchProcessDefinitionDocument.getLoadIdFromFile();
         }
     }
 

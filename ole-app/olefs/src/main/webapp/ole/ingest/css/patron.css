@@ -2,7 +2,13 @@
     width:200px;
 }
 
+.disableColor{
+    color:#808080;
+}
 
+.enableColor{
+    color:#1150b0;
+}
 
 .fixed-size-100-select {
     width:100px;

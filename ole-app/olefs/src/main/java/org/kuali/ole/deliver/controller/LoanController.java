@@ -1,7 +1,9 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.OLEPropertyConstants;
@@ -12,20 +14,25 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.deliver.printSlip.OlePrintSlip;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.ItemOleml;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
+import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.sys.exception.ParseException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mail.EmailBody;
 import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
 import org.kuali.rice.core.api.mail.EmailTo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -74,6 +81,7 @@ public class LoanController extends UifControllerBase {
 
     private List<String> loginUserList;
     private DocstoreClientLocator docstoreClientLocator;
+    private CircDeskLocationResolver circDeskLocationResolver;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -89,6 +97,17 @@ public class LoanController extends UifControllerBase {
             oleDeliverBatchService = SpringContext.getBean(OleDeliverBatchServiceImpl.class);
         }
         return oleDeliverBatchService;
+    }
+
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
     }
 
     public void setLoanProcessor(LoanProcessor loanProcessor) {
@@ -290,7 +309,7 @@ public class LoanController extends UifControllerBase {
                     if (oleLoanDocument.getCirculationLocationId() != null) {
                         //oleCirculationDesk = loanProcessor.getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
                         try{
-                            oleLocation = loanProcessor.getLocationByLocationCode(oleLoanDocument.getItemLocation());
+                            oleLocation = getCircDeskLocationResolver().getLocationByLocationCode(oleLoanDocument.getItemLocation());
                         }
                         catch (Exception e){
                             LOG.error("Exception while fetching OleLocation based on item location" +e);
@@ -419,8 +438,11 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setSelfCheckOut(false);
                 oleLoanForm.setRealPatronFlag(false);
             }
-
+            Long b2 = System.currentTimeMillis();
+            Long b3 = b2-b1;
+            LOG.info("The time taken for pre-loaning patron"+b3);
             OleLoanDocument oleLoanDocument = getLoanProcessor().getLoanDocument(oleLoanForm.getPatronBarcode(), oleLoanForm.getRealPatronBarcode(), isSelfCheckout, false);
+            Long b4 = System.currentTimeMillis();
             if (oleLoanDocument.isLostPatron()) {
                 oleLoanForm.setBlockUser(true);
             }else {
@@ -530,13 +552,14 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setItemFocus(true);
             oleLoanForm.setPatronFocus(false);
            /* oleLoanForm.setExistingLoanList(oleLoanForm.getDummyLoan().getOlePatron().getOleLoanDocuments());*/
+            Long b5 = System.currentTimeMillis();
+            Long total = b5 - b4;
+            LOG.info("The time taken for post patron search:"+total);
         } catch (Exception e) {
             oleLoanForm.setInformation(e.getMessage());
             LOG.error("Exception while search patron time", e);
         }
-        Long b2 = System.currentTimeMillis();
-        Long total = b2 - b1;
-        LOG.info("The time taken for patron search call :"+total);
+
         return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");
     }
 
@@ -943,13 +966,13 @@ public class LoanController extends UifControllerBase {
                 LOG.error("Exception", e);
             }
         }
-        if (StringUtils.isNotEmpty(newPrincipalId)) {
+        /*if (StringUtils.isNotEmpty(newPrincipalId)) {
             if (getLoanProcessor().isValidCirculationDesk()) {
                 if (getLoanProcessor().getCircDeskId() != null) {
-                    oleLoanForm.setCirculationDesk(getLoanProcessor().getCircDeskId());
+                    //oleLoanForm.setCirculationDesk(getLoanProcessor().getCircDeskId());
                 }
             }
-        }
+        }*/
         oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
         String audioOption = getLoanProcessor().getParameter(OLEConstants.AUDIO_OPTION);
         oleLoanForm.setAudioEnable(audioOption != null && !audioOption.isEmpty() && audioOption.equalsIgnoreCase(OLEConstants.TRUE));
@@ -1422,6 +1445,7 @@ public class LoanController extends UifControllerBase {
         if (loginUserList == null) {
             loginUserList = new ArrayList<>();
         }
+        MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
         StringBuffer buffer = new StringBuffer();
         OleLoanForm oleLoanForm = (OleLoanForm) form;
        /* String maxSessionTime = oleLoanForm.getMaxTimeForCheckOutConstant();
@@ -1430,6 +1454,8 @@ public class LoanController extends UifControllerBase {
         }
         if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
             oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        String parsedDate = df.format((new Date()));
         OleLoanDocument loanDocument = oleLoanForm.getMissingPieceLoanDocument();
         if (oleLoanForm.getDialogItemNoOfPieces() == null || oleLoanForm.getDialogItemNoOfPieces() != null && oleLoanForm.getDialogItemNoOfPieces().equalsIgnoreCase("")) {
             oleLoanForm.setDialogErrorMessage("Provide information for no of pieces");
@@ -1470,10 +1496,16 @@ public class LoanController extends UifControllerBase {
         }
 
         if (oleLoanForm.getMissingPieceLoanDocument() != null && oleLoanForm.getMissingPieceLoanDocument().getItemUuid() != null) {
+            org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
             try {
                 boolean isMissingPieceFlag = false;
                 String itemXmlContent = getLoanProcessor().getItemXML(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
                 Item oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
+                boolean isUpdateNote=false;
+                boolean isCreateNote=false;
+                boolean isMissingFlagEnabledDB=(oleItem != null && oleItem.isMissingPieceFlag())?true:false;
+                isCreateNote=!isMissingFlagEnabledDB && !oleLoanForm.isRemoveMissingPieceFlag();
+                isUpdateNote=isMissingFlagEnabledDB && !oleLoanForm.isRemoveMissingPieceFlag();
                 if (oleLoanForm.isRemoveMissingPieceFlag()) {
                     oleItem.setMissingPieceFlag(false);
                     isMissingPieceFlag = false;
@@ -1481,6 +1513,89 @@ public class LoanController extends UifControllerBase {
                     oleItem.setMissingPieceFlag(true);
                     isMissingPieceFlag = true;
                 }
+                if(isCreateNote){
+                    missingPieceItemRecord.setMissingPieceCount(oleLoanForm.getDialogMissingPieceCount());
+                    missingPieceItemRecord.setMissingPieceFlagNote(oleLoanForm.getDialogText());
+                    missingPieceItemRecord.setMissingPieceDate(parsedDate);
+                    missingPieceItemRecord.setItemId(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
+                    missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                    missingPieceItemRecord.setPatronBarcode(oleLoanForm.getPatronBarcode());
+
+                    if(CollectionUtils.isNotEmpty(oleItem.getMissingPieceItemRecordList())){
+
+                        oleItem.getMissingPieceItemRecordList().add(missingPieceItemRecord);
+                    } else {
+                        List<MissingPieceItemRecord> missingPieceItemRecords=new ArrayList<MissingPieceItemRecord>();
+                        missingPieceItemRecords.add(missingPieceItemRecord);
+                        oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+                    }
+                }else{
+                    if(isUpdateNote){
+                        /*missingPieceItemRecord.setMissingPieceCount(oleLoanForm.getDialogMissingPieceCount());
+                        missingPieceItemRecord.setMissingPieceFlagNote(oleLoanForm.getDialogText());
+                        missingPieceItemRecord.setMissingPieceDate(parsedDate);
+                        missingPieceItemRecord.setItemId(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
+                        missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                        missingPieceItemRecord.setPatronBarcode(oleLoanForm.getPatronBarcode());
+                        if(CollectionUtils.isNotEmpty(oleItem.getMissingPieceItemRecordList())){
+
+                            oleItem.getMissingPieceItemRecordList().add(missingPieceItemRecord);
+                        } else {
+                            List<MissingPieceItemRecord> missingPieceItemRecords=new ArrayList<MissingPieceItemRecord>();
+                            missingPieceItemRecords.add(missingPieceItemRecord);
+                            oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+                    }*/
+                        Map<String,String> map = new HashMap<>();
+                        map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(loanDocument.getItemUuid()));
+                        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map, "missingPieceItemId", true);
+                        List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<>();
+                        for(int index=0 ; index < missingPieceItemRecordList.size() ; index++){
+                            MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
+                            if(index == missingPieceItemRecordList.size()-1){
+                                /*if (oleLoanForm.getMissi != null) {
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(convertToString(loanObject.getClaimsReturnedDate()));
+                                }
+                                else{
+                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+                                }*/
+                                DateFormat dfs = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                String missingPieceItemDate = dfs.format((new Date()));
+                                missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
+                                missingPieceItemRecord1.setMissingPieceCount(oleLoanForm.getDialogMissingPieceCount());
+                                missingPieceItemRecord1.setPatronBarcode(oleLoanForm.getPatronBarcode());
+                                missingPieceItemRecord1.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                                missingPieceItemRecord1.setItemId(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
+                                missingPieceItemRecord1.setMissingPieceFlagNote(oleLoanForm.getDialogText());
+
+                            } else {
+                                if (missingPieceItemRecordList.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList.get(index).getMissingPieceDate().toString().isEmpty()) {
+                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    Date missingPieceItemDate = null;
+                                    try {
+                                        missingPieceItemDate = format2.parse(missingPieceItemRecordList.get(index).getMissingPieceDate().toString());
+                                    } catch (ParseException e) {
+                                        LOG.error("format string to Date " + e);
+                                    }
+                                    missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                                }
+                                missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList.get(index).getMissingPieceFlagNote());
+                                missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList.get(index).getMissingPieceCount());
+                                missingPieceItemRecord1.setOperatorId(missingPieceItemRecordList.get(index).getOperatorId());
+                                missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecordList.get(index).getPatronBarcode());
+                                missingPieceItemRecord1.setItemId(missingPieceItemRecordList.get(index).getItemId());
+                            }
+                            missingPieceItemRecords.add(missingPieceItemRecord1);
+                        }
+                        oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+                    }
+                }
+
+
+
+                    //getDocstoreClientLocator().getDocstoreClient().updateItem(item);
+
                 oleItem.setMissingPiecesCount(oleLoanForm.getDialogMissingPieceCount());
                 oleItem.setNumberOfPieces(oleLoanForm.getDialogItemNoOfPieces());
                 oleItem.setMissingPieceFlagNote(oleLoanForm.getDialogText());
@@ -1488,7 +1603,6 @@ public class LoanController extends UifControllerBase {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("itemXmlContent" + itemXmlContent);
                 }
-                org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
                 item.setContent(itemXmlContent);
                 item.setCategory(OLEConstants.WORK_CATEGORY);
                 item.setType(DocType.ITEM.getCode());
@@ -1578,6 +1692,12 @@ public class LoanController extends UifControllerBase {
                         try {
                             String itemXmlContent = getLoanProcessor().getItemXML(oleLoanDocument.getItemUuid());
                             Item oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
+                            if (oleLoanForm.isDialogFlag()) {
+                                oleLoanDocument.setItemDamagedNote(oleLoanForm.getDialogText());
+                                getLoanProcessor().updateItemDamagedHistory(oleItem,oleLoanDocument,oleLoanForm.getPatronId());
+                            } else {
+                                oleLoanDocument.setItemDamagedNote("");
+                            }
                             oleItem.setItemDamagedStatus(oleLoanForm.isDialogFlag());
                             oleItem.setDamagedItemNote(oleLoanForm.getDialogText());
                             itemXmlContent = new ItemOlemlRecordProcessor().toXML(oleItem);
@@ -1610,6 +1730,12 @@ public class LoanController extends UifControllerBase {
                     try {
                         String itemXmlContent = getLoanProcessor().getItemXML(oleLoanDocument.getItemUuid());
                         Item oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
+                        if (oleLoanForm.isDialogFlag()) {
+                            oleLoanDocument.setItemDamagedNote(oleLoanForm.getDialogText());
+                            getLoanProcessor().updateItemDamagedHistory(oleItem,oleLoanDocument,oleLoanForm.getPatronId());
+                        } else {
+                            oleLoanDocument.setItemDamagedNote("");
+                        }
                         oleItem.setItemDamagedStatus(oleLoanForm.isDialogFlag());
                         oleItem.setDamagedItemNote(oleLoanForm.getDialogText());
                         itemXmlContent = new ItemOlemlRecordProcessor().toXML(oleItem);
@@ -1874,6 +2000,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setPopDateTimeInfo("");
         GlobalVariables.getUserSession().clearBackdoorUser();
         GlobalVariables.getUserSession().setBackdoorUser(oleLoanForm.getOldPrincipalId());
+        //oleLoanForm.setLoginUser(GlobalVariables.getUserSession().getPrincipalName());
         oleLoanForm.setNewPrincipalId(null);
 
         if (!oleLoanForm.isClearUI()) {
@@ -1882,6 +2009,7 @@ public class LoanController extends UifControllerBase {
             if (oleCirculationDeskDetail != null) {
                 oleLoanForm.setCirculationDesk(oleCirculationDeskDetail.getCirculationDeskId());
                 oleLoanForm.setPreviousCirculationDesk(oleLoanForm.getCirculationDesk());
+               // oleLoanForm.setLoginUser(GlobalVariables.getUserSession().getPrincipalName());
             }
         }
         return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
@@ -1986,29 +2114,57 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setOverrideFlag(true);
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         boolean newPrincipalFlag = false;
-        if (oleLoanForm.getNewPrincipalId() != null && !oleLoanForm.getNewPrincipalId().trim().isEmpty()) {
-            principalId = oleLoanForm.getNewPrincipalId();
+        if (StringUtils.isNotBlank(oleLoanForm.getNewPrincipalName())) {
             newPrincipalFlag = true;
+        }
+        if (newPrincipalFlag) {
+            Person people = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(oleLoanForm.getNewPrincipalName());
+            if(people!=null){
+                principalId=people.getPrincipalId();
+                oleLoanForm.setNewPrincipalId(principalId);
+            }
+            if (people == null) {
+                oleLoanForm.setOverrideLoginMessage(oleLoanForm.getNewPrincipalName() + " is invalid user Name.Please enter your user Name.");
+                oleLoanForm.setOverrideErrorMessage(null);
+                oleLoanForm.setNewPrincipalId(null);
+                oleLoanForm.setNewPrincipalName(null);
+                return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
+            }
+        } else {
+        if(StringUtils.isNotBlank(principalId)){
+            Person people = SpringContext.getBean(PersonService.class).getPerson(principalId);
+            if(people == null) {
+                    oleLoanForm.setOverrideLoginMessage(people.getPrincipalName() + " is invalid user Name.Please enter your user Name.");
+                oleLoanForm.setOverrideErrorMessage(null);
+                oleLoanForm.setNewPrincipalId(null);
+                    oleLoanForm.setNewPrincipalName(null);
+                return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
+            }
+        }
         }
         Boolean overRideFlag = getLoanProcessor().checkOverRidePermission(principalId, oleLoanForm);
         if (overRideFlag) {
             if ((!"".equals(oleLoanForm.getNewPrincipalId()) && oleLoanForm.getNewPrincipalId() != null)) {
-                oleLoanForm.setLoanLoginName(oleLoanForm.getNewPrincipalId());
-                GlobalVariables.getUserSession().setBackdoorUser(oleLoanForm.getNewPrincipalId());
-                oleLoanForm.getDummyLoan().setLoanApproverId(GlobalVariables.getUserSession().getPerson().getEntityId());
+                //oleLoanForm.setLoanLoginName(oleLoanForm.getNewPrincipalId());
+               // GlobalVariables.getUserSession().setBackdoorUser(oleLoanForm.getNewPrincipalId());
+               // String approverId = GlobalVariables.getUserSession().getPerson().getEntityId();
+                oleLoanForm.getDummyLoan().setLoanApproverId(oleLoanForm.getNewPrincipalId());
+               // GlobalVariables.getUserSession().clearBackdoorUser();
             }
             if (!newPrincipalFlag) {
-                oleLoanForm.setLoanLoginName(principalId);
-                GlobalVariables.getUserSession().setBackdoorUser(principalId);
-                oleLoanForm.getDummyLoan().setLoanApproverId(GlobalVariables.getUserSession().getPerson().getEntityId());
+               // oleLoanForm.setLoanLoginName(principalId);
+               // GlobalVariables.getUserSession().setBackdoorUser(principalId);
+               // String approverId = GlobalVariables.getUserSession().getPerson().getEntityId();
+                oleLoanForm.getDummyLoan().setLoanApproverId(principalId);
+               // GlobalVariables.getUserSession().clearBackdoorUser();
             }
             oleLoanForm.setNewPrincipalId("");
             oleLoanForm.setOverrideFlag(false);
             oleLoanForm.setOverideMethodCall("");
             return null;
         }
-        oleLoanForm.setNewPrincipalId(null);
-        GlobalVariables.getUserSession().clearBackdoorUser();
+         oleLoanForm.setNewPrincipalId(null);
+        //GlobalVariables.getUserSession().clearBackdoorUser();
         if (!"".equals(oleLoanForm.getNewPrincipalId())) {
             oleLoanForm.setOverrideLoginMessage(principalId + " " + OLEConstants.OVERRIDE_LOGIN_ERR_INFO + OLEConstants.BREAK + oleLoanForm.getOverrideErrorMessage());
             oleLoanForm.setOverrideErrorMessage(null);
@@ -2134,7 +2290,8 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setReturnInformation("");
-        oleLoanForm.setNewPrincipalId(null);
+        GlobalVariables.getUserSession().setBackdoorUser(oleLoanForm.getLoanLoginName());
+        oleLoanForm.setNewPrincipalId(oleLoanForm.getLoanLoginName());
         /*return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");*/
         return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
     }
@@ -2627,6 +2784,7 @@ public class LoanController extends UifControllerBase {
                                         OleLoanDocument existingLoan = oleLoanForm.getExistingLoanList().get(j);
                                         existingLoan.setLoanDueDate(loanDocument.getLoanDueDate());
                                         existingLoan.setNumberOfRenewals(loanDocument.getNumberOfRenewals());
+                                        existingLoan.setCourtesyNoticeFlag(false);
                                     }
                                 }
                                 if (oleLoanForm.getLoanList()!=null && oleLoanForm.getLoanList().size()>0){
@@ -2634,6 +2792,7 @@ public class LoanController extends UifControllerBase {
                                         if ((oleLoanForm.getLoanList().get(loanList).getItemId()).equalsIgnoreCase(loanDocument.getItemId())) {
                                             OleLoanDocument existingLoan = oleLoanForm.getLoanList().get(loanList);
                                             existingLoan.setLoanDueDate(loanDocument.getLoanDueDate());
+                                            existingLoan.setCourtesyNoticeFlag(false);
                                             existingLoan.setNumberOfRenewals(loanDocument.getNumberOfRenewals());
                                             break;
                                         }
@@ -2764,6 +2923,9 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.getErrorsAndPermission().clear();
             oleLoanDocument.setSkipDamagedCheckIn(oleLoanForm.isSkipDamagedCheckIn());
             oleLoanDocument = getLoanProcessor().returnLoan(oleLoanForm.getCheckInItem(), oleLoanDocument);
+            if(oleLoanDocument!=null && oleLoanDocument.getOleItem()!=null && oleLoanDocument.getOleItem().getCheckinNote()==null){
+                getLoanProcessor().updateInTransitHistory(oleLoanDocument,oleLoanForm.getRouteToLocation());
+            }
             oleLoanForm.setItemDamagedStatus(oleLoanDocument.isItemDamagedStatus());
             if (oleLoanDocument.isItemDamagedStatus() && (!oleLoanDocument.isSkipDamagedCheckIn())) {
                 return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
@@ -2790,7 +2952,7 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setReturnMessage(OLEConstants.CLAIMS_RETURNED_MESSAGE);
                 return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
             }
-            String requestCheck = oleLoanDocument.getOleDeliverRequestBo() != null ? OLEConstants.REQUEST_EXISTS : "";
+            //String requestCheck = oleLoanDocument.getOleDeliverRequestBo() != null ? OLEConstants.REQUEST_EXISTS : "";
             /*if(!requestCheck.isEmpty()){
                 oleLoanForm.setPatronRequest(true);
                 oleLoanForm.setReturnSuccess(false);
@@ -3697,6 +3859,7 @@ public class LoanController extends UifControllerBase {
             return getUIFModelAndView(form, "ReturnItemViewPage");
         } else {
             oleLoanDocument.setRouteToLocationName(oleCirculationDesk.getCirculationDeskPublicName());
+            oleLoanDocument.setRouteToLocation(oleCirculationDesk.getCirculationDeskCode());
         }
         oleLoanForm.setCheckInNoteExists(false);
         oleLoanForm.setReturnSuccess(true);
@@ -3719,16 +3882,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setOleItem(oleLoanDocument.getOleItem());
             return getUIFModelAndView(form, "ReturnItemViewPage");
         }
-        if (StringUtils.isNotEmpty(oleLoanDocument.getItemStatusCode()) && (oleLoanDocument.getItemStatusCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_IN_TRANSIT) || oleLoanDocument.getItemStatusCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))) {
-            OLELoanIntransitRecordHistory oleLoanIntransitRecordHistory = new OLELoanIntransitRecordHistory();
-            oleLoanIntransitRecordHistory.setItemBarcode(oleLoanDocument.getItemId());
-            oleLoanIntransitRecordHistory.setItemUUID(oleLoanDocument.getItemUuid());
-            oleLoanIntransitRecordHistory.setRouteCirculationDesk(oleLoanDocument.getRouteToLocation());
-            oleLoanIntransitRecordHistory.setOperator(GlobalVariables.getUserSession().getPrincipalId());
-            oleLoanIntransitRecordHistory.setHomeCirculationDesk(oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode());
-            oleLoanIntransitRecordHistory.setReturnedDateTime(oleLoanDocument.getCheckInDate());
-            KRADServiceLocator.getBusinessObjectService().save(oleLoanIntransitRecordHistory);
-        }
+        getLoanProcessor().updateInTransitHistory(oleLoanDocument,oleLoanForm.getRouteToLocation());
         if (oleLoanDocument.getOleCirculationDesk() != null && oleLoanDocument.getOleCirculationDesk().isPrintSlip()) {
             if (oleLoanDocument.getOleItem().isMissingPieceFlag() && oleLoanForm.isSendMissingPieceMail()) {
                 OleNoticeBo oleNoticeBo = getLoanProcessor().getNotice(oleLoanDocument);
@@ -4096,7 +4250,7 @@ public class LoanController extends UifControllerBase {
             if (oleLoanDocument.getCirculationLocationId() != null) {
                 // oleCirculationDesk = loanProcessor.getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
                 try{
-                    oleLocation = loanProcessor.getLocationByLocationCode(oleLoanDocument.getItemLocation());
+                    oleLocation = getCircDeskLocationResolver().getLocationByLocationCode(oleLoanDocument.getItemLocation());
                 }
                 catch (Exception e){
                     LOG.error("Exception while fetching OleLocation based on item location" +e);

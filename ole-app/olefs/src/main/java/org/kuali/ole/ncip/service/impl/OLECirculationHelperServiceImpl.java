@@ -544,7 +544,17 @@ public class OLECirculationHelperServiceImpl {
                             }else{
                                 return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
                             }
-                        } else {
+                        } else if(oleLoanDocument != null && oleLoanDocument.getErrorMessage() !=null && oleLoanDocument.getErrorMessage().equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS))){
+                            OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
+                            oleCheckOutItem.setCode("014");
+                            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                            LOG.info(oleLoanDocument.getErrorMessage());
+                            if(isSIP2Request){
+                                return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                            }else{
+                                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            }
+                        }else {
                             OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
                             oleCheckOutItem.setCode("500");
                             oleCheckOutItem.setMessage(oleLoanDocument.getErrorMessage());
@@ -580,10 +590,18 @@ public class OLECirculationHelperServiceImpl {
             }
         } catch (Exception e) {
             OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
-            oleCheckOutItem.setCode("014");
-            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-            LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-            LOG.error(e,e);
+            if(e.getCause()!= null && (e.getCause().getMessage()).contains("Duplicate entry")){
+                oleCheckOutItem.setCode("100");
+                oleCheckOutItem.setMessage("Item is already Loaned by a patron.");
+            }else if(e.getLocalizedMessage() == null){
+                oleCheckOutItem.setCode("500");
+                oleCheckOutItem.setMessage("Internal error");
+            } else {
+                oleCheckOutItem.setCode("014");
+                oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+            }
+            LOG.info(oleCheckOutItem.getMessage());
+            LOG.error(e, e);
             if(isSIP2Request){
                 return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
             }else{

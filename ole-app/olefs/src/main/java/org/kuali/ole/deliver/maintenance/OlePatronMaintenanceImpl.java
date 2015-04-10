@@ -1,7 +1,9 @@
 package org.kuali.ole.deliver.maintenance;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -9,6 +11,7 @@ import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.krad.OleComponentUtils;
 import org.kuali.ole.service.OlePatronService;
 import org.kuali.ole.service.OlePatronServiceImpl;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
@@ -31,7 +34,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronMaintenanceImpl.class);
     OlePatronService olePatronService = new OlePatronServiceImpl();
 
-
+    String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
     /**
      * This method populate the patron object used for edit and copy
      *
@@ -70,7 +73,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                 olePatron.setPhones(entity.getEntityTypeContactInfos().get(0).getPhoneNumbers());
                 olePatron.setEmails(entity.getEntityTypeContactInfos().get(0).getEmailAddresses());
             }
-            
+
             olePatron.setEmployments(entity.getEmploymentInformation());
             List<OlePatronAffiliation> patronAffiliations = new ArrayList<OlePatronAffiliation>();
             olePatron.setPatronAffiliations(getPatronAffiliationFromEntity(entity.getAffiliations(), entity.getEmploymentInformation()));
@@ -142,7 +145,6 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                         + " is not persistable and is not externalizable - configuration error");
             }
         }
-
         return olePatron;
     }
 
@@ -213,17 +215,17 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
     }
 
     public String getTempCircRecords(String olePatronId) {
-        String url = "temporaryCirculationRecord?viewId=OleTemporaryCirculationHistoryRecordView&amp;methodToCall=viewTempCircRecords&amp;patronId=" + olePatronId;
+        String url = baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/temporaryCirculationRecord?viewId=OleTemporaryCirculationHistoryRecordView&amp;methodToCall=viewTempCircRecords&amp;patronId=" + olePatronId;
         return url;
     }
 
     public String getLoanedRecords(String olePatronId) {
-        String url = "patronLoanedRecord?viewId=OlePatronLoanedRecordView&amp;methodToCall=viewLoanedRecords&amp;patronId=" + olePatronId;
+        String url = baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/patronLoanedRecord?viewId=OlePatronLoanedRecordView&amp;methodToCall=viewLoanedRecords&amp;patronId=" + olePatronId;
         return url;
     }
 
     public String getRequestedRecords(String olePatronId) {
-        String url = "patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=" + olePatronId;
+        String url = baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=" + olePatronId;
         return url;
     }
 

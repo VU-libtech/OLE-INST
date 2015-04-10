@@ -30,7 +30,7 @@ h4 {
     z-index: 999;
 }
 
-div.blockOverlay{
+/*div.blockOverlay{
     display:none !important;
 }
 
@@ -40,7 +40,7 @@ div.blockUI{
 
 div.blockPage{
     display:none !important;
-}
+}*/
 
 span.uif-breadcrumbs, .backdoor, .test {
     display:none !important;
