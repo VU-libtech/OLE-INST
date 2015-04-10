@@ -9,6 +9,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -101,6 +102,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private boolean claimsReturnedIndicator;
     private Date createDate;
     private Date pastDueDate;
+    private Date dummyPastDueDate;
     private Date overDueNoticeDate;
     private String circulationPolicyId;
     private OleCirculationDesk oleCirculationDesk;
@@ -165,6 +167,14 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private OLEDeliverNotice oleDeliverNotice;
     private String oleLocationCode;
     private boolean indefiniteCheckFlag= false;
+
+    public Date getDummyPastDueDate() {
+        return dummyPastDueDate;
+    }
+
+    public void setDummyPastDueDate(Date dummyPastDueDate) {
+        this.dummyPastDueDate = dummyPastDueDate;
+    }
 
     public boolean isIndefiniteCheckFlag() {
         return indefiniteCheckFlag;
@@ -823,7 +833,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         this.checkNo = checkNo;
     }
 
-    private List<OLEDeliverNotice> deliverNotices;
+    private List<OLEDeliverNotice> deliverNotices = new ArrayList<>();
 
     /**
      * Gets the ItemCallNumber attribute.

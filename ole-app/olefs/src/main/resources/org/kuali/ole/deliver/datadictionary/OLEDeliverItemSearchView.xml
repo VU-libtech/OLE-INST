@@ -205,20 +205,18 @@
                 <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="itemBarCode"/>
                 <bean parent="Uif-DataField" p:label="Enum" p:propertyName="enumeration"/>
                 <bean parent="Uif-DataField" p:label="Chron" p:propertyName="chronology"/>
-                <bean id="placeRequest" parent="Uif-LinkField"
+                <bean id="placeRequest" parent="Uif-LinkField" p:label="Place"
                       p:linkText="Place Request"
                       p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Place Request&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}"
                       p:target="_blank">
                     <property name="cssClasses" value="buttonForLink"/>
                 </bean>
-                <bean parent="Uif-LinkField" p:render="@{singleItemFlag and #line.requestExists}" p:label="Requests"
+                <bean parent="Uif-LinkField" p:hidden="@{!#line.requestExists}" p:label="View"
                       p:target="_blank"
                       p:linkText="View Requests"
                       p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Requests&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/itemRequestedRecord?viewId=OLEItemRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;itemBarCode=@{#line.itemBarCode}">
                     <property name="cssClasses" value="buttonForLink"/>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Requests"
-                      p:render="@{singleItemFlag and !#line.requestExists}"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -450,6 +448,7 @@
                         </list>
                     </property>
                 </bean>
+                <ref bean="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory"/>
                 <bean parent="Uif-InputField" p:label="Damaged Flag"
                       p:propertyName="oleSingleItemResultDisplayRow.itemDamagedStatusFlag">
                     <property name="control">
@@ -465,6 +464,7 @@
                         </list>
                     </property>
                 </bean>
+                <ref bean = "OLEDeliverItemSearchResult-ItemDamagedHistory"/>
                 <bean parent="Uif-InputField" p:label="Missing Pieces Flag"
                       p:propertyName="oleSingleItemResultDisplayRow.missingPieceFlag">
                     <property name="control">
@@ -484,8 +484,29 @@
                         </list>
                     </property>
                 </bean>
+                <ref bean="OLEMissingPieceItem-History"/>
             </list>
         </property>
+    </bean>
+
+    <bean id="OLEMissingPieceItem-History" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Missing Piece Item History"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.missingPieceItemRecordList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+                <list>
+                    <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
+                    <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
+                    <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
+                    <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
+                    <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-Notes" parent="Uif-Disclosure-TableCollectionSection"
@@ -623,6 +644,56 @@
                       p:label="Routed To"/>
                 <bean id="returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
                       p:label="Transit Date"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Claims Returned History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.itemClaimsReturnedRecords"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="claimsReturnedFlagCreateDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedFlagCreateDate" p:label="Claims Returned Create Date"/>
+                <bean id="claimsReturnedNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedNote" p:label="Claims Returned Note"/>
+                <bean id="claimsReturnedPatronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedPatronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="claimsReturnedOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedOperatorId" p:label="Operator Id"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-ItemDamagedHistory" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Damaged History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.itemDamagedRecords"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="damagedItemDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemDate" p:label="Damaged Date"/>
+                <bean id="damagedItemNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemNote" p:label="Damaged Note"/>
+                <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
             </list>
         </property>
     </bean>

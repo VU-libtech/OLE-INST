@@ -19,6 +19,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapPropertyConstants;
 import org.kuali.ole.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderItem;
@@ -29,6 +30,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -186,6 +188,36 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
         criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, true);
+        for (String excludeCode : excludedVendorChoiceCodes) {
+            criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
+        }
+        QueryByCriteria qbc = new QueryByCriteria(AutoClosePurchaseOrderView.class, criteria);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getAllOpenPurchaseOrders() Query criteria is " + criteria.toString());
+        }
+        List<AutoClosePurchaseOrderView> l = (List<AutoClosePurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        LOG.debug("getAllOpenPurchaseOrders() ended.");
+        return l;
+    }
+
+    /**
+     * @see org.kuali.ole.module.purap.document.dataaccess.PurchaseOrderDao#getAllOpenPurchaseOrders(java.util.List,java.sql.Date,java.sql.Date)
+     */
+    public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes, java.sql.Date poCloseFromDate,Date poCloseToDate) {
+        LOG.debug("getAllOpenPurchaseOrders() started");
+        Criteria criteria = new Criteria();
+        criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
+        criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, true);
+        criteria.addEqualTo("APP_DOC_STAT", PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
+        criteria.addGreaterThan("TOTAL_AMOUNT", new KualiDecimal(0));
+        criteria.addEqualTo("PO_CUR_IND", "Y");
+        if (poCloseFromDate != null) {
+            criteria.addGreaterOrEqualThan(PurapPropertyConstants.PO_CREATE_DATE, poCloseFromDate);
+        }
+        if (poCloseToDate != null) {
+            criteria.addLessOrEqualThan(PurapPropertyConstants.PO_CREATE_DATE, poCloseToDate);
+        }
         for (String excludeCode : excludedVendorChoiceCodes) {
             criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }

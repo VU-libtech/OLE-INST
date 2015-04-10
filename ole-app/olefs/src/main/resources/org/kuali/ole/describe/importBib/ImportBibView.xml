@@ -74,7 +74,7 @@
         </property>
         <property name="formClass" value="org.kuali.ole.describe.form.ImportBibForm"/>
         <property name="additionalScriptFiles">
-            <list merge="true">
+            <list>
                 <value>ole/describe/scripts/importBib.js</value>
             </list>
         </property>

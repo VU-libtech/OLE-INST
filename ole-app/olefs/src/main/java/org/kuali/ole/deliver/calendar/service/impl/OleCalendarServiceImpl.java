@@ -1,6 +1,7 @@
 package org.kuali.ole.deliver.calendar.service.impl;
 
 import org.apache.log4j.Logger;
+import org.joda.time.Interval;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.calendar.bo.*;
 import org.kuali.ole.deliver.calendar.controller.OleCalendarController;
@@ -51,7 +52,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         cg.put(OLEConstants.CALENDER_ID, groupId);
         List<OleCalendar> oleCalendarList = (List<OleCalendar>) getBusinessObjectService().findMatching(OleCalendar.class, cg);
         for (OleCalendar calendar : oleCalendarList) {
-            if (calendar.getBeginDate() != null && date != null && calendar.getEndDate() != null && isCalendarExists(calendar.getBeginDate(), calendar.getEndDate(), date.getYear(), date.getMonth()) && (date.getTime() >= calendar.getBeginDate().getTime() && date.getTime() <= calendar.getEndDate().getTime())) {
+            if (calendar.getBeginDate() != null && date != null && calendar.getEndDate() != null && isCalendarExists(calendar.getBeginDate(), calendar.getEndDate())) {
                 calendar=continuousWeek(calendar);
                 return calendar;
             } else if (calendar.getBeginDate() != null && calendar.getEndDate() == null) {
@@ -204,23 +205,10 @@ public class OleCalendarServiceImpl implements OleCalendarService {
     return oleCalendar;
     }
 
-    private boolean isCalendarExists(Timestamp fromDate, Timestamp toDate, Integer dateYear, Integer dateMonth) {
-        Integer fromYear = fromDate.getYear();
-        Integer fromMonth = fromDate.getMonth();
-        Integer fromHour = fromDate.getHours();
-        Integer fromMin = fromDate.getMinutes();
-        Integer fromSecond = fromDate.getSeconds();
-        Integer toYear = toDate.getYear();
-        Integer toMonth = toDate.getMonth();
-        Integer toHour = toDate.getHours();
-        Integer toMin = toDate.getMinutes();
-        Integer toSecond = toDate.getSeconds();
-        if (dateYear >= fromYear && dateYear <= toYear) {
-            if (dateMonth >= fromMonth && dateMonth <= toMonth) {
-                return true;
-            }
-        }
-        return false;
+    //
+    private boolean isCalendarExists(Timestamp fromDate, Timestamp toDate) {
+        Interval interval=new Interval(fromDate.getTime(),toDate.getTime());
+        return interval.contains(System.currentTimeMillis());
     }
 
 

@@ -173,12 +173,7 @@ public class OLESearchController extends UifControllerBase {
         this.start = 0;
         LOG.debug("Inside the olesearchform start method");
         OLESearchForm oleSearchForm = (OLESearchForm) form;
-        oleSearchForm.setWorkBibDocumentList(null);
-        oleSearchForm.setWorkHoldingsDocumentList(null);
-        oleSearchForm.setWorkItemDocumentList(null);
-        oleSearchForm.setWorkEHoldingsDocumentList(null);
-        oleSearchForm.setSearchTypeField("OLESearch");
-        oleSearchForm.setSelectAllRecords(false);
+
         request.getSession().setAttribute("selectedFacetResults", null);
         if (oleSearchForm.getDocType() == null) {
             oleSearchForm.setDocType(DocType.BIB.getCode());
@@ -310,7 +305,7 @@ public class OLESearchController extends UifControllerBase {
         BibTree bibTree = getDocstoreLocalClient().retrieveBibTree(bibId);
         OLEEditorResponse oleEditorResponse = new OLEEditorResponse();
         if (bibTree.getHoldingsTrees() != null && bibTree.getHoldingsTrees().size() > 0) {
-            instanceUUID = bibTree.getHoldingsTrees().get(0).getId();
+            instanceUUID = bibTree.getHoldingsTrees().get(0).getHoldings().getId();
         }
         oleEditorResponse.setLinkedInstanceId(instanceUUID);
         oleEditorResponse.setBib(bibTree.getBib());
@@ -356,10 +351,14 @@ public class OLESearchController extends UifControllerBase {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         SearchParams searchParams = oleSearchForm.getSearchParams();
         try {
-            int totalLines = oleSearchForm.getTotalRecordCount();
+            int totalcount = oleSearchForm.getTotalRecordCount();
             int pageSize = searchParams.getPageSize();
-            int lastPage = totalLines / pageSize
-                    + (totalLines % pageSize == 0 ? 0 : 1);
+            int totlaPages = totalcount/pageSize;
+            int lastNumber= pageSize*totlaPages;
+            int lastPage = totalcount - pageSize;
+            if(lastNumber < totalcount){
+                lastPage = lastNumber;
+            }
             int start = Math.max(0, lastPage);
             searchParams.setStartIndex(start);
         } catch (NumberFormatException e) {
@@ -1106,7 +1105,23 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setCallNumberBrowseText(null);
         oleSearchForm.setLocation(null);
         oleSearchForm.setClassificationScheme("LCC");
+        oleSearchForm.setFacetLimit(0);
+        oleSearchForm.setTotalRecordCount(0);
+        oleSearchForm.setSearchParams(new SearchParams());
+        oleSearchForm.setPageShowEntries(null);
+        oleSearchForm.setShowPageSize(null);
+        oleSearchForm.setShowFieldSort(null);
+        oleSearchForm.setBibSearchResultDisplayRowList(null);
+        oleSearchForm.setHoldingSearchResultDisplayRowList(null);
+        oleSearchForm.setSearchResponse(null);
+        oleSearchForm.setFacetResultFields(null);
 
+        oleSearchForm.setWorkBibDocumentList(null);
+        oleSearchForm.setWorkHoldingsDocumentList(null);
+        oleSearchForm.setWorkItemDocumentList(null);
+        oleSearchForm.setWorkEHoldingsDocumentList(null);
+        oleSearchForm.setSearchTypeField("OLESearch");
+        oleSearchForm.setSelectAllRecords(false);
 
         if (oleSearchForm.getSearchParams() != null) {
             for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {

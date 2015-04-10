@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.inquiry;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.*;
@@ -154,6 +155,8 @@ public class OlePatronInquirableImpl extends InquirableImpl {
 
 
         }
+
+
 
         return patronDocument;
     }

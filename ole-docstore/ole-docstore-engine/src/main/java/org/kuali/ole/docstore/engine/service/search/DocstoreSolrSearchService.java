@@ -1039,7 +1039,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             }
             character = stringCharacterIterator.next();
         }
-        return modifiedText.toString().toLowerCase();
+        return modifiedText.toString();
     }
 
     /*public String buildQueryWithSortConditions(List<SortCondition> sortConditions) {

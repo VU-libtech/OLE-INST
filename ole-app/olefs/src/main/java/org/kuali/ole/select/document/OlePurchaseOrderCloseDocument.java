@@ -72,6 +72,7 @@ public class OlePurchaseOrderCloseDocument extends PurchaseOrderCloseDocument {
         if (this.getVendorAliasName() == null) {
             populateVendorAliasName();
         }
+     //   super.processAfterRetrieve();
         SpringContext.getBean(OlePurchaseOrderDocumentHelperService.class).processAfterRetrieve(this);
     }
 

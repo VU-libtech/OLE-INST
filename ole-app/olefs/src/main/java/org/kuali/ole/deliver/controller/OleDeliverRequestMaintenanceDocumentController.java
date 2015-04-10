@@ -353,6 +353,9 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
             }
             //  oleDeliverRequestBo = service.reOrderQueuePosition(oleDeliverRequestBo);
         }
+            if(org.apache.commons.lang.StringUtils.isNotBlank(oleDeliverRequestBo.getRequestTypeId()) && (oleDeliverRequestBo.getRequestTypeId().equals("1") || oleDeliverRequestBo.getRequestTypeId().equals("2"))){
+                oleDeliverRequestBo.setRecallNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
+            }
         if ((oleDeliverRequestBo.getMessage() != null && !oleDeliverRequestBo.getMessage().isEmpty())) {
             return getUIFModelAndView(form);
         }

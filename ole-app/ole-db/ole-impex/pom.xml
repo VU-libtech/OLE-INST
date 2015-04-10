@@ -2,12 +2,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.ole</groupId>
-        <version>1.6.0-r22081</version>
+        <version>1.6.0-r22482</version>
         <artifactId>ole-db</artifactId>
     </parent>
     <name>OLE Impex</name>
     <artifactId>ole-impex</artifactId>
-    <version>1.6.0-r22081</version>
+    <version>1.6.0-r22482</version>
     <packaging>pom</packaging>
     <properties>
         <impex.sql.phase>none</impex.sql.phase>

@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.kuali.ole</groupId>
         <artifactId>ole-sql</artifactId>
-        <version>1.6.0-r22081</version>
+        <version>1.6.0-r22482</version>
     </parent>
     <name>OLE Impex Test SQL</name>
     <artifactId>ole-test-sql</artifactId>

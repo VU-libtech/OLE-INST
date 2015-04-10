@@ -126,7 +126,10 @@ import java.util.List;
     "missingPiecesCount",
     "missingPieceEffectiveDate",
     "numberOfRenew",
-    "checkOutDateTime"
+    "checkOutDateTime",
+    "itemClaimsReturnedRecords",
+    "itemDamagedRecords",
+    "missingPieceItemRecordList"
 })
 @XStreamAlias("item")
 @XmlRootElement(name = "item")
@@ -146,9 +149,12 @@ public class Item {
     protected List<FormerIdentifier> formerIdentifier;
     @XStreamImplicit(itemFieldName = "statisticalSearchingCode")
     protected List<StatisticalSearchingCode> statisticalSearchingCode;
+    @XStreamImplicit(itemFieldName = "missingPieceItemRecordList")
+    protected List<MissingPieceItemRecord> missingPieceItemRecordList;
     @XmlElement(required = true)
     protected ItemType itemType;
     protected Location location;
+    protected String loanDueDate;
     protected List<DonorInfo> donorInfo;
     @XmlElement(required = true)
     protected String copyNumber;
@@ -217,7 +223,31 @@ public class Item {
     @XmlAttribute
     @XStreamAsAttribute
     protected String resourceIdentifier;
+
+    public String getLoanDueDate() {
+        return loanDueDate;
+    }
+
+    public void setLoanDueDate(String loanDueDate) {
+        this.loanDueDate = loanDueDate;
+    }
+
     protected NumberOfCirculations numberOfCirculations;
+    @XStreamImplicit(itemFieldName = "itemClaimReturnedRecords")
+    protected List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords;
+    @XStreamImplicit(itemFieldName = "itemDamagedRecords")
+    protected List<ItemDamagedRecord> itemDamagedRecords;
+
+    public List<MissingPieceItemRecord> getMissingPieceItemRecordList() {
+        if(missingPieceItemRecordList == null){
+            missingPieceItemRecordList = new ArrayList<MissingPieceItemRecord>();
+        }
+        return this.missingPieceItemRecordList;
+    }
+
+    public void setMissingPieceItemRecordList(List<MissingPieceItemRecord> missingPieceItemRecordList) {
+        this.missingPieceItemRecordList = missingPieceItemRecordList;
+    }
 
     /**
      * Gets the value of the itemIdentifier property.
@@ -1180,5 +1210,27 @@ public class Item {
 
     public void setCheckOutDateTime(String checkOutDateTime) {
         this.checkOutDateTime = checkOutDateTime;
+    }
+
+    public List<ItemClaimsReturnedRecord> getItemClaimsReturnedRecords() {
+        if(itemClaimsReturnedRecords == null) {
+            itemClaimsReturnedRecords = new ArrayList<ItemClaimsReturnedRecord>();
+        }
+        return this.itemClaimsReturnedRecords;
+    }
+
+    public void setItemClaimsReturnedRecords(List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords) {
+        this.itemClaimsReturnedRecords = itemClaimsReturnedRecords;
+    }
+
+    public List<ItemDamagedRecord> getItemDamagedRecords() {
+        if(itemDamagedRecords == null) {
+            itemDamagedRecords = new ArrayList<ItemDamagedRecord>();
+        }
+        return this.itemDamagedRecords;
+    }
+
+    public void setItemDamagedRecords(List<ItemDamagedRecord> itemDamagedRecords) {
+        this.itemDamagedRecords = itemDamagedRecords;
     }
 }

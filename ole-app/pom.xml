@@ -3,10 +3,10 @@
     <parent>
         <artifactId>ole</artifactId>
         <groupId>org.kuali.ole</groupId>
-        <version>1.6.0-r22081</version>
+        <version>1.6.0-r22482</version>
     </parent>
     <artifactId>ole-app</artifactId>
-    <version>1.6.0-r22081</version>
+    <version>1.6.0-r22482</version>
     <name>OLE App</name>
     <packaging>pom</packaging>
     <modules>

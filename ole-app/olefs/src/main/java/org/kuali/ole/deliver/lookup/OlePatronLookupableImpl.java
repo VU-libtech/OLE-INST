@@ -276,34 +276,34 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
         // TODO: force uppercase will be done in binding at some point
         displayList = getSearchResults(form, LookupUtils.forceUppercase(getDataObjectClass(), searchCriteria),
                 !bounded);
-
-        try {
-                // TODO delyea - is this the best way to set that the entire set has a returnable row?
-                for (Object object : displayList) {
-                    if(object instanceof OlePatronDocument){
-                        OlePatronDocument patronBo = (OlePatronDocument) object;
-                        OLEPatronEntityViewBo olePatronEntityViewBo = patronBo.getOlePatronEntityViewBo();
-                        patronBo.setFirstName(olePatronEntityViewBo.getFirstName());
-                        patronBo.setMiddleName(olePatronEntityViewBo.getMiddleName());
-                        patronBo.setLastName(olePatronEntityViewBo.getLastName());
-                        patronBo.setEmailAddress(olePatronEntityViewBo.getEmailAddress());
-                        patronBo.setPhoneNumber(olePatronEntityViewBo.getPhoneNumber());
-                        patronBo.setCreateBillUrl(getPatronBillUrl(patronBo.getOlePatronId(),patronBo.getFirstName(),patronBo.getLastName()));
-                        if(olePatronEntityViewBo.getBillCount()>0){
-                            patronBo.setPatronBillFileName(OLEConstants.OlePatron.PATRON_BILL);
-                            patronBo.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + patronBo.getOlePatronId());
-                        }
+        // TODO delyea - is this the best way to set that the entire set has a returnable row?
+        for (Object object : displayList) {
+            if (object instanceof OlePatronDocument) {
+                String patronId="";
+                try {
+                    OlePatronDocument patronBo = (OlePatronDocument) object;
+                    patronId=patronBo.getOlePatronId();
+                    OLEPatronEntityViewBo olePatronEntityViewBo = patronBo.getOlePatronEntityViewBo();
+                    patronBo.setFirstName(olePatronEntityViewBo.getFirstName());
+                    patronBo.setMiddleName(olePatronEntityViewBo.getMiddleName());
+                    patronBo.setLastName(olePatronEntityViewBo.getLastName());
+                    patronBo.setEmailAddress(olePatronEntityViewBo.getEmailAddress());
+                    patronBo.setPhoneNumber(olePatronEntityViewBo.getPhoneNumber());
+                    patronBo.setCreateBillUrl(getPatronBillUrl(patronBo.getOlePatronId(), patronBo.getFirstName(), patronBo.getLastName()));
+                    if (olePatronEntityViewBo.getBillCount() > 0) {
+                        patronBo.setPatronBillFileName(OLEConstants.OlePatron.PATRON_BILL);
+                        patronBo.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + patronBo.getOlePatronId());
                     }
-                    if (isResultReturnable(object)) {
-                        form.setAtLeastOneRowReturnable(true);
-                    }
+                } catch (Exception e) {
+                    LOG.error("Error occurred while patron Lookup (patron Id -"+patronId+"):"+e);  //To change body of catch statement use File | Settings | File Templates.
                 }
-                finalResult = (List<OlePatronDocument>)displayList;
+            }
+            if (isResultReturnable(object)) {
+                form.setAtLeastOneRowReturnable(true);
+            }
         }
-        catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        searchResults=finalResult;
+        finalResult = (List<OlePatronDocument>) displayList;
+        searchResults = finalResult;
         return finalResult;
     }
 
@@ -348,7 +348,7 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        Map<String, String> primaryKeyValues = super.getPropertyKeyValuesFromDataObject(pkNames, dataObject);
+        Map<String, String> primaryKeyValues = KRADUtils.getPropertyKeyValuesFromDataObject(pkNames, dataObject);
         for (String primaryKey : primaryKeyValues.keySet()) {
             String primaryKeyValue = primaryKeyValues.get(primaryKey);
 

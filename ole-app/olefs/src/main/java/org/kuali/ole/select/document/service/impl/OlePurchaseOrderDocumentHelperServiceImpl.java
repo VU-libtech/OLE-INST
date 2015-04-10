@@ -352,9 +352,9 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
      */
     @Override
     public void processAfterRetrieve(PurchaseOrderDocument purchaseOrderDocument) {
-
         // super.processAfterRetrieve();
         LOG.debug("Inside processAfterRetrieve of OlePurchaseOrderDocumentHelperServiceImpl");
+         // if(!purchaseOrderDocument.getFinancialDocumentTypeCode().equals("OLE_POC")) {
         try {
             PurchaseOrderType purchaseOrderTypeDoc = getOlePurapService().getPurchaseOrderType(purchaseOrderDocument.getPurchaseOrderTypeId());
             if(purchaseOrderTypeDoc != null){
@@ -373,7 +373,7 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
             LOG.error("Exception in OlePurchaseOrderDocument:processAfterRetrieve for OlePurchaseOrderItem " + e.getMessage());
             throw new RuntimeException(e);
         }
-
+    // }
     }
 
     /**

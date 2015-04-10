@@ -1427,6 +1427,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
             OleDeliverRequestHistoryRecord oleDeliverRequestHistoryRecord = new OleDeliverRequestHistoryRecord();
             oleDeliverRequestHistoryRecord.setRequestId(oleDeliverRequestBo.getRequestId());
             oleDeliverRequestHistoryRecord.setItemId(oleDeliverRequestBo.getItemId());
+            oleDeliverRequestHistoryRecord.setPatronId(oleDeliverRequestBo.getOlePatron()!=null?oleDeliverRequestBo.getOlePatron().getOlePatronId():null);
             oleDeliverRequestHistoryRecord.setArchiveDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestHistoryRecord.setPickUpLocationCode(oleDeliverRequestBo.getPickUpLocationCode());
             oleDeliverRequestHistoryRecord.setOperatorId(OperatorId);

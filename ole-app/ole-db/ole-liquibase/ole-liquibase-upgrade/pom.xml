@@ -3,7 +3,7 @@
     <parent>
         <artifactId>ole-liquibase</artifactId>
         <groupId>org.kuali.ole</groupId>
-        <version>1.6.0-r22081</version>
+        <version>1.6.0-r22482</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

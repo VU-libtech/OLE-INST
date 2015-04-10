@@ -87,10 +87,15 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
                     if (oleItemSearch != null && oleItemSearch.getItemBarCode() != null) {
                         oleDeliverRequestBoList.get(i).setTitle(oleItemSearch.getTitle());
                         oleDeliverRequestBoList.get(i).setCallNumber(oleItemSearch.getCallNumber());
+                        oleDeliverRequestBoList.get(i).setAuthor(oleItemSearch.getAuthor());
+                        oleDeliverRequestBoList.get(i).setItemType(oleItemSearch.getItemType());
+                        oleDeliverRequestBoList.get(i).setItemStatus(oleItemSearch.getItemStatus());
+                        oleDeliverRequestBoList.get(i).setShelvingLocation(oleItemSearch.getShelvingLocation());
+                        oleDeliverRequestBoList.get(i).setCopyNumber(oleItemSearch.getCopyNumber());
                     }
                 }
             }
-            olePatronDocument.setOleDeliverRequestBos(getLoanProcessor().getPatronRequestRecords(olePatronDocument.getOlePatronId()));
+            olePatronDocument.setOleDeliverRequestBos(oleDeliverRequestBoList);
         } catch (Exception e) {
             LOG.error("While fetching Patron Requested Records error occured" + e);
         }

@@ -196,6 +196,10 @@
                 <ref bean="hiddenButtonForChangeToPaymentMethod"/>
                 <ref bean="hdnduplicateApproveFlag"/>
                 <ref bean="OLEInvoice-DuplicationApprovePopUp"/>
+                <ref bean="hdnduplicateRouteFlag"/>
+                <ref bean="OLEInvoice-DuplicationRoutePopUp"/>
+                <ref bean="hdnduplicateSaveFlag"/>
+                <ref bean="OLEInvoice-DuplicationSavePopUp"/>
                 <ref bean="hdnAmountExceeds"/>
                 <ref bean="hdnAmountExceedsForBlanketApprove"/>
                 <ref bean="MessagePopupSectionForInvoiceAmountExceedsThreshold"/>
@@ -346,7 +350,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="MessagePopupSectionForBlanketApproveSubscriptionDateValidation" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
@@ -372,7 +376,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="InvoicePopupButtonForBlanketApproveSubscriptionDateValidation" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
         <property name="items">
             <list>
@@ -382,15 +386,15 @@
             </list>
         </property>
     </bean>
-    
-    
+
+
     <bean id="hdnSubscriptionDateValidationFlag" parent="Uif-InputField" p:propertyName="subscriptionDateValidationFlag" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
-    
-        
+
+
     <bean id="MessagePopupSectionForSubscriptionDateValidation" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
@@ -405,8 +409,8 @@
             </list>
         </property>
     </bean>
-  
-  <bean id="InvoicePopupButtonForSubscriptionDateValidation" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+
+    <bean id="InvoicePopupButtonForSubscriptionDateValidation" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
         <property name="items">
             <list>
                 <bean id="continue_invoice_subscription_validation" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueInvoiceSubscriptionApprove" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeInvoiceSubscriptionDateValidationPopUp();" p:render="@{document.subscriptionDateValidationFlag}"/>
@@ -415,7 +419,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="hdnSfcFlagForBlankApp" parent="Uif-InputField" p:propertyName="baSfcFlag" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
@@ -631,52 +635,52 @@
     </bean>
 
     <bean id="OLEInvoiceView-processItems-Wrapper" parent="Uif-VerticalBoxGroup">
-    	<property name="items">
-    		<list>
-		      <bean parent="Uif-SectionHeader">
-		      	<property name="inlineComponents">
-		      		<list>
-		      			<bean parent="Uif-ActionImage" p:hidden="@{filterProcessItems}"
-			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="filterProcessItems" value="true" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterProcessItems}"
-			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
-		      				<property name="actionImage">
-				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
-		      				</property>
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="filterProcessItems" value="false" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Process Items"
-			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
-		      				<property name="additionalSubmitData">
-		      					<map>
-		      						<entry key="filterProcessItems" value="@{!filterProcessItems}" />
-		      					</map>
-		      				</property>
-		      			</bean>
-		      		</list>
-		      	</property>
-		      	<property name="headerText" value="[0][1] [2]" />
-		      </bean>
-              <ref bean="OLEInvoiceView-processItems" />
-    		</list>
-    	</property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SectionHeader">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionImage" p:hidden="@{filterProcessItems}"
+                                  p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="filterProcessItems" value="true" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionImage" p:hidden="@{!filterProcessItems}"
+                                  p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+                                </property>
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="filterProcessItems" value="false" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Process Items"
+                                  p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
+                                <property name="additionalSubmitData">
+                                    <map>
+                                        <entry key="filterProcessItems" value="@{!filterProcessItems}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="[0][1] [2]" />
+                </bean>
+                <ref bean="OLEInvoiceView-processItems" />
+            </list>
+        </property>
     </bean>
-    
+
     <bean id="OLEInvoiceView-processItems" parent="Uif-GridSection" p:filterModelProperty="filterProcessItems"
-    		p:layoutManager.numberOfColumns="1" p:layoutManager.applyDefaultCellWidths="false" p:style="width: auto">
+          p:layoutManager.numberOfColumns="1" p:layoutManager.applyDefaultCellWidths="false" p:style="width: auto">
         <property name="items">
             <list>
                 <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1" >
@@ -684,7 +688,7 @@
                         <list>
                             <ref bean="OLEInvoiceView-ProcessItem-PurchaseOrder" />
                             <ref bean="OleInvoiceView-POItems" />
-                           <!-- <bean id="OLEInvoiceView-Item-currentItemsBtn_Btn" parent="Uif-PrimaryActionButton-Small" p:methodToCall="currentItemsBtn" p:actionLabel="Current Items" p:refreshId="OleInvoiceView-invoiceItems"/>-->
+                            <!-- <bean id="OLEInvoiceView-Item-currentItemsBtn_Btn" parent="Uif-PrimaryActionButton-Small" p:methodToCall="currentItemsBtn" p:actionLabel="Current Items" p:refreshId="OleInvoiceView-invoiceItems"/>-->
                             <ref bean="OleInvoiceView-invoiceItems" />
                             <ref bean="OLEInvoiceView-ProcessItem-InvoiceTotal"/>
                             <ref bean="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper"/>
@@ -823,7 +827,7 @@
 
     <bean id="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto"
-            p:render="@{#line.notes ne null and #line.notes.size()>0}">
+          p:render="@{#line.notes ne null and #line.notes.size()>0}">
         <property name="collectionObjectClass" value="org.kuali.rice.krad.bo.Note" />
         <property name="propertyName" value="notes" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -878,13 +882,13 @@
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="route" p:actionLabel="submit"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:successCallback="route()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"  p:performClientSideValidation="true" />
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:successCallback="route()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:successCallback="save()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="blanketApprove" p:actionLabel="blanket approve"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}" p:successCallback="blanketApprove()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"  p:performClientSideValidation="true" />
                 <bean id="invoice_close_btn" parent="Uif-SecondaryActionButton" p:actionLabel="close" p:methodToCall="closeDocument" p:render="@{!#form.renderedInLightBox}"/>
                 <bean parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-               <!-- <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="calculate" p:actionLabel="calculate"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] or #actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />-->
+                <!-- <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="calculate" p:actionLabel="calculate"
+                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] or #actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />-->
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="route report"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
@@ -1019,7 +1023,7 @@
         </property>
     </bean>
 
-     <bean id="OLEInvoice-DuplicationPopUp" parent="Uif-VerticalBoxSection">
+    <bean id="OLEInvoice-DuplicationPopUp" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalFieldGroup">
@@ -1072,6 +1076,68 @@
         </property>
     </bean>
 
+    <bean id="hdnduplicateRouteFlag" parent="Uif-InputField" p:propertyName="duplicateRouteFlag" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEInvoice-DuplicationRoutePopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="duplicateRouteExist" parent="Uif-MessageField" p:messageText="@{duplicationMessage}" />
+                            <ref bean="OLEInvoice-DuplicationRoutePopUp-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoice-DuplicationRoutePopUp-HorizontalBoxSection" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="continueDuplicateRoute" p:successCallback="closeInvoiceVendorRoutePopUp()" p:actionLabel="Yes" p:render="@{document.duplicateRouteFlag}"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:actionLabel="No" p:successCallback="closeInvoiceVendorRoutePopUp()" p:render="@{document.duplicateRouteFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="hdnduplicateSaveFlag" parent="Uif-InputField" p:propertyName="duplicateSaveFlag" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEInvoice-DuplicationSavePopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="duplicateSaveExist" parent="Uif-MessageField" p:messageText="@{duplicationMessage}" />
+                            <ref bean="OLEInvoice-DuplicationSavePopUp-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoice-DuplicationSavePopUp-HorizontalBoxSection" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="continueSave" p:successCallback="closeInvoiceVendorSavePopUp()" p:actionLabel="Yes" p:render="@{document.duplicateSaveFlag}"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:actionLabel="No" p:successCallback="closeInvoiceVendorSavePopUp()" p:render="@{document.duplicateSaveFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+
+
     <bean id="hdnduplicateApproveFlag" parent="Uif-InputField" p:propertyName="duplicateApproveFlag" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
@@ -1114,5 +1180,4 @@
     <bean id="updateExchangeRateBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updateExchangeRate" p:hidden="true" />
 
 </beans>
-
 
