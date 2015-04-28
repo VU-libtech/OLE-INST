@@ -163,10 +163,9 @@
                     </listitem>
                     <listitem>
                         <para>Once a Batch Process Type has been selected, the <emphasis role="bold"
-                                >Batch Process Profile Name</emphasis> field displays.  Begin typing
+                                >Batch Process Profile Name</emphasis> field displays. Begin typing
                             the profile name and a list of options will appear. Enter “*” (asterisk)
-                            to display the complete list.  Select the Profile you wish to
-                            use.</para>
+                            to display the complete list. Select the Profile you wish to use.</para>
                         <para role="Illustration">
                             <screenshot>
                                 <mediaobject>
@@ -324,8 +323,10 @@
                             below).</para>
                     </listitem>
                     <listitem>
-                        <para>To review completed batch jobs, review the report, or restart the job
-                            see <emphasis role="bold">Batch Process Job Details</emphasis>.</para>
+                        <para>If you have not scheduled the job for a later time, the <emphasis
+                                role="bold">Batch Process Job Details</emphasis> page will open in a
+                            new tab or window.  This interface allows you to review the report,
+                            stop, pause, or restart the job.  </para>
                         <note>
                             <para>For additional information on <emphasis role="bold">Batch Process
                                     Job Details</emphasis>, see <link
@@ -624,7 +625,24 @@
                 </emphasis></para>
             <para role="Body Text">The <emphasis role="bold">Batch Process Job Details</emphasis>
                 screen displays the batch jobs that have run or are currently running. Staff may
-                also restart a job, view the job report and remove the job from OLE.</para>
+                also restart a job, view the job report and remove the job from OLE from this
+                interface.</para>
+            <para>If you have run a batch job and the <emphasis role="bold">Batch Process Job
+                    Details</emphasis> screen opened automatically, only your corresponding job will
+                be displayed.  If you open the screen from the OLE menu, all jobs will be
+                displayed.</para>
+            <para>Enter dates into the <emphasis role="bold">Date Create From</emphasis> and/or the
+                    <emphasis role="bold">Date Created To</emphasis> fields or use the calendar icon <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+                    </imageobject>
+                </inlinemediaobject> and click <inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-164.png"/>
+                    </imageobject>
+                </inlinemediaobject> to narrow down the results which appear in the Batch Process
+                Job Details table.</para>
             <para/>
             <para role="Illustration">
                 <screenshot>
@@ -3062,8 +3080,7 @@
                 specifies when the particular job should be scheduled. This interface is only for
                 OLE-created jobs (Circulation jobs for example) and not KFS-inherited jobs. To learn
                 more about each of the jobs available in Deliver, see <link linkend="BatchProcesses"
-                    >batch processes</link> under the <emphasis>Deliver
-                    Module</emphasis>.</para>
+                    >batch processes</link> under the <emphasis>Deliver Module</emphasis>.</para>
             <para/>
             <section>
                 <title>Batch Job Lookup</title>
@@ -3321,8 +3338,9 @@
                     <para>If you have selected the <emphasis role="bold"
                             >generateOnHoldNoticeJob</emphasis>, an additional tab will be
                         available. <emphasis role="bold">Pick up Location</emphasis> allows you to
-                        regulate the printing or electronic transmission of Deliver notices by
-                        Circulation Location/Library Name if desired.</para>
+                        regulate the printing or electronic transmission of Deliver notices for the
+                        entire system by Circulation Location/Library Name if desired. If left
+                        blank, the job will run for all locations.</para>
                     <para role="Illustration">
                         <screenshot>
                             <mediaobject>
@@ -3335,6 +3353,72 @@
                     </para>
                     <para>Select the Pick-up Location from the drop down list. The list will only
                         include locations for which you are authorized.</para>
+                    <note>
+                        <para><emphasis role="bold">GenerateOnHoldNoticeJob</emphasis> is the main
+                            hold notice job for all pick-up locations. Changing it’s values to one
+                            pick up location or by selecting the <inlinemediaobject>
+                                <alt>Run Now</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-189.png"/>
+                                </imageobject>
+                            </inlinemediaobject> value will stop all other hold notices from
+                            running.  To run an on demand hold notice job for one pick up location,
+                            separate from or in addition to the regularly scheduled <emphasis
+                                role="bold">generateOnHoldNoticeJob</emphasis>, use the Circulation
+                            Desk Inquiry.</para>
+                    </note>
+                    <section>
+                        <title>Circulation Desk Inquiry</title>
+                        <para><inlinemediaobject>
+                                <alt>Maintenance</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                                </imageobject>
+                            </inlinemediaobject> &gt; <inlinemediaobject>
+                                <alt>Circulation Admin</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                                    <alt>Circulation Desk</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-44.png"/>
+                                    </imageobject>
+                                </inlinemediaobject><emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                                    <alt>Circulation Desk Lookup</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-78.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>&gt;</emphasis><inlinemediaobject>
+                                <alt>Circulation Desk</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-45b.png"/>
+                                </imageobject>
+                            </inlinemediaobject></para>
+                        <para>The Circulation Desk Lookup allows staff to view circulation desks and
+                            the Inquiry allows staff to run hold notices notice jobs for circulation
+                            desks that have already been mapped.  By clicking the <inlinemediaobject>
+                                <alt>Generate On Hold Notice</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-205.png"/>
+                                </imageobject>
+                            </inlinemediaobject> button, staff can initiate an on demand, one time
+                            hold notice job that runs independantly of <emphasis role="bold"
+                                >generateOnHoldNoticeJob</emphasis>.</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Circulation Desk Inquiry includes a Generate On Hold Notice
+                                        button</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/admin-203.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </section>
                 </section>
             </section>
             <section>
@@ -3435,9 +3519,9 @@
                                     <para role="Table Cells">Represents months. The allowed values
                                         are 1-12 or JAN-DEC.</para>
                                     <para><emphasis role="bold">Example:</emphasis></para>
-                                    <para>0 11 11 11 11 ? <emphasis>or</emphasis> 0 11
-                                        11 11 NOV ? - This will fire the job at 11:11 AM on November
-                                        11th of each year.</para>
+                                    <para>0 11 11 11 11 ? <emphasis>or</emphasis> 0 11 11 11 NOV ? -
+                                        This will fire the job at 11:11 AM on November 11th of each
+                                        year.</para>
                                 </entry>
                             </row>
                             <row>
@@ -3448,9 +3532,9 @@
                                     <para role="Table Cells">Represents days of the week. The
                                         allowed values are 1-7 or SUN-SAT.</para>
                                     <para><emphasis role="bold">Example:</emphasis></para>
-                                    <para>0 10,44 14 ? 3 WED <emphasis>or</emphasis> 0
-                                        10,44 14 ? 3 4 - This will fire the job at 2:10 PM and 2:44
-                                        PM on every Wednesday in the month of March.</para>
+                                    <para>0 10,44 14 ? 3 WED <emphasis>or</emphasis> 0 10,44 14 ? 3
+                                        4 - This will fire the job at 2:10 PM and 2:44 PM on every
+                                        Wednesday in the month of March.</para>
                                     <para>0 10,44 14 ? 3 WED-FRI - This will fire the job at 2:10 PM
                                         and 2:44 PM from Wednesday to Friday each week during the
                                         month of March. </para>
@@ -4145,8 +4229,8 @@
                 updated. To see changes, check your <link linkend="_DeliverNotices">Deliver
                     Notices</link> after some time (it could take an hour or two). </para>
             <note>
-                <para>Deliver Notices documentation is available under the <emphasis
-                        >Deliver Module</emphasis>.</para>
+                <para>Deliver Notices documentation is available under the <emphasis>Deliver
+                        Module</emphasis>.</para>
             </note>
         </section>
     </section>
@@ -5939,8 +6023,7 @@
                     <note>
                         <para role="Normal"> For more information about the bibliographic editor,
                             see the <link linkend="_Editor">OLE MARC Editor</link> section under the
-                                <emphasis>Describe and Manage
-                            Module</emphasis>.</para>
+                                <emphasis>Describe and Manage Module</emphasis>.</para>
                     </note>
                     <note>
                         <para role="Normal"> Note: The View and Edit buttons will most likely change
@@ -6086,8 +6169,7 @@
                     <note>
                         <para role="Normal"> For more information about the Instance editor, see the
                                 <link linkend="_Instance_Editor_1">Instance records</link> section
-                            under the <emphasis>Describe and Manage
-                            Module</emphasis>.</para>
+                            under the <emphasis>Describe and Manage Module</emphasis>.</para>
                     </note>
                     <para role="Normal"/>
                 </section>
@@ -8564,7 +8646,7 @@
                 Manager role can create or edit Parameter documents.</para>
             <note>
                 <para>In 1.6, OLE's project team continues to working on reviewing and documenting
-                    parameters.  For this work in progress see the <link
+                    parameters. For this work in progress see the <link
                         xlink:href="https://docs.google.com/spreadsheets/d/1mzL1BvtpG9_CtA_sT6R1TiVszmLvaawuk3zg9Uvl4NU/edit#gid=67356612"
                         >parameters Google Document</link>.</para>
             </note>
@@ -9031,8 +9113,7 @@
             <note>
                 <para> For more information about workflow, see the <link
                         linkend="_workflowOverviewAndKeyConcepts">OLE Workflow Overview and Key
-                        Concepts</link> under <emphasis>OLE Basic
-                        Functionality</emphasis>.</para>
+                        Concepts</link> under <emphasis>OLE Basic Functionality</emphasis>.</para>
             </note>
             <para role="Body Text">Document Type documents can only be created by members of OLE-SYS
                 Manager or KR-SYS Technical Administrator roles and they do not route for
@@ -15021,10 +15102,10 @@
                     </inlinemediaobject></emphasis></para>
             <para role="Body Text">The Campus Maintenance Document is used to identify the different
                 fiscal and physical operating entities of an institution for use in OLE. A campus
-                may be identified as a fiscal entity, a physical entity, or both.  Derived from
-                older financial systems, a fiscal campus is not supposed to be allowed on accounts
-                or organizations however in coding KFS, and then transferring to OLE, any campus
-                type is allowed on those documents.</para>
+                may be identified as a fiscal entity, a physical entity, or both. Derived from older
+                financial systems, a fiscal campus is not supposed to be allowed on accounts or
+                organizations however in coding KFS, and then transferring to OLE, any campus type
+                is allowed on those documents.</para>
             <para role="Body Text">When the user chooses the Campus option, the system displays the
                 Campus Lookup screen. After the user selects a campus or clicks the <phrase
                     role="Strong">create new</phrase> button, the system presents the Campus
@@ -15118,7 +15199,7 @@
                     tab. The Campus Maintenance document is used in the Chart of Accounts in OLE's
                     financial module and also the KIM module. Alternatively, the Campus Parameter,
                     is only used for purchasing, receiving, and is also found on the Vendor Contract
-                    tab.  The Campus Maintenance document must exist before creating any Campus
+                    tab. The Campus Maintenance document must exist before creating any Campus
                     Parameter documents.</para>
                 <note>
                     <para>For additional information about the Campus Parameter document, see the
