@@ -918,7 +918,7 @@ public class LoanController extends UifControllerBase {
                                         oleNoticeBo.setCheckInDate(dateFormat.format(date));
                                         String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                                        String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                                        String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                                         if (replyToEmail!=null){
                                             oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                                         }else {
@@ -1028,7 +1028,7 @@ public class LoanController extends UifControllerBase {
                         oleNoticeBo.setCheckInDate(dateFormat.format(date));
                         String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                        String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                        String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                         if (replyToEmail != null) {
                             oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                         } else {
@@ -3064,7 +3064,7 @@ public class LoanController extends UifControllerBase {
 
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                     } else {
@@ -3207,7 +3207,7 @@ public class LoanController extends UifControllerBase {
 
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                     } else {
@@ -3282,7 +3282,7 @@ public class LoanController extends UifControllerBase {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                     } else {
@@ -3575,7 +3575,7 @@ public class LoanController extends UifControllerBase {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                     } else {
@@ -3636,7 +3636,7 @@ public class LoanController extends UifControllerBase {
                 }
             }
             OleCirculationDesk oleCirculationDesk = null;
-            oleCirculationDesk = getLoanProcessor().getOleCirculationDesk(oleLoanForm.getCirculationDesk());
+            oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(oleLoanForm.getCirculationDesk());
             if (holdSlipList.size() > 0 && oleCirculationDesk != null && oleCirculationDesk.isPrintSlip() && oleCirculationDesk.isHoldQueue()) {
                 printHoldSlipList = holdSlipList;
                 oleLoanForm.setHoldSlip(true);
@@ -3750,7 +3750,7 @@ public class LoanController extends UifControllerBase {
         if(parameter != null){
             oleLoanForm.setMaxTimeForCheckInDate(Integer.parseInt(parameter) * 60);
         }*/
-        OleCirculationDesk oleCirculationDesk = loanProcessor.getCirculationDeskByLocationCode(oleLoanForm.getRouteToLocation());
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCirculationDeskByLocationCode(oleLoanForm.getRouteToLocation());
         OleLoanDocument oleLoanDocument = oleLoanForm.getDummyLoan();
         if ((oleLoanForm.getRouteToLocation() == null || oleLoanForm.getRouteToLocation().isEmpty()) && oleLoanDocument.getItemStatusCode().contains(OLEConstants.ITEM_STATUS_IN_TRANSIT)) {
             oleLoanForm.setInformation(OLEConstants.CIRC_DESK_REQUIRED);
@@ -3795,7 +3795,7 @@ public class LoanController extends UifControllerBase {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                     } else {
@@ -3849,7 +3849,7 @@ public class LoanController extends UifControllerBase {
         if(parameter != null){
             oleLoanForm.setMaxTimeForCheckInDate(Integer.parseInt(parameter) * 60);
         }*/
-        OleCirculationDesk oleCirculationDesk = loanProcessor.getCirculationDeskByLocationCode(oleLoanForm.getRouteToLocation());
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCirculationDeskByLocationCode(oleLoanForm.getRouteToLocation());
         OleLoanDocument oleLoanDocument = oleLoanForm.getDummyLoan();
         if ((oleLoanForm.getRouteToLocation() == null || oleLoanForm.getRouteToLocation().isEmpty()) && oleLoanDocument.getItemStatusCode().contains(OLEConstants.ITEM_STATUS_IN_TRANSIT)) {
             oleLoanForm.setInformation(OLEConstants.CIRC_DESK_REQUIRED);
@@ -3894,7 +3894,7 @@ public class LoanController extends UifControllerBase {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                     } else {
@@ -4031,7 +4031,7 @@ public class LoanController extends UifControllerBase {
             LOG.debug("Check in Note Exists ");
         }
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-        OleCirculationDesk oleCirculationDesk = loanProcessor.getCirculationDeskByLocationCode(oleLoanForm.getRouteToLocation());
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCirculationDeskByLocationCode(oleLoanForm.getRouteToLocation());
         OleLoanDocument oleLoanDocument = oleLoanForm.getDummyLoan();
         if ((oleLoanForm.getRouteToLocation() == null || oleLoanForm.getRouteToLocation().isEmpty()) && oleLoanDocument.getItemStatusCode().contains(OLEConstants.ITEM_STATUS_IN_TRANSIT)) {
             oleLoanForm.setInformation(OLEConstants.CIRC_DESK_REQUIRED);
@@ -4057,7 +4057,7 @@ public class LoanController extends UifControllerBase {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
                     } else {
@@ -4279,7 +4279,7 @@ public class LoanController extends UifControllerBase {
             OleLoanForm oleLoanForm = (OleLoanForm) GlobalVariables.getUifFormManager().getSessionForm(formKey);
             OleLoanDocument oleLoanDocument = oleLoanForm.getDummyLoan();
             OleCirculationDesk oleCirculationDesk = null;
-            oleCirculationDesk = getLoanProcessor().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
+            oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
             olePrintSlip.createHoldSlipPdf(printHoldSlipList, response, oleCirculationDesk);
 
         } catch (Exception e) {

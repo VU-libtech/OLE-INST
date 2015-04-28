@@ -767,7 +767,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 }
 
                 // Set amount
-                if (item.getItemOutstandingEncumberedQuantity() != null) {
+                if (item.getItemOutstandingEncumberedQuantity() != null && item.getItemOutstandingEncumberedQuantity().isGreaterThan(new KualiDecimal(0))) {
                     //do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
                     KualiDecimal itemEncumber = new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));
 
@@ -776,7 +776,19 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     itemEncumber = itemEncumber.add(itemTaxAmount);
 
                     item.setItemOutstandingEncumberedAmount(itemEncumber);
-                } else {
+                }
+                else if(item.getItemOutstandingEncumberedQuantity() != null && item.getItemOutstandingEncumberedQuantity().isLessEqual(new KualiDecimal(0))) {
+                    KualiDecimal itemEncumber = new KualiDecimal(item.getItemQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));
+
+                    //add tax for encumbrance
+                    KualiDecimal itemTaxAmount = item.getItemTaxAmount() == null ? ZERO : item.getItemTaxAmount();
+                    itemEncumber = itemEncumber.add(itemTaxAmount);
+
+                    item.setItemOutstandingEncumberedAmount(itemEncumber);
+
+                }
+                else
+                {
                     if (item.getItemUnitPrice() != null) {
                         item.setItemOutstandingEncumberedAmount(new KualiDecimal(item.getItemUnitPrice().subtract(item.getItemInvoicedTotalAmount().bigDecimalValue())));
                     }
@@ -962,9 +974,21 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity());
                 item.setItemOutstandingEncumberedQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
-                item.setItemOutstandingEncumberedAmount(new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice())));
+                if(item.getItemOutstandingEncumberedQuantity().isGreaterThan(new KualiDecimal(0))) {
+                    item.setItemOutstandingEncumberedAmount(new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice())));
+                }
+                else {
+                    item.setItemOutstandingEncumberedAmount(new KualiDecimal(item.getItemQuantity().bigDecimalValue().multiply(item.getItemUnitPrice())));
+                    item.setItemOutstandingEncumberedQuantity(new KualiDecimal(item.getItemQuantity().bigDecimalValue()));
+                }
             } else {
-                item.setItemOutstandingEncumberedAmount(item.getTotalAmount().subtract(item.getItemInvoicedTotalAmount()));
+                if((item.getTotalAmount().subtract(item.getItemInvoicedTotalAmount()).isGreaterThan(new KualiDecimal(0)))) {
+                    item.setItemOutstandingEncumberedAmount(item.getTotalAmount().subtract(item.getItemInvoicedTotalAmount()));
+                }
+                else {
+                    item.setItemOutstandingEncumberedAmount(item.getTotalAmount());
+                    item.setItemOutstandingEncumberedQuantity(new KualiDecimal(item.getItemQuantity().bigDecimalValue()));
+                }
             }
             List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
             for (PurApAccountingLine purApAccountingLine : sourceAccountingLines) {
@@ -1170,7 +1194,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                                 poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.subtract(encumbranceQuantity));
                                 if (LOG.isDebugEnabled()) {
                                     LOG.debug("relieveEncumbrance() " + logItmNbr + " adjusting oustanding encunbrance qty - encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
-                                }
+                            }
                             }
 
                             if (poItem.getItemInvoicedTotalQuantity() == null) {
@@ -1207,7 +1231,18 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                             encumbranceQuantity = outstandingEncumberedQuantity;
                             poItem.setItemOutstandingEncumberedQuantity(ZERO);
                             takeAll = true;
-                        } else {
+                        }
+                        else if (outstandingEncumberedQuantity.isLessEqual(new KualiDecimal(0))) {
+                            // We bought more than the quantity on the PO
+                          //  if (LOG.isDebugEnabled()) {
+                                LOG.info("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
+                           // }
+                            encumbranceQuantity = poItem.getItemQuantity();
+                            poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                            takeAll = true;
+                        }
+
+                        else {
                             encumbranceQuantity = invoiceQuantity;
                             poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.subtract(encumbranceQuantity));
                             if (ZERO.compareTo(poItem.getItemOutstandingEncumberedQuantity()) == 0) {
@@ -1215,7 +1250,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                             }
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("relieveEncumbrance() " + logItmNbr + " encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
-                            }
+                        }
                         }
 
                         if (poItem.getItemInvoicedTotalQuantity() == null) {
@@ -1243,7 +1278,18 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                             if (preqItemTotalAmount.compareTo(poItem.getItemOutstandingEncumberedAmount()) >= 0) {
                                 // extended price is equal to or greater than outstanding encumbered
                                 itemDisEncumber = preqItemTotalAmount;
-                            } else {
+                            }
+                            else if (poItem.getItemOutstandingEncumberedAmount().isLessEqual(new KualiDecimal(0))) {
+                                // We bought more than the quantity on the PO
+                              //  if (LOG.isDebugEnabled()) {
+                                    LOG.info("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
+                              //  }
+                                itemDisEncumber = poItem.getItemQuantity().multiply(new KualiDecimal(poItem.getItemUnitPrice()));
+                                poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                                takeAll = true;
+                            }
+
+                            else {
                                 // extended price is less than outstanding encumbered
                                 takeAll = true;
                                 itemDisEncumber = poItem.getItemOutstandingEncumberedAmount();
@@ -1267,7 +1313,13 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                         LOG.debug("relieveEncumbrance() " + logItmNbr + " Amount to disencumber: " + itemDisEncumber);
                     }
 
-                    KualiDecimal newOutstandingEncumberedAmount = poItem.getItemOutstandingEncumberedAmount().subtract(itemDisEncumber);
+                    KualiDecimal newOutstandingEncumberedAmount = new KualiDecimal(0);
+                    if (poItem.getItemOutstandingEncumberedAmount().isLessEqual(new KualiDecimal(0))) {
+                        newOutstandingEncumberedAmount = itemDisEncumber;
+                    }
+                    else {
+                        newOutstandingEncumberedAmount = poItem.getItemOutstandingEncumberedAmount().subtract(itemDisEncumber);
+                    }
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("relieveEncumbrance() " + logItmNbr + " New Outstanding Encumbered amount is : " + newOutstandingEncumberedAmount);
                     }
@@ -1780,7 +1832,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         //SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 
         //MSU Contribution OLEMI-8639 DTT-4009 OLECNTRB-966
-        SpringContext.getBean(BusinessObjectService.class).save(po);
+      //  SpringContext.getBean(BusinessObjectService.class).save(po);
 
         List<SourceAccountingLine> encumbranceAccounts = new ArrayList<SourceAccountingLine>();
         for (Iterator<SourceAccountingLine> iter = encumbranceAccountMap.keySet().iterator(); iter.hasNext(); ) {
@@ -1792,6 +1844,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         return encumbranceAccounts;
     }
 
@@ -1948,7 +2001,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         //SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 
         //MSU Contribution OLEMI-8639 DTT-4009 OLECNTRB-966
-        SpringContext.getBean(BusinessObjectService.class).save(po);
+       // SpringContext.getBean(BusinessObjectService.class).save(po);
 
         List<SourceAccountingLine> encumbranceAccounts = new ArrayList<SourceAccountingLine>();
         for (Iterator<SourceAccountingLine> iter = encumbranceAccountMap.keySet().iterator(); iter.hasNext(); ) {
@@ -1959,7 +2012,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 encumbranceAccounts.add(acctString);
             }
         }
-
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         return encumbranceAccounts;
     }
 

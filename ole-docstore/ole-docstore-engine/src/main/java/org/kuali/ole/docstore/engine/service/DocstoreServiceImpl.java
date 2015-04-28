@@ -20,6 +20,10 @@ import org.kuali.ole.docstore.engine.service.storage.DocstoreStorageService;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
+import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +44,13 @@ public class DocstoreServiceImpl implements DocstoreService {
     private DocstoreStorageService docstoreStorageService = null;
     private DocstoreSearchService docstoreSearchService = null;
     private DocstoreIndexService docstoreIndexService = null;
+    protected ParameterServiceImpl parameterService = new ParameterServiceImpl();
+
+    public String getParameter() {
+        ParameterKey parameterKey = ParameterKey.create(OLE, OLE_DESC, DESCRIBE, PROCESS_SOLR_IND);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter != null ? parameter.getValue() : null;
+    }
 
     @Override
     public void createBib(Bib bib) {
@@ -1308,7 +1319,9 @@ public class DocstoreServiceImpl implements DocstoreService {
     public BibTrees processBibTrees(BibTrees bibTrees) {
         try {
             getDocstoreStorageService().processBibTrees(bibTrees);
-            getDocstoreIndexService().processBibTrees(bibTrees);
+            if(!"false".equalsIgnoreCase(getParameter())){
+                getDocstoreIndexService().processBibTrees(bibTrees);
+            }
         } catch (Exception e) {
             LOG.error("Exception occurred while processing bib trees ", e);
             throw e;

@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.service;
 
+import org.codehaus.plexus.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.OLEConstants;
@@ -24,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by premkb on 4/8/15.
@@ -101,6 +103,8 @@ public class NoticePDFContentFormatterTest {
 
         String fileName = mockNoticePDFContentFormatter.generateOverDueNoticeContent(oleLoanDocument);
         assertNotNull(fileName);
+        boolean isFileExist= FileUtils.fileExists(fileName);
+        assertTrue(isFileExist);
     }
 
     private class MockNoticePDFContentFormatter extends NoticePDFContentFormatter {

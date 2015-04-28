@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.kuali.ole.ConfigureContext;
 import org.kuali.ole.DocumentTestUtils;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.ole.module.purap.businessobject.PurchasingItem;
@@ -40,16 +41,19 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.AccountingDocumentTestUtils;
 import org.kuali.ole.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds.
  */
 
-public class PurchaseOrderDocumentTest extends KualiTestBase {
+public class PurchaseOrderDocumentTest extends OLETestCaseBase {
     public static final Class<PurchaseOrderDocument> DOCUMENT_CLASS = PurchaseOrderDocument.class;
     protected static DocumentServiceImpl documentService = null;
 
@@ -104,7 +108,7 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         assertFalse("Document should not have been in ENROUTE status.",DocumentStatus.ENROUTE.equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, documentService);
         WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
-        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
+        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
     }
 
     @Test
@@ -180,5 +184,15 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
     protected UserNameFixture getTestUserName() {
         return UserNameFixture.rorenfro;
     }
+
+    protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
+        Person p = sessionUser.getPerson();
+        GlobalVariables.setUserSession(new UserSession(p.getPrincipalName()));
+    }
+
+    protected void changeCurrentUser(Person p) throws Exception {
+        GlobalVariables.setUserSession(new UserSession(p.getPrincipalName()));
+    }
+
 }
 

@@ -2027,6 +2027,10 @@
                         <para> Click one of the buttons and follow the standard prompts. </para>
                     </listitem>
                 </orderedlist>
+                    <note>
+                        <para>Local security settings and software compatibility may determine the
+                            success of this function.</para>
+                    </note>
             </section>
             <section>
                 <title>Drill downs</title>

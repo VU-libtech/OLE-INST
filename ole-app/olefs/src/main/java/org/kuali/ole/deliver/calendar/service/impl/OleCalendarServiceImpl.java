@@ -8,6 +8,8 @@ import org.kuali.ole.deliver.calendar.controller.OleCalendarController;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -32,8 +34,24 @@ public class OleCalendarServiceImpl implements OleCalendarService {
 
     private BusinessObjectService businessObjectService;
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
     private int totalWorkingDays = 0;
     private int totalDays = 0;
+    private ParameterValueResolver parameterValueResolver;
+
+    public ParameterValueResolver getParameterValueResolver() {
+        if(parameterValueResolver==null){
+            parameterValueResolver=ParameterValueResolver.getInstance();
+        }
+        return parameterValueResolver;
+    }
+
+    public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
+        this.parameterValueResolver = parameterValueResolver;
+    }
 
     public OleCalendarGroup getCalendarGroup(String deskId) {
         HashMap calendarGroup = new HashMap();
@@ -63,7 +81,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         return null;
     }
 
-    private OleCalendar continuousWeek(OleCalendar oleCalendar){     //each day of a week
+    public OleCalendar continuousWeek(OleCalendar oleCalendar){     //each day of a week
         int week=-1;
         List<OleCalendarWeek> oleCalendarWeekList=new ArrayList<OleCalendarWeek>();
         for(OleCalendarWeek oleCalendarWeek:oleCalendar.getOleCalendarWeekList()){
@@ -206,7 +224,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
     }
 
     //
-    private boolean isCalendarExists(Timestamp fromDate, Timestamp toDate) {
+    public boolean isCalendarExists(Timestamp fromDate, Timestamp toDate) {
         Interval interval=new Interval(fromDate.getTime(),toDate.getTime());
         return interval.contains(System.currentTimeMillis());
     }
@@ -337,8 +355,8 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         String timePeriodType = timePeriods.length > 1 ? timePeriods[1] : "";
         Timestamp destinationTimestamp = null;
         Timestamp destinationTemp = null;
-        LoanProcessor loanProcessor = new LoanProcessor();
-        String sysFlag = loanProcessor.getParameter(OLEConstants.CALENDER_FLAG);
+        String sysFlag =getParameterValueResolver().getParameter(OLEConstants
+                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.CALENDER_FLAG);
         if (timePeriodType != null && timePeriodType.equalsIgnoreCase("H")) {
             destinationTemp = DateUtil.addHours(currentDate, new Integer(timePeriods.length > 0 ? timePeriods[0] : "0"));
         }
@@ -430,8 +448,8 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                 String[] fineCal = fineAmount.split("/");
                 String fineAmt = fineCal[0];
                 String fineMode = fineCal[1];
-                LoanProcessor loanProcessor = new LoanProcessor();
-                String sysFlag = loanProcessor.getParameter(OLEConstants.FINE_FLAG);
+                String sysFlag = getParameterValueResolver().getParameter(OLEConstants
+                        .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.FINE_FLAG);
                 if (fineMode != null && fineMode.equalsIgnoreCase("H")) {
                     Integer numberOfHours = 0;
                     if (sysFlag.equalsIgnoreCase("true")) {

@@ -7118,28 +7118,13 @@
                 new version of the e-Doc called a Purchase Order Amendment (POA) that can be
                 independently processed or routed.  The POA then serves as the new version of the
                 purchase order and will be transmitted to the Vendor.</para>
-            <para role="Normal"/>
-            <para role="Normal">Purchase Order Amendments are created:</para>
-            <itemizedlist mark="disc" spacing="normal">
-                <listitem>
-                    <para role="Bul-list">Manually from the <inlinemediaobject>
-                            <alt>Amend</alt>
-                            <imageobject>
-                                <imagedata
-                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-352.png"
-                                />
-                            </imageobject>
-                        </inlinemediaobject> button on a Purchase Order</para>
-                </listitem>
-                <listitem>
-                    <para role="Bul-list">Automatically from the entry of <emphasis role="bold"
-                            >Unordered line items on Receiving e-Doc</emphasis></para>
-                </listitem>
-                <listitem>
-                    <para role="Bul-list">Automatically from the entry of <emphasis role="bold"
-                            >Unordered line items on Payment Request e-Doc</emphasis></para>
-                </listitem>
-            </itemizedlist>
+            <para role="Normal">Purchase Order Amendments are created manually from the <inlinemediaobject>
+                    <alt>Amend</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-352.png"/>
+                    </imageobject>
+                </inlinemediaobject> button on a Purchase Order</para>
             <para role="Body Text">When you amend a PO, the system creates a PO Amend (POA) document
                 based on the existing PO. Enter a reason when initiating the amendment. When the
                 amendment is submitted, the fiscal officer receives an FYI. This is his or her
@@ -18735,6 +18720,15 @@
                     </orderedlist>
                 </section>
             </section>
+            <section>
+                <title>Implementation Information</title>
+                <para>The parameter GLPE_GENERATE_TRANSFER_IND is set to “Y” by default.  It was
+                    discovered that institutions should set this parameter to “N” in order for any
+                    Budget Adjustments that transfer money between Accounts to be properly entered
+                    into the gl_entry_t table.</para>
+                <para>Changing this parameter's setting allows OLE to ignore differentiating Income
+                    Stream Accounts, an attribute of Accounts.</para>
+            </section>
         </section>
         <section>
             <title>Transfer of Funds Search</title>
@@ -29491,11 +29485,27 @@
                             linkend="_chart">chart</link> in this chapter.</para>
                 </note>
                 <para>Every chart has a series of “object code” fields on the Chart document that
-                    must be populated with existing object codes before rollover. </para>
+                    must be populated with existing object codes before rollover. They don’t do
+                    anything most of the year, but need to be populated with existing object codes
+                    before rollover. </para>
                 <note>
                     <para>Temporary note: Unclear if it matters what codes are used, so long as they
                         exist and are active.</para>
                 </note>
+                <para>Populate these parameters:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>REENCUMBER_RECURRING_FROM_DATE -- with the first date you created
+                            orders in your system</para>
+                    </listitem>
+                    <listitem>
+                        <para>REENCUMBER_RECURRING_TO_DATE -- with a date far in the future</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The REENCUMBER_RECURRING_ORDERS job can produce a large data file, and running
+                    the whole job at once may impact system performance for some sites. These
+                    parameters allow you to break the job into chunks.  However, if you do not set
+                    them to something by default, the job will fail.</para>
                 <para><emphasis role="bold">Optional Settings:</emphasis></para>
                 <para>Supply entry description text, if desired, in this parameter:</para>
                 <itemizedlist>
@@ -29665,6 +29675,10 @@
                     unencumbered in the current fiscal year (because they were paid for). Recurring
                     orders that already have an encumbrance are covered by the “encumbranceForward”
                     job step.</para>
+                <para>If this job takes a long time to complete, or slows the system down, you can
+                    limit it by using the REENCUMBER_RECURRING_FROM_DATE and
+                    REENCUMBER_RECURRING_TO_DATE parameters. You would then need to run the job
+                    multiple times, once for each time period defined by the parameters.</para>
                 <para><emphasis role="bold">Optional Steps:</emphasis></para>
                 <para>If you need to restrict creation of acquisitions documents in the system while
                     are you are running rollover, run this job:</para>

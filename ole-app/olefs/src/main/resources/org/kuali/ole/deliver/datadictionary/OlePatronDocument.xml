@@ -695,9 +695,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records (@{dataObject.olePatronEntityViewBo.loanCount})"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records (@{dataObject.loanCount})"
 		      					p:methodToCall="refreshLoanSection"
-			      				p:refreshId="OlePatronDocument-InquiryView-PatronLoanedRecords-Wrapper" p:cssClasses="@{dataObject.olePatronEntityViewBo ne null and dataObject.olePatronEntityViewBo.loanCount &lt; 1?'disableColor':'enableColor'}">
+			      				p:refreshId="OlePatronDocument-InquiryView-PatronLoanedRecords-Wrapper" p:cssClasses="@{dataObject ne null and dataObject.loanCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterLoanedRecords" value="@{!filterLoanedRecords}" />
@@ -717,7 +717,7 @@
         <!--<property name="cssClasses" value="@{dataObject.oleLoanDocuments.size() eq 0}"/>-->
         <property name="items">
             <list>
-                <bean id="Show-InquiryView-OlePatronDocument-LoanedItems-TotalNoCount" parent="Uif-MessageField" p:render="@{dataObject.olePatronEntityViewBo.loanCount ne 0}"/>
+                <bean id="Show-InquiryView-OlePatronDocument-LoanedItems-TotalNoCount" parent="Uif-MessageField" p:render="@{dataObject.loanCount ne 0}"/>
                 <bean id="Show-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show Loaned Item"  p:render="@{!dataObject.showLoanedRecords}" p:ajaxSubmit="true"/>
                 <bean id="Hide-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide Loaned Item"  p:render="@{dataObject.showLoanedRecords}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-InquiryView-LoanedItems" />
@@ -793,9 +793,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records (@{dataObject.olePatronEntityViewBo.requestedItemRecordsCount})"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records (@{dataObject.requestedItemRecordsCount})"
 		      					p:methodToCall="refreshLoanSection"
-			      				p:refreshId="OlePatronDocument-InquiryView-PatronRequestedItems-Wrapper" p:cssClasses="@{dataObject.olePatronEntityViewBo ne null and dataObject.olePatronEntityViewBo.requestedItemRecordsCount &lt; 1?'disableColor':'enableColor'}">
+			      				p:refreshId="OlePatronDocument-InquiryView-PatronRequestedItems-Wrapper" p:cssClasses="@{dataObject ne null and dataObject.requestedItemRecordsCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterRequestedRecords" value="@{!filterRequestedRecords}" />
@@ -815,7 +815,7 @@
         <!--<property name="cssClasses" value="@{dataObject.oleDeliverRequestBos.size() eq 0}"/>-->
         <property name="items">
             <list>
-                <bean id="Show-OlePatronDocument-InquiryView-RequestedItems-TotalCount" parent="Uif-MessageField" p:render="@{dataObject.olePatronEntityViewBo.requestedItemRecordsCount ne 0 and !dataObject.showRequestedItems}" />
+                <bean id="Show-OlePatronDocument-InquiryView-RequestedItems-TotalCount" parent="Uif-MessageField" p:render="@{dataObject.requestedItemRecordsCount ne 0 and !dataObject.showRequestedItems}" />
                 <bean id="Show-OlePatronDocument-InquiryView-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronRequestedRecords" p:actionLabel="Show Requested Items"  p:render="@{!dataObject.showRequestedItems}" p:ajaxSubmit="true"/>
                 <bean id="Hide-OlePatronDocument-InquiryView-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronRequestedRecords" p:actionLabel="Hide Requested Items"  p:render="@{dataObject.showRequestedItems}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-InquiryView-RequestedItems" />
@@ -886,9 +886,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records (@{dataObject.olePatronEntityViewBo.tempCirculationHistoryCount})"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records (@{dataObject.tempCirculationHistoryCount})"
 		      					p:methodToCall="refreshLoanSection"
-			      				p:refreshId="OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Wrapper" p:cssClasses="@{dataObject.olePatronEntityViewBo ne null and dataObject.olePatronEntityViewBo.tempCirculationHistoryCount &lt; 1?'disableColor':'enableColor'}">
+			      				p:refreshId="OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Wrapper" p:cssClasses="@{dataObject ne null and dataObject.tempCirculationHistoryCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterTemporaryCirculationHistoryRecords" value="@{!filterTemporaryCirculationHistoryRecords}" />
@@ -909,7 +909,7 @@
       <!--  <property name="cssClasses" value="@{dataObject.oleTemporaryCirculationHistoryRecords.size() eq 0}"/>-->
         <property name="items">
             <list>
-                <bean id="Show-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Count" parent="Uif-MessageField" p:render="@{dataObject.olePatronEntityViewBo.tempCirculationHistoryCount ne 0 and !dataObject.showTemporaryCirculationHistoryRecords}" />
+                <bean id="Show-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Count" parent="Uif-MessageField" p:render="@{dataObject.tempCirculationHistoryCount ne 0 and !dataObject.showTemporaryCirculationHistoryRecords}" />
                 <bean id="Show-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showTemporaryCirculationHistoryRecords" p:actionLabel="Show TemporaryCirculationHistory Items"  p:render="@{!dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true"/>
                 <bean id="Hide-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideTemporaryCirculationHistoryRecords" p:actionLabel="Hide TemporaryCirculationHistory Items"  p:render="@{dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-InquiryView-TemporaryCirculationHistory"/>

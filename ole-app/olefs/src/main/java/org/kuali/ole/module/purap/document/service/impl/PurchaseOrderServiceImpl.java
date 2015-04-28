@@ -1798,7 +1798,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         java.sql.Date autoCloseOrderFromDate = null;
         try {
             autoCloseOrderFromDate = dateTimeService.convertToSqlDate(autoCloseOrderFromDateString);
-        } catch (ParseException pe) {
+        } catch (Exception e) {
             autoCloseOrderFromDate = null;
         }
 
@@ -1807,7 +1807,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         try {
             autoCloseOrderToDate = dateTimeService.convertToSqlDate(autoCloseOrderToDateString);
 
-        } catch (ParseException pe) {
+        } catch (Exception e) {
             autoCloseOrderToDate = null;
         }
 
@@ -1816,10 +1816,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
         //KFSMI-7533
-        // List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen
-        // (autoCloseList);
+         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen
+         (autoCloseList);
 
-        for (AutoClosePurchaseOrderView poAutoClose : autoCloseList) {
+        for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
+            if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
             }
@@ -1829,6 +1830,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
             createNoteForAutoCloseOrders(document, annotation);
             createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
+            }
 
         }
         LOG.debug("autoCloseFullyDisencumberedOrders() ended");
@@ -2539,7 +2541,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 LOG.debug("ediFileName==========================>" + fileName);
             }
 
-            OleTransmissionService transmissionService = SpringContext.getBean(OleTransmissionService.class);
+            OleTransmissionService transmissionService = (OleTransmissionService) SpringContext.getService("transmissionService");
             if (vendorTransmissionFormatDetail.getVendorTransmissionTypes().getVendorTransmissionType().equalsIgnoreCase("SFTP")) {
                 transmissionService.doSFTPUpload(vendorTransmissionFormatDetail, file, fileName);
             } else if (vendorTransmissionFormatDetail.getVendorTransmissionTypes().getVendorTransmissionType().equalsIgnoreCase("FTP")) {

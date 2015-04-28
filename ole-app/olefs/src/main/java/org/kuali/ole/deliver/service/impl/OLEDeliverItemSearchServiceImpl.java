@@ -7,6 +7,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OLEDeliverItemSearchService;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.BibTree;
@@ -119,11 +120,10 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
                 if(olePatronDocument.getExpirationDate()!=null){
                     singleItemResultDisplayRow.setPatronExpDate(olePatronDocument.getExpirationDate().toString());
                 }
-                if (olePatronDocument.getOlePatronEntityViewBo() != null) {
-                    singleItemResultDisplayRow.setPatronLastName(olePatronDocument.getOlePatronEntityViewBo().getLastName());
-                    singleItemResultDisplayRow.setPatronFirstName(olePatronDocument.getOlePatronEntityViewBo().getFirstName());
-                    singleItemResultDisplayRow.setPatronMiddleName(olePatronDocument.getOlePatronEntityViewBo().getMiddleName());
-                }
+                olePatronDocument = OLEDeliverService.populatePatronName(olePatronDocument);
+                singleItemResultDisplayRow.setPatronLastName(olePatronDocument.getLastName());
+                singleItemResultDisplayRow.setPatronFirstName(olePatronDocument.getFirstName());
+                singleItemResultDisplayRow.setPatronMiddleName(olePatronDocument.getMiddleName());
                 if (StringUtils.isBlank(singleItemResultDisplayRow.getDueDate())) {
                     singleItemResultDisplayRow.setDueDate(OLEConstants.INDEFINITE);
                 }
@@ -132,9 +132,8 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
                 singleItemResultDisplayRow.setProxyPatronURL(getLoanProcessor().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), singleItemResultDisplayRow.getProxyBorrowerId()));
                 olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, singleItemResultDisplayRow.getProxyBorrowerId());
                 singleItemResultDisplayRow.setProxyPatronBarcode(olePatronDocument.getBarcode());
-                if (olePatronDocument.getOlePatronEntityViewBo() != null) {
-                    singleItemResultDisplayRow.setProxyPatronName(olePatronDocument.getOlePatronEntityViewBo().getName());
-                }
+                olePatronDocument = OLEDeliverService.populatePatronName(olePatronDocument);
+                singleItemResultDisplayRow.setProxyPatronName(olePatronDocument.getLastName() + ", "+ olePatronDocument.getFirstName());
             }
         }
     }

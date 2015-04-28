@@ -381,7 +381,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
         return accountList != null && accountList.size() > 0 ? accountList.get(0).getChartOfAccountsCode() : null;
     }
 
-    private HashMap addInvoiceItem(List<OlePurchaseOrderItem> olePurchaseOrderItems, OleInvoiceRecord invoiceRecord, OleInvoiceDocument invoiceDocument, PurchaseOrderDocument purchaseOrderDocument, HashMap itemMap, Set<Integer> lineNumbers) throws Exception {
+    private HashMap addInvoiceItem(List<OlePurchaseOrderItem> olePurchaseOrderItems, OleInvoiceRecord invoiceRecord, OleInvoiceDocument invoiceDocument, PurchaseOrderDocument purchaseOrderDocument, HashMap itemMap, Set<Integer> poNumbers, Set<Integer> lineNumbers) throws Exception {
 
         for (OlePurchaseOrderItem poItem : olePurchaseOrderItems) {
             if (poItem.getItemTypeCode().equalsIgnoreCase("ITEM")) {
@@ -447,7 +447,10 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                     }
                 }
 
-                if(lineNumbers.add(oleInvoiceItem.getItemLineNumber())){
+                if (lineNumbers.add(oleInvoiceItem.getItemLineNumber())) {
+                    invoiceDocument.getItems().add(oleInvoiceItem);
+                    poNumbers.add(oleInvoiceItem.getPurchaseOrderIdentifier());
+                } else if (poNumbers.add(oleInvoiceItem.getPurchaseOrderIdentifier())) {
                     invoiceDocument.getItems().add(oleInvoiceItem);
                 }
 
@@ -677,6 +680,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
         GlobalVariables.setUserSession(new UserSession(processDef.getUser()));
         Set<Integer> lineNumbers = new TreeSet<>();
+        Set<Integer> poNumbers = new TreeSet<>();
         OleInvoiceDocument invoiceDocument = null;
         OleInvoiceRecord invoiceRecord = null;
         List<OleInvoiceDocument> allInvoiceDocument = new ArrayList<>();
@@ -789,7 +793,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                         }
                         //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
                         invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
-                        itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers);
+                        itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,poNumbers);
                         if (itemMap != null) {
                             invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
                             purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
@@ -837,7 +841,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                                     }
                                     //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
                                     invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
-                                    itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers);
+                                    itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,poNumbers);
                                     if (itemMap != null) {
                                         invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
                                         purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
@@ -860,7 +864,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                                             //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
                                             invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
 
-                                            itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers);
+                                            itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,poNumbers);
                                             if (itemMap != null) {
                                                 invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
                                                 purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
@@ -886,7 +890,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                                         //invoiceDocument.setProrateBy(org.kuali.ole.sys.OLEConstants.MANUAL_PRORATE);
                                         invoiceDocument.setInvoicePayDate(SpringContext.getBean(InvoiceService.class).calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
 
-                                        itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers);
+                                        itemMap = addInvoiceItem(olePurchaseOrderItems, invoiceRecord, invoiceDocument, purchaseOrderDocument, itemMap,lineNumbers,poNumbers);
                                         if (itemMap != null) {
                                             invoiceDocument = (OleInvoiceDocument) itemMap.get("invoiceDocument");
                                             purchaseOrderDocument = (PurchaseOrderDocument) itemMap.get("purchaseOrderDocument");
