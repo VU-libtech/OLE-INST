@@ -5,6 +5,7 @@ import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
@@ -63,6 +64,17 @@ public class OLECirculationHelperServiceImpl {
     private OLESIAPIHelperService oleSIAPIHelperService;
     private OleCirculationPolicyService oleCirculationPolicyService = getOleCirculationPolicyService();
     private DocstoreClientLocator docstoreClientLocator;
+    private CircDeskLocationResolver circDeskLocationResolver;
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
     public OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
     DocstoreUtil docstoreUtil = new DocstoreUtil();
     private Map<String,OleBorrowerType> oleBorrowerTypeMap = getAvailableBorrowerTypes();
@@ -70,7 +82,7 @@ public class OLECirculationHelperServiceImpl {
     public DocstoreClientLocator getDocstoreClientLocator() {
 
         if (docstoreClientLocator == null) {
-            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
+            docstoreClientLocator = (DocstoreClientLocator) SpringContext.getService("docstoreClientLocator");
 
         }
         return docstoreClientLocator;
@@ -78,7 +90,7 @@ public class OLECirculationHelperServiceImpl {
 
     public LoanProcessor getLoanProcessor(){
         if (loanProcessor == null) {
-            loanProcessor = SpringContext.getBean(LoanProcessor.class);
+            loanProcessor = (LoanProcessor) SpringContext.getService("loanProcessor");
 
         }
         return loanProcessor;
@@ -102,7 +114,7 @@ public class OLECirculationHelperServiceImpl {
 
     public OLESIAPIHelperService getOleSIAPIHelperService() {
         if (oleSIAPIHelperService == null) {
-            oleSIAPIHelperService = SpringContext.getBean(OLESIAPIHelperService.class);
+            oleSIAPIHelperService = (OLESIAPIHelperService) SpringContext.getService("oleSIAPIHelperService");
         }
         return oleSIAPIHelperService;
     }
@@ -747,7 +759,7 @@ public class OLECirculationHelperServiceImpl {
 
         OleHoldings oleHoldings = new OleHoldings();
         LocationLevel locationLevel = new LocationLevel();
-        locationLevel = getLoanProcessor().createLocationLevel(itemLocation, locationLevel);
+        locationLevel = getCircDeskLocationResolver().createLocationLevel(itemLocation, locationLevel);
         Location holdingsLocation = new Location();
         holdingsLocation.setPrimary(OLEConstants.TRUE);
         holdingsLocation.setStatus(OLEConstants.PERMANENT);

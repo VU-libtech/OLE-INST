@@ -37,13 +37,13 @@ import java.util.*;
 public class ASRHelperServiceImpl {
     private static final Logger LOG = Logger.getLogger(ASRHelperServiceImpl.class);
     private BusinessObjectService businessObjectService=getBusinessObjectService();
-    private DocstoreClientLocator docstoreClientLocator=getDocstoreClientLocator();
+    private DocstoreClientLocator docstoreClientLocator= getDocstoreClientLocator();
     private OLEASRPlaceRequestHelperServiceImpl oleasrPlaceRequestHelperService=new OLEASRPlaceRequestHelperServiceImpl();
     private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = getOleDeliverRequestDocumentHelperService();
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (null == docstoreClientLocator) {
-            return SpringContext.getBean(DocstoreClientLocator.class);
+            return (DocstoreClientLocator) SpringContext.getService("docstoreClientLocator");
         }
         return docstoreClientLocator;
     }

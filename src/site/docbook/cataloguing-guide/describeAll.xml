@@ -1486,7 +1486,7 @@
                             the call number, classification, and shelving scheme for the item. Most
                             often this information is inherited by the holdings but on occasion an
                             item requires unique location/call numbers, such as temporary locations
-                            (often used for course reserves).</para>
+                            (often used for course reserves or "new books" collections).</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
@@ -1625,10 +1625,10 @@
                                                 of physical item and for circulation purposes. </para>
                                             <note>
                                                 <para>If you have an automated storage retrieval
-                                                  system that speaks to OLE, you should not use
+                                                  system that interacts with OLE, you should not use
                                                   barcodes containing uppercase letters. These
-                                                  characters cause some of the API calls to fail.
-                                                  See <link
+                                                  characters may cause some of the API calls to
+                                                  fail. See <link
                                                   xlink:href="https://jira.kuali.org/browse/OLE-7112"
                                                   >OLE-7112</link>.</para>
                                             </note>
@@ -2013,11 +2013,11 @@
                     </section>
                     <section>
                         <title>Intransit Loan History tab</title>
-                        <para>The Intransit Loan History tab allows circulation desk staff to be
-                            able to see recent transit history of an item in order to resolve
-                            problems with missing materials.  This tab displays the Item Barcode,
-                            the Operator who checked in the item, where the item is routing from and
-                            to, and the transit date (or when the item was returned).</para>
+                        <para>The Intransit Loan History tab allows circulation desk staff to see
+                            recent transit history of an item to help resolve problems with missing
+                            materials. This tab displays the Item Barcode, the Operator who checked
+                            in the item, the routing locations (from and to), and the date of
+                            transit (when the item was first returned).</para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
@@ -5036,7 +5036,12 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">When the correct record is displayed, select it and
-                            click <emphasis role="bold">Copy to Tree1</emphasis>. </para>
+                            click <inlinemediaobject>
+                                <alt>Copy to Tree1</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-214.png"/>
+                                </imageobject>
+                            </inlinemediaobject>. </para>
                     </listitem>
                     <listitem>
                         <para role="Normal">Search for the additional bibliographic records with
@@ -5044,7 +5049,12 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">When the correct record is displayed, select it and
-                            click <emphasis role="bold">Copy to Tree2</emphasis>.</para>
+                            click <inlinemediaobject>
+                                <alt>Copy to Tree2</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-215.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
                         <tip>
                             <para role="Normal"> Click <emphasis role="bold">View</emphasis> to
                                 confirm the correct record.</para>
@@ -5074,9 +5084,9 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">Click the appropriate button to transfer the Instance or
-                            Item from the left to the right or vice versa. In this example, the
-                            Instance record in Tree 2 is selected and will be transferred Right to
-                            Left to the checked Bibliographic description in Tree 1.</para>
+                            Item from the left to the right or vice versa. In this example, the Item
+                            record in Tree 2 is selected and will be transferred Right to Left to
+                            the checked Holding record in Tree 1.</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
@@ -5094,8 +5104,13 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">If there is only one item or holdings, OLE will delete
-                            the records. Click <emphasis role="bold">Delete</emphasis> to confirm
-                            this and to continue with the transfer.</para>
+                            the records. Click <inlinemediaobject>
+                                <alt>Delete</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-220.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to confirm this and to continue with the
+                            transfer.</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>

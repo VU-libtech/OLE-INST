@@ -58,6 +58,7 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.dao.impl.PersistenceDaoOjb;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -105,6 +106,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private DateTimeService dateTimeService;
     private List<OleLoanDocument> laonDocumentsFromLaondId;
     private OlePatronHelperServiceImpl olePatronHelperService;
+    private CircDeskLocationResolver circDeskLocationResolver;
 
     public DateTimeService getDateTimeService() {
         return (DateTimeService) SpringContext.getService("dateTimeService");
@@ -115,12 +117,23 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return service;
     }
 
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
+
     private DocstoreClientLocator docstoreClientLocator;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
         if (docstoreClientLocator == null) {
-            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
+            docstoreClientLocator = (DocstoreClientLocator)SpringContext.getService("docstoreClientLocator");
 
         }
         return docstoreClientLocator;
@@ -155,7 +168,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     public DocstoreUtil getDocstoreUtil() {
         if (docstoreUtil == null) {
-            docstoreUtil = SpringContext.getBean(DocstoreUtil.class);
+            docstoreUtil = (DocstoreUtil)SpringContext.getService("docstoreUtil");
         }
         return docstoreUtil;
     }
@@ -175,21 +188,21 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     public LoanProcessor getLoanProcessor() {
         if (loanProcessor == null) {
-            loanProcessor = SpringContext.getBean(LoanProcessor.class);
+            loanProcessor = (LoanProcessor)SpringContext.getService("loanProcessor");
         }
         return loanProcessor;
     }
 
     public ItemOlemlRecordProcessor getItemOlemlRecordProcessor() {
         if (itemOlemlRecordProcessor == null) {
-            itemOlemlRecordProcessor = SpringContext.getBean(ItemOlemlRecordProcessor.class);
+            itemOlemlRecordProcessor = (ItemOlemlRecordProcessor) SpringContext.getService("itemOlemlRecordProcessor");
         }
         return itemOlemlRecordProcessor;
     }
 
     public OLEDeliverNoticeHelperService getOleDeliverNoticeHelperService() {
         if (oleDeliverNoticeHelperService == null) {
-            oleDeliverNoticeHelperService = SpringContext.getBean(OLEDeliverNoticeHelperServiceImpl.class);
+            oleDeliverNoticeHelperService = (OLEDeliverNoticeHelperService)SpringContext.getService("oleDeliverNoticeHelperService");
         }
         return oleDeliverNoticeHelperService;
     }
@@ -206,7 +219,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
      */
     public OleCirculationPolicyService getOleCirculationPolicyService() {
         if (null == oleCirculationPolicyService) {
-            oleCirculationPolicyService = SpringContext.getBean(OleCirculationPolicyServiceImpl.class);
+            oleCirculationPolicyService = (OleCirculationPolicyService)SpringContext.getService("oleCirculationPolicyService");
         }
         return oleCirculationPolicyService;
     }
@@ -722,7 +735,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             content = content.replace(']', ' ');
             if (!content.trim().equals("")) {
                 OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                 if (replyToEmail != null) {
                     oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
                 } else {
@@ -1324,7 +1337,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 content = content.replace(']', ' ');
                 if (!content.trim().equals("")) {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
                     } else {
@@ -1399,7 +1412,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     public void generateOnHoldNoticesBasedOnPickupLocation(String pickupLocationId) throws Exception {
 
         List<OleDeliverRequestBo> finalDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
         String requestTypeParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_REQUEST_TYPE);
         String onHoldItemStatusParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_ITEM_STATUS);
         List<String> requestTypeIds = new ArrayList<String>();
@@ -1503,7 +1516,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         if (!patronId.equalsIgnoreCase(deliverRequestBo.getBorrowerId()) && noticesList.size() > 0) {
                             String replyToEmail = null;
                             if (circulationDeskIds.size() == 1) {
-                                OleCirculationDesk circulationDesk = getLoanProcessor().getOleCirculationDesk(circulationDeskIds.iterator().next());
+                                OleCirculationDesk circulationDesk = getCircDeskLocationResolver().getOleCirculationDesk(circulationDeskIds.iterator().next());
                                 if (circulationDesk != null && StringUtils.isNotBlank(circulationDesk.getReplyToEmail())) {
                                     replyToEmail = circulationDesk.getReplyToEmail();
                                 }
@@ -1529,7 +1542,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         if (noticesList.size() > 0) {
             String replyToEmail = null;
             if (circulationDeskIds.size() == 1) {
-                OleCirculationDesk circulationDesk = getLoanProcessor().getOleCirculationDesk(circulationDeskIds.iterator().next());
+                OleCirculationDesk circulationDesk = getCircDeskLocationResolver().getOleCirculationDesk(circulationDeskIds.iterator().next());
                 if (circulationDesk != null && StringUtils.isNotBlank(circulationDesk.getReplyToEmail())) {
                     replyToEmail = circulationDesk.getReplyToEmail();
                 }
@@ -1543,7 +1556,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     public void generateOnHoldNotice() throws Exception {
 
         List<OleDeliverRequestBo> finalDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
         String requestTypeParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_REQUEST_TYPE);
         String onHoldItemStatusParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_ITEM_STATUS);
         List<String> requestTypeIds = new ArrayList<String>();
@@ -1642,7 +1655,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         if (!patronId.equalsIgnoreCase(deliverRequestBo.getBorrowerId()) && noticesList.size() > 0) {
                             String replyToEmail = null;
                             if (circulationDeskIds.size() == 1) {
-                                OleCirculationDesk circulationDesk = getLoanProcessor().getOleCirculationDesk(circulationDeskIds.iterator().next());
+                                OleCirculationDesk circulationDesk = getCircDeskLocationResolver().getOleCirculationDesk(circulationDeskIds.iterator().next());
                                 if (circulationDesk != null && StringUtils.isNotBlank(circulationDesk.getReplyToEmail())) {
                                     replyToEmail = circulationDesk.getReplyToEmail();
                                 }
@@ -1668,7 +1681,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         if (noticesList.size() > 0) {
             String replyToEmail = null;
             if (circulationDeskIds.size() == 1) {
-                OleCirculationDesk circulationDesk = getLoanProcessor().getOleCirculationDesk(circulationDeskIds.iterator().next());
+                OleCirculationDesk circulationDesk = getCircDeskLocationResolver().getOleCirculationDesk(circulationDeskIds.iterator().next());
                 if (circulationDesk != null && StringUtils.isNotBlank(circulationDesk.getReplyToEmail())) {
                     replyToEmail = circulationDesk.getReplyToEmail();
                 }
@@ -1728,7 +1741,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
     public void generateRequestExpirationNotice() throws Exception {
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
         Collection oleDeliverRequestBoList = oleLoanDocumentDaoOjb.getExpiredRequests();
         SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OleDeliverRequest.DATE_FORMAT);
         EntityTypeContactInfoBo entityTypeContactInfoBo;
@@ -1804,7 +1817,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         if (!patronId.equalsIgnoreCase(deliverRequestBo.getBorrowerId()) && noticesList.size() > 0) {
                             String replyToEmail = null;
                             if (itemLocations.size() == 1) {
-                                replyToEmail = getLoanProcessor().getReplyToEmail(itemLocations.iterator().next());
+                                replyToEmail = getCircDeskLocationResolver().getReplyToEmail(itemLocations.iterator().next());
                             }
                             generateNoticesBasedOnNoticeType(noticesList, OLEConstants.OleDeliverRequest.EXPIRED_REQUEST, replyToEmail);
                             patronId = deliverRequestBo.getBorrowerId();
@@ -1819,7 +1832,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             if (noticesList.size() > 0) {
                 String replyToEmail = null;
                 if (itemLocations.size() == 1) {
-                    replyToEmail = getLoanProcessor().getReplyToEmail(itemLocations.iterator().next());
+                    replyToEmail = getCircDeskLocationResolver().getReplyToEmail(itemLocations.iterator().next());
                 }
                 generateNoticesBasedOnNoticeType(noticesList, OLEConstants.OleDeliverRequest.EXPIRED_REQUEST, replyToEmail);
             }
@@ -1947,8 +1960,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
     public void generateLostNotice() throws Exception {
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean(OLEConstants.OLE_LOAN_DAO);
-        LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getBean(OLEConstants.LOAN_WITH_NOTICES_DAO);
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService(OLEConstants.OLE_LOAN_DAO);
+        LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String lostNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.LOST_NOTICE_TO_DATE);
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(lostNoticeToDate, OLEConstants.NOTICE_LOST);
@@ -1983,8 +1996,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
 
     public void generateCourtesyNotice() throws Exception {
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean(OLEConstants.OLE_LOAN_DAO);
-        LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getBean(OLEConstants.LOAN_WITH_NOTICES_DAO);
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService(OLEConstants.OLE_LOAN_DAO);
+        LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String courtesyNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.COURTESY_NOTICE_TO_DATE);
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(courtesyNoticeToDate, OLEConstants.NOTICE_COURTESY);
@@ -2018,8 +2031,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
     public void generateOverdueNotice() throws Exception {
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean(OLEConstants.OLE_LOAN_DAO);
-        LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getBean(OLEConstants.LOAN_WITH_NOTICES_DAO);
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService(OLEConstants.OLE_LOAN_DAO);
+        LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String overdueNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.OVERDUE_NOTICE_TO_DATE);
         List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(overdueNoticeToDate, OLEConstants.NOTICE_OVERDUE);
@@ -2126,7 +2139,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 Integer maxNumberOfDaysOnHold = determineDifferenceInDays(itemStatusEffectiveDate, oleDeliverRequestBo.getHoldExpirationDate());
                 OleCirculationDesk oleCirculationDesk = null;
                 if (oleDeliverRequestBo.getPickUpLocationId() != null) {
-                    oleCirculationDesk = getLoanProcessor().getOleCirculationDesk(oleDeliverRequestBo.getPickUpLocationId());
+                    oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(oleDeliverRequestBo.getPickUpLocationId());
                     //String maxNumOfDays = oleCirculationDesk.getOnHoldDays() != null ? oleCirculationDesk.getOnHoldDays() : getLoanProcessor().getParameter(OLEConstants.MAX_NO_OF_DAYS_ON_HOLD);
                     //maxNumberOfDaysOnHold = new Integer(maxNumOfDays);
                 }
@@ -2546,6 +2559,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
             if (olePatronDocumentList.size() > 0) {
                 olePatronDocument = olePatronDocumentList.get(0);
+                olePatronDocument.setOleBorrowerType((OleBorrowerType) SpringContext.getBean(PersistenceDaoOjb.class).resolveProxy(olePatronDocument.getOleBorrowerType()));
                 oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());
                 oleDeliverRequestBo.setBorrowerBarcode(olePatronDocument.getBarcode());
                 oleDeliverRequestBo.setOlePatron(olePatronDocument);
@@ -2707,7 +2721,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         olePlaceRequest.setMessage("Cannot create " + oleDeliverRequestBo.getRequestTypeCode() + " for this item");
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                     }
-                    Map<String, String> locationMap = getLocationMap(itemLocation);
+                    Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(itemLocation);
                     oleDeliverRequestBo.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
                     oleDeliverRequestBo.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                     oleDeliverRequestBo.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
@@ -3086,7 +3100,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         olePlaceRequest.setMessage("Cannot create " + oleDeliverRequestBo.getRequestTypeCode() + " for this item");
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                     }
-                    Map<String, String> locationMap = getLocationMap(itemLocation);
+                    Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(itemLocation);
                     oleDeliverRequestBo.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
                     oleDeliverRequestBo.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                     oleDeliverRequestBo.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
@@ -3428,7 +3442,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             oleItem.setDueDateTime(recallDueDate.toString());
                             getBusinessObjectService().save(oleLoanDocument);
                             OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ?
-                                    getLoanProcessor().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
+                                    getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
                             oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
                             OLEDeliverNoticeHelperService oleDeliverNoticeHelperService = getOleDeliverNoticeHelperService();
                             oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());
@@ -3463,7 +3477,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             oleDeliverRequestBo.setRecallDueDate(recallDueDate);
                             getBusinessObjectService().save(oleLoanDocument);
                             OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ?
-                                    getLoanProcessor().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
+                                    getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
                             oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
                             OLEDeliverNoticeHelperService oleDeliverNoticeHelperService = getOleDeliverNoticeHelperService();
                             oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());
@@ -3642,7 +3656,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         oleItem.setDueDateTime(recallDueDate.toString());
                         getBusinessObjectService().save(oleLoanDocument);
                         OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ?
-                                getLoanProcessor().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
+                                getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
                         oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
                         OLEDeliverNoticeHelperService oleDeliverNoticeHelperService = getOleDeliverNoticeHelperService();
                         oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());
@@ -3677,7 +3691,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         oleDeliverRequestBo.setRecallDueDate(recallDueDate);
                         getBusinessObjectService().save(oleLoanDocument);
                         OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ?
-                                getLoanProcessor().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
+                                getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
                         oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
                         OLEDeliverNoticeHelperService oleDeliverNoticeHelperService = getOleDeliverNoticeHelperService();
                         oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());
@@ -3762,38 +3776,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
 
-    public Map<String, String> getLocationMap(String itemLocation) {
-        Map<String, String> locationMap = new HashMap<String, String>();
-        String[] locationArray = itemLocation.split("['/']");
-        List<String> locationList = Arrays.asList(locationArray);
-        for (String value : locationList) {
-            Map<String, String> requestMap = new HashMap<>();
-            requestMap.put(OLEConstants.LOCATION_CODE, value);
-            List<OleLocation> oleLocations = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, requestMap);
-            if (oleLocations != null && oleLocations.size() > 0) {
-                String locationLevelId = oleLocations.get(0).getLevelId();
-                requestMap.clear();
-                requestMap.put(OLEConstants.LEVEL_ID, locationLevelId);
-                List<OleLocationLevel> oleLocationLevels = (List<OleLocationLevel>) getBusinessObjectService().findMatching(OleLocationLevel.class, requestMap);
-                if (oleLocationLevels != null && oleLocationLevels.size() > 0) {
-                    OleLocationLevel oleLocationLevel = new OleLocationLevel();
-                    oleLocationLevel = oleLocationLevels.get(0);
-                    if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_CAMPUS)) {
-                        locationMap.put(OLEConstants.ITEM_CAMPUS, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_INSTITUTION)) {
-                        locationMap.put(OLEConstants.ITEM_INSTITUTION, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_COLLECTION)) {
-                        locationMap.put(OLEConstants.ITEM_COLLECTION, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_LIBRARY)) {
-                        locationMap.put(OLEConstants.ITEM_LIBRARY, value);
-                    } else if (oleLocationLevel.getLevelCode().equals(OLEConstants.OLEBatchProcess.LOCATION_LEVEL_SHELVING)) {
-                        locationMap.put(OLEConstants.ITEM_SHELVING, value);
-                    }
-                }
-            }
-        }
-        return locationMap;
-    }
+
 
 
     public org.kuali.ole.docstore.common.document.Item retrieveItemWithBibAndHoldingData(String itemUUID) {
@@ -3959,7 +3942,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             if (oleOverDueNoticeBoList != null && oleOverDueNoticeBoList.size() > 0) {
                 String replyToEmail = null;
                 if (overdueItemLocations.size() == 1) {
-                    replyToEmail = getLoanProcessor().getReplyToEmail(overdueItemLocations.iterator().next());
+                    replyToEmail = getCircDeskLocationResolver().getReplyToEmail(overdueItemLocations.iterator().next());
                 }
                 if (replyToEmail != null) {
                     sendMailsToPatron(olePatronDocument, mailContent.toString(), replyToEmail);
@@ -3981,7 +3964,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             if (oleCourtesyNoticeList != null && oleCourtesyNoticeList.size() > 0) {
                 String replyToEmail = null;
                 if (courtesyItemLocations.size() == 1) {
-                    replyToEmail = getLoanProcessor().getReplyToEmail(courtesyItemLocations.iterator().next());
+                    replyToEmail = getCircDeskLocationResolver().getReplyToEmail(courtesyItemLocations.iterator().next());
                 }
                 if (replyToEmail != null) {
                     sendMailsToPatron(olePatronDocument, mailContent.toString(), replyToEmail);
@@ -4143,7 +4126,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("Location_display")) {
                                     getLoanProcessor().getLocationBySolr(searchResultField, oleLoanDocument);
                                     oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
-                                    Map<String, String> locationMap = getLocationMap(oleLoanDocument.getItemFullLocation());
+                                    Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
                                     oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                                     oleLoanDocument.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
                                     oleLoanDocument.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
@@ -4154,7 +4137,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                         (oleLoanDocument.getItemLocation() == null || oleLoanDocument.getItemLocation().isEmpty())) {
                                     getLoanProcessor().getLocationBySolr(searchResultField, oleLoanDocument);
                                     oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
-                                    Map<String, String> locationMap = getLocationMap(oleLoanDocument.getItemFullLocation());
+                                    Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
                                     oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
                                     oleLoanDocument.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
                                     oleLoanDocument.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
@@ -4464,7 +4447,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     public DataCarrierService getDataCarrierService() {
         if (dataCarrierService == null) {
-            dataCarrierService = SpringContext.getBean(DataCarrierService.class);
+            dataCarrierService = (DataCarrierService)SpringContext.getService("dataCarrierService");
         }
         return dataCarrierService;
     }
