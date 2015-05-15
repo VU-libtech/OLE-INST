@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.kuali.ole</groupId>
         <artifactId>ole-docstore</artifactId>
-        <version>1.6.0-r22557</version>
+        <version>1.6.0-r22726</version>
     </parent>
     <artifactId>ole-docstore-engine</artifactId>
     <name>OLE Document Store Engine</name>

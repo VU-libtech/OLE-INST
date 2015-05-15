@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import static junit.framework.Assert.assertNotNull;
 
@@ -27,6 +29,8 @@ import static junit.framework.Assert.assertNotNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:org/kuali/ole/TestBootStrapSpringBeans.xml" })
+@TransactionConfiguration(transactionManager="transactionManager",defaultRollback=true)
+@Transactional
 public class OLETestCaseBase {
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
     protected String classesDir;

@@ -28,10 +28,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.DocumentTestUtils;
-import org.kuali.ole.KualiTestBase;
-import org.kuali.ole.OLETestCaseBase;
+import org.kuali.ole.*;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.ole.module.purap.businessobject.PurchasingItem;
@@ -53,7 +50,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Used to create and test populated Purchase Order Documents of various kinds.
  */
 
-public class PurchaseOrderDocumentTest extends OLETestCaseBase {
+public class PurchaseOrderDocumentTest extends KFSTestCaseBase {
     public static final Class<PurchaseOrderDocument> DOCUMENT_CLASS = PurchaseOrderDocument.class;
     protected static DocumentServiceImpl documentService = null;
 

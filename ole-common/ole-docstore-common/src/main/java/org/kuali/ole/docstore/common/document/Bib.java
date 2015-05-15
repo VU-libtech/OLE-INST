@@ -8,7 +8,6 @@ import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 import org.kuali.ole.docstore.common.exception.DocstoreDeserializeException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -82,16 +81,16 @@ public class Bib
     protected String title;
 
     public Bib() {
-        category=DocCategory.WORK.getCode();
-        type=DocType.BIB.getCode();
-        format=DocFormat.MARC.getCode();
+        category = DocCategory.WORK.getCode();
+        type = DocType.BIB.getCode();
+        format = DocFormat.MARC.getCode();
     }
 
     /**
      * Gets the value of the issn property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getIssn() {
         return issn;
@@ -111,7 +110,7 @@ public class Bib
      * Gets the value of the isbn property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getIsbn() {
         return isbn;
@@ -131,7 +130,7 @@ public class Bib
      * Gets the value of the subject property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getSubject() {
         return subject;
@@ -151,7 +150,7 @@ public class Bib
      * Gets the value of the edition property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getEdition() {
         return edition;
@@ -171,7 +170,7 @@ public class Bib
      * Gets the value of the publicationDate property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getPublicationDate() {
         return publicationDate;
@@ -191,7 +190,7 @@ public class Bib
      * Gets the value of the publisher property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getPublisher() {
         return publisher;
@@ -211,7 +210,7 @@ public class Bib
      * Gets the value of the author property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getAuthor() {
         return author;
@@ -231,7 +230,7 @@ public class Bib
      * Gets the value of the title property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getTitle() {
         return title;
@@ -253,8 +252,12 @@ public class Bib
         Bib bib = (Bib) object;
         try {
             StringWriter sw = new StringWriter();
-            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Bib.class);
-            jaxbMarshaller.marshal(bib, sw);
+            JAXBContextFactory jaxbContextFactory = JAXBContextFactory.getInstance();
+            Marshaller jaxbMarshaller = jaxbContextFactory.getMarshaller(Bib.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(bib, sw);
+            }
+
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception :", e);
@@ -268,11 +271,13 @@ public class Bib
         try {
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Bib.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            JAXBElement<Bib> bibElement = unmarshaller.unmarshal(new StreamSource(input), Bib.class);
-            bib = bibElement.getValue();
+            synchronized (unmarshaller) {
+                bib = unmarshaller.unmarshal(new StreamSource(input), Bib.class).getValue();
+            }
+
         } catch (Exception e) {
             LOG.error("Exception :", e);
-            throw new DocstoreDeserializeException(DocstoreResources.BIB_CREATION_FAILED,DocstoreResources.BIB_CREATION_FAILED);
+           throw new DocstoreDeserializeException(DocstoreResources.BIB_CREATION_FAILED,DocstoreResources.BIB_CREATION_FAILED);
         }
         return bib;
     }

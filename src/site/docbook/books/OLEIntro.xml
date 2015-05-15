@@ -329,8 +329,8 @@
                 <para role="Normal">Multiple addresses include a flag to indicate the preferred
                     address for receiving notices and deliveries. Libraries can by default grant
                     delivery and paging privileges by patron type, but turn these on or off for any
-                    individual patron. [See <link linkend="_Requests">Requests</link> for more
-                    information on delivery and paging.] Patrons can also elect to NOT receive
+                    individual patron. (See <link linkend="_Requests">Requests</link> for more
+                    information on delivery and paging.) Patrons can also elect to NOT receive
                     courtesy notices (e.g., return reminders when items near their due date/time). </para>
                 <para role="Normal"/>
                 <para role="Normal">The patron barcode is the identifier when a patron initiates a
@@ -339,7 +339,7 @@
                 <note>
                     <para role="Normal"> To learn more about <link linkend="_Patron">patron
                             records</link> and how to create and modify them, see that section under
-                        the <emphasis role="italic">Deliver Module</emphasis>.</para>
+                        the <emphasis>Deliver Module</emphasis>.</para>
                 </note>
             </section>
             <section>
@@ -355,6 +355,16 @@
                     checkin note (appears at Return to prompt the operator to follow special
                     directions/procedures for this item). </para>
                 <para role="Normal"/>
+                <para role="Normal">Items, along with bibliographic and holdings records, can be
+                    searched for from the Deliver Item Search.  Different from the Search Workbench,
+                    the Deliver Item Search allows you to search using parameters that are specific
+                    to the needs of Circulation staff. </para>
+                <note>
+                    <para role="Normal"> For more information about the <link linkend="_Item_Search"
+                            >Deliver Item Search</link>, see the section under the <emphasis>Deliver
+                            Module</emphasis>.</para>
+                </note>
+                <para role="Normal"/>
                 <para role="Normal">From the Loan screen, operators can quickly create a brief
                     bibliographic and item record for any item presented without a barcode. Such
                     records are flagged as “fast add” and require entry of a checkin note to the
@@ -362,7 +372,7 @@
                     follow-up. </para>
                 <note>
                     <para role="Normal"> For instructions on how to create <link linkend="_FastAdds"
-                            >fast adds</link>, see the section under the <emphasis role="italic"
+                            >fast adds</link>, see the section under the <emphasis
                             >Deliver Module</emphasis>.</para>
                 </note>
                 <para role="Normal"/>
@@ -484,7 +494,7 @@
                 <note>
                     <para role="Normal"> For instructions on <link linkend="_Loan">loaning</link>
                         and <link linkend="_Renew">renewing</link>, see the sections under the
-                            <emphasis role="italic">Deliver Module</emphasis>.</para>
+                            <emphasis>Deliver Module</emphasis>.</para>
                 </note>
             </section>
             <section>
@@ -529,7 +539,7 @@
                             role="italic">Deliver Module</emphasis>.</para>
                     <para role="Normal"> To learn more about the Deliver Module’s Batch Processes,
                         see <link linkend="BatchProcesses">batch processes</link> under the
-                            <emphasis role="italic">Deliver Module</emphasis>.</para>
+                            <emphasis>Deliver Module</emphasis>.</para>
                 </note>
                 <para/>
             </section>
@@ -602,7 +612,7 @@
                         Patrons</link> for more details. </para>
                 <note>
                     <para role="Normal"> For instructions on <link linkend="_Request">placing
-                            requests</link>, see the section under the <emphasis role="italic"
+                            requests</link>, see the section under the <emphasis
                             >Deliver Module.</emphasis></para>
                 </note>
             </section>
@@ -645,7 +655,7 @@
                 <note>
                 <para role="Normal"> To learn more about the Deliver Module’s Batch Processes, see
                             <link linkend="BatchProcesses">batch processes</link> under the
-                            <emphasis role="italic">Deliver Module</emphasis>.</para>
+                            <emphasis>Deliver Module</emphasis>.</para>
                 </note>
             </section>
             <section>
@@ -659,7 +669,7 @@
                 <para role="Normal"/>
                 <para role="Normal">In order to offer these functions, a library’s public user
                     interface will need to be properly configured so that it can exchange messages
-                    and data with OLE using NCIP (<emphasis role="italic">NISO Circulation
+                    and data with OLE using NCIP (<emphasis>NISO Circulation
                         Interchange Protocol</emphasis>). </para>
                 <para role="Normal"/>
             </section>
@@ -738,7 +748,7 @@
                         <para role="Normal"> To learn more about bibliographic records and how to
                             create and modify them, see the MARC and Dublin Core information under
                                 <link linkend="DescribeCataloging">Create/Edit Titles, Holdings, or
-                                Items</link>, available under the <emphasis role="italic">Describe
+                                Items</link>, available under the <emphasis>Describe
                                 and Manage Module</emphasis>.</para>
                     </note>
                 </section>
@@ -755,7 +765,7 @@
                     <note>
                         <para role="Normal"> To learn more about <link linkend="_EInstanceEditor"
                                 >E-Instance records</link> and how to create and modify them, see
-                            the section under the <emphasis role="italic">Describe and Manage
+                            the section under the <emphasis>Describe and Manage
                                 Module</emphasis>.</para>
                     </note>
                 </section>
@@ -872,10 +882,10 @@
                         <para role="Normal"> To learn more about <link
                                 linkend="batchProcessesAdminDocuments">importing batch
                                 records</link> (Batch Processes), see the Batch Processes
-                            Administrative Documents section of <emphasis role="italic"
+                            Administrative Documents section of <emphasis
                                 >Administrative Functions</emphasis>.</para>
                         <para role="Normal"> To learn more about <link linkend="_FastAdds">fast
-                                adds</link>, see the section under the <emphasis role="italic"
+                                adds</link>, see the section under the <emphasis
                                 >Deliver Module</emphasis>.</para>
                     </note>
                     <para role="Normal"/>
@@ -920,7 +930,7 @@
                 <note>
                     <para role="Normal"> To learn more about <link linkend="_Editor">OLE MARC
                             Editor</link> and how to create and modify them, see the section under
-                        the <emphasis role="italic">Describe and Manage Module</emphasis>.</para>
+                        the <emphasis>Describe and Manage Module</emphasis>.</para>
                     <para role="Normal"> To learn more about OLE’s prerelease <link
                             linkend="DublinEditor">Dublin Core
                             Editor</link>, see the Dublin Core Editor section.</para>
@@ -942,7 +952,7 @@
                     <note>
                         <para role="Normal"> To learn more about how <link linkend="_Bound_Withs"
                                 >bound-withs</link> function in OLE, see the Bound-Withs section of
-                            the <emphasis role="italic">Describe and Manage
+                            the <emphasis>Describe and Manage
                             Module</emphasis>.</para>
                         <para role="Normal"> To learn more about how <link
                                 linkend="_analytics">analytics</link>
@@ -989,7 +999,7 @@
                 <note>
                     <para role="Normal"> To learn more about <link linkend="_Location"
                             >Locations</link> and <link linkend="_Location_Level">Location
-                            Levels</link>, see the relevant sections of the <emphasis role="italic"
+                            Levels</link>, see the relevant sections of the <emphasis
                             >Deliver Module</emphasis>.</para>
                 </note>
             </section>
@@ -1173,7 +1183,7 @@
                             <para role="Normal"> To learn more about managing <link
                                     linkend="_StandardCOAEdocs">Chart of Accounts</link> and the
                                 associated E-documents, see the Standard COA e-docs section of the
-                                    <emphasis role="italic">Select and Acquire
+                                    <emphasis>Select and Acquire
                                 Module</emphasis>.</para>
                         </note>
                     </section>
@@ -1260,7 +1270,7 @@
                     <para role="Normal"> To learn more about <link
                             linkend="batchProcessesAdminDocuments">importing batch records</link>
                         (Batch Processes), see the Batch Processes Administrative Documents section
-                        of <emphasis role="italic">Administrative Functions</emphasis>.</para>
+                        of <emphasis>Administrative Functions</emphasis>.</para>
                 </note>
             </section>
             <section>
@@ -1330,7 +1340,7 @@
                     <note>
                         <para role="Normal"> To learn more about <link
                                 linkend="_serialsReceivingTransaction">Serials Receiving</link>, see
-                            the relevant section under the OLE <emphasis role="italic">Select and
+                            the relevant section under the OLE <emphasis>Select and
                                 Acquire Module</emphasis>.</para>
                     </note>
                 </section>
@@ -1380,7 +1390,7 @@
                     <para role="Normal"> To learn more about <link linkend="_Receiving_-Line_Item"
                             >Monograph Receiving</link> and <link linkend="_Receiving_Queue"
                             >Receiving and Claiming Queue</link>, see the relevant sections under
-                        the <emphasis role="italic">Select and Acquire Module</emphasis>.</para>
+                        the <emphasis>Select and Acquire Module</emphasis>.</para>
                 </note>
                 <section>
                     <title>Serials Action Interval-Based Receiving </title>
@@ -1397,7 +1407,7 @@
                         <para role="Normal"> To learn more about <link
                                 linkend="_serialsReceivingTransaction">Serials Receiving</link> and
                             action interval checkin within OLE, see the relevant section under the
-                                <emphasis role="italic">Select and Acquire Module</emphasis>.</para>
+                                <emphasis>Select and Acquire Module</emphasis>.</para>
                     </note>
                     <para role="Normal"/>
                 </section>
@@ -1417,7 +1427,7 @@
                     <note>
                         <para role="Normal"> To learn more about how <link linkend="_POA">Purchase
                                 Order Amend</link> documents currently works in OLE, see the
-                            relevant section under the <emphasis role="italic">Select and Acquire
+                            relevant section under the <emphasis>Select and Acquire
                                 Module</emphasis>. </para>
                     </note>
                     <para role="Normal"/>
@@ -1535,7 +1545,7 @@
                     <note>
                         <para role="Normal"> To learn more about the current functionality of <link
                                 linkend="_E-Resource">E-Resources</link> within OLE, see the section
-                            under the <emphasis role="italic">Select and Acquire
+                            under the <emphasis>Select and Acquire
                             Module</emphasis>.</para>
                     </note>
                 </section>
@@ -1590,7 +1600,7 @@
                     <note>
                         <para role="Normal"> To learn more about the current functionality of <link
                                 linkend="_Standard_Licensing_E-Docs">Licensing</link> within OLE,
-                            see the relevant section under the <emphasis role="italic">Select and
+                            see the relevant section under the <emphasis>Select and
                                 Acquire Module</emphasis>.</para>
                     </note>
                 </section>

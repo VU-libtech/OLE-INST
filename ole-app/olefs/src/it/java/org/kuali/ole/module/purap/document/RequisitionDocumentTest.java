@@ -32,6 +32,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Test;
 import org.kuali.ole.DocumentTestUtils;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
@@ -67,7 +68,7 @@ import org.kuali.rice.ksb.util.KSBConstants;
 /**
  * Used to create and test populated Requisition Documents of various kinds.
  */
-public class RequisitionDocumentTest extends OLETestCaseBase {
+public class RequisitionDocumentTest extends KFSTestCaseBase {
     public static final Class<OleRequisitionDocument> DOCUMENT_CLASS = OleRequisitionDocument.class;
     private static final String ACCOUNT_REVIEW = "Account";
     private static final String ORGANIZATION = "Organization";

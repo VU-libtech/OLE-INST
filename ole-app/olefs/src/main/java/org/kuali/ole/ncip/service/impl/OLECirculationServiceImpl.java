@@ -617,6 +617,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
                     oleItemFine.setTitle(item.getHolding().getBib().getTitle());
                     oleItemFine.setAuthor(item.getHolding().getBib().getAuthor());
                 }
+                oleItemFine.setPatronBillId(olePatronBillPayment.getBillNumber());
                 oleItemFine.setAmount((feeType.getFeeAmount() != null ? feeType.getFeeAmount().bigDecimalValue() : OLEConstants.BIGDECIMAL_DEF_VALUE));
                 oleItemFine.setBalance((feeType.getBalFeeAmount() != null ? feeType.getBalFeeAmount().bigDecimalValue() : OLEConstants.BIGDECIMAL_DEF_VALUE));
                 oleItemFine.setBillDate(feeType.getBillDate().toString());
