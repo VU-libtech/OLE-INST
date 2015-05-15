@@ -1503,7 +1503,7 @@ public class LoanProcessor {
 
         if(dateToString != null && dateToString.equalsIgnoreCase("null")){
             if(oleLoanDocument.isRenewalItemFlag() || (oleLoanDocument.isVuFindFlag() && oleLoanDocument.isRenewalItemFlag())) {
-                failures.delete(0,failures.length()-1);
+                failures.setLength(0);
                 failures.append(OLEConstants.RENEWAL_INDEFINITE_INFO);
                 oleLoanDocument.setIndefiniteCheckFlag(true);
             }else{
@@ -1520,7 +1520,7 @@ public class LoanProcessor {
             oleLoanDocument.setLoanDueDate(dueDate != null ? dueDate : null);
         }
         if(oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && oldDueDate.equals(dueDate)){
-            failures.delete(0,failures.length()-1);
+            failures.setLength(0);
             oleLoanDocument.setRenewNotFlag(true);
             failures.append(OLEConstants.RENEWAL_DUEDATE_SAME_INFO);
         }else{

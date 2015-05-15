@@ -154,6 +154,7 @@ public class Item {
     @XmlElement(required = true)
     protected ItemType itemType;
     protected Location location;
+    @XmlTransient
     protected String loanDueDate;
     protected List<DonorInfo> donorInfo;
     @XmlElement(required = true)

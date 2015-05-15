@@ -1382,7 +1382,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 LOG.debug("Recall Notice Pdf generated for item Id" + oleNoticeBo.getItemId());
             }
         }
-        oleDeliverRequestBo = (OleDeliverRequestBo) ObjectUtils.deepCopy(oleDeliverRequestBo);
+     //   oleDeliverRequestBo = (OleDeliverRequestBo) ObjectUtils.deepCopy(oleDeliverRequestBo);
         oleDeliverRequestBo.setRecallNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
         return oleDeliverRequestBo;
     }

@@ -25718,6 +25718,106 @@
             </section>
         </section>
         <section>
+            <title><anchor xml:id="_openEncumbrances"/>Open Encumbrances</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Select/Acquire</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/SelectAcquire.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt;<inlinemediaobject>
+                        <alt>Reports</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-1.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Open Encumbrances</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-128.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Open Encumbrances Lookup</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-136.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <note>
+                <para>For general information about entering lookup criteria, interpreting dollar
+                    accumulators, drilling down into inquiries to see more detail, and including or
+                    excluding pending entries, see <link linkend="_GLInquiriesBasicInformation">GL
+                        Inquiries: Basic Information</link></para>
+            </note>
+            <para>The Open Encumbrances inquiry displays the detail for open encumbrances. You must
+                enter <emphasis>either</emphasis> the fiscal year, chart, and account number
+                    <emphasis>or</emphasis> the fiscal year and document number. The valid values
+                you may choose from the encumbrance report include 'EX' (external encumbrances),
+                'IE' (internal encumbrance), and 'PE' (pre-encumbrance). External encumbrances are
+                those that are owed externally to entities outside your institution, such as a
+                purchasing system or travel system. Internal encumbrances represent things owed
+                internally to the institution, such as encumbrances from a payroll system integrated
+                with OLE. Pre-encumbrances are established within OLE via the Pre-encumbrance
+                document. No further drilldown is available in this inquiry.</para>
+            <section>
+                <title>Inquiry Criteria</title>
+                <para>Fill in at least <emphasis role="bold">Fiscal Year</emphasis>, <emphasis
+                        role="bold">Chart Code</emphasis> and <emphasis role="bold">Account
+                        Number</emphasis> or <emphasis role="bold">Fiscal Year</emphasis> and
+                        <emphasis role="bold">Document Number</emphasis>. Use the <emphasis
+                        role="bold">lookup </emphasis><inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject> as necessary to select the criteria. Select the desired
+                        <emphasis role="bold">Include Pending Ledger Entry</emphasis> option. The
+                    lookup criteria default to the current fiscal year and the balance type 'EX.' To
+                    display all encumbrance types, including IE and PE, clear the <emphasis
+                        role="bold">Balance Type</emphasis> field.</para>
+                <para>The <emphasis role="bold">Include Pending Ledger Entry</emphasis> option
+                    provides the user with the ability to include all pending encumbrance entries,
+                    no pending encumbrance entries, or only those pending encumbrance entries that
+                    are fully approved. Cancelled and disapproved pending entries are not pulled
+                    into the balance inquiry results.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Open Encumbrance Lookup Screen</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-146.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+            <section>
+                <title>Search Results</title>
+                <para>The system returns a list of open encumbrances. There is no drilldown for
+                    encumbrance data available from this inquiry.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Open Encumbrance Lookup: Example Search Results</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-147.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para>The open amount reflects the total amount of the encumbrance for this document
+                    number while the closed amount reflects the amount of that encumbrance relieved
+                    to date.</para>
+            </section>
+        </section>
+        <section>
             <title><anchor xml:id="_organizationReview"/>Organization Review</title>
             <para role="Body Text"><inlinemediaobject>
                     <alt>Select/Acquire</alt>
@@ -29249,14 +29349,16 @@
                 approved invoices and credit memos to send in a feed to an institution’s financial
                 system (KFS or another institutional financial systems such a Banner, PeopleSoft). </para>
             <para>For OLE’s use, the KFS Fiscal Year (FY) process has been adapted to: </para>
-            <itemizedlist>
+            <orderedlist>
                 <listitem>
                     <para>Create a new fiscal year, including new object codes</para>
                 </listitem>
                 <listitem>
                     <para>Roll open encumbrances from the current fiscal year to the new fiscal
-                        year, date set by library Stop activity in the old year, date set by
-                        library</para>
+                        year, date set by library </para>
+                </listitem>
+                <listitem>
+                    <para>Stop activity in the old year, with a date set by library</para>
                 </listitem>
                 <listitem>
                     <para>Re-encumber recurring orders at the beginning of each fiscal year, at an
@@ -29275,7 +29377,7 @@
                             times, unconnected to rollover</para>
                     </note>
                 </listitem>
-            </itemizedlist>
+            </orderedlist>
             <para>Some features of the KFS FY Rollover process that are not needed by OLE partners
                 but remain available are:</para>
             <itemizedlist>
@@ -29290,7 +29392,7 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <para> Produce financial statements as Libraries need only a snapshot of orders
+                    <para> Produce financial statements as libraries need only a snapshot of orders
                         and expenditures in a given year </para>
                 </listitem>
             </itemizedlist>
@@ -29619,9 +29721,15 @@
                         <para>NET_REVENUE_OBJECT_CODE</para>
                     </listitem>
                 </itemizedlist>
-                <para><emphasis role="bold">Run</emphasis> “FiscalYearMaker” job</para>
+                <para><emphasis role="bold">Run</emphasis> FiscalYearMakerJob</para>
                 <para>This job runs a series of steps in dependency order, populating tables in the
                     background and creating object codes for the new fiscal year.</para>
+                <para><emphasis role="bold">Optional Steps:</emphasis></para>
+                <para>Clean up your data as much as you can.</para>
+                <para>Rollover problems can often be traced to specific documents that are Saved or
+                    Enroute. Sometimes, the autoDisapproveJob fails rather than move them to
+                    Disapproved status. The last couple of months of the fiscal year are a good time
+                    to try to resolve as many of them as possible.</para>
             </section>
             <section>
                 <title>When You Are Ready To Rollover</title>
@@ -29679,12 +29787,31 @@
                     limit it by using the REENCUMBER_RECURRING_FROM_DATE and
                     REENCUMBER_RECURRING_TO_DATE parameters. You would then need to run the job
                     multiple times, once for each time period defined by the parameters.</para>
+                <para>The
+                    parameter can be set to calculate the new encumbrance based on either the
+                    original price on the PO, or the amount invoiced during the current fiscal year,
+                    plus or minus a dollar amount or a percentage.</para>
+                <para>Examples:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>PO, + 3 %</para>
+                    </listitem>
+                    <listitem>
+                        <para>PO, + 5 $</para>
+                    </listitem>
+                    <listitem>
+                        <para>Invoice, + 2 %</para>
+                    </listitem>
+                    <listitem>
+                        <para>Invoice, + 10 $</para>
+                    </listitem>
+                </itemizedlist>
                 <para><emphasis role="bold">Optional Steps:</emphasis></para>
                 <para>If you need to restrict creation of acquisitions documents in the system while
                     are you are running rollover, run this job:</para>
                 <itemizedlist>
                     <listitem>
-                        <para>“modulesLockJob”</para>
+                        <para>modulesLockJob</para>
                     </listitem>
                 </itemizedlist>
                 <para>Staff will still be able to do lookups, but will not be able to initiate
@@ -29700,16 +29827,11 @@
                     job: </para>
                 <itemizedlist>
                     <listitem>
-                        <para>“autoDisapproveJob” </para>
+                        <para>autoDisapproveJob </para>
                     </listitem>
                 </itemizedlist>
-                <para>This job disapproves open document types *except* for those listed in
-                    the</para>
-                <itemizedlist>
-                    <listitem>
-                        <para> YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES parameter </para>
-                    </listitem>
-                </itemizedlist>
+                <para>This job disapproves open document types *except* for those listed in the
+                    YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES parameter </para>
                 <para>This job is optional. If documents are not disapproved, they will still roll
                     over to the new fiscal year. </para>
                 <para>Related parameters: </para>
@@ -29717,20 +29839,35 @@
                     <listitem>
                         <para>YEAR_END_AUTO_DISAPPROVE_DOCUMENT_RUN_DATE -- specifies the date to
                             run autoDisapproveJob</para>
+                        <note>
+                            <para>The format for this parameter is MM/DD/YYYY, even though the
+                                default value is 6/30/2010</para>
+                        </note>
                     </listitem>
                     <listitem>
-                        <para> YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES – specifies document types
+                        <para> YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES -- specifies document types
                             not to be disapproved</para>
                     </listitem>
                     <listitem>
-                        <para> YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE – specifies parent
+                        <para> YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE -- specifies parent
                             document types (by name) whose children should be disapproved </para>
+                        <note>
+                            <para>The default value for this parameter is:
+                                OLEFinancialProcessingTransactionalDocument </para>
+                            <para>If you also want invoices to be disapproved, you have to add:
+                                OLEPurchasingAccountsPayableTransactionalDocument as a second
+                                value.</para>
+                        </note>
                     </listitem>
                     <listitem>
                         <para>YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE -- job will only
                             disapprove documents created on or before this date. This parameter lets
                             you run the disapprove job without affecting any end-of-year
                             documents.</para>
+                        <note>
+                            <para>The format for this parameter is MM/DD/YYYY, even though the
+                                default value is 6/30/2010</para>
+                        </note>
                     </listitem>
                     <listitem>
                         <para> YEAR_END_AUTO_DISAPPROVE_ANNOTATION -- provides the text that will be
@@ -29753,7 +29890,7 @@
                 <para><emphasis role="bold">Required Step:</emphasis></para>
                 <itemizedlist>
                     <listitem>
-                        <para>Schedule or run the “populatePriorYearDataJob”</para>
+                        <para>Schedule or run the populatePriorYearDataJob</para>
                     </listitem>
                 </itemizedlist>
                 <para>This creates copies of both active and closed accounts and organizations, for
@@ -29761,10 +29898,10 @@
                 <para><emphasis role="bold">Optional Steps:</emphasis></para>
                 <itemizedlist>
                     <listitem>
-                        <para>Schedule or run “organizationReversionCurrentYearAccountJob”</para>
+                        <para>Schedule or run organizationReversionCurrentYearAccountJob</para>
                     </listitem>
                     <listitem>
-                        <para>Schedule or run “organizationReversionPriorYearAccountJob”</para>
+                        <para>Schedule or run organizationReversionPriorYearAccountJob</para>
                     </listitem>
                 </itemizedlist>
                 <para>These two jobs are optional. Their purpose is to collect remaining budgets or
@@ -29772,18 +29909,7 @@
                     sites that are allowed to carry money over.</para>
                 <itemizedlist>
                     <listitem>
-                        <para>Run “scrubberJob” and “posterJob”</para>
-                    </listitem>
-                </itemizedlist>
-                <para>The “encumbranceForwardJob” has a dependency on these jobs. Both run as part
-                    of the nightly job schedule. If you run “encumbranceForwardJob” first thing in
-                    the morning, you will not need to run “scrubberJob” and “posterJob” manually.
-                    But if you run “encumbranceForwardJob” later in the day, you should run
-                    “scrubberJob” and “posterJob” to catch any transactions done so far that
-                    day.</para>
-                <itemizedlist>
-                    <listitem>
-                        <para>Run “reencumberRecurringOrdersJob”</para>
+                        <para>Run reencumberRecurringOrdersJob</para>
                     </listitem>
                 </itemizedlist>
                 <para>This job re-creates the encumbrances for recurring orders that have been
@@ -29796,7 +29922,17 @@
                 <para><emphasis role="bold">Required Steps:</emphasis></para>
                 <itemizedlist>
                     <listitem>
-                        <para>Schedule or run “encumbranceForwardJob”</para>
+                        <para>Run nightlyOutJob, scrubberJob and posterJob, in that order</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The encumbranceForwardJob has a dependency on these jobs. All three run as
+                    part of the nightly job schedule. So if you run encumbranceForwardJob first
+                    thing in the morning, you don’t need to run them manually. But if you run
+                    encumbranceForwardJob later in the day, you should run them manually to catch
+                    any transactions done so far that day.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Schedule or run encumbranceForwardJob</para>
                     </listitem>
                 </itemizedlist>
                 <para>This job creates encumbrances for open orders in the new fiscal year. It does
@@ -29806,7 +29942,7 @@
                     When submitted, the GLCP document makes the changes.</para>
                 <itemizedlist>
                     <listitem>
-                        <para>Schedule or run “nominalActivityClosingJob”</para>
+                        <para>Schedule or run nominalActivityClosingJob</para>
                     </listitem>
                 </itemizedlist>
                 <para>This job likewise produces a file, which you then submit via a GLCP. It closes
@@ -29821,9 +29957,10 @@
                     </listitem>
                 </itemizedlist>
                 <para/>
+                <para/>
                 <itemizedlist>
                     <listitem>
-                        <para>Schedule or run “balanceForwardJob”</para>
+                        <para>Schedule or run balanceForwardJob</para>
                     </listitem>
                 </itemizedlist>
                 <para>We believe this job is optional – if you are loading new budget amounts via a
@@ -29844,31 +29981,31 @@
                 <para><emphasis role="bold">Required Steps:</emphasis></para>
                 <itemizedlist>
                     <listitem>
-                        <para>Run scrubberJob and posterJob again</para>
+                        <para>Run nightlyOutJob, scrubberJob and posterJob again</para>
                     </listitem>
                 </itemizedlist>
                 <para>This ensures the new ledger updates have moved to approved status.</para>
-                <para>Check the results. After rolling over, you should see the following
-                    results:</para>
+                <para>Check the results. </para>
+                <para>After rolling over, you should see the following results:</para>
                 <itemizedlist>
                     <listitem>
                         <para>object codes for the new fiscal year (as a result of
-                            “fiscalYearMaker”)</para>
+                            fiscalYearMaker)</para>
                     </listitem>
                     <listitem>
                         <para>encumbrances in the new fiscal year (as a result of
-                            “encumbranceForward”)</para>
+                            encumbranceForward)</para>
                         <itemizedlist>
                             <listitem>
                                 <para>the encumbrances will still also exist in the previous fiscal
-                                    year – “encumbranceForward” makes copies of the existing
+                                    year – encumbranceForward makes copies of the existing
                                     encumbrance entries, but does not delete the previous fiscal
                                     year entries</para>
                             </listitem>
                         </itemizedlist>
                     </listitem>
                     <listitem>
-                        <para>balances in the new fiscal year, if you ran “balanceForward”</para>
+                        <para>balances in the new fiscal year, if you ran balanceForward</para>
                     </listitem>
                 </itemizedlist>
                 <para>If you do not see these results, check the log files for each job, and see if
@@ -29879,11 +30016,13 @@
                     <listitem>
                         <para>Use the Accounting Period lookup on the Maintenance menu, and uncheck
                             the “Active Indicator” checkbox in the appropriate document(s).</para>
+                        <tip>
+                            <para>Should you later need to make any last-minute changes in the
+                                previous fiscal year, you can reactivate the appropriate accounting
+                                period, make the change, and then deactivate it again.</para>
+                        </tip>
                     </listitem>
                 </itemizedlist>
-                <para>Should you later need to make any last-minute changes in the previous fiscal
-                    year, you can reactivate the appropriate accounting period, make the change, and
-                    then deactivate it again.</para>
                 <para>Likewise, check the accounting periods for the new fiscal year, and make sure
                     each is active.</para>
                 <note>
@@ -29892,8 +30031,8 @@
                         chapter.</para>
                 </note>
                 <para><emphasis role="bold">Optional Settings and Steps:</emphasis></para>
-                <para>Run the “modulesUnlockJob” to restore staff access, but only if you previously
-                    ran the “modulesLockJob.”</para>
+                <para>Run the modulesUnlockJob to restore staff access, but only if you previously
+                    ran the modulesLockJob.</para>
                 <para>Deactivate the object codes in these two parameters (if they are special codes
                     only used for rollover):</para>
                 <itemizedlist>
@@ -29921,7 +30060,7 @@
                         <para>PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED</para>
                     </listitem>
                 </itemizedlist>
-                <para>Once the parameter has been updated, run the “addPriorYearAccountsJob.”</para>
+                <para>Once the parameter has been updated, run the addPriorYearAccountsJob.</para>
                 <para>Change this parameter if you want to delete accounting data from your system
                     that is older than x years:</para>
                 <itemizedlist>
@@ -29936,6 +30075,14 @@
                             linkend="_BudgetAdjustment">Budget Adjustment</link> in this
                         chapter.</para>
                 </note>
+            </section>
+            <section>
+                <title>Rollover Checklist</title>
+                <para>Available here is a downloadable checklist of the steps needed to perform
+                    fiscal year rollover. For details of each step, see the full instruction
+                    above.</para>
+                <para><link xlink:href="../../../pdfs/rolloverChecklist.pdf">Rollover
+                        Checklist</link>.</para>
             </section>
             <section>
                 <title><anchor xml:id="_closingNominalActivity"/>Closing Nominal Activity</title>

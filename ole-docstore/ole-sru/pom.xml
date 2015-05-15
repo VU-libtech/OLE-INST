@@ -3,10 +3,10 @@
     <parent>
         <artifactId>ole-docstore</artifactId>
         <groupId>org.kuali.ole</groupId>
-        <version>1.6.0-r22557</version>
+        <version>1.6.0-r22726</version>
     </parent>
     <artifactId>ole-sru</artifactId>
-    <version>1.6.0-r22557</version>
+    <version>1.6.0-r22726</version>
     <name>OLE SRU</name>
     <dependencies>
         <dependency>
